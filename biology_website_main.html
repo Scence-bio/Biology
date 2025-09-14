@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioGuide Home - پەڕەی سەرەکیی بایەلۆجی</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 25%, #6b9b6d 50%, #8bc34a 75%, #a5d6a7 100%);
+            min-height: 100vh;
+            color: #333;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            box-shadow: 0 12px 40px rgba(44, 85, 48, 0.3);
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            background: linear-gradient(135deg, #2e7d32, #4caf50, #81c784);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .header .subtitle {
+            font-size: 2rem;
+            color: #2e7d32;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #4a4a4a;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .sections-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: rgba(46, 125, 50, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .chapter-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(46, 125, 50, 0.15);
+            border: 2px solid rgba(76, 175, 80, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #2e7d32, #4caf50, #81c784, #a5d6a7);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+        }
+
+        .chapter-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(46, 125, 50, 0.25);
+            border-color: #4caf50;
+        }
+
+        .chapter-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        .chapter-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .title-en {
+            color: #2e7d32;
+            font-weight: 700;
+        }
+
+        .title-ku {
+            color: #388e3c;
+            font-weight: 600;
+            font-size: 1.6rem;
+        }
+
+        .chapter-description {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .chapter-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            color: #666;
+            background: rgba(76, 175, 80, 0.1);
+            padding: 12px 20px;
+            border-radius: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.4);
+            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+        }
+
+        .summary-stats {
+            background: linear-gradient(135deg, #1b5e20, #2e7d32, #4caf50);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(27, 94, 32, 0.3);
+        }
+
+        .summary-stats h2 {
+            margin-bottom: 30px;
+            font-size: 2.8rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .content-section {
+            background: linear-gradient(145deg, #ffffff 0%, #f1f8e9 100%);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(46, 125, 50, 0.15);
+            border: 2px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .content-section h2 {
+            color: #1b5e20;
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+            border-bottom: 4px solid #4caf50;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            color: white;
+            margin-top: 50px;
+            box-shadow: 0 10px 30px rgba(27, 94, 32, 0.3);
+        }
+
+        .footer h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .chapter-icon {
+            font-size: 2.5rem;
+            margin-left: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.8rem;
+            }
+            
+            .header .subtitle {
+                font-size: 1.6rem;
+            }
+            
+            .sections-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .chapter-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧬 BioGuide Home</h1>
+            <p class="subtitle">گایدی تەواوی بایەلۆجی</p>
+            <p>A comprehensive collection of biological sciences covering microscopic structures, developmental processes, plant systems, parasites, blood studies, microorganisms, insects, algae, and fungi</p>
+            <p style="margin-top: 15px; color: #2e7d32;">کەڵەکەیەکی تەواو لە زانستە بایەلۆجییەکان کە شانە بچووکەکان، پرۆسەی پەرەسەندن، سیستەمی ڕووەک، پارازیتەکان، خوێن، مایکرۆئۆرگانیزمەکان، مێروولە و کەڕوو دەگرێتەوە</p>
+        </div>
+
+        <div class="summary-stats">
+            <h2>📊 Overview - کورتەی گشتی</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">180</div>
+                    <div class="stat-label">Total Slides<br>کۆی سلایدەکان</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">90-95</div>
+                    <div class="stat-label">Total Pages<br>کۆی پەڕەکان</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">Main Chapters<br>بەشی سەرەکی</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Content Section<br>بەشی ناوەڕۆک</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sections-title">
+            📚 Chapters - بەشەکان
+        </div>
+
+        <div class="sections-grid">
+            <div class="chapter-card">
+                <div class="chapter-number">1</div>
+                <h3 class="chapter-title">
+                    <span class="chapter-icon">🔬</span>
+                    <div>
+                        <div class="title-en">Histology</div>
+                        <div class="title-ku">هیستۆلۆجی</div>
+                    </div>
+                </h3>
+                <p class="chapter-description">
+                    The study of tissues and their microscopic structure, including epithelial, connective, muscle, and nervous tissues.
+                    <br><br>
+                    خوێندنەوەی شانەکان و ساختاری مایکرۆسکۆپییان کە شانی ڕووپۆش، بەستەر، ماسولکە و دەمار دەگرێتەوە.
+                </p>
+                <div class="chapter-stats">
+                    <span>20 Slides - سلاید</span>
+                    <span>10 Pages - پەڕە</span>
+                </div>
+                <a href="histology.html" class="btn">Start Learning - دەستپێکردن</a>
+            </div>
+
+            <div class="chapter-card">
+                <div class="chapter-number">2</div>
+                <h3 class="chapter-title">
+                    <span class="chapter-icon">🧪</span>
+                    <div>
+                        <div class="title-en">Embryology</div>
+                        <div class="title-ku">ئیمبریۆلۆجی</div>
+                    </div>
+                </h3>
+                <p class="chapter-description">
+                    Developmental biology focusing on embryonic development from fertilization through organogenesis.
+                    <br><br>
+                    بایەلۆجیای پەرەسەندن کە سەرنج دەداتە پەرەسەندنی لۆقە لە پێکهاتنەوە تا دروستبوونی ئەندامەکان.
+                </p>
+                <div class="chapter-stats">
+                    <span>20 Slides - سلاید</span>
+                    <span>10 Pages - پەڕە</span>
+                </div>
+                <a href="embryology.html" class="btn">Start Learning - دەستپێکردن</a>
+            </div>
+
+            <div class="chapter-card">
+                <div class="chapter-number">3</div>
+                <h3 class="chapter-title">
+                    <span class="chapter-icon">🌱</span>
+                    <div>
+                        <div class="title-en">Plant Anatomy</div>
+                        <div class="title-ku">ئانەتۆمیای ڕووەک</div>
+                    </div>
+                </h3>
+                <p class="chapter-description">
+                    Structure and function of plant organs including roots, stems, leaves, and reproductive structures.
+                    <br><br>
+                    ساختار و ئەرکی ئەندامەکانی ڕووەک کە ڕەگ، قەد، گەڵا و ساختارەکانی زاوزێ دەگرێتەوە.
+                </p>
+                <div class="chapter-stats">
+                    <span>20 Slides - سلاید</span>
+                    <span>10 Pages - پەڕە</span>
+                </div>
+                <a href="plant-anatomy.html" class="btn">Start Learning - دەستپێکردن</a>
+            </div>
+
+            <div class="chapter-card">
+                <div class="chapter-number">4</div>
+                <h3 class="chapter-title">
+                    <span class="chapter-icon">🦠</span>
+                    <div>
+                        <div class="title-en">Parasitology</div>
+                        <div class="title-ku">پارازیتۆلۆجی</div>
+                    </div>
+                </h3>
+                <p class="chapter-description">
+                    Study of parasites, their life cycles, host-parasite relationships, and parasitic diseases.
+                    <br><br>
+                    خوێندنەوەی پارازیتەکان، سووڕی ژیانیان، پەیوەندیی میوان-پارازیت و نەخۆشییە پارازیتییەکان.
+                </p>
+                <div class="chapter-stats">
+                    <span>20 Slides - سلاید</span>
+                    <span>10 Pages - پەڕە</span>
+                </div>
+                <a href="parasitology.html" class="btn">Start Learning - دەستپێکردن</a>
+            </div>
+
+            <div class="chapter-card">
+                <div class="chapter-number">5</div>
+                <h3 class="chapter-title">
+                    <span class="chapter-icon">🩸</span>
+                    <div>
+                        <div class="title-en">Hematology</div>
+                        <div class="title-ku">هێمەتۆلۆجی</div>
+                    </div>
+                </h3>
+                <p class="chapter-description">
+                    Study of blood, blood-forming organs, and blood diseases including cellular components and plasma.
+                    <br><br>
+                    خوێندنەوەی خوێن، ئەندامە خوێن دروستکەرەکان و نەخۆشییەکانی خوێن کە پێکهاتە خانەیی و پلازما دەگرێتەوە.
+                </p>
+                <div class="chapter-stats">
+                    <span>20 Slides - سلاید</span>
+                    <span>10 Pages - پەڕە</span>
+                </div>
+                <a href="hematology.html" class="btn">Start Learning - دەستپێکردن</a>
+            </div>
+
+            <div class="chapter-card">
+                <div class="chapter-number">6</div>
+                <h3 class="chapter-title">
+                    <span class="chapter-icon">🦠</span>
+                    <div>
+                        <div class="title-en">Microbiology</div>
+                        <div class="title-ku">مایکرۆبایۆلۆجی</div>
+                    </div>
+                </h3>
+                <p class="chapter-description">
+                    Study of microorganisms including bacteria, viruses, fungi, and their roles in health and disease.
+                    <br><br>
+                    خوێندنەوەی مایکرۆئۆرگانیزمەکان کە بەکتریا، ڤایرۆس، کەڕوو و ڕۆڵیان لە تەندروستی و نەخۆشی دەگرێتەوە.
+                </p>
+                <div class="chapter-stats">
+                    <span>20 Slides - سلاید</span>
+                    <span>10 Pages - پەڕە</span>
+                </div>
+                <a href="microbiology.html" class="btn">Start Learning - دەستپێکردن</a>
+            </div>
+
+            <div class="chapter-card">
+                <div class="chapter-number">7</div>
+                <h3 class="chapter-title">
+                    <span class="chapter-icon">🐛</span>
+                    <div>
+                        <div class="title-en">Entomology</div>
+                        <div class="title-ku">ئینتۆمۆلۆجی</div>
+                    </div>
+                </h3>
+                <p class="chapter-description">
+                    Scientific study of insects, their classification, morphology, physiology, and ecological importance.
+                    <br><br>
+                    خوێندنەوەی زانستیی مێروولە، پۆلێنکردنیان، شێوەی دەرەکی، فیزیۆلۆجی و گرنگیی ئیکۆلۆجییان.
+                </p>
+                <div class="chapter-stats">
+                    <span>20 Slides - سلاید</span>
+                    <span>10 Pages - پەڕە</span>
+                </div>
+                <a href="entomology.html" class="btn">Start Learning - دەستپێکردن</a>
+            </div>
+
+            <div class="chapter-card">
+                <div class="chapter-number">8</div>
+                <h3 class="chapter-title">
+                    <span class="chapter-icon">🌊</span>
+                    <div>
+                        <div class="title-en">Algae Studies</div>
+                        <div class="title-ku">خوێندنەوەی ئاڵگا</div>
+                    </div>
+                </h3>
+                <p class="chapter-description">
+                    Study of algae, their diversity, classification, structure, and ecological significance.
+                    <br><br>
+                    خوێندنەوەی ئاڵگا، جۆراوجۆرییان، پۆلێنکردن، ساختار و گرنگیی ئیکۆلۆجییان.
+                </p>
+                <div class="chapter-stats">
+                    <span>20 Slides - سلاید</span>
+                    <span>10 Pages - پەڕە</span>
+                </div>
+                <a href="algae-studies.html" class="btn">Start Learning - دەستپێکردن</a>
+            </div>
+
+            <div class="chapter-card">
+                <div class="chapter-number">9</div>
+                <h3 class="chapter-title">
+                    <span class="chapter-icon">🍄</span>
+                    <div>
+                        <div class="title-en">Fungi</div>
+                        <div class="title-ku">کەڕوو</div>
+                    </div>
+                </h3>
+                <p class="chapter-description">
+                    Study of fungi, their morphology, reproduction, classification, and ecological and economic importance.
+                    <br><br>
+                    خوێندنەوەی کەڕوو، شێوەی دەرەکیان، زاوزێ، پۆلێنکردن و گرنگیی ئیکۆلۆجی و ئابوورییان.
+                </p>
+                <div class="chapter-stats">
+                    <span>20 Slides - سلاید</span>
+                    <span>10 Pages - پەڕە</span>
+                </div>
+                <a href="fungi.html" class="btn">Start Learning - دەستپێکردن</a>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📋 Additional Content - ناوەڕۆک و زانیاریی تر</h2>
+            <p style="margin-bottom: 15px;">
+                <strong>English:</strong> This section contains introduction, references, study guides, and supplementary materials essential for comprehensive learning across all biological disciplines.
+            </p>
+            <p style="margin-bottom: 25px;">
+                <strong>کوردی:</strong> ئەم بەشە بریتییە لە پێشەکی، سەرچاوەکان، ڕێنمایی خوێندن و موادی هاوکاری کە پێویستن بۆ فێربوونی تەواو لە هەموو لقەکانی بایەلۆجی.
+            </p>
+            <div style="margin-top: 25px;">
+                <a href="content.html" class="btn" style="width: auto; display: inline-block;">
+                    View Content & References - بینینی ناوەڕۆک و سەرچاوەکان (10-15 Pages/پەڕە)
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>🧬 BioGuide Home - گایدی بایەلۆجی</h3>
+            <p><strong>A Complete Resource for Biological Sciences</strong></p>
+            <p><strong>سەرچاوەیەکی تەواو بۆ زانستە بایەلۆجییەکان</strong></p>
+            <p style="margin-top: 15px; opacity: 0.9;">Created with passion for science education<br>درووستکراوە بە خۆشەویستی بۆ پەروەردەی زانستی</p>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click animation to cards
+            const cards = document.querySelectorAll('.chapter-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.98) translateY(-8px)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+
+                // Add hover effect for chapter numbers
+                const chapterNumber = card.querySelector('.chapter-number');
+                card.addEventListener('mouseenter', () => {
+                    chapterNumber.style.transform = 'rotate(360deg) scale(1.1)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    chapterNumber.style.transform = 'rotate(0deg) scale(1)';
+                });
+            });
+
+            // Floating animation for header
+            const header = document.querySelector('.header');
+            let floatDirection = 1;
+            
+            setInterval(() => {
+                const currentTransform = header.style.transform || 'translateY(0px)';
+                const currentY = parseFloat(currentTransform.match(/translateY\(([^)]+)px\)/)?.[1] || 0);
+                
+                if (currentY >= 8) floatDirection = -1;
+                if (currentY <= -8) floatDirection = 1;
+                
+                header.style.transform = `translateY(${currentY + (floatDirection * 0.3)}px)`;
+            }, 120);
+
+            // Add pulse effect to stat items
+            const statItems = document.querySelectorAll('.stat-item');
+            statItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.animation = 'pulse 2s infinite';
+                }, index * 200);
+            });
+        });
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.02); }
+                100% { transform: scale(1); }
+            }
+            
+            .chapter-number {
+                transition: transform 0.5s ease;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

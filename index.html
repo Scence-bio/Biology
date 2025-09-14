@@ -11,8 +11,15 @@
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        @font-face {
+  font-family: 'NotoKufiArabic';
+  src: url('./NotoKufiArabic-Regular/NotoKufiArabic-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+            body {
+            font-family: 'NotoKufiArabic', sans-serif;
             background: linear-gradient(135deg, #2c5530 0%, #4a7c59 25%, #6b9b6d 50%, #8bc34a 75%, #a5d6a7 100%);
             min-height: 100vh;
             color: #333;

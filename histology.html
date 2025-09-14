@@ -1,1377 +1,1687 @@
 <!DOCTYPE html>
-<html lang="{{ lang_code }}" dir="{{ "rtl" if lang == "ckb" else "ltr" }}">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histology Chapter - بەشی شانەزانی</title>
     <style>
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        :root {
-            /* Light theme colors */
-            --primary-blue: #0f4c75;
-            --secondary-blue: #3282b8;
-            --accent-blue: #1e6091;
-            --light-blue: #0891b2;
-            --warm-gold: #f59e0b;
-            --light-gray: #f8fafc;
-            --dark-text: #1e293b;
-            --medium-gray: #64748b;
-            --background-primary: #ffffff;
-            --background-secondary: #f8fafc;
-            --background-gradient: linear-gradient(135deg, #0f4c75 0%, #3282b8 25%, #0f3460 50%, #1e6091 75%, #3282b8 100%);
-            --text-primary: #333;
-            --text-secondary: #475569;
-            --border-color: rgba(50, 130, 184, 0.3);
-            --shadow-light: rgba(15, 76, 117, 0.2);
-            --shadow-medium: rgba(15, 76, 117, 0.4);
-            --card-bg: rgba(255, 255, 255, 0.98);
-            --header-bg: rgba(255, 255, 255, 0.98);
-            --shimmer-bg: rgba(50, 130, 184, 0.05);
-        }
+@font-face {
+    font-family: 'NotoKufiArabic';
+    src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
-        /* Automatic dark mode based on system preference */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --primary-blue: #3b82f6;
-                --secondary-blue: #60a5fa;
-                --accent-blue: #93c5fd;
-                --light-blue: #06b6d4;
-                --warm-gold: #fbbf24;
-                --light-gray: #1f2937;
-                --dark-text: #f1f5f9;
-                --medium-gray: #cbd5e1;
-                --background-primary: #0f172a;
-                --background-secondary: #1e293b;
-                --background-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #0f172a 50%, #1e293b 75%, #334155 100%);
-                --text-primary: #f1f5f9;
-                --text-secondary: #cbd5e1;
-                --border-color: rgba(59, 130, 246, 0.4);
-                --shadow-light: rgba(15, 23, 42, 0.4);
-                --shadow-medium: rgba(15, 23, 42, 0.6);
-                --card-bg: rgba(30, 41, 59, 0.95);
-                --header-bg: rgba(15, 23, 42, 0.95);
-                --shimmer-bg: rgba(59, 130, 246, 0.1);
-            }
-        }
+body {
+    font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    line-height: 1.6;
+    min-height: 100vh;
+    color: #1e293b;
+}
 
-        /* Manual dark mode override */
-        .dark-mode {
-            --primary-blue: #3b82f6 !important;
-            --secondary-blue: #60a5fa !important;
-            --accent-blue: #93c5fd !important;
-            --light-blue: #06b6d4 !important;
-            --warm-gold: #fbbf24 !important;
-            --light-gray: #1f2937 !important;
-            --dark-text: #f1f5f9 !important;
-            --medium-gray: #cbd5e1 !important;
-            --background-primary: #0f172a !important;
-            --background-secondary: #1e293b !important;
-            --background-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #0f172a 50%, #1e293b 75%, #334155 100%) !important;
-            --text-primary: #f1f5f9 !important;
-            --text-secondary: #cbd5e1 !important;
-            --border-color: rgba(59, 130, 246, 0.4) !important;
-            --shadow-light: rgba(15, 23, 42, 0.4) !important;
-            --shadow-medium: rgba(15, 23, 42, 0.6) !important;
-            --card-bg: rgba(30, 41, 59, 0.95) !important;
-            --header-bg: rgba(15, 23, 42, 0.95) !important;
-            --shimmer-bg: rgba(59, 130, 246, 0.1) !important;
-        }
+.book-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow:
+        0 25px 50px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
 
-        /* Manual light mode override */
-        .light-mode {
-            --primary-blue: #0f4c75 !important;
-            --secondary-blue: #3282b8 !important;
-            --accent-blue: #1e6091 !important;
-            --light-blue: #0891b2 !important;
-            --warm-gold: #f59e0b !important;
-            --light-gray: #f8fafc !important;
-            --dark-text: #1e293b !important;
-            --medium-gray: #64748b !important;
-            --background-primary: #ffffff !important;
-            --background-secondary: #f8fafc !important;
-            --background-gradient: linear-gradient(135deg, #0f4c75 0%, #3282b8 25%, #0f3460 50%, #1e6091 75%, #3282b8 100%) !important;
-            --text-primary: #333 !important;
-            --text-secondary: #475569 !important;
-            --border-color: rgba(50, 130, 184, 0.3) !important;
-            --shadow-light: rgba(15, 76, 117, 0.2) !important;
-            --shadow-medium: rgba(15, 76, 117, 0.4) !important;
-            --card-bg: rgba(255, 255, 255, 0.98) !important;
-            --header-bg: rgba(255, 255, 255, 0.98) !important;
-            --shimmer-bg: rgba(50, 130, 184, 0.05) !important;
-        }
+/* Cover Page */
+.cover-page {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 70%, #475569 100%);
+    color: white;
+    padding: 80px 50px;
+    text-align: center;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
 
-        @font-face {
-            font-family: 'NotoKufiArabic';
-            src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
+.cover-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 60%);
+    animation: float 6s ease-in-out infinite;
+}
 
-        body {
-            font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--background-gradient);
-            background-attachment: fixed;
-            min-height: 100vh;
-            color: var(--text-primary);
-            direction: rtl;
-            overflow-x: hidden;
-            transition: background 0.3s ease, color 0.3s ease;
-            line-height: 1.6;
-        }
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 15px;
-        }
+.cover-content {
+    position: relative;
+    z-index: 2;
+}
 
-        /* Dark Mode Toggle Button */
-        .dark-mode-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
-            box-shadow: 0 8px 25px var(--shadow-medium);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.microscope-icon {
+    font-size: 6em;
+    margin-bottom: 30px;
+    opacity: 0.95;
+    text-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+    animation: glow 3s ease-in-out infinite alternate;
+}
 
-        .dark-mode-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 30px var(--shadow-medium);
-        }
+@keyframes glow {
+    0% { text-shadow: 0 0 30px rgba(34, 197, 94, 0.5); }
+    100% { text-shadow: 0 0 50px rgba(34, 197, 94, 0.8); }
+}
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            background: linear-gradient(145deg, var(--card-bg) 0%, var(--background-secondary) 100%);
-            padding: 40px 30px;
-            border-radius: 25px;
-            backdrop-filter: blur(20px);
-            border: 3px solid var(--border-color);
-            box-shadow: 0 20px 60px var(--shadow-medium), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
+.main-title {
+    font-family: 'Georgia', serif;
+    font-size: 4em;
+    font-weight: 700;
+    margin-bottom: 25px;
+    background: linear-gradient(135deg, #22c55e, #3b82f6, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    text-shadow: none;
+}
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, var(--shimmer-bg) 50%, transparent 70%);
-            animation: shimmer 3s infinite;
-        }
+.subtitle {
+    font-size: 1.8em;
+    opacity: 0.9;
+    margin-bottom: 50px;
+    font-weight: 300;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
 
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin: 50px 0;
+}
 
-        .header h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue), var(--accent-blue), var(--light-blue));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-            font-weight: 900;
-            text-shadow: 0 4px 8px var(--shadow-light);
-            position: relative;
-            z-index: 1;
-        }
+.field-item {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    padding: 25px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
 
-        .header .subtitle {
-            font-size: clamp(1.4rem, 3vw, 2.2rem);
-            background: linear-gradient(90deg, var(--accent-blue), var(--primary-blue));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
-        }
+.field-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
 
-        .header p {
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            color: var(--text-secondary);
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.7;
-            position: relative;
-            z-index: 1;
-        }
+.field-item:hover::before {
+    left: 100%;
+}
 
-        .sections-title {
-            text-align: center;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            margin-bottom: 35px;
-            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
-            padding: 25px;
-            border-radius: 20px;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 15px 40px var(--shadow-medium);
-            font-weight: 800;
-        }
+.field-item:hover {
+    transform: translateY(-8px) scale(1.02);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
 
-        .sections-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
+.field-name {
+    font-weight: 700;
+    font-size: 1.3em;
+    margin-bottom: 8px;
+    color: #22c55e;
+}
 
-        .chapter-card {
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 30px;
-            box-shadow: 0 15px 40px var(--shadow-light), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--border-color);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
+.field-info {
+    font-size: 1em;
+    opacity: 0.85;
+}
 
-        .chapter-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue), var(--accent-blue), var(--light-blue));
-            transform: translateX(-100%);
-            transition: transform 0.5s ease;
-        }
+.author-section {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 2px solid rgba(255, 255, 255, 0.3);
+}
 
-        .chapter-card:hover::before {
-            transform: translateX(0);
-        }
+/* Navigation */
+.nav-bar {
+    position: sticky;
+    top: 0;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 15px 30px;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: none;
+}
 
-        .chapter-card:hover {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: 0 25px 60px var(--shadow-medium), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-            border-color: var(--secondary-blue);
-        }
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .chapter-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            border-radius: 50%;
-            font-size: 2rem;
-            font-weight: 900;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 20px var(--shadow-light);
-            transition: transform 0.5s ease;
-        }
+.nav-title {
+    color: #22c55e;
+    font-weight: 700;
+    font-size: 1.2em;
+}
 
-        .chapter-title {
-            font-size: clamp(1.4rem, 3vw, 1.9rem);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+.nav-links {
+    display: flex;
+    gap: 25px;
+}
 
-        .title-en {
-            color: var(--primary-blue);
-            font-weight: 800;
-            line-height: 1.2;
-        }
+.nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
 
-        .title-ku {
-            color: var(--accent-blue);
-            font-weight: 700;
-            font-size: clamp(1.2rem, 2.5vw, 1.7rem);
-            line-height: 1.3;
-        }
+.nav-link:hover, 
+.nav-link.active {
+    color: #22c55e;
+    background: rgba(34, 197, 94, 0.1);
+}
 
-        .chapter-description {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 25px;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-        }
+/* Table of Contents */
+.table-of-contents {
+    padding: 60px 50px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
 
-        .chapter-stats {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
-            font-size: clamp(0.8rem, 1.5vw, 1rem);
-            color: var(--text-secondary);
-            background: linear-gradient(135deg, var(--shimmer-bg), var(--shimmer-bg));
-            padding: 15px 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-        }
+.toc-title {
+    color: #0f172a;
+    font-family: 'Georgia', serif;
+    font-size: 3em;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 50px;
+    background: linear-gradient(135deg, #22c55e, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
 
-        .btn {
-            display: block;
-            padding: 18px 35px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            text-decoration: none;
-            border-radius: 15px;
-            transition: all 0.4s ease;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            box-shadow: 0 8px 25px var(--shadow-light);
-            position: relative;
-            overflow: hidden;
-        }
+.toc-list {
+    list-style: none;
+    max-width: 900px;
+    margin: 0 auto;
+}
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
+.toc-item {
+    background: white;
+    margin: 20px 0;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
 
-        .btn:hover::before {
-            left: 100%;
-        }
+.toc-item:hover {
+    transform: translateX(15px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
 
-        .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 35px var(--shadow-medium);
-            background: linear-gradient(135deg, var(--accent-blue), var(--light-blue));
-        }
+.toc-link {
+    display: flex;
+    align-items: center;
+    padding: 25px 30px;
+    text-decoration: none;
+    color: #334155;
+}
 
-        .summary-stats {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue), var(--accent-blue));
-            color: white;
-            padding: 40px;
-            border-radius: 25px;
-            margin-bottom: 40px;
-            text-align: center;
-            box-shadow: 0 20px 50px var(--shadow-medium);
-            position: relative;
-            overflow: hidden;
-        }
+.chapter-icon {
+    font-size: 2.5em;
+    margin-right: 25px;
+    width: 70px;
+    text-align: center;
+}
 
-        .summary-stats::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
+.chapter-details {
+    flex: 1;
+}
 
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+.chapter-title {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
 
-        .summary-stats h2 {
-            margin-bottom: 35px;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
-            position: relative;
-            z-index: 1;
-            font-weight: 900;
-        }
+.chapter-subtitle {
+    font-size: 1em;
+    color: #64748b;
+}
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
-            gap: 25px;
-            position: relative;
-            z-index: 1;
-        }
+.chapter-info {
+    text-align: right;
+    font-size: 0.9em;
+    color: #94a3b8;
+    font-weight: 600;
+}
 
-        .stat-item {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 30px 20px;
-            border-radius: 20px;
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.4s ease;
-        }
+/* Chapter Pages */
+.chapter-page {
+    padding: 60px 50px;
+    min-height: 100vh;
+}
 
-        .stat-item:hover {
-            transform: scale(1.08) rotateY(5deg);
-            background: rgba(255, 255, 255, 0.25);
-        }
+.chapter-header {
+    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+    color: white;
+    padding: 40px;
+    border-radius: 25px;
+    margin-bottom: 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
 
-        .stat-number {
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            font-weight: 900;
-            margin-bottom: 12px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
+.chapter-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1));
+}
 
-        .stat-label {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            opacity: 0.95;
-            font-weight: 600;
-            line-height: 1.4;
-        }
+.chapter-number {
+    font-size: 1.3em;
+    opacity: 0.8;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+}
 
-        .content-section {
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 15px 40px var(--shadow-light);
-            border: 2px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
+.chapter-main-title {
+    font-family: 'Georgia', serif;
+    font-size: 2.8em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+}
 
-        .content-section h2 {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 25px;
-            font-size: clamp(1.6rem, 3vw, 2.4rem);
-            border-bottom: 4px solid var(--secondary-blue);
-            padding-bottom: 15px;
-            display: inline-block;
-            font-weight: 800;
-        }
+.chapter-description {
+    font-size: 1.2em;
+    opacity: 0.9;
+    position: relative;
+    z-index: 2;
+}
 
-        .content-section p {
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            line-height: 1.7;
-            color: var(--text-secondary);
-        }
+.slide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 30px;
+    margin: 50px 0;
+}
 
-        .footer {
-            text-align: center;
-            padding: 50px 30px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            border-radius: 25px;
-            backdrop-filter: blur(15px);
-            color: white;
-            margin-top: 60px;
-            box-shadow: 0 15px 40px var(--shadow-medium);
-        }
+.slide-card {
+    background: white;
+    border-radius: 25px;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
 
-        .footer h3 {
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            font-weight: 800;
-        }
+.slide-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(34, 197, 94, 0.2);
+}
 
-        .footer p {
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
+.slide-header {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    padding: 25px;
+    text-align: center;
+    position: relative;
+}
 
-        .chapter-icon {
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            margin-left: 10px;
-            filter: drop-shadow(2px 2px 4px var(--shadow-light));
-        }
+.slide-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #a855f7, #ec4899);
+}
 
-        /* Enhanced Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .header {
-                padding: 30px 20px;
-                margin-bottom: 30px;
-            }
-            
-            .sections-grid {
-                gap: 20px;
-                margin-bottom: 40px;
-            }
-            
-            .chapter-card {
-                padding: 25px 20px;
-            }
-            
-            .chapter-title {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-            
-            .chapter-stats {
-                flex-direction: column;
-                text-align: center;
-                gap: 8px;
-            }
-            
-            .summary-stats {
-                padding: 30px 20px;
-                margin-bottom: 30px;
-            }
-            
-            .content-section {
-                padding: 30px 20px;
-            }
-            
-            .footer {
-                padding: 40px 20px;
-                margin-top: 40px;
-            }
-            
-            .dark-mode-toggle {
-                top: 15px;
-                left: 15px;
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-        }
+.slide-number {
+    font-size: 1.6em;
+    font-weight: 800;
+}
 
-        @media (max-width: 480px) {
-            .chapter-number {
-                width: 60px;
-                height: 60px;
-                font-size: 1.6rem;
-            }
-            
-            .chapter-card {
-                padding: 20px 15px;
-            }
-            
-            .btn {
-                padding: 15px 25px;
-            }
-            
-            .stat-item {
-                padding: 25px 15px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-        }
+.slide-content {
+    padding: 30px;
+    height: auto;
+}
 
-        /* Accessibility Improvements */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
+.image-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background: #f8f9fa;
+}
 
-        /* Print Styles */
-        @media print {
-            body {
-                background: white !important;
-                color: black !important;
-            }
-            
-            .chapter-card, .header, .content-section {
-                background: white !important;
-                box-shadow: none !important;
-                border: 1px solid #ccc !important;
-            }
-            
-            .btn, .dark-mode-toggle {
-                display: none;
-            }
-        }
+.slide-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+}
 
-        /* Smooth scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
+.slide-title {
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+    border-bottom: 2px solid #22c55e;
+    padding-bottom: 10px;
+}
 
-        ::-webkit-scrollbar-track {
-            background: var(--background-secondary);
-        }
+.components-list {
+    margin: 20px 0;
+}
 
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 4px;
-        }
+.components-title {
+    color: #1e293b;
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--medium-gray);
-        }
+.component-item {
+    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+    padding: 12px 16px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border-left: 4px solid #22c55e;
+    transition: all 0.3s ease;
+}
+
+.component-item:hover {
+    transform: translateX(5px);
+    background: linear-gradient(135deg, #bbf7d0, #a7f3d0);
+}
+
+.location-section, 
+.function-section {
+    margin: 25px 0;
+}
+
+.section-title {
+    color: #0f172a;
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-title::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border-radius: 2px;
+}
+
+/* Updated Location List Styling */
+.location-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.location-list li {
+    background: linear-gradient(135deg, #e0f2fe, #b3e5fc);
+    padding: 12px 16px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border-left: 4px solid #0891b2;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.location-list li:hover {
+    transform: translateX(5px);
+    background: linear-gradient(135deg, #b3e5fc, #81d4fa);
+}
+
+.location-list li::before {
+    content: '📍';
+    margin-right: 8px;
+    font-size: 1.1em;
+}
+
+.content-text {
+    color: #475569;
+    line-height: 1.7;
+    font-size: 1.05em;
+}
+
+.function-list {
+    list-style: none;
+    padding: 0;
+}
+
+.function-list li {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    padding: 12px 16px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border-left: 4px solid #f59e0b;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.function-list li:hover {
+    transform: translateX(5px);
+    background: linear-gradient(135deg, #fde68a, #fcd34d);
+}
+
+.function-list li::before {
+    content: '▶';
+    color: #f59e0b;
+    margin-right: 8px;
+}
+
+/* Search functionality */
+.search-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 200;
+}
+
+.search-input {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    width: 250px;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+    width: 300px;
+}
+
+/* Progress indicator */
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #3b82f6, #a855f7);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* Print button */
+.print-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #22c55e;
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.print-btn:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.6);
+}
+
+/* Filter buttons */
+.filter-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: #e2e8f0;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active, 
+.filter-btn:hover {
+    background: #22c55e;
+    color: white;
+}
+
+/* Slide navigation controls */
+.slide-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.slide-nav-btn {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.slide-nav-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+}
+
+.slide-nav-btn.prev {
+    background: linear-gradient(135deg, #64748b, #475569);
+}
+
+.chapter-indicator {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.chapter-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chapter-dot.active {
+    background: #3b82f6;
+    transform: scale(1.3);
+}
+
+/* Print styles */
+@media print {
+    .nav-bar, 
+    .search-container, 
+    .progress-bar, 
+    .print-btn {
+        display: none !important;
+    }
+
+    .slide-card {
+        break-inside: avoid;
+        margin-bottom: 20px;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+    .slide-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .field-grid, 
+    .slide-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-title {
+        font-size: 2.5em;
+    }
+
+    .chapter-main-title {
+        font-size: 2em;
+    }
+
+    .cover-page, 
+    .chapter-page, 
+    .table-of-contents {
+        padding: 40px 25px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .search-input {
+        width: 200px;
+    }
+
+    .search-input:focus {
+        width: 220px;
+    }
+    
+    .toc-link {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .chapter-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .chapter-info {
+        text-align: left;
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 2em;
+    }
+    
+    .subtitle {
+        font-size: 1.4em;
+    }
+    
+    .slide-nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .slide-nav-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
     </style>
-    </head>
+</head>
 <body>
     <div style="position:fixed;left:20px;top:20px;z-index:2000">
-    <a href="https://scence-bio.github.io/Biology/" 
-       style="text-decoration:none;background:#22c55e;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
-        back to home - گەڕانەوە بۆ سەرەکی
-    </a>
-</div>
+        <a href="https://scence-bio.github.io/Biology/" 
+           style="text-decoration:none;background:#22c55e;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
+            back to home - گەڕانەوە بۆ سەرەکی
+        </a>
+    </div>
 
-
-    
     <!-- Progress bar -->
     <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
-
     <!-- Print button -->
     <button class="print-btn" title="Print Guide" onclick="window.print()">🖨️</button>
 
+    <!-- Histology Chapter -->
+    <div class="chapter-page" id="histology">
+        <div class="chapter-header">
+            <div class="chapter-number">Chapter 1</div>
+            <h2 class="chapter-main-title">🧪 Histology - Study of Tissues</h2>
+            <p class="chapter-description">Microscopic examination of tissue structure and function</p>
+        </div>
 
-<!-- Histology Chapter -->
-        <div class="chapter-page" id="histology">
-            <div class="chapter-header">
-                <div class="chapter-number">Chapter 1</div>
-                <h2 class="chapter-main-title">🧪 Histology - Study of Tissues</h2>
-                <p class="chapter-description">Microscopic examination of tissue structure and function</p>
-            </div>
+        <!-- Filter controls -->
+        <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">All Slides</button>
+            <button class="filter-btn" data-filter="connective">Connective Tissue</button>
+            <button class="filter-btn" data-filter="epithelial">Epithelial Tissue</button>
+            <button class="filter-btn" data-filter="glandular">Glandular Tissue</button>
+        </div>
 
-            <!-- Filter controls -->
-            <div class="filter-controls">
-                <button class="filter-btn active" data-filter="all">All Slides</button>
-                <button class="filter-btn" data-filter="connective">Connective Tissue</button>
-                <button class="filter-btn" data-filter="epithelial">Epithelial Tissue</button>
-                <button class="filter-btn" data-filter="glandular">Glandular Tissue</button>
-            </div>
-
-            <div class="slide-grid">
-                <!-- Slide 1: Areolar Connective Tissue -->
-                <div class="slide-card" data-category="connective">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 1</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/areolar.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Areolar Connective Tissue</div>
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Fibroblasts</div>
-                            <div class="component-item">Collagen fibers</div>
-                            <div class="component-item">Elastic fibers</div>
-                            <div class="component-item">Ground substance</div>
-                            <div class="component-item">Macrophages</div>
-                            <div class="component-item">Mast cells</div>
-                            <div class="component-item">Plasma cells</div>
-                        </div>
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Under epithelial layers, around blood vessels, nerves, and lymphatics, between muscles and organs</div>
-                        </div>
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Binding and Support</li>
-                                <li>Cushioning and Protection</li>
-                                <li>Nutrient Diffusion</li>
-                                <li>Defense Mechanism</li>
-                            </ul>
-                        </div>
-                    </div>
+        <div class="slide-grid">
+            <!-- Slide 1: Areolar Connective Tissue -->
+            <div class="slide-card" data-category="connective">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 1</div>
                 </div>
-
-
-                <!-- Slide 2: Adipose Tissue -->
-                <div class="slide-card" data-category="connective">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 2</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/adipose_tissue.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Adipose Tissue</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Adipocytes (fat cells)</div>
-                            <div class="component-item">Large, round cells</div>
-                            <div class="component-item">Central lipid droplet</div>
-                            <div class="component-item">Peripheral nucleus</div>
-                            <div class="component-item">Sparse connective tissue fibers</div>
-                            <div class="component-item">Capillaries</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Beneath the skin (subcutaneous layer), around internal organs (visceral fat), between muscle layers</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Energy storage</li>
-                                <li>Thermal insulation</li>
-                                <li>Mechanical cushioning</li>
-                                <li>Endocrine function</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="image-wrapper">
+                    <img src="images/areolar.jpg" alt="Areolar Connective Tissue" class="slide-image" />
                 </div>
-
-                <!-- Slide 3: Reticular Tissue -->
-                <div class="slide-card" data-category="connective">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 3</div>
+                <div class="slide-content">
+                    <div class="slide-title">Areolar Connective Tissue</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Fibroblasts</div>
+                        <div class="component-item">Collagen fibers</div>
+                        <div class="component-item">Elastic fibers</div>
+                        <div class="component-item">Ground substance</div>
+                        <div class="component-item">Macrophages</div>
+                        <div class="component-item">Mast cells</div>
+                        <div class="component-item">Plasma cells</div>
                     </div>
-                    <div class="image-wrapper">
-                        <img src="images/Reticular Tissue.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Reticular Tissue</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Reticular fibers</div>
-                            <div class="component-item">Reticular cells (specialized fibroblasts)</div>
-                            <div class="component-item">Supporting cells</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Lymph nodes, spleen, bone marrow, liver, thymus</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Forms soft internal framework (stroma)</li>
-                                <li>Supports cells in lymphatic organs</li>
-                                <li>Filters body fluids</li>
-                                <li>Provides structural integrity</li>
-                            </ul>
-                        </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Under epithelial layers</li>
+                            <li>Around blood vessels</li>
+                            <li>Around nerves and lymphatics</li>
+                            <li>Between muscles and organs</li>
+                        </ul>
                     </div>
-                </div>
-
-                <!-- Slide 4: Dense Adipose Tissue -->
-                <div class="slide-card" data-category="connective">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 4</div>
-                        </div>
-                    <div class="image-wrapper">
-                        <img src="images/Dense Adipose Tissue.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Dense Adipose Tissue</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Adipocytes (Fat cells)</div>
-                            <div class="component-item">Fibers</div>
-                            <div class="component-item">Blood vessels</div>
-                            <div class="component-item">Other cells: fibroblasts, macrophages, immune cells</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Subcutaneous layer, around internal organs, bone marrow (yellow marrow), breasts, between muscles and joints</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Energy storage</li>
-                                <li>Insulation</li>
-                                <li>Cushioning and protection</li>
-                                <li>Endocrine role (produces hormones)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 5: Goblet Cells -->
-                <div class="slide-card" data-category="epithelial">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 5</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Goblet Cells.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Goblet Cells</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Specialized epithelial cells (goblet/wine glass shaped)</div>
-                            <div class="component-item">Basal nucleus</div>
-                            <div class="component-item">Cytoplasm filled with mucin granules</div>
-                            <div class="component-item">Mucins</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Lining of the colon epithelium, interspersed among simple columnar epithelial cells in mucosal lining of colon and throughout intestinal tract, most abundant in large intestine (colon), especially in crypts of Lieberkühn</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Secretion of mucus</li>
-                                <li>Protection</li>
-                                <li>Hydration and pH balance</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 6: Sweat Glands -->
-                <div class="slide-card" data-category="glandular">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 6</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Sweat Glands.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Sweat Glands</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Secretory portion surrounded by myoepithelial cells</div>
-                            <div class="component-item">Duct portion</div>
-                            <div class="component-item">Lumen</div>
-                            <div class="component-item">Surrounding tissue: dense irregular connective tissue, blood vessels, nerve fibers</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Found throughout skin, especially in palms, soles, and forehead (high density), armpits and groin (apocrine glands), embedded in dermis and extending into hypodermis</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions & Types:</div>
-                            <ul class="function-list">
-                                <li>Thermoregulation</li>
-                                <li>Excretion</li>
-                                <li>Hydration of skin</li>
-                                <li>Pheromone release (apocrine glands)</li>
-                                <li>Eccrine glands: cooling, found all over body</li>
-                                <li>Apocrine glands: larger, armpits/groin, active after puberty</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 7: Salivary Glands -->
-                <div class="slide-card" data-category="glandular">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 7</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Salivary Glands.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Salivary Glands</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Serous acini</div>
-                            <div class="component-item">Mucous acini</div>
-                            <div class="component-item">Seromucous (mixed) acini</div>
-                            <div class="component-item">Intercalated ducts</div>
-                            <div class="component-item">Striated ducts</div>
-                            <div class="component-item">Excretory ducts</div>
-                            <div class="component-item">Connective tissue stroma</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Parotid gland, submandibular gland, sublingual gland</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Secretion of saliva</li>
-                                <li>Digestion of carbohydrates</li>
-                                <li>Lubrication of food and oral mucosa</li>
-                                <li>Antibacterial protection</li>
-                                <li>Maintenance of oral pH and tooth health</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 8: Mammary Glands -->
-                <div class="slide-card" data-category="glandular">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 8</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Mammary Glands.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Mammary Glands</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Lobules containing alveoli (acini)</div>
-                            <div class="component-item">Duct system (intralobular and interlobular ducts)</div>
-                            <div class="component-item">Myoepithelial cells</div>
-                            <div class="component-item">Adipose tissue</div>
-                            <div class="component-item">Fibrous connective tissue (stroma)</div>
-                            <div class="component-item">Blood vessels and lymphatics</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Found in the breasts of both sexes, but functionally developed in females (especially during pregnancy and lactation)</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Production and secretion of milk</li>
-                                <li>Nourishment of the newborn</li>
-                                <li>Endocrine responsiveness (regulated by hormones like estrogen, progesterone, and prolactin)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 9: Small Intestine Epithelium -->
-                <div class="slide-card" data-category="epithelial">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 9</div>
-                    </div>
-                        <div class="image-wrapper">
-                        <img src="images/Small Intestine Epithelium.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Small Intestine Epithelium</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Columnar epithelial cells (tall, with oval basal nuclei)</div>
-                            <div class="component-item">Goblet cells (interspersed, secrete mucus)</div>
-                            <div class="component-item">Brush border (microvilli) on apical surface</div>
-                            <div class="component-item">Basement membrane at the base of the epithelium</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Inner lining (mucosa) of the small intestine (duodenum, jejunum, ileum)</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Absorption of nutrients (via microvilli)</li>
-                                <li>Secretion of digestive enzymes and mucus</li>
-                                <li>Protection of underlying tissue</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 10: Pseudostratified Ciliated Columnar Epithelium -->
-                <div class="slide-card" data-category="epithelial">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 10</div>
-                   </div>
-                        <div class="image-wrapper">
-                        <img src="images/Pseudostratified Ciliated Columnar Epithelium.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Pseudostratified Ciliated Columnar Epithelium</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Columnar cells with nuclei at different levels (gives stratified appearance)</div>
-                            <div class="component-item">Cilia on the apical surface</div>
-                            <div class="component-item">Goblet cells (secrete mucus)</div>
-                            <div class="component-item">Basal cells (stem cells near basement membrane)</div>
-                            <div class="component-item">Basement membrane</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Lining of the trachea and upper respiratory tract (e.g., bronchi)</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Mucus secretion to trap dust and microbes</li>
-                                <li>Ciliary movement to propel mucus upward (mucociliary escalator)</li>
-                                <li>Protection and filtration of inhaled air</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 11: Buccal Smear -->
-                <div class="slide-card" data-category="epithelial">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 11</div>
-                    </div>
-                        <div class="image-wrapper">
-                        <img src="images/areolar.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Buccal Smear (Squamous Epithelium)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Flat, scale-like squamous epithelial cells</div>
-                            <div class="component-item">Central, round or oval nucleus</div>
-                            <div class="component-item">Thin cytoplasm</div>
-                            <div class="component-item">No visible intercellular junctions (in smear)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Lining of the oral cavity (buccal mucosa). Part of the non-keratinized stratified squamous epithelium</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Protection against mechanical stress and abrasion</li>
-                                <li>Barrier to pathogens and harmful substances</li>
-                                <li>Maintains moisture in the oral cavity</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 12: Oviduct (Fallopian Tube) -->
-                <div class="slide-card" data-category="epithelial">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 12</div>
-                    </div>
-                        <div class="image-wrapper">
-                        <img src="images/Oviduct (Fallopian Tube)Simple Ciliated Columnar Epithelium.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Oviduct (Fallopian Tube)
-                        Simple Ciliated Columnar Epithelium </div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Tall columnar cells with oval nuclei</div>
-                            <div class="component-item">Cilia on the apical (free) surface</div>
-                            <div class="component-item">Basement membrane</div>
-                            <div class="component-item">May include peg cells (non-ciliated secretory cells)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Lining of the oviduct (fallopian tube): including infundibulum, ampulla, and isthmus</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Ciliary movement helps transport the ovum toward the uterus</li>
-                                <li>Secretion of nourishing fluid for the ovum and sperm</li>
-                                <li>Protection of the reproductive tract</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 13: Non-Keratinized Stratified Squamous Epithelium -->
-                <div class="slide-card" data-category="epithelial">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 13</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Non-Keratinized Stratified Squamous Epithelium.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Non-Keratinized Stratified Squamous Epithelium</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Basal layer</div>
-                            <div class="component-item">Intermediate (polyhedral) cells</div>
-                            <div class="component-item">Superficial squamous cells with nuclei</div>
-                            <div class="component-item">Basement membrane</div>
-                            <div class="component-item">Lamina propria (connective tissue)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Inner surface of buccal gum (oral mucosa)</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Protection</li>
-                                <li>Maintains moisture</li>
-                                <li>Acts as a barrier</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 14: Keratinized Stratified Squamous Epithelium -->
-                <div class="slide-card" data-category="epithelial">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 14</div>
-                    </div>
-                        <div class="image-wrapper">
-                        <img src="images/Keratinized Stratified Squamous Epithelium.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Keratinized Stratified Squamous Epithelium</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Stratum basale (basal layer)</div>
-                            <div class="component-item">Stratum spinosum (prickle cell layer)</div>
-                            <div class="component-item">Stratum granulosum</div>
-                            <div class="component-item">Stratum lucidum (only in thick skin)</div>
-                            <div class="component-item">Stratum corneum (cornified, dead keratinized cells)</div>
-                            <div class="component-item">Basement membrane</div>
-                            <div class="component-item">Underlying dermis</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Epidermis of skin (entire body surface): thickest in palms and soles</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Protection against friction, pathogens, chemicals, and dehydration</li>
-                                <li>Prevents water loss</li>
-                                <li>Physical barrier</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 15: Simple Cuboidal Epithelium -->
-                <div class="slide-card" data-category="epithelial">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 15</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Simple Cuboidal Epithelium.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Simple Cuboidal Epithelium</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Cuboidal epithelial cells (cube-shaped with central, round nuclei)</div>
-                            <div class="component-item">Basement membrane</div>
-                            <div class="component-item">Visible lumen (in ducts or tubules)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Lining of collecting ducts in the papilla of the kidney (renal medulla) of rabbit</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Conduction of urine from nephrons to renal pelvis</li>
-                                <li>Minor absorption and secretion</li>
-                                <li>Protection of duct lining</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 16: Dense Regular Connective Tissue (Tendon) -->
-                <div class="slide-card" data-category="connective">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 16</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Dense Regular Connective Tissue (Tendon).jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Dense Regular Connective Tissue (Tendon)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Parallel bundles of collagen fibers (densely packed)</div>
-                            <div class="component-item">Rows of fibroblasts (tendon cells or tenocytes) between collagen fibers</div>
-                            <div class="component-item">Very little ground substance</div>
-                            <div class="component-item">No elastic fibers</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Tendons: which connect muscle to bone</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Strong tensile strength for resisting pulling forces</li>
-                                <li>Connects muscle to bone</li>
-                                <li>Transmits mechanical force from muscle contraction to skeleton</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 17: Elastic Cartilage -->
-                <div class="slide-card" data-category="connective">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 17</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Elastic Cartilage.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Elastic Cartilage</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Chondrocytes in lacunae</div>
-                            <div class="component-item">Dense network of elastic fibers (stained dark with special stains like orcein or Verhoeff)</div>
-                            <div class="component-item">Some collagen fibers</div>
-                            <div class="component-item">Perichondrium (outer fibrous layer)</div>
-                            <div class="component-item">Matrix (firm, flexible ground substance)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">External ear (pinna), epiglottis, Eustachian (auditory) tube, parts of larynx</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Flexibility with support</li>
-                                <li>Maintains shape of structures</li>
-                                <li>Elastic recoil after bending</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 18: Hyaline Cartilage -->
-                <div class="slide-card" data-category="connective">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 18</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Hyaline Cartilage.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Hyaline Cartilage</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Chondrocytes in lacunae</div>
-                            <div class="component-item">Homogeneous, glassy (hyaline) matrix</div>
-                            <div class="component-item">Collagen type II fibers (not visible under light microscope)</div>
-                            <div class="component-item">Perichondrium (outer covering, except at articular surfaces)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Tracheal rings, nasal septum, laryngeal cartilages, articular surfaces of bones, costal cartilages, epiphyseal plates in growing bones</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Support with flexibility</li>
-                                <li>Smooth surface for joint movement</li>
-                                <li>Structural framework</li>
-                                <li>Growth and development of long bones</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 19: Spongy Bone -->
-                <div class="slide-card" data-category="connective">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 19</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Spongy Bone.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Spongy Bone</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Trabeculae (thin bony plates or beams)</div>
-                            <div class="component-item">Osteocytes in lacunae within trabeculae</div>
-                            <div class="component-item">Bone marrow spaces (between trabeculae, filled with red or yellow marrow)</div>
-                            <div class="component-item">Endosteum lining the trabeculae</div>
-                            <div class="component-item">No Haversian systems (unlike compact bone)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Epiphyses of long bones (e.g., femur), interior of short, flat, and irregular bones (e.g., vertebrae, sternum), ribs, pelvis, and skull bones</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Lightweight support</li>
-                                <li>Houses bone marrow for blood cell production</li>
-                                <li>Distributes forces and stress across joints</li>
-                                <li>Metabolic role in calcium storage and release</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 20: Fibrocartilage -->
-                <div class="slide-card" data-category="connective">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 20</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Fibrocartilage.jpg" alt="Areolar Connective Tissue" class="slide-image" />
-                       </div>
-                        <div class="slide-title">Fibrocartilage</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Chondrocytes arranged in rows within lacunae</div>
-                            <div class="component-item">Abundant collagen fibers (Type I), densely packed in bundles</div>
-                            <div class="component-item">Sparse ground substance</div>
-                            <div class="component-item">No perichondrium (unlike hyaline or elastic cartilage)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Intervertebral discs, pubic symphysis, menisci of knee joint, temporomandibular joint (TMJ)</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Strong tensile strength</li>
-                                <li>Shock absorption</li>
-                                <li>Resistance to compression and stress in joints</li>
-                            </ul>
-                        </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Binding and Support</li>
+                            <li>Cushioning and Protection</li>
+                            <li>Nutrient Diffusion</li>
+                            <li>Defense Mechanism</li>
+                        </ul>
                     </div>
                 </div>
             </div>
+
+            <!-- Slide 2: Adipose Tissue -->
+            <div class="slide-card" data-category="connective">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 2</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/adipose_tissue.jpg" alt="Adipose Tissue" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Adipose Tissue</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Adipocytes (fat cells)</div>
+                        <div class="component-item">Large, round cells</div>
+                        <div class="component-item">Central lipid droplet</div>
+                        <div class="component-item">Peripheral nucleus</div>
+                        <div class="component-item">Sparse connective tissue fibers</div>
+                        <div class="component-item">Capillaries</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Beneath the skin (subcutaneous layer)</li>
+                            <li>Around internal organs (visceral fat)</li>
+                            <li>Between muscle layers</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Energy storage</li>
+                            <li>Thermal insulation</li>
+                            <li>Mechanical cushioning</li>
+                            <li>Endocrine function</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Reticular Tissue -->
+            <div class="slide-card" data-category="connective">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 3</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Reticular Tissue.jpg" alt="Reticular Tissue" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Reticular Tissue</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Reticular fibers</div>
+                        <div class="component-item">Reticular cells (specialized fibroblasts)</div>
+                        <div class="component-item">Supporting cells</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Lymph nodes</li>
+                            <li>Spleen</li>
+                            <li>Bone marrow</li>
+                            <li>Liver</li>
+                            <li>Thymus</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Forms soft internal framework (stroma)</li>
+                            <li>Supports cells in lymphatic organs</li>
+                            <li>Filters body fluids</li>
+                            <li>Provides structural integrity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Dense Adipose Tissue -->
+            <div class="slide-card" data-category="connective">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 4</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Dense Adipose Tissue.jpg" alt="Dense Adipose Tissue" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Dense Adipose Tissue</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Adipocytes (Fat cells)</div>
+                        <div class="component-item">Fibers</div>
+                        <div class="component-item">Blood vessels</div>
+                        <div class="component-item">Other cells: fibroblasts, macrophages, immune cells</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Subcutaneous layer</li>
+                            <li>Around internal organs</li>
+                            <li>Bone marrow (yellow marrow)</li>
+                            <li>Breasts</li>
+                            <li>Between muscles and joints</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Energy storage</li>
+                            <li>Insulation</li>
+                            <li>Cushioning and protection</li>
+                            <li>Endocrine role (produces hormones)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Goblet Cells -->
+            <div class="slide-card" data-category="epithelial">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 5</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Goblet Cells.jpg" alt="Goblet Cells" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Goblet Cells</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Specialized epithelial cells (goblet/wine glass shaped)</div>
+                        <div class="component-item">Basal nucleus</div>
+                        <div class="component-item">Cytoplasm filled with mucin granules</div>
+                        <div class="component-item">Mucins</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Lining of the colon epithelium</li>
+                            <li>Interspersed among simple columnar epithelial cells</li>
+                            <li>Mucosal lining of colon and intestinal tract</li>
+                            <li>Most abundant in large intestine (colon)</li>
+                            <li>Crypts of Lieberkühn</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Secretion of mucus</li>
+                            <li>Protection</li>
+                            <li>Hydration and pH balance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Sweat Glands -->
+            <div class="slide-card" data-category="glandular">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 6</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Sweat Glands.jpg" alt="Sweat Glands" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Sweat Glands</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Secretory portion surrounded by myoepithelial cells</div>
+                        <div class="component-item">Duct portion</div>
+                        <div class="component-item">Lumen</div>
+                        <div class="component-item">Surrounding tissue: dense irregular connective tissue, blood vessels, nerve fibers</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Throughout skin, especially in palms, soles, and forehead (high density)</li>
+                            <li>Armpits and groin (apocrine glands)</li>
+                            <li>Embedded in dermis and extending into hypodermis</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions & Types:</div>
+                        <ul class="function-list">
+                            <li>Thermoregulation</li>
+                            <li>Excretion</li>
+                            <li>Hydration of skin</li>
+                            <li>Pheromone release (apocrine glands)</li>
+                            <li>Eccrine glands: cooling, found all over body</li>
+                            <li>Apocrine glands: larger, armpits/groin, active after puberty</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Salivary Glands -->
+            <div class="slide-card" data-category="glandular">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 7</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Salivary Glands.jpg" alt="Salivary Glands" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Salivary Glands</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Serous acini</div>
+                        <div class="component-item">Mucous acini</div>
+                        <div class="component-item">Seromucous (mixed) acini</div>
+                        <div class="component-item">Intercalated ducts</div>
+                        <div class="component-item">Striated ducts</div>
+                        <div class="component-item">Excretory ducts</div>
+                        <div class="component-item">Connective tissue stroma</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Parotid gland</li>
+                            <li>Submandibular gland</li>
+                            <li>Sublingual gland</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Secretion of saliva</li>
+                            <li>Digestion of carbohydrates</li>
+                            <li>Lubrication of food and oral mucosa</li>
+                            <li>Antibacterial protection</li>
+                            <li>Maintenance of oral pH and tooth health</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Mammary Glands -->
+            <div class="slide-card" data-category="glandular">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 8</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Mammary Glands.jpg" alt="Mammary Glands" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Mammary Glands</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Lobules containing alveoli (acini)</div>
+                        <div class="component-item">Duct system (intralobular and interlobular ducts)</div>
+                        <div class="component-item">Myoepithelial cells</div>
+                        <div class="component-item">Adipose tissue</div>
+                        <div class="component-item">Fibrous connective tissue (stroma)</div>
+                        <div class="component-item">Blood vessels and lymphatics</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in the breasts of both sexes</li>
+                            <li>Functionally developed in females</li>
+                            <li>Especially during pregnancy and lactation</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Production and secretion of milk</li>
+                            <li>Nourishment of the newborn</li>
+                            <li>Endocrine responsiveness (regulated by hormones like estrogen, progesterone, and prolactin)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Small Intestine Epithelium -->
+            <div class="slide-card" data-category="epithelial">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 9</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Small Intestine Epithelium.jpg" alt="Small Intestine Epithelium" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Small Intestine Epithelium</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Columnar epithelial cells (tall, with oval basal nuclei)</div>
+                        <div class="component-item">Goblet cells (interspersed, secrete mucus)</div>
+                        <div class="component-item">Brush border (microvilli) on apical surface</div>
+                        <div class="component-item">Basement membrane at the base of the epithelium</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Inner lining (mucosa) of the small intestine</li>
+                            <li>Duodenum</li>
+                            <li>Jejunum</li>
+                            <li>Ileum</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Absorption of nutrients (via microvilli)</li>
+                            <li>Secretion of digestive enzymes and mucus</li>
+                            <li>Protection of underlying tissue</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Pseudostratified Ciliated Columnar Epithelium -->
+            <div class="slide-card" data-category="epithelial">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 10</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Pseudostratified Ciliated Columnar Epithelium.jpg" alt="Pseudostratified Ciliated Columnar Epithelium" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Pseudostratified Ciliated Columnar Epithelium</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Columnar cells with nuclei at different levels (gives stratified appearance)</div>
+                        <div class="component-item">Cilia on the apical surface</div>
+                        <div class="component-item">Goblet cells (secrete mucus)</div>
+                        <div class="component-item">Basal cells (stem cells near basement membrane)</div>
+                        <div class="component-item">Basement membrane</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Lining of the trachea</li>
+                            <li>Upper respiratory tract</li>
+                            <li>Bronchi</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Mucus secretion to trap dust and microbes</li>
+                            <li>Ciliary movement to propel mucus upward (mucociliary escalator)</li>
+                            <li>Protection and filtration of inhaled air</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Buccal Smear -->
+            <div class="slide-card" data-category="epithelial">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 11</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/areolar.jpg" alt="Buccal Smear" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Buccal Smear (Squamous Epithelium)</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Flat, scale-like squamous epithelial cells</div>
+                        <div class="component-item">Central, round or oval nucleus</div>
+                        <div class="component-item">Thin cytoplasm</div>
+                        <div class="component-item">No visible intercellular junctions (in smear)</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Lining of the oral cavity (buccal mucosa)</li>
+                            <li>Part of the non-keratinized stratified squamous epithelium</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Protection against mechanical stress and abrasion</li>
+                            <li>Barrier to pathogens and harmful substances</li>
+                            <li>Maintains moisture in the oral cavity</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Oviduct (Fallopian Tube) -->
+            <div class="slide-card" data-category="epithelial">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 12</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Oviduct (Fallopian Tube)Simple Ciliated Columnar Epithelium.jpg" alt="Oviduct Simple Ciliated Columnar Epithelium" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Oviduct (Fallopian Tube) Simple Ciliated Columnar Epithelium </div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Tall columnar cells with oval nuclei</div>
+                        <div class="component-item">Cilia on the apical (free) surface</div>
+                        <div class="component-item">Basement membrane</div>
+                        <div class="component-item">May include peg cells (non-ciliated secretory cells)</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Lining of the oviduct (fallopian tube)</li>
+                            <li>Infundibulum</li>
+                            <li>Ampulla</li>
+                            <li>Isthmus</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Ciliary movement helps transport the ovum toward the uterus</li>
+                            <li>Secretion of nourishing fluid for the ovum and sperm</li>
+                            <li>Protection of the reproductive tract</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: Non-Keratinized Stratified Squamous Epithelium -->
+            <div class="slide-card" data-category="epithelial">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 13</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Non-Keratinized Stratified Squamous Epithelium.jpg" alt="Non-Keratinized Stratified Squamous Epithelium" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Non-Keratinized Stratified Squamous Epithelium</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Basal layer</div>
+                        <div class="component-item">Intermediate (polyhedral) cells</div>
+                        <div class="component-item">Superficial squamous cells with nuclei</div>
+                        <div class="component-item">Basement membrane</div>
+                        <div class="component-item">Lamina propria (connective tissue)</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Inner surface of buccal gum (oral mucosa)</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Protection</li>
+                            <li>Maintains moisture</li>
+                            <li>Acts as a barrier</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14: Keratinized Stratified Squamous Epithelium -->
+            <div class="slide-card" data-category="epithelial">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 14</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Keratinized Stratified Squamous Epithelium.jpg" alt="Keratinized Stratified Squamous Epithelium" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Keratinized Stratified Squamous Epithelium</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Stratum basale (basal layer)</div>
+                        <div class="component-item">Stratum spinosum (prickle cell layer)</div>
+                        <div class="component-item">Stratum granulosum</div>
+                        <div class="component-item">Stratum lucidum (only in thick skin)</div>
+                        <div class="component-item">Stratum corneum (cornified, dead keratinized cells)</div>
+                        <div class="component-item">Basement membrane</div>
+                        <div class="component-item">Underlying dermis</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Epidermis of skin (entire body surface)</li>
+                            <li>Thickest in palms and soles</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Protection against friction, pathogens, chemicals, and dehydration</li>
+                            <li>Prevents water loss</li>
+                            <li>Physical barrier</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Simple Cuboidal Epithelium -->
+            <div class="slide-card" data-category="epithelial">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 15</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Simple Cuboidal Epithelium.jpg" alt="Simple Cuboidal Epithelium" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Simple Cuboidal Epithelium</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Cuboidal epithelial cells (cube-shaped with central, round nuclei)</div>
+                        <div class="component-item">Basement membrane</div>
+                        <div class="component-item">Visible lumen (in ducts or tubules)</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Lining of collecting ducts in the papilla of the kidney</li>
+                            <li>Renal medulla of rabbit</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Conduction of urine from nephrons to renal pelvis</li>
+                            <li>Minor absorption and secretion</li>
+                            <li>Protection of duct lining</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 16: Dense Regular Connective Tissue (Tendon) -->
+            <div class="slide-card" data-category="connective">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 16</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Dense Regular Connective Tissue (Tendon).jpg" alt="Dense Regular Connective Tissue (Tendon)" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Dense Regular Connective Tissue (Tendon)</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Parallel bundles of collagen fibers (densely packed)</div>
+                        <div class="component-item">Rows of fibroblasts (tendon cells or tenocytes) between collagen fibers</div>
+                        <div class="component-item">Very little ground substance</div>
+                        <div class="component-item">No elastic fibers</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Tendons: which connect muscle to bone</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Strong tensile strength for resisting pulling forces</li>
+                            <li>Connects muscle to bone</li>
+                            <li>Transmits mechanical force from muscle contraction to skeleton</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 17: Elastic Cartilage -->
+            <div class="slide-card" data-category="connective">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 17</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Elastic Cartilage.jpg" alt="Elastic Cartilage" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Elastic Cartilage</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Chondrocytes in lacunae</div>
+                        <div class="component-item">Dense network of elastic fibers (stained dark with special stains like orcein or Verhoeff)</div>
+                        <div class="component-item">Some collagen fibers</div>
+                        <div class="component-item">Perichondrium (outer fibrous layer)</div>
+                        <div class="component-item">Matrix (firm, flexible ground substance)</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>External ear (pinna)</li>
+                            <li>Epiglottis</li>
+                            <li>Eustachian (auditory) tube</li>
+                            <li>Parts of larynx</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Flexibility with support</li>
+                            <li>Maintains shape of structures</li>
+                            <li>Elastic recoil after bending</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 18: Hyaline Cartilage -->
+            <div class="slide-card" data-category="connective">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 18</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Hyaline Cartilage.jpg" alt="Hyaline Cartilage" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Hyaline Cartilage</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Chondrocytes in lacunae</div>
+                        <div class="component-item">Homogeneous, glassy (hyaline) matrix</div>
+                        <div class="component-item">Collagen type II fibers (not visible under light microscope)</div>
+                        <div class="component-item">Perichondrium (outer covering, except at articular surfaces)</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Tracheal rings</li>
+                            <li>Nasal septum</li>
+                            <li>Laryngeal cartilages</li>
+                            <li>Articular surfaces of bones</li>
+                            <li>Costal cartilages</li>
+                            <li>Epiphyseal plates in growing bones</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Support with flexibility</li>
+                            <li>Smooth surface for joint movement</li>
+                            <li>Structural framework</li>
+                            <li>Growth and development of long bones</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 19: Spongy Bone -->
+            <div class="slide-card" data-category="connective">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 19</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Spongy Bone.jpg" alt="Spongy Bone" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Spongy Bone</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Trabeculae (thin bony plates or beams)</div>
+                        <div class="component-item">Osteocytes in lacunae within trabeculae</div>
+                        <div class="component-item">Bone marrow spaces (between trabeculae, filled with red or yellow marrow)</div>
+                        <div class="component-item">Endosteum lining the trabeculae</div>
+                        <div class="component-item">No Haversian systems (unlike compact bone)</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Epiphyses of long bones (e.g., femur)</li>
+                            <li>Interior of short, flat, and irregular bones</li>
+                            <li>Vertebrae, sternum</li>
+                            <li>Ribs, pelvis, and skull bones</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Lightweight support</li>
+                            <li>Houses bone marrow for blood cell production</li>
+                            <li>Distributes forces and stress across joints</li>
+                            <li>Metabolic role in calcium storage and release</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 20: Fibrocartilage -->
+            <div class="slide-card" data-category="connective">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 20</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Fibrocartilage.jpg" alt="Fibrocartilage" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Fibrocartilage</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Chondrocytes arranged in rows within lacunae</div>
+                        <div class="component-item">Abundant collagen fibers (Type I), densely packed in bundles</div>
+                        <div class="component-item">Sparse ground substance</div>
+                        <div class="component-item">No perichondrium (unlike hyaline or elastic cartilage)</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Intervertebral discs</li>
+                            <li>Pubic symphysis</li>
+                            <li>Menisci of knee joint</li>
+                            <li>Temporomandibular joint (TMJ)</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Strong tensile strength</li>
+                            <li>Shock absorption</li>
+                            <li>Resistance to compression and stress in joints</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const slideCards = document.querySelectorAll('.slide-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                slideCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Progress bar functionality
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressFill').style.width = scrolled + '%';
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation to cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all slide cards
+        slideCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Print functionality
+        function printPage() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

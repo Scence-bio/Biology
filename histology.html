@@ -720,6 +720,23 @@
             }
         }
     </style>
+    </head>
+<body>
+    <div style="position:fixed;left:20px;top:20px;z-index:2000">
+        <a href="{{ url_for('index', lang=lang) }}" style="text-decoration:none;background:#22c55e;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
+            {{ t["back_home"] }}
+        </a>
+    </div>
+    
+    <!-- Progress bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+
+    <!-- Print button -->
+    <button class="print-btn" title="Print Guide" onclick="window.print()">🖨️</button>
+
 
 <!-- Histology Chapter -->
         <div class="chapter-page" id="histology">

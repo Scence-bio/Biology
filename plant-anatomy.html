@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ئەناتۆمی ڕووەک - Coming Soon</title>
+    <title>ئەناتۆمی ڕووەک - Plant Anatomy</title>
     <style>
         * {
     margin: 0;
@@ -167,127 +167,6 @@ body {
     margin-top: 60px;
     padding-top: 40px;
     border-top: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-/* Navigation */
-.nav-bar {
-    position: sticky;
-    top: 0;
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(20px);
-    padding: 15px 30px;
-    z-index: 100;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    display: none;
-}
-
-.nav-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.nav-title {
-    color: #22c55e;
-    font-weight: 700;
-    font-size: 1.2em;
-}
-
-.nav-links {
-    display: flex;
-    gap: 25px;
-}
-
-.nav-link {
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-.nav-link:hover, 
-.nav-link.active {
-    color: #22c55e;
-    background: rgba(34, 197, 94, 0.1);
-}
-
-/* Table of Contents */
-.table-of-contents {
-    padding: 60px 50px;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-}
-
-.toc-title {
-    color: #0f172a;
-    font-family: 'Georgia', serif;
-    font-size: 3em;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 50px;
-    background: linear-gradient(135deg, #22c55e, #3b82f6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.toc-list {
-    list-style: none;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.toc-item {
-    background: white;
-    margin: 20px 0;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-}
-
-.toc-item:hover {
-    transform: translateX(15px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-}
-
-.toc-link {
-    display: flex;
-    align-items: center;
-    padding: 25px 30px;
-    text-decoration: none;
-    color: #334155;
-}
-
-.chapter-icon {
-    font-size: 2.5em;
-    margin-right: 25px;
-    width: 70px;
-    text-align: center;
-}
-
-.chapter-details {
-    flex: 1;
-}
-
-.chapter-title {
-    font-size: 1.4em;
-    font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 8px;
-}
-
-.chapter-subtitle {
-    font-size: 1em;
-    color: #64748b;
-}
-
-.chapter-info {
-    text-align: right;
-    font-size: 0.9em;
-    color: #94a3b8;
-    font-weight: 600;
 }
 
 /* Chapter Pages */
@@ -467,7 +346,7 @@ body {
     border-radius: 2px;
 }
 
-/* Updated Location List Styling */
+/* Location List Styling - Same as histology */
 .location-list {
     list-style: none;
     padding: 0;
@@ -525,32 +404,6 @@ body {
     content: '▶';
     color: #f59e0b;
     margin-right: 8px;
-}
-
-/* Search functionality */
-.search-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 200;
-}
-
-.search-input {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 25px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    font-size: 14px;
-    width: 250px;
-    transition: all 0.3s ease;
-}
-
-.search-input:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
-    width: 300px;
 }
 
 /* Progress indicator */
@@ -622,61 +475,8 @@ body {
     color: white;
 }
 
-/* Slide navigation controls */
-.slide-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-}
-
-.slide-nav-btn {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.slide-nav-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-}
-
-.slide-nav-btn.prev {
-    background: linear-gradient(135deg, #64748b, #475569);
-}
-
-.chapter-indicator {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 10px;
-}
-
-.chapter-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #cbd5e1;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.chapter-dot.active {
-    background: #3b82f6;
-    transform: scale(1.3);
-}
-
 /* Print styles */
 @media print {
-    .nav-bar, 
-    .search-container, 
     .progress-bar, 
     .print-btn {
         display: none !important;
@@ -710,37 +510,8 @@ body {
     }
 
     .cover-page, 
-    .chapter-page, 
-    .table-of-contents {
+    .chapter-page {
         padding: 40px 25px;
-    }
-
-    .nav-links {
-        display: none;
-    }
-
-    .search-input {
-        width: 200px;
-    }
-
-    .search-input:focus {
-        width: 220px;
-    }
-    
-    .toc-link {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .chapter-icon {
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-    
-    .chapter-info {
-        text-align: left;
-        width: 100%;
-        margin-top: 10px;
     }
 }
 
@@ -752,794 +523,957 @@ body {
     .subtitle {
         font-size: 1.4em;
     }
-    
-    .slide-nav {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .slide-nav-btn {
-        width: 100%;
-        justify-content: center;
-    }
 }
     </style>
 </head>
 <body>
+    <div style="position:fixed;left:20px;top:20px;z-index:2000">
+        <a href="index.html" 
+           style="text-decoration:none;background:#22c55e;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
+            گەڕانەوە بۆ پەڕەی سەرەکی
+        </a>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Print button -->
+    <button class="print-btn" title="Print Guide" onclick="window.print()">🖨️</button>
+
     <!-- Plant Anatomy Chapter -->
-        <div class="chapter-page" id="plant-biology">
-            <div class="chapter-header">
-                <div class="chapter-number">Chapter 3</div>
-                <h2 class="chapter-main-title">🌱 Plant Anatomy - Structure & Function</h2>
-                <p class="chapter-description">Study of plant Anatomy, physiology, and cellular organization</p>
-            </div>
+    <div class="chapter-page" id="plant-biology">
+        <div class="chapter-header">
+            <div class="chapter-number">Chapter 3</div>
+            <h2 class="chapter-main-title">🌱 Plant Anatomy - Structure & Function</h2>
+            <p class="chapter-description">Study of plant anatomy, physiology, and cellular organization</p>
+        </div>
 
-            <!-- Filter controls -->
-            <div class="filter-controls">
-                <button class="filter-btn active" data-filter="all">All Slides</button>
-                <button class="filter-btn" data-filter="stem">Stem Anatomy</button>
-                <button class="filter-btn" data-filter="root">Root Structure</button>
-                <button class="filter-btn" data-filter="leaf">Leaf Structure</button>
-            </div>
+        <!-- Filter controls -->
+        <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">All Slides</button>
+            <button class="filter-btn" data-filter="stem">Stem Anatomy</button>
+            <button class="filter-btn" data-filter="root">Root Structure</button>
+            <button class="filter-btn" data-filter="leaf">Leaf Structure</button>
+        </div>
 
-            <div class="slide-grid">
-                <!-- Slide 1: Dicot Stem Cross Section -->
-                <div class="slide-card" data-category="stem">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 1</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/dicot_stem.jpg" alt="Dicot Stem Cross Section" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Dicot Stem Cross Section</div>
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Epidermis</div>
-                            <div class="component-item">Cortex</div>
-                            <div class="component-item">Vascular bundles</div>
-                            <div class="component-item">Xylem</div>
-                            <div class="component-item">Phloem</div>
-                            <div class="component-item">Pith</div>
-                        </div>
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Cross-sectional view of dicotyledonous plant stem</div>
-                        </div>
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Structural support</li>
-                                <li>Transport of water and nutrients</li>
-                                <li>Storage of food and water</li>
-                            </ul>
-                        </div>
-                    </div>
+        <div class="slide-grid">
+            <!-- Slide 1: Dicot Stem Cross Section -->
+            <div class="slide-card" data-category="stem">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 1</div>
                 </div>
-
-                <!-- Slide 2: Monocot Stem Cross Section -->
-                <div class="slide-card" data-category="stem">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 2</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/monocot_stem.jpg" alt="Monocot Stem Cross Section" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Monocot Stem Cross Section</div>
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Epidermis</div>
-                            <div class="component-item">Ground tissue</div>
-                            <div class="component-item">Scattered vascular bundles</div>
-                            <div class="component-item">Bundle sheath</div>
-                        </div>
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Cross-sectional view of monocotyledonous plant stem</div>
-                        </div>
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Structural support</li>
-                                <li>Transport of water and nutrients</li>
-                                <li>Storage of food and water</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="image-wrapper">
+                    <img src="images/dicot_stem.jpg" alt="Dicot Stem Cross Section" class="slide-image" />
                 </div>
-
-                <!-- Slide 3: Root Cross Section -->
-                <div class="slide-card" data-category="root">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 3</div>
+                <div class="slide-content">
+                    <div class="slide-title">Dicot Stem Cross Section</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Epidermis</div>
+                        <div class="component-item">Cortex</div>
+                        <div class="component-item">Vascular bundles</div>
+                        <div class="component-item">Xylem</div>
+                        <div class="component-item">Phloem</div>
+                        <div class="component-item">Pith</div>
                     </div>
-                    <div class="image-wrapper">
-                        <img src="images/root_cross_section.jpg" alt="Root Cross Section" class="slide-image" />
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Cross-sectional view of dicotyledonous plant stem</li>
+                            <li>Herbaceous and woody dicot plants</li>
+                            <li>Above ground plant parts</li>
+                        </ul>
                     </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Root Cross Section</div>
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Root hairs</div>
-                            <div class="component-item">Epidermis</div>
-                            <div class="component-item">Cortex</div>
-                            <div class="component-item">Endodermis</div>
-                            <div class="component-item">Pericycle</div>
-                            <div class="component-item">Xylem</div>
-                            <div class="component-item">Phloem</div>
-                        </div>
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Underground root system of plants</div>
-                        </div>
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Absorption of water and minerals</li>
-                                <li>Anchorage and support</li>
-                                <li>Storage of food</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 4: Leaf Cross Section -->
-                <div class="slide-card" data-category="leaf">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 4</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/leaf_cross_section.jpg" alt="Leaf Cross Section" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Leaf Cross Section</div>
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Upper epidermis</div>
-                            <div class="component-item">Palisade mesophyll</div>
-                            <div class="component-item">Spongy mesophyll</div>
-                            <div class="component-item">Lower epidermis</div>
-                            <div class="component-item">Stomata</div>
-                            <div class="component-item">Vascular bundles</div>
-                        </div>
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Cross-sectional view of a typical dicot leaf</div>
-                        </div>
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Photosynthesis</li>
-                                <li>Gas exchange</li>
-                                <li>Transpiration</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Slide 5: Woody Stem Cross Section -->
-                <div class="slide-card" data-category="stem">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 5</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/woody_stem.jpg" alt="Woody Stem Cross Section" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Woody Stem Cross Section</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Bark (outer)</div>
-                            <div class="component-item">Secondary phloem</div>
-                            <div class="component-item">Vascular cambium</div>
-                            <div class="component-item">Secondary xylem (wood)</div>
-                            <div class="component-item">Annual rings</div>
-                            <div class="component-item">Ray cells</div>
-                            <div class="component-item">Heartwood</div>
-                            <div class="component-item">Sapwood</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Cross-section of perennial woody plant stem showing secondary growth and annual ring formation</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Protection</li>
-                                <li>Sugar transport</li>
-                                <li>Secondary growth</li>
-                                <li>Water transport and support</li>
-                                <li>Record of seasonal growth</li>
-                                <li>Radial transport</li>
-                                <li>Structural support</li>
-                                <li>Active water transport</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 6: Stomata -->
-                <div class="slide-card" data-category="leaf">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 6</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/stomata.jpg" alt="Stomata Structure" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Stomata Structure</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Guard cells</div>
-                            <div class="component-item">Stomatal pore</div>
-                            <div class="component-item">Subsidiary cells</div>
-                            <div class="component-item">Epidermal cells</div>
-                            <div class="component-item">Chloroplasts (in guard cells)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Lower epidermis of leaves (primarily), some on upper epidermis and stems</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Control gas exchange</li>
-                                <li>Opening for CO₂ and O₂ exchange</li>
-                                <li>Support guard cell function</li>
-                                <li>Protection</li>
-                                <li>Enable photosynthesis in guard cells</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 7: Root Hair Zone -->
-                <div class="slide-card" data-category="root">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 7</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/root_hair_zone.jpg" alt="Root Hair Zone" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Root Hair Zone</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Root hairs</div>
-                            <div class="component-item">Epidermal cells</div>
-                            <div class="component-item">Cortical cells</div>
-                            <div class="component-item">Root cap</div>
-                            <div class="component-item">Vascular tissue</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Zone behind the root tip where maximum water and mineral absorption occurs</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Maximum surface area for absorption</li>
-                                <li>Water and mineral uptake</li>
-                                <li>Storage and support</li>
-                                <li>Protection during growth</li>
-                                <li>Transport to aerial parts</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 8: Vessel Elements -->
-                <div class="slide-card" data-category="stem">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 8</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/vessel_elements.jpg" alt="Vessel Elements" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Vessel Elements (Xylem)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Vessel elements</div>
-                            <div class="component-item">Perforation plates</div>
-                            <div class="component-item">Lignified walls</div>
-                            <div class="component-item">Pits</div>
-                            <div class="component-item">Tracheids</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Xylem tissue in stems, roots, and leaves of angiosperms</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Efficient water transport</li>
-                                <li>Allow continuous water flow</li>
-                                <li>Structural support</li>
-                                <li>Lateral water movement</li>
-                                <li>Water conduction and support</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 9: Phloem Tissue -->
-                <div class="slide-card" data-category="stem">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 9</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/phloem_tissue.jpg" alt="Phloem Tissue" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Phloem Tissue</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Sieve tube elements</div>
-                            <div class="component-item">Companion cells</div>
-                            <div class="component-item">Sieve plates</div>
-                            <div class="component-item">Phloem parenchyma</div>
-                            <div class="component-item">Phloem fibers</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Phloem tissue in vascular bundles of stems, roots, and leaf veins</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Sugar transport</li>
-                                <li>Support sieve tube function</li>
-                                <li>Allow flow between sieve tubes</li>
-                                <li>Storage</li>
-                                <li>Structural support</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 10: Palisade Mesophyll -->
-                <div class="slide-card" data-category="leaf">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 10</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/palisade_mesophyll.jpg" alt="Palisade Mesophyll" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Palisade Mesophyll</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Palisade cells (columnar)</div>
-                            <div class="component-item">Chloroplasts</div>
-                            <div class="component-item">Large vacuole</div>
-                            <div class="component-item">Cell wall</div>
-                            <div class="component-item">Intercellular spaces</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Upper portion of leaf mesophyll, directly below upper epidermis</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Primary photosynthesis</li>
-                                <li>Light capture and photosynthesis</li>
-                                <li>Storage and turgor pressure</li>
-                                <li>Structural support</li>
-                                <li>Gas exchange</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 11: Spongy Mesophyll -->
-                <div class="slide-card" data-category="leaf">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 11</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/spongy_mesophyll.jpg" alt="Spongy Mesophyll" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Spongy Mesophyll</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Spongy parenchyma cells</div>
-                            <div class="component-item">Large air spaces</div>
-                            <div class="component-item">Chloroplasts</div>
-                            <div class="component-item">Vascular bundles</div>
-                            <div class="component-item">Irregular cell shapes</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Lower portion of leaf mesophyll, between palisade layer and lower epidermis</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Gas exchange</li>
-                                <li>CO₂ and O₂ circulation</li>
-                                <li>Photosynthesis support</li>
-                                <li>Transport of materials</li>
-                                <li>Maximize gas exchange surface</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 12: Cork Cambium -->
-                <div class="slide-card" data-category="stem">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 12</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/cork_cambium.jpg" alt="Cork Cambium" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Cork Cambium (Phellogen)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Cork cambium cells</div>
-                            <div class="component-item">Cork cells (phellem)</div>
-                            <div class="component-item">Phelloderm</div>
-                            <div class="component-item">Lenticels</div>
-                            <div class="component-item">Periderm</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Outer region of woody stems and roots in secondary growth</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Produces cork tissue</li>
-                                <li>Protection and waterproofing</li>
-                                <li>Additional protective tissue</li>
-                                <li>Gas exchange through bark</li>
-                                <li>Complete protective barrier</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 13: Apical Meristem -->
-                <div class="slide-card" data-category="root">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 13</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/apical_meristem.jpg" alt="Apical Meristem" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Apical Meristem</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Meristematic cells</div>
-                            <div class="component-item">Root cap (in root)</div>
-                            <div class="component-item">Leaf primordia (in shoot)</div>
-                            <div class="component-item">Procambium</div>
-                            <div class="component-item">Ground meristem</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Tips of roots and shoots where primary growth occurs</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Primary growth and cell division</li>
-                                <li>Protection during growth</li>
-                                <li>Development of new leaves</li>
-                                <li>Develops into vascular tissue</li>
-                                <li>Forms cortex and pith</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 14: Trichomes -->
-                <div class="slide-card" data-category="leaf">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 14</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/trichomes.jpg" alt="Trichomes" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Trichomes (Plant Hairs)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Unicellular trichomes</div>
-                            <div class="component-item">Multicellular trichomes</div>
-                            <div class="component-item">Glandular trichomes</div>
-                            <div class="component-item">Epidermal cells</div>
-                            <div class="component-item">Secretory cells</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Surface of leaves, stems, and roots as extensions of epidermal cells</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Simple protection</li>
-                                <li>Enhanced protection and support</li>
-                                <li>Secretion of oils, toxins, or other compounds</li>
-                                <li>Attachment of trichomes</li>
-                                <li>Production of secretory products</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 15: Collenchyma Tissue -->
-                <div class="slide-card" data-category="stem">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 15</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/collenchyma.jpg" alt="Collenchyma Tissue" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Collenchyma Tissue</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Collenchyma cells</div>
-                            <div class="component-item">Thickened cell walls</div>
-                            <div class="component-item">Living cells</div>
-                            <div class="component-item">Cellulose and pectin</div>
-                            <div class="component-item">Chloroplasts (sometimes)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Beneath epidermis in stems, petioles, and leaf veins, especially in herbaceous plants</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Flexible support for growing tissues</li>
-                                <li>Mechanical strength</li>
-                                <li>Allow continued growth</li>
-                                <li>Structural integrity</li>
-                                <li>Photosynthesis (when present)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 16: Sclerenchyma Tissue -->
-                <div class="slide-card" data-category="stem">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 16</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/sclerenchyma.jpg" alt="Sclerenchyma Tissue" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Sclerenchyma Tissue</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Sclerenchyma fibers</div>
-                            <div class="component-item">Sclereids (stone cells)</div>
-                            <div class="component-item">Lignified walls</div>
-                            <div class="component-item">Dead cells at maturity</div>
-                            <div class="component-item">Thick secondary walls</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Throughout plant body - fibers in vascular bundles, sclereids in seed coats, nut shells, and stone fruits</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Structural support and strength</li>
-                                <li>Protection of seeds and fruits</li>
-                                <li>Rigid support framework</li>
-                                <li>Mechanical strength</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 17: Parenchyma Tissue -->
-                <div class="slide-card" data-category="stem">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 17</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/parenchyma.jpg" alt="Parenchyma Tissue" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Parenchyma Tissue</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Parenchyma cells</div>
-                            <div class="component-item">Thin cell walls</div>
-                            <div class="component-item">Large central vacuole</div>
-                            <div class="component-item">Living cells</div>
-                            <div class="component-item">Intercellular spaces</div>
-                            <div class="component-item">Chloroplasts (in some)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Throughout plant body - cortex, pith, mesophyll, and as packing tissue around other tissues</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Storage of nutrients and water</li>
-                                <li>Flexibility and protection</li>
-                                <li>Turgor pressure maintenance</li>
-                                <li>Metabolic activities</li>
-                                <li>Gas exchange</li>
-                                <li>Photosynthesis (chlorenchyma)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 18: Epidermis with Cuticle -->
-                <div class="slide-card" data-category="leaf">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 18</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/epidermis_cuticle.jpg" alt="Epidermis with Cuticle" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Epidermis with Cuticle</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Epidermal cells</div>
-                            <div class="component-item">Cuticle layer</div>
-                            <div class="component-item">Cuticular wax</div>
-                            <div class="component-item">Anticlinal walls</div>
-                            <div class="component-item">Guard cells</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Outermost layer of leaves, young stems, and other aerial plant parts</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Primary protection</li>
-                                <li>Waterproofing and protection</li>
-                                <li>Additional water resistance</li>
-                                <li>Structural integrity</li>
-                                <li>Gas exchange regulation</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 19: Endodermis -->
-                <div class="slide-card" data-category="root">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 19</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/endodermis.jpg" alt="Endodermis" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Endodermis</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Endodermal cells</div>
-                            <div class="component-item">Casparian strip</div>
-                            <div class="component-item">Passage cells</div>
-                            <div class="component-item">Suberin deposits</div>
-                            <div class="component-item">Plasmodesmata</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Innermost layer of cortex in roots, surrounding the stele</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Selective barrier</li>
-                                <li>Blocks apoplastic movement</li>
-                                <li>Allow selective transport</li>
-                                <li>Waterproof barrier</li>
-                                <li>Cell-to-cell communication</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 20: Vascular Bundle -->
-                <div class="slide-card" data-category="stem">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 20</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/vascular_bundle.jpg" alt="Vascular Bundle" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Vascular Bundle</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Xylem tissue</div>
-                            <div class="component-item">Phloem tissue</div>
-                            <div class="component-item">Cambium (in dicots)</div>
-                            <div class="component-item">Bundle sheath</div>
-                            <div class="component-item">Sclerenchyma fibers</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <div class="content-text">Stems, roots, and leaves - arranged in ring (dicots) or scattered (monocots)</div>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Water and mineral transport</li>
-                                <li>Sugar and organic compound transport</li>
-                                <li>Secondary growth (dicots)</li>
-                                <li>Protection of vascular tissues</li>
-                                <li>Additional support</li>
-                            </ul>
-                        </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Structural support</li>
+                            <li>Transport of water and nutrients</li>
+                            <li>Storage of food and water</li>
+                        </ul>
                     </div>
                 </div>
             </div>
 
-  <div style="position:fixed; left:20px; top:20px; z-index:2000;">
-    <a href="index.html" style="text-decoration:none; background:#22c55e; color:white; padding:10px 14px; border-radius:10px; font-weight:600;">
-        گەڕانەوە بۆ پەڕەی سەرەکی
-    </a>
-</div>
+            <!-- Slide 2: Monocot Stem Cross Section -->
+            <div class="slide-card" data-category="stem">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 2</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/monocot_stem.jpg" alt="Monocot Stem Cross Section" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Monocot Stem Cross Section</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Epidermis</div>
+                        <div class="component-item">Ground tissue</div>
+                        <div class="component-item">Scattered vascular bundles</div>
+                        <div class="component-item">Bundle sheath</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Cross-sectional view of monocotyledonous plant stem</li>
+                            <li>Grasses, palms, and other monocot plants</li>
+                            <li>Stems of corn, wheat, bamboo</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Structural support</li>
+                            <li>Transport of water and nutrients</li>
+                            <li>Storage of food and water</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Slide 3: Root Cross Section -->
+            <div class="slide-card" data-category="root">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 3</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/root_cross_section.jpg" alt="Root Cross Section" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Root Cross Section</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Root hairs</div>
+                        <div class="component-item">Epidermal cells</div>
+                        <div class="component-item">Cortical cells</div>
+                        <div class="component-item">Root cap</div>
+                        <div class="component-item">Vascular tissue</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Zone behind the root tip</li>
+                            <li>Area of maximum water absorption</li>
+                            <li>Maturation zone of root</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Maximum surface area for absorption</li>
+                            <li>Water and mineral uptake</li>
+                            <li>Storage and support</li>
+                            <li>Protection during growth</li>
+                            <li>Transport to aerial parts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 4: Leaf Cross Section -->
+            <div class="slide-card" data-category="leaf">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 4</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/leaf_cross_section.jpg" alt="Leaf Cross Section" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Leaf Cross Section</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Upper epidermis</div>
+                        <div class="component-item">Palisade mesophyll</div>
+                        <div class="component-item">Spongy mesophyll</div>
+                        <div class="component-item">Lower epidermis</div>
+                        <div class="component-item">Stomata</div>
+                        <div class="component-item">Vascular bundles</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Cross-sectional view of a typical dicot leaf</li>
+                            <li>Dorsiventral leaf structure</li>
+                            <li>Photosynthetic organs of plants</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Photosynthesis</li>
+                            <li>Gas exchange</li>
+                            <li>Transpiration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Woody Stem Cross Section -->
+            <div class="slide-card" data-category="stem">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 5</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/woody_stem.jpg" alt="Woody Stem Cross Section" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Woody Stem Cross Section</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Bark (outer)</div>
+                        <div class="component-item">Secondary phloem</div>
+                        <div class="component-item">Vascular cambium</div>
+                        <div class="component-item">Secondary xylem (wood)</div>
+                        <div class="component-item">Annual rings</div>
+                        <div class="component-item">Ray cells</div>
+                        <div class="component-item">Heartwood</div>
+                        <div class="component-item">Sapwood</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Perennial woody plant stems</li>
+                            <li>Trees and shrubs</li>
+                            <li>Stems showing secondary growth</li>
+                            <li>Mature dicotyledonous plants</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Protection</li>
+                            <li>Sugar transport</li>
+                            <li>Secondary growth</li>
+                            <li>Water transport and support</li>
+                            <li>Record of seasonal growth</li>
+                            <li>Radial transport</li>
+                            <li>Structural support</li>
+                            <li>Active water transport</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Stomata -->
+            <div class="slide-card" data-category="leaf">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 6</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/stomata.jpg" alt="Stomata Structure" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Stomata Structure</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Guard cells</div>
+                        <div class="component-item">Stomatal pore</div>
+                        <div class="component-item">Subsidiary cells</div>
+                        <div class="component-item">Epidermal cells</div>
+                        <div class="component-item">Chloroplasts (in guard cells)</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Lower epidermis of leaves (primarily)</li>
+                            <li>Upper epidermis of some leaves</li>
+                            <li>Young stems and green shoots</li>
+                            <li>Aquatic plant leaves (upper surface)</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Control gas exchange</li>
+                            <li>Opening for CO₂ and O₂ exchange</li>
+                            <li>Support guard cell function</li>
+                            <li>Protection</li>
+                            <li>Enable photosynthesis in guard cells</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 7: Root Hair Zone -->
+            <div class="slide-card" data-category="root">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 7</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/root_hair_zone.jpg" alt="Root Hair Zone" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Root Hair Zone</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Root hairs</div>
+                        <div class="component-item">Epidermis</div>
+                        <div class="component-item">Cortex</div>
+                        <div class="component-item">Endodermis</div>
+                        <div class="component-item">Pericycle</div>
+                        <div class="component-item">Xylem</div>
+                        <div class="component-item">Phloem</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Underground root system of plants</li>
+                            <li>Primary and secondary roots</li>
+                            <li>Zone of maturation in root tip</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Absorption of water and minerals</li>
+                            <li>Anchorage and support</li>
+                            <li>Storage of food</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Vessel Elements -->
+            <div class="slide-card" data-category="stem">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 8</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/vessel_elements.jpg" alt="Vessel Elements" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Vessel Elements (Xylem)</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Vessel elements</div>
+                        <div class="component-item">Perforation plates</div>
+                        <div class="component-item">Lignified walls</div>
+                        <div class="component-item">Pits</div>
+                        <div class="component-item">Tracheids</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Xylem tissue in stems</li>
+                            <li>Xylem tissue in roots</li>
+                            <li>Leaf veins (vascular bundles)</li>
+                            <li>Secondary xylem in woody plants</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Efficient water transport</li>
+                            <li>Allow continuous water flow</li>
+                            <li>Structural support</li>
+                            <li>Lateral water movement</li>
+                            <li>Water conduction and support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Phloem Tissue -->
+            <div class="slide-card" data-category="stem">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 9</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/phloem_tissue.jpg" alt="Phloem Tissue" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Phloem Tissue</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Sieve tube elements</div>
+                        <div class="component-item">Companion cells</div>
+                        <div class="component-item">Sieve plates</div>
+                        <div class="component-item">Phloem parenchyma</div>
+                        <div class="component-item">Phloem fibers</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Vascular bundles in stems</li>
+                            <li>Vascular bundles in roots</li>
+                            <li>Leaf veins</li>
+                            <li>Secondary phloem in woody plants</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Sugar transport</li>
+                            <li>Support sieve tube function</li>
+                            <li>Allow flow between sieve tubes</li>
+                            <li>Storage</li>
+                            <li>Structural support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Palisade Mesophyll -->
+            <div class="slide-card" data-category="leaf">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 10</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/palisade_mesophyll.jpg" alt="Palisade Mesophyll" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Palisade Mesophyll</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Palisade cells (columnar)</div>
+                        <div class="component-item">Chloroplasts</div>
+                        <div class="component-item">Large vacuole</div>
+                        <div class="component-item">Cell wall</div>
+                        <div class="component-item">Intercellular spaces</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Upper portion of leaf mesophyll</li>
+                            <li>Directly below upper epidermis</li>
+                            <li>Primary photosynthetic layer</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Primary photosynthesis</li>
+                            <li>Light capture and photosynthesis</li>
+                            <li>Storage and turgor pressure</li>
+                            <li>Structural support</li>
+                            <li>Gas exchange</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Spongy Mesophyll -->
+            <div class="slide-card" data-category="leaf">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 11</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/spongy_mesophyll.jpg" alt="Spongy Mesophyll" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Spongy Mesophyll</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Spongy parenchyma cells</div>
+                        <div class="component-item">Large air spaces</div>
+                        <div class="component-item">Chloroplasts</div>
+                        <div class="component-item">Vascular bundles</div>
+                        <div class="component-item">Irregular cell shapes</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Lower portion of leaf mesophyll</li>
+                            <li>Between palisade layer and lower epidermis</li>
+                            <li>Gas exchange region of leaf</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Gas exchange</li>
+                            <li>CO₂ and O₂ circulation</li>
+                            <li>Photosynthesis support</li>
+                            <li>Transport of materials</li>
+                            <li>Maximize gas exchange surface</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Cork Cambium -->
+            <div class="slide-card" data-category="stem">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 12</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/cork_cambium.jpg" alt="Cork Cambium" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Cork Cambium (Phellogen)</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Cork cambium cells</div>
+                        <div class="component-item">Cork cells (phellem)</div>
+                        <div class="component-item">Phelloderm</div>
+                        <div class="component-item">Lenticels</div>
+                        <div class="component-item">Periderm</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Outer region of woody stems</li>
+                            <li>Outer region of woody roots</li>
+                            <li>Secondary growth areas</li>
+                            <li>Mature bark regions</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Produces cork tissue</li>
+                            <li>Protection and waterproofing</li>
+                            <li>Additional protective tissue</li>
+                            <li>Gas exchange through bark</li>
+                            <li>Complete protective barrier</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: Apical Meristem -->
+            <div class="slide-card" data-category="root">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 13</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/apical_meristem.jpg" alt="Apical Meristem" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Apical Meristem</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Meristematic cells</div>
+                        <div class="component-item">Root cap (in root)</div>
+                        <div class="component-item">Leaf primordia (in shoot)</div>
+                        <div class="component-item">Procambium</div>
+                        <div class="component-item">Ground meristem</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Tips of roots (root apical meristem)</li>
+                            <li>Tips of shoots (shoot apical meristem)</li>
+                            <li>Growing points of stems</li>
+                            <li>Primary growth zones</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Primary growth and cell division</li>
+                            <li>Protection during growth</li>
+                            <li>Development of new leaves</li>
+                            <li>Develops into vascular tissue</li>
+                            <li>Forms cortex and pith</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14: Trichomes -->
+            <div class="slide-card" data-category="leaf">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 14</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/trichomes.jpg" alt="Trichomes" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Trichomes (Plant Hairs)</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Unicellular trichomes</div>
+                        <div class="component-item">Multicellular trichomes</div>
+                        <div class="component-item">Glandular trichomes</div>
+                        <div class="component-item">Epidermal cells</div>
+                        <div class="component-item">Secretory cells</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Surface of leaves</li>
+                            <li>Surface of stems</li>
+                            <li>Surface of roots</li>
+                            <li>Extensions of epidermal cells</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Simple protection</li>
+                            <li>Enhanced protection and support</li>
+                            <li>Secretion of oils, toxins, or other compounds</li>
+                            <li>Attachment of trichomes</li>
+                            <li>Production of secretory products</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Collenchyma Tissue -->
+            <div class="slide-card" data-category="stem">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 15</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/collenchyma.jpg" alt="Collenchyma Tissue" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Collenchyma Tissue</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Collenchyma cells</div>
+                        <div class="component-item">Thickened cell walls</div>
+                        <div class="component-item">Living cells</div>
+                        <div class="component-item">Cellulose and pectin</div>
+                        <div class="component-item">Chloroplasts (sometimes)</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Beneath epidermis in stems</li>
+                            <li>Petioles of leaves</li>
+                            <li>Leaf veins</li>
+                            <li>Herbaceous plant stems</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Flexible support for growing tissues</li>
+                            <li>Mechanical strength</li>
+                            <li>Allow continued growth</li>
+                            <li>Structural integrity</li>
+                            <li>Photosynthesis (when present)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 16: Sclerenchyma Tissue -->
+            <div class="slide-card" data-category="stem">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 16</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/sclerenchyma.jpg" alt="Sclerenchyma Tissue" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Sclerenchyma Tissue</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Sclerenchyma fibers</div>
+                        <div class="component-item">Sclereids (stone cells)</div>
+                        <div class="component-item">Lignified walls</div>
+                        <div class="component-item">Dead cells at maturity</div>
+                        <div class="component-item">Thick secondary walls</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Vascular bundles (fibers)</li>
+                            <li>Seed coats (sclereids)</li>
+                            <li>Nut shells (sclereids)</li>
+                            <li>Stone fruits (sclereids)</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Structural support and strength</li>
+                            <li>Protection of seeds and fruits</li>
+                            <li>Rigid support framework</li>
+                            <li>Mechanical strength</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 17: Parenchyma Tissue -->
+            <div class="slide-card" data-category="stem">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 17</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/parenchyma.jpg" alt="Parenchyma Tissue" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Parenchyma Tissue</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Parenchyma cells</div>
+                        <div class="component-item">Thin cell walls</div>
+                        <div class="component-item">Large central vacuole</div>
+                        <div class="component-item">Living cells</div>
+                        <div class="component-item">Intercellular spaces</div>
+                        <div class="component-item">Chloroplasts (in some)</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Cortex of stems and roots</li>
+                            <li>Pith of stems</li>
+                            <li>Mesophyll of leaves</li>
+                            <li>Packing tissue around other tissues</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Storage of nutrients and water</li>
+                            <li>Flexibility and protection</li>
+                            <li>Turgor pressure maintenance</li>
+                            <li>Metabolic activities</li>
+                            <li>Gas exchange</li>
+                            <li>Photosynthesis (chlorenchyma)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 18: Epidermis with Cuticle -->
+            <div class="slide-card" data-category="leaf">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 18</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/epidermis_cuticle.jpg" alt="Epidermis with Cuticle" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Epidermis with Cuticle</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Epidermal cells</div>
+                        <div class="component-item">Cuticle layer</div>
+                        <div class="component-item">Cuticular wax</div>
+                        <div class="component-item">Anticlinal walls</div>
+                        <div class="component-item">Guard cells</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Outermost layer of leaves</li>
+                            <li>Outermost layer of young stems</li>
+                            <li>Aerial plant parts</li>
+                            <li>Non-woody plant surfaces</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Primary protection</li>
+                            <li>Waterproofing and protection</li>
+                            <li>Additional water resistance</li>
+                            <li>Structural integrity</li>
+                            <li>Gas exchange regulation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 19: Endodermis -->
+            <div class="slide-card" data-category="root">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 19</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/endodermis.jpg" alt="Endodermis" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Endodermis</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Endodermal cells</div>
+                        <div class="component-item">Casparian strip</div>
+                        <div class="component-item">Passage cells</div>
+                        <div class="component-item">Suberin deposits</div>
+                        <div class="component-item">Plasmodesmata</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Innermost layer of cortex in roots</li>
+                            <li>Surrounding the stele</li>
+                            <li>Between cortex and vascular cylinder</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Selective barrier</li>
+                            <li>Blocks apoplastic movement</li>
+                            <li>Allow selective transport</li>
+                            <li>Waterproof barrier</li>
+                            <li>Cell-to-cell communication</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 20: Vascular Bundle -->
+            <div class="slide-card" data-category="stem">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 20</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/vascular_bundle.jpg" alt="Vascular Bundle" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Vascular Bundle</div>
+
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Xylem tissue</div>
+                        <div class="component-item">Phloem tissue</div>
+                        <div class="component-item">Cambium (in dicots)</div>
+                        <div class="component-item">Bundle sheath</div>
+                        <div class="component-item">Sclerenchyma fibers</div>
+                    </div>
+
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Stems - arranged in ring (dicots)</li>
+                            <li>Stems - scattered (monocots)</li>
+                            <li>Roots - central arrangement</li>
+                            <li>Leaves - as leaf veins</li>
+                        </ul>
+                    </div>
+
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Water and mineral transport</li>
+                            <li>Sugar and organic compound transport</li>
+                            <li>Secondary growth (dicots)</li>
+                            <li>Protection of vascular tissues</li>
+                            <li>Additional support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const slideCards = document.querySelectorAll('.slide-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                slideCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Progress bar functionality
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressFill').style.width = scrolled + '%';
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation to cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all slide cards
+        slideCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Print functionality
+        function printPage() {
+            window.print();
+        }
+    </script>
 </body>
 </html>
+
+            

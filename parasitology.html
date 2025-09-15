@@ -766,9 +766,714 @@ body {
     </style>
 </head>
 <body>
-    <div>بەم زوانە بەردەست دەبێت</div>
-    <div>coming soon</div>
+ <!-- Parasitology Chapter -->
+        <div class="chapter-page" id="parasitology">
+            <div class="chapter-header">
+                <div class="chapter-number">Chapter 4</div>
+                <h2 class="chapter-main-title">🦠 Parasitology - Study of Parasites</h2>
+                <p class="chapter-description">Microscopic examination of parasitic organisms</p>
+            </div>
 
-    <a href="index.html">گەڕانەوە بۆ پەڕەی سەرەکی</a>
+            <!-- Filter controls -->
+            <div class="filter-controls">
+                <button class="filter-btn active" data-filter="all">All Slides</button>
+                <button class="filter-btn" data-filter="protozoan">Protozoan</button>
+                <button class="filter-btn" data-filter="helminth">Helminth</button>
+                <button class="filter-btn" data-filter="egg">Eggs</button>
+            </div>
+
+            <div class="slide-grid">
+                <!-- Slide 1: Entamoeba histolytica -->
+                <div class="slide-card" data-category="protozoan">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 1</div>
+                    </div>
+                    <div class="image-wrapper">
+                        <img src="images/entamoeba_histolytica.jpg" alt="Entamoeba histolytica" class="slide-image" />
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-title">Entamoeba histolytica</div>
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Trophozoite stage</div>
+                            <div class="component-item">Cyst stage</div>
+                            <div class="component-item">Nucleus with central karyosome</div>
+                            <div class="component-item">Cytoplasm with ingested RBCs</div>
+                        </div>
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Large intestine, liver, stool samples</div>
+                        </div>
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Amoebic dysentery</li>
+                                <li>Liver abscess</li>
+                                <li>Intestinal ulceration</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Slide 2: Giardia lamblia -->
+                <div class="slide-card" data-category="protozoan">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 2</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Giardia lamblia</div>
+                        <div class="slide-title">Giardia lamblia</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Two nuclei</div>
+                            <div class="component-item">Four pairs of flagella</div>
+                            <div class="component-item">Adhesive disc</div>
+                            <div class="component-item">Cytoplasm</div>
+                            <div class="component-item">Axostyle</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Small intestine (duodenum), stool samples</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Giardiasis</li>
+                                <li>Malabsorption syndrome</li>
+                                <li>Chronic diarrhea</li>
+                                <li>Steatorrhea</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Plasmodium vivax -->
+                <div class="slide-card" data-category="protozoan">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 3</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Plasmodium vivax</div>
+                        <div class="slide-title">Plasmodium vivax</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Nucleus</div>
+                            <div class="component-item">Cytoplasm</div>
+                            <div class="component-item">Apicoplast</div>
+                            <div class="component-item">Merozoites</div>
+                            <div class="component-item">Schizonts</div>
+                            <div class="component-item">Sporozoites</div>
+                            <div class="component-item">Gametocytes</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Red blood cells, liver cells (hepatocytes), blood smears</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Malaria (tertian fever)</li>
+                                <li>Cyclical fever every 48 hours</li>
+                                <li>Hemolytic anemia</li>
+                                <li>Splenomegaly</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 4: Plasmodium falciparum -->
+                <div class="slide-card" data-category="protozoan">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 4</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Plasmodium falciparum</div>
+                        <div class="slide-title">Plasmodium falciparum</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Nucleus</div>
+                            <div class="component-item">Apicoplast</div>
+                            <div class="component-item">Cytoplasm</div>
+                            <div class="component-item">Merozoites</div>
+                            <div class="component-item">Trophozoites</div>
+                            <div class="component-item">Schizonts</div>
+                            <div class="component-item">Sporozoites</div>
+                            <div class="component-item">Gametocytes</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Red blood cells, capillaries of brain and other organs, blood smears</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Malignant malaria</li>
+                                <li>Cerebral malaria</li>
+                                <li>Blackwater fever</li>
+                                <li>Multiple organ failure</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 5: Trypanosoma gambiense -->
+                <div class="slide-card" data-category="protozoan">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 5</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Trypanosoma gambiense</div>
+                        <div class="slide-title">Trypanosoma gambiense</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Single nucleus</div>
+                            <div class="component-item">Flagellum</div>
+                            <div class="component-item">Undulating membrane</div>
+                            <div class="component-item">Kinetoplast</div>
+                            <div class="component-item">Cytoplasm</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Blood, lymphatic system, cerebrospinal fluid, blood smears</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>African sleeping sickness</li>
+                                <li>Chronic CNS involvement</li>
+                                <li>Lymphadenopathy</li>
+                                <li>Progressive neurological symptoms</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 6: Leishmania donovani -->
+                <div class="slide-card" data-category="protozoan">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 6</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Leishmania donovani</div>
+                        <div class="slide-title">Leishmania donovani</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Single nucleus</div>
+                            <div class="component-item">Kinetoplast</div>
+                            <div class="component-item">Flagellum (in promastigote form)</div>
+                            <div class="component-item">Cytoplasm</div>
+                            <div class="component-item">Axoneme</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Macrophages in spleen, liver, bone marrow, lymph nodes</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Visceral leishmaniasis (Kala-azar)</li>
+                                <li>Hepatosplenomegaly</li>
+                                <li>Fever and weight loss</li>
+                                <li>Pancytopenia</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 7: Balantidium coli -->
+                <div class="slide-card" data-category="protozoan">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 7</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Balantidium coli</div>
+                        <div class="slide-title">Balantidium coli</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Macronucleus</div>
+                            <div class="component-item">Micronucleus</div>
+                            <div class="component-item">Cilia</div>
+                            <div class="component-item">Cytostome (mouth)</div>
+                            <div class="component-item">Cytoplasm</div>
+                            <div class="component-item">Contractile vacuole</div>
+                            <div class="component-item">Pellicle</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Large intestine, stool samples</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Balantidiasis</li>
+                                <li>Dysentery</li>
+                                <li>Intestinal ulceration</li>
+                                <li>Abdominal pain</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 8: Ascaris lumbricoides -->
+                <div class="slide-card" data-category="helminth">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 8</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Ascaris lumbricoides</div>
+                        <div class="slide-title">Ascaris lumbricoides</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Mouth with three lips</div>
+                            <div class="component-item">Pharynx</div>
+                            <div class="component-item">Long cylindrical body</div>
+                            <div class="component-item">Cuticle (outer covering)</div>
+                            <div class="component-item">Intestine</div>
+                            <div class="component-item">Reproductive organs (separate sexes)</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Small intestine, stool samples, sometimes vomited or passed through nose/mouth</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Ascariasis</li>
+                                <li>Intestinal obstruction</li>
+                                <li>Malnutrition</li>
+                                <li>Pneumonia (larval migration)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 9: Enterobius vermicularis -->
+                <div class="slide-card" data-category="helminth">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 9</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Enterobius vermicularis</div>
+                        <div class="slide-title">Enterobius vermicularis</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Cylindrical body with pointed tail</div>
+                            <div class="component-item">Mouth with three lips</div>
+                            <div class="component-item">Esophagus</div>
+                            <div class="component-item">Intestine</div>
+                            <div class="component-item">Reproductive organs</div>
+                            <div class="component-item">Cuticle</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Large intestine, perianal area, stool samples, perianal swabs</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Enterobiasis (pinworm infection)</li>
+                                <li>Anal itching</li>
+                                <li>Sleep disturbance</li>
+                                <li>Secondary bacterial infection</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 10: Giardia lamblia (duplicate entry) -->
+                <div class="slide-card" data-category="protozoan">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 10</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Giardia lamblia (Cyst)</div>
+                        <div class="slide-title">Giardia lamblia - Cyst Form</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Nucleus (two)</div>
+                            <div class="component-item">Flagella (eight)</div>
+                            <div class="component-item">Adhesive disc</div>
+                            <div class="component-item">Axostyle</div>
+                            <div class="component-item">Cyst wall</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Small intestine, contaminated water and food, stool samples</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Giardiasis</li>
+                                <li>Traveler's diarrhea</li>
+                                <li>Chronic malabsorption</li>
+                                <li>Failure to thrive in children</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 11: Schistosoma haematobium egg -->
+                <div class="slide-card" data-category="egg">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 11</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Schistosoma haematobium egg</div>
+                        <div class="slide-title">Schistosoma haematobium - Egg</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Shell</div>
+                            <div class="component-item">Miracidium</div>
+                            <div class="component-item">Terminal spine</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Urinary bladder, ureters, urine samples</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Urinary schistosomiasis</li>
+                                <li>Hematuria</li>
+                                <li>Bladder cancer risk</li>
+                                <li>Chronic cystitis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 12: Fasciola hepatica -->
+                <div class="slide-card" data-category="helminth">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 12</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Fasciola hepatica</div>
+                        <div class="slide-title">Fasciola hepatica</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Oral sucker</div>
+                            <div class="component-item">Ventral sucker (acetabulum)</div>
+                            <div class="component-item">Intestinal caeca</div>
+                            <div class="component-item">Reproductive organs</div>
+                            <div class="component-item">Excretory bladder</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Liver, bile ducts, gallbladder, stool samples</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Fascioliasis</li>
+                                <li>Hepatomegaly</li>
+                                <li>Biliary obstruction</li>
+                                <li>Eosinophilia</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Continue with remaining parasitology slides... -->
+                <!-- Adding a few more key slides -->
+
+                <!-- Slide 13: Trichuris trichiura egg -->
+                <div class="slide-card" data-category="egg">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 13</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Trichuris trichiura egg</div>
+                        <div class="slide-title">Trichuris trichiura - Egg</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Shell</div>
+                            <div class="component-item">Embryo (larva)</div>
+                            <div class="component-item">Polar plugs (bipolar)</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Large intestine, cecum, stool samples</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Trichuriasis (whipworm infection)</li>
+                                <li>Bloody diarrhea</li>
+                                <li>Rectal prolapse</li>
+                                <li>Growth retardation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 14: Ancylostoma duodenale egg -->
+                <div class="slide-card" data-category="egg">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 14</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Ancylostoma duodenale egg</div>
+                        <div class="slide-title">Ancylostoma duodenale - Egg</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Shell</div>
+                            <div class="component-item">Morula (developing embryo)</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Small intestine, duodenum, stool samples</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Hookworm infection</li>
+                                <li>Iron deficiency anemia</li>
+                                <li>Ground itch</li>
+                                <li>Protein-energy malnutrition</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 15: Plasmodium malariae -->
+                <div class="slide-card" data-category="protozoan">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 15</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Plasmodium malariae</div>
+                        <div class="slide-title">Plasmodium malariae</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Ring stage (early trophozoite)</div>
+                            <div class="component-item">Trophozoite</div>
+                            <div class="component-item">Schizont with merozoites</div>
+                            <div class="component-item">Pigment granules (hemozoin)</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Red blood cells, blood smears</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Zoonotic malaria</li>
+                                <li>24-hour fever cycle</li>
+                                <li>Severe malaria symptoms</li>
+                                <li>Rapid progression</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                 <!-- Slide 16: Plasmodium knowlesi -->
+                <div class="slide-card" data-category="protozoan">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 16</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Plasmodium knowlesi</div>
+                        <div class="slide-title">Plasmodium knowlesi</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Ring stage (early trophozoite)</div>
+                            <div class="component-item">Trophozoite</div>
+                            <div class="component-item">Schizont with merozoites</div>
+                            <div class="component-item">Pigment granules (hemozoin)</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Red blood cells, blood smears</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Quartan malaria</li>
+                                <li>72-hour fever cycle</li>
+                                <li>Chronic infection</li>
+                                <li>Nephrotic syndrome (complications)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 17: Dientamoeba fragilis -->
+                <div class="slide-card" data-category="protozoan">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 17</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Dientamoeba fragilis</div>
+                        <div class="slide-title">Dientamoeba fragilis</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Nucleus (usually two)</div>
+                            <div class="component-item">Cytoplasm</div>
+                            <div class="component-item">Food vacuoles</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Large intestine, stool samples</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Dientamoebiasis</li>
+                                <li>Chronic diarrhea</li>
+                                <li>Abdominal pain</li>
+                                <li>Flatulence</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 18: Hymenolepis nana egg -->
+                <div class="slide-card" data-category="egg">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 18</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Hymenolepis nana egg</div>
+                        <div class="slide-title">Hymenolepis nana - Egg</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Outer shell</div>
+                            <div class="component-item">Oncosphere (embryo)</div>
+                            <div class="component-item">Polar filaments</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Small intestine, stool samples</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Hymenolepiasis</li>
+                                <li>Abdominal discomfort</li>
+                                <li>Diarrhea</li>
+                                <li>Weight loss</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 19: Hymenolepis diminuta egg -->
+                <div class="slide-card" data-category="egg">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 19</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Hymenolepis diminuta egg</div>
+                        <div class="slide-title">Hymenolepis diminuta - Egg</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Outer shell</div>
+                            <div class="component-item">Oncosphere (embryo)</div>
+                            <div class="component-item">Yolk granules</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Small intestine, stool samples</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Hymenolepiasis</li>
+                                <li>Usually asymptomatic</li>
+                                <li>Mild gastrointestinal symptoms</li>
+                                <li>Rarely heavy infections</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 20: Trichinella spiralis -->
+                <div class="slide-card" data-category="helminth">
+                    <div class="slide-header">
+                        <div class="slide-number">Slide 20</div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-image-placeholder">🔬 Trichinella spiralis</div>
+                        <div class="slide-title">Trichinella spiralis</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Components:</div>
+                            <div class="component-item">Encysted larva</div>
+                            <div class="component-item">Nurse cell</div>
+                            <div class="component-item">Cyst wall</div>
+                        </div>
+
+                        <div class="location-section">
+                            <div class="section-title">📍 Location:</div>
+                            <div class="content-text">Striated muscle tissue, muscle biopsy</div>
+                        </div>
+
+                        <div class="function-section">
+                            <div class="section-title">🦠 Disease:</div>
+                            <ul class="function-list">
+                                <li>Trichinosis</li>
+                                <li>Muscle pain and weakness</li>
+                                <li>Periorbital edema</li>
+                                <li>Myocarditis (severe cases)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
 </html>

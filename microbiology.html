@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ku" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>مایکرۆبایۆلۆجی - Coming Soon</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbiology Chapter - بەشی مایکرۆبایۆلۆجی</title>
     <style>
-       * {
+        * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
+        
 @font-face {
     font-family: 'NotoKufiArabic';
     src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
@@ -367,11 +367,19 @@ body {
 }
 
 .slide-header {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
     color: white;
     padding: 25px;
     text-align: center;
     position: relative;
+}
+
+.slide-header.gram-positive {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+}
+
+.slide-header.gram-negative {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
 }
 
 .slide-header::after {
@@ -394,20 +402,11 @@ body {
     height: auto;
 }
 
-.image-wrapper {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    background: #f8f9fa;
-}
-
-.slide-image {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e9ecef;
+.organism-icon {
+    font-size: 4em;
+    text-align: center;
+    margin: 20px 0;
+    opacity: 0.8;
 }
 
 .slide-title {
@@ -415,38 +414,36 @@ body {
     color: #0f172a;
     margin-bottom: 20px;
     font-size: 1.4em;
-    border-bottom: 2px solid #22c55e;
+    border-bottom: 2px solid #dc2626;
     padding-bottom: 10px;
+    text-align: center;
 }
 
-.components-list {
-    margin: 20px 0;
+.slide-title.gram-positive {
+    border-bottom-color: #7c3aed;
 }
 
-.components-title {
-    color: #1e293b;
+.gram-stain {
+    text-align: center;
     font-weight: 700;
-    margin-bottom: 15px;
     font-size: 1.1em;
-}
-
-.component-item {
-    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-    padding: 12px 16px;
-    margin: 8px 0;
+    margin-bottom: 20px;
+    padding: 10px 15px;
     border-radius: 10px;
-    border-left: 4px solid #22c55e;
-    transition: all 0.3s ease;
 }
 
-.component-item:hover {
-    transform: translateX(5px);
-    background: linear-gradient(135deg, #bbf7d0, #a7f3d0);
+.gram-positive {
+    background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
+    color: #7c3aed;
 }
 
-.location-section, 
-.function-section {
-    margin: 25px 0;
+.gram-negative {
+    background: linear-gradient(135deg, #fecaca, #fca5a5);
+    color: #dc2626;
+}
+
+.characteristics-section {
+    margin: 20px 0;
 }
 
 .section-title {
@@ -467,64 +464,49 @@ body {
     border-radius: 2px;
 }
 
-/* Updated Location List Styling */
-.location-list {
-    list-style: none;
-    padding: 0;
-    margin: 15px 0;
+.characteristic-item {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    padding: 10px 15px;
+    margin: 6px 0;
+    border-radius: 8px;
+    border-left: 3px solid #0ea5e9;
+    font-size: 0.95em;
 }
 
-.location-list li {
-    background: linear-gradient(135deg, #e0f2fe, #b3e5fc);
-    padding: 12px 16px;
-    margin: 8px 0;
-    border-radius: 10px;
-    border-left: 4px solid #0891b2;
-    transition: all 0.3s ease;
-    position: relative;
+.virulence-section {
+    margin: 20px 0;
 }
 
-.location-list li:hover {
-    transform: translateX(5px);
-    background: linear-gradient(135deg, #b3e5fc, #81d4fa);
-}
-
-.location-list li::before {
-    content: '📍';
-    margin-right: 8px;
-    font-size: 1.1em;
-}
-
-.content-text {
-    color: #475569;
-    line-height: 1.7;
-    font-size: 1.05em;
-}
-
-.function-list {
-    list-style: none;
-    padding: 0;
-}
-
-.function-list li {
+.virulence-item {
     background: linear-gradient(135deg, #fef3c7, #fde68a);
     padding: 12px 16px;
     margin: 8px 0;
     border-radius: 10px;
     border-left: 4px solid #f59e0b;
     transition: all 0.3s ease;
-    position: relative;
 }
 
-.function-list li:hover {
+.virulence-item:hover {
     transform: translateX(5px);
     background: linear-gradient(135deg, #fde68a, #fcd34d);
 }
 
-.function-list li::before {
-    content: '▶';
-    color: #f59e0b;
-    margin-right: 8px;
+.clinical-section {
+    margin: 20px 0;
+}
+
+.clinical-item {
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    padding: 12px 16px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border-left: 4px solid #ef4444;
+    transition: all 0.3s ease;
+}
+
+.clinical-item:hover {
+    transform: translateX(5px);
+    background: linear-gradient(135deg, #fecaca, #fca5a5);
 }
 
 /* Search functionality */
@@ -622,57 +604,6 @@ body {
     color: white;
 }
 
-/* Slide navigation controls */
-.slide-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-}
-
-.slide-nav-btn {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.slide-nav-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-}
-
-.slide-nav-btn.prev {
-    background: linear-gradient(135deg, #64748b, #475569);
-}
-
-.chapter-indicator {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 10px;
-}
-
-.chapter-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #cbd5e1;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.chapter-dot.active {
-    background: #3b82f6;
-    transform: scale(1.3);
-}
-
 /* Print styles */
 @media print {
     .nav-bar, 
@@ -726,22 +657,6 @@ body {
     .search-input:focus {
         width: 220px;
     }
-    
-    .toc-link {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .chapter-icon {
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-    
-    .chapter-info {
-        text-align: left;
-        width: 100%;
-        margin-top: 10px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -752,49 +667,633 @@ body {
     .subtitle {
         font-size: 1.4em;
     }
-    
-    .slide-nav {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .slide-nav-btn {
-        width: 100%;
-        justify-content: center;
-    }
 }
     </style>
 </head>
- <!-- Microbiology Chapter -->
-        <div class="chapter-page" id="microbiology">
-            <div class="chapter-header">
-                <div class="chapter-number">Chapter 6</div>
-                <h2 class="chapter-main-title">🦠 Microbiology - Study of Microorganisms</h2>
-                <p class="chapter-description">Study of microscopic organisms and their interactions</p>
-                <p>Microbiology is the scientific study of microorganisms, including bacteria, viruses, fungi, protozoa, and other microscopic life forms. This field examines the structure, function, classification, and interactions of these tiny organisms with each other and their environment. Microbiology is fundamental to understanding infectious diseases, developing antibiotics and vaccines, food preservation, biotechnology, and environmental processes. The field includes medical microbiology (study of pathogenic microbes), environmental microbiology (microbes in ecosystems), industrial microbiology (use of microbes in manufacturing), and molecular microbiology (genetic and biochemical aspects of microbes).</p>
-            </div>
+<body>
+    <div style="position:fixed;left:20px;top:20px;z-index:2000">
+        <a href="https://scence-bio.github.io/Biology/" 
+           style="text-decoration:none;background:#22c55e;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
+            back to home - گەڕانەوە بۆ سەرەکی
+        </a>
+    </div>
 
-            <!-- Placeholder for microbiology slides -->
-            <div class="slide-grid">
-                <div class="slide-card">
-                    <div class="slide-header">
-                        <div class="slide-number">Coming Soon</div>
+    <!-- Progress bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Print button -->
+    <button class="print-btn" title="Print Guide" onclick="window.print()">🖨️</button>
+
+    <!-- Search functionality -->
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search organisms..." id="searchInput">
+    </div>
+
+    <!-- Microbiology Chapter -->
+    <div class="chapter-page" id="microbiology">
+        <div class="chapter-header">
+            <div class="chapter-number">Chapter 2</div>
+            <h2 class="chapter-main-title">🦠 Microbiology - Study of Microorganisms</h2>
+            <p class="chapter-description">Comprehensive study of bacteria, viruses, and other microorganisms</p>
+        </div>
+
+        <!-- Filter controls -->
+        <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">All Organisms</button>
+            <button class="filter-btn" data-filter="gram-positive">Gram Positive</button>
+            <button class="filter-btn" data-filter="gram-negative">Gram Negative</button>
+            <button class="filter-btn" data-filter="anaerobic">Anaerobic</button>
+            <button class="filter-btn" data-filter="aerobic">Aerobic</button>
+        </div>
+
+        <div class="slide-grid">
+            <!-- Staphylococcus aureus -->
+            <div class="slide-card" data-category="gram-positive aerobic">
+                <div class="slide-header gram-positive">
+                    <div class="slide-number">1</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">🔵</div>
+                    <div class="slide-title gram-positive">Staphylococcus aureus</div>
+                    <div class="gram-stain gram-positive">Gram-Positive</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-positive rods in chains (boxcar-shaped)</div>
+                        <div class="characteristic-item">Non-motile (unlike other Bacillus species)</div>
+                        <div class="characteristic-item">Spore-forming: central, oval spores</div>
+                        <div class="characteristic-item">Capsule: polypeptide (poly-D-glutamate)</div>
+                        <div class="characteristic-item">Catalase test: Positive</div>
                     </div>
-                    <div class="slide-content">
-                        <div class="slide-image-placeholder">
-                            🦠 Microbiology Slides
-                            <br>Under Development
-                        </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Anthrax toxin (tripartite exotoxin)</div>
+                        <div class="virulence-item">Protective antigen (PA): binds host cells</div>
+                        <div class="virulence-item">Edema factor (EF): increases cAMP → edema</div>
+                        <div class="virulence-item">Lethal factor (LF): metalloprotease → cell death</div>
+                        <div class="virulence-item">Capsule: inhibits phagocytosis</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Cutaneous anthrax: black eschar with edema</div>
+                        <div class="clinical-item">Inhalational anthrax: severe respiratory distress</div>
+                        <div class="clinical-item">Gastrointestinal anthrax: bloody diarrhea</div>
+                        <div class="clinical-item">Anthrax meningitis: rare, high mortality</div>
+                        <div class="clinical-item">Used as bioterrorism agent</div>
                     </div>
                 </div>
             </div>
-        </div>
 
-  <div style="position:fixed; left:20px; top:20px; z-index:2000;">
-    <a href="index.html" style="text-decoration:none; background:#22c55e; color:white; padding:10px 14px; border-radius:10px; font-weight:600;">
-        گەڕانەوە بۆ پەڕەی سەرەکی
-    </a>
-</div>
+            <!-- Bacillus cereus -->
+            <div class="slide-card" data-category="gram-positive aerobic">
+                <div class="slide-header gram-positive">
+                    <div class="slide-number">5</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">🍚</div>
+                    <div class="slide-title gram-positive">Bacillus cereus</div>
+                    <div class="gram-stain gram-positive">Gram-Positive</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-positive rods with square ends</div>
+                        <div class="characteristic-item">Motile via peritrichous flagella</div>
+                        <div class="characteristic-item">Forms central, oval, heat-resistant spores</div>
+                        <div class="characteristic-item">Catalase-positive; beta-hemolysis on blood agar</div>
+                        <div class="characteristic-item">Aerobic or facultative anaerobe</div>
+                    </div>
 
-</body>
-</html>
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Produces emetic (vomiting) toxin - cereulide</div>
+                        <div class="virulence-item">Produces diarrheal toxin - heat-labile</div>
+                        <div class="virulence-item">Additional toxins: Hbl, Nhe, CytK</div>
+                        <div class="virulence-item">Spores resist heat, disinfectants, and drying</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Emetic type food poisoning: rapid onset (1–6 hrs), linked to rice</div>
+                        <div class="clinical-item">Diarrheal type: slower onset (8–16 hrs), linked to meat/vegetables</div>
+                        <div class="clinical-item">Eye infections and wound infections</div>
+                        <div class="clinical-item">Bacteremia in immunocompromised patients</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listeria monocytogenes -->
+            <div class="slide-card" data-category="gram-positive aerobic">
+                <div class="slide-header gram-positive">
+                    <div class="slide-number">6</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">🍼</div>
+                    <div class="slide-title gram-positive">Listeria monocytogenes</div>
+                    <div class="gram-stain gram-positive">Gram-Positive</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-positive rods in short chains or singles</div>
+                        <div class="characteristic-item">Motile at room temperature (tumbling motility)</div>
+                        <div class="characteristic-item">Catalase-positive, oxidase-negative</div>
+                        <div class="characteristic-item">Grows at refrigeration temperatures</div>
+                        <div class="characteristic-item">Weak beta-hemolysis on blood agar</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Internalins (InlA, InlB): promote cell invasion</div>
+                        <div class="virulence-item">Listeriolysin O (LLO): escapes phagolysosomes</div>
+                        <div class="virulence-item">ActA protein: induces actin polymerization</div>
+                        <div class="virulence-item">Phospholipases: aid vacuole escape</div>
+                        <div class="virulence-item">Crosses blood-brain and placental barriers</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Listeriosis: fever, diarrhea, meningitis, sepsis</div>
+                        <div class="clinical-item">High risk in pregnant women and immunocompromised</div>
+                        <div class="clinical-item">Can cause miscarriage and neonatal death</div>
+                        <div class="clinical-item">Transmitted via contaminated food (cheese, deli meats)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clostridium tetani -->
+            <div class="slide-card" data-category="gram-positive anaerobic">
+                <div class="slide-header gram-positive">
+                    <div class="slide-number">7</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">🥢</div>
+                    <div class="slide-title gram-positive">Clostridium tetani</div>
+                    <div class="gram-stain gram-positive">Gram-Positive (Obligate Anaerobe)</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-positive rods with terminal spherical spores (drumstick)</div>
+                        <div class="characteristic-item">Obligate anaerobe</div>
+                        <div class="characteristic-item">Motile (except type VI strains)</div>
+                        <div class="characteristic-item">Spores highly resistant to heat and disinfectants</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Tetanospasmin: potent neurotoxin</div>
+                        <div class="virulence-item">Blocks inhibitory neurotransmitters (GABA, glycine)</div>
+                        <div class="virulence-item">Tetanolysin: hemolysin</div>
+                        <div class="virulence-item">Toxin spreads via retrograde axonal transport</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Causes tetanus: muscle rigidity and spasms</div>
+                        <div class="clinical-item">Uncontrolled muscle contractions</div>
+                        <div class="clinical-item">Infection via contaminated wounds</div>
+                        <div class="clinical-item">No person-to-person transmission</div>
+                        <div class="clinical-item">Preventable by vaccination</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clostridium botulinum -->
+            <div class="slide-card" data-category="gram-positive anaerobic">
+                <div class="slide-header gram-positive">
+                    <div class="slide-number">8</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">🥫</div>
+                    <div class="slide-title gram-positive">Clostridium botulinum</div>
+                    <div class="gram-stain gram-positive">Gram-Positive (Obligate Anaerobe)</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-positive rods with terminal spores ("tennis racket")</div>
+                        <div class="characteristic-item">Obligate anaerobe</div>
+                        <div class="characteristic-item">Produces heat-resistant endospores</div>
+                        <div class="characteristic-item">Catalase-negative; non-motile (Group I)</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Botulinum neurotoxin (BoNT): most potent biological toxin</div>
+                        <div class="virulence-item">Blocks acetylcholine release at neuromuscular junctions</div>
+                        <div class="virulence-item">Toxin types A, B, E, and F affect humans</div>
+                        <div class="virulence-item">Zinc metalloprotease cleaves SNARE proteins</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Foodborne botulism: flaccid paralysis</div>
+                        <div class="clinical-item">Infant botulism: spores from honey</div>
+                        <div class="clinical-item">Wound botulism: anaerobic wound infection</div>
+                        <div class="clinical-item">Symptoms: blurred vision, dry mouth, descending paralysis</div>
+                        <div class="clinical-item">Treated with antitoxin and supportive care</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escherichia coli -->
+            <div class="slide-card" data-category="gram-negative aerobic">
+                <div class="slide-header gram-negative">
+                    <div class="slide-number">9</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">🔴</div>
+                    <div class="slide-title">Escherichia coli</div>
+                    <div class="gram-stain gram-negative">Gram-Negative</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-negative bacilli (pink rods on Gram stain)</div>
+                        <div class="characteristic-item">Facultative anaerobe</div>
+                        <div class="characteristic-item">Lactose fermenter (pink colonies on MacConkey agar)</div>
+                        <div class="characteristic-item">Motile with peritrichous flagella</div>
+                        <div class="characteristic-item">Oxidase-negative, catalase-positive</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Adhesins and exotoxins as key virulence factors</div>
+                        <div class="virulence-item">Pathotypes: EHEC, EPEC, ETEC, EIEC, EAEC, DAEC</div>
+                        <div class="virulence-item">Shiga toxin (EHEC): causes bloody diarrhea and HUS</div>
+                        <div class="virulence-item">Enterotoxins (ETEC): cause watery diarrhea</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Most common cause of UTIs</div>
+                        <div class="clinical-item">Neonatal meningitis and sepsis</div>
+                        <div class="clinical-item">Traveler's diarrhea (ETEC) and foodborne outbreaks (EHEC)</div>
+                        <div class="clinical-item">Can lead to hemolytic uremic syndrome (HUS)</div>
+                        <div class="clinical-item">Growing antibiotic resistance concern</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Salmonella typhi -->
+            <div class="slide-card" data-category="gram-negative aerobic">
+                <div class="slide-header gram-negative">
+                    <div class="slide-number">10</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">🌡️</div>
+                    <div class="slide-title">Salmonella typhi</div>
+                    <div class="gram-stain gram-negative">Gram-Negative</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-negative bacillus (pink rods on Gram stain)</div>
+                        <div class="characteristic-item">Motile with peritrichous flagella</div>
+                        <div class="characteristic-item">Non-spore-forming and non-encapsulated</div>
+                        <div class="characteristic-item">Lactose non-fermenter; H₂S producer</div>
+                        <div class="characteristic-item">Grows on MacConkey and XLD agar</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Vi capsule: resists phagocytosis</div>
+                        <div class="virulence-item">Type III secretion system (T3SS)</div>
+                        <div class="virulence-item">Salmonella pathogenicity islands (SPIs)</div>
+                        <div class="virulence-item">Endotoxin (LPS): triggers inflammation and fever</div>
+                        <div class="virulence-item">Survives and replicates inside macrophages</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Typhoid fever: prolonged fever, abdominal pain, rose spots</div>
+                        <div class="clinical-item">Can lead to intestinal perforation and sepsis</div>
+                        <div class="clinical-item">Transmitted via contaminated food or water</div>
+                        <div class="clinical-item">Diagnosed via blood culture or Widal test</div>
+                        <div class="clinical-item">Preventable by Vi conjugate vaccine (TCV)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shigella dysenteriae -->
+            <div class="slide-card" data-category="gram-negative aerobic">
+                <div class="slide-header gram-negative">
+                    <div class="slide-number">11</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">💢</div>
+                    <div class="slide-title">Shigella dysenteriae</div>
+                    <div class="gram-stain gram-negative">Gram-Negative</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-negative bacillus (pink rods on Gram stain)</div>
+                        <div class="characteristic-item">Non-motile, non-spore-forming, non-capsulated</div>
+                        <div class="characteristic-item">Grows on MacConkey and SS agar</div>
+                        <div class="characteristic-item">Lactose non-fermenter; does not produce H₂S</div>
+                        <div class="characteristic-item">Optimum growth at 37°C, pH 7.4</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Shiga toxin: inhibits protein synthesis</div>
+                        <div class="virulence-item">Invades colonic epithelial cells via Type III secretion</div>
+                        <div class="virulence-item">Escapes phagocytic vacuoles</div>
+                        <div class="virulence-item">Induces apoptosis in macrophages</div>
+                        <div class="virulence-item">Disrupts intestinal wall integrity</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Shigellosis: bloody diarrhea, fever, abdominal cramps</div>
+                        <div class="clinical-item">Low infectious dose (10–100 organisms)</div>
+                        <div class="clinical-item">Can lead to Hemolytic Uremic Syndrome (HUS)</div>
+                        <div class="clinical-item">Transmitted via fecal-oral route</div>
+                        <div class="clinical-item">Treated with hydration and antibiotics in severe cases</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pseudomonas aeruginosa -->
+            <div class="slide-card" data-category="gram-negative aerobic">
+                <div class="slide-header gram-negative">
+                    <div class="slide-number">12</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">💙</div>
+                    <div class="slide-title">Pseudomonas aeruginosa</div>
+                    <div class="gram-stain gram-negative">Gram-Negative (Strict Aerobe)</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-negative bacillus (pink rods on Gram stain)</div>
+                        <div class="characteristic-item">Motile with polar flagella</div>
+                        <div class="characteristic-item">Strict aerobe; oxidase-positive</div>
+                        <div class="characteristic-item">Produces blue-green pigment (pyocyanin)</div>
+                        <div class="characteristic-item">Grows on MacConkey and cetrimide agar</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Forms biofilms resistant to antibiotics</div>
+                        <div class="virulence-item">Secretes exotoxin A (inhibits protein synthesis)</div>
+                        <div class="virulence-item">Type III secretion system for toxin injection</div>
+                        <div class="virulence-item">Produces elastase, proteases, and pyocyanin</div>
+                        <div class="virulence-item">Highly adaptable to diverse environments</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Pneumonia, especially in ventilated patients</div>
+                        <div class="clinical-item">Common in burn wound and cystic fibrosis infections</div>
+                        <div class="clinical-item">UTIs, sepsis, and keratitis</div>
+                        <div class="clinical-item">Major agent of nosocomial infections</div>
+                        <div class="clinical-item">Difficult to treat due to multi-drug resistance</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Neisseria gonorrhoeae -->
+            <div class="slide-card" data-category="gram-negative aerobic">
+                <div class="slide-header gram-negative">
+                    <div class="slide-number">13</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">⚪</div>
+                    <div class="slide-title">Neisseria gonorrhoeae</div>
+                    <div class="gram-stain gram-negative">Gram-Negative</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-negative diplococci (kidney-shaped)</div>
+                        <div class="characteristic-item">Often found inside neutrophils</div>
+                        <div class="characteristic-item">Non-motile, non-spore-forming</div>
+                        <div class="characteristic-item">Oxidase-positive, catalase-positive</div>
+                        <div class="characteristic-item">Ferments glucose only (not maltose)</div>
+                        <div class="characteristic-item">Grows on Thayer-Martin or chocolate agar with CO₂</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Pili: aid in attachment and resist phagocytosis</div>
+                        <div class="virulence-item">Opa proteins: mediate adhesion to host cells</div>
+                        <div class="virulence-item">Porin proteins: interfere with neutrophil killing</div>
+                        <div class="virulence-item">IgA protease: cleaves mucosal antibodies</div>
+                        <div class="virulence-item">Lipooligosaccharide (LOS): triggers inflammation</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Urethritis, cervicitis, pharyngitis, proctitis</div>
+                        <div class="clinical-item">Can lead to pelvic inflammatory disease (PID)</div>
+                        <div class="clinical-item">Ophthalmia neonatorum in newborns</div>
+                        <div class="clinical-item">May cause disseminated gonococcal infection (DGI)</div>
+                        <div class="clinical-item">Increasing resistance to antibiotics like ceftriaxone</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Helicobacter pylori -->
+            <div class="slide-card" data-category="gram-negative aerobic">
+                <div class="slide-header gram-negative">
+                    <div class="slide-number">14</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">🌪️</div>
+                    <div class="slide-title">Helicobacter pylori</div>
+                    <div class="gram-stain gram-negative">Gram-Negative (Microaerophilic)</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-negative, spiral-shaped rods</div>
+                        <div class="characteristic-item">Motile with 4–6 polar sheathed flagella</div>
+                        <div class="characteristic-item">Microaerophilic (requires low oxygen)</div>
+                        <div class="characteristic-item">Urease-positive (neutralizes stomach acid)</div>
+                        <div class="characteristic-item">Grows on Skirrow's or Campy agar</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Urease: produces ammonia to buffer stomach acid</div>
+                        <div class="virulence-item">Flagella: corkscrew motility through mucus layer</div>
+                        <div class="virulence-item">Adhesins: bind to gastric epithelium (BabA, SabA)</div>
+                        <div class="virulence-item">VacA toxin: induces cell vacuolation and apoptosis</div>
+                        <div class="virulence-item">CagA protein: disrupts cell signaling</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Causes chronic gastritis and peptic ulcers</div>
+                        <div class="clinical-item">Linked to gastric adenocarcinoma and MALT lymphoma</div>
+                        <div class="clinical-item">Transmitted via oral-oral or fecal-oral routes</div>
+                        <div class="clinical-item">Diagnosed by urea breath test, stool antigen, or biopsy</div>
+                        <div class="clinical-item">Treated with triple therapy: PPI + antibiotics</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Streptococcus pneumoniae -->
+            <div class="slide-card" data-category="gram-positive aerobic">
+                <div class="slide-header gram-positive">
+                    <div class="slide-number">15</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">🫁</div>
+                    <div class="slide-title gram-positive">Streptococcus pneumoniae</div>
+                    <div class="gram-stain gram-positive">Gram-Positive</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-positive, lancet-shaped diplococci</div>
+                        <div class="characteristic-item">Alpha-hemolytic on blood agar (green zone)</div>
+                        <div class="characteristic-item">Catalase-negative; optochin-sensitive</div>
+                        <div class="characteristic-item">Bile soluble (dissolves in bile salts)</div>
+                        <div class="characteristic-item">Encapsulated with >80 serotypes</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Polysaccharide capsule: major virulence factor</div>
+                        <div class="virulence-item">Pneumolysin: damages host cells</div>
+                        <div class="virulence-item">IgA protease: cleaves mucosal antibodies</div>
+                        <div class="virulence-item">Teichoic acids: promote inflammation and adherence</div>
+                        <div class="virulence-item">Autolysins: release toxins and cell wall fragments</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Community-acquired pneumonia (rusty sputum)</div>
+                        <div class="clinical-item">Major cause of meningitis in children and elderly</div>
+                        <div class="clinical-item">Otitis media, sinusitis, and bronchitis</div>
+                        <div class="clinical-item">Can cause bacteremia and endocarditis</div>
+                        <div class="clinical-item">Preventable by pneumococcal vaccines (PCV13, PPSV23)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Haemophilus influenzae -->
+            <div class="slide-card" data-category="gram-negative aerobic">
+                <div class="slide-header gram-negative">
+                    <div class="slide-number">16</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">👶</div>
+                    <div class="slide-title">Haemophilus influenzae</div>
+                    <div class="gram-stain gram-negative">Gram-Negative</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-negative pleomorphic coccobacilli</div>
+                        <div class="characteristic-item">Requires factors X (hemin) and V (NAD⁺) for growth</div>
+                        <div class="characteristic-item">Grows on chocolate agar, not on blood agar</div>
+                        <div class="characteristic-item">Non-motile, non-spore🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-positive cocci in clusters (purple under Gram stain)</div>
+                        <div class="characteristic-item">Catalase test: positive</div>
+                        <div class="characteristic-item">Coagulase test: positive</div>
+                        <div class="characteristic-item">Grows on Mannitol Salt Agar and ferments mannitol</div>
+                        <div class="characteristic-item">Shows beta-hemolysis (clear zone) on blood agar</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Coagulase (clots plasma)</div>
+                        <div class="virulence-item">Protein A (binds antibodies to evade immune system)</div>
+                        <div class="virulence-item">Toxins: TSST-1 and enterotoxins</div>
+                        <div class="virulence-item">Major concern for antibiotic resistance (MRSA strains)</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Skin infections: boils, abscesses, impetigo</div>
+                        <div class="clinical-item">Respiratory infections: pneumonia</div>
+                        <div class="clinical-item">Systemic infections: sepsis, osteomyelitis, endocarditis</div>
+                        <div class="clinical-item">Toxin-related illnesses: food poisoning, toxic shock syndrome</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Streptococcus pyogenes -->
+            <div class="slide-card" data-category="gram-positive aerobic">
+                <div class="slide-header gram-positive">
+                    <div class="slide-number">2</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">🔗</div>
+                    <div class="slide-title gram-positive">Streptococcus pyogenes</div>
+                    <div class="gram-stain gram-positive">Gram-Positive</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-positive cocci in chains</div>
+                        <div class="characteristic-item">Catalase test: Negative</div>
+                        <div class="characteristic-item">Beta-hemolytic on blood agar</div>
+                        <div class="characteristic-item">Group A Streptococcus (GAS)</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">M protein: resists phagocytosis</div>
+                        <div class="virulence-item">Streptolysins O and S: lyse red blood cells</div>
+                        <div class="virulence-item">Exotoxins: cause toxic shock and scarlet fever</div>
+                        <div class="virulence-item">Spread by respiratory droplets or contact</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Strep throat (pharyngitis) and impetigo</div>
+                        <div class="clinical-item">Scarlet fever</div>
+                        <div class="clinical-item">Rheumatic fever</div>
+                        <div class="clinical-item">Post-streptococcal glomerulonephritis</div>
+                        <div class="clinical-item">Necrotizing fasciitis ("flesh-eating disease")</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enterococcus faecium -->
+            <div class="slide-card" data-category="gram-positive aerobic">
+                <div class="slide-header gram-positive">
+                    <div class="slide-number">3</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">⚪</div>
+                    <div class="slide-title gram-positive">Enterococcus faecium</div>
+                    <div class="gram-stain gram-positive">Gram-Positive</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">🔬 Identification & Characteristics</div>
+                        <div class="characteristic-item">Gram-positive cocci in pairs or short chains</div>
+                        <div class="characteristic-item">Catalase test: Negative</div>
+                        <div class="characteristic-item">Gamma-hemolytic or alpha-hemolytic on blood agar</div>
+                        <div class="characteristic-item">Grows in 6.5% NaCl and bile-esculin agar</div>
+                        <div class="characteristic-item">Intrinsically resistant to many antibiotics</div>
+                    </div>
+
+                    <div class="virulence-section">
+                        <div class="section-title">⚔️ Virulence & Pathogenicity</div>
+                        <div class="virulence-item">Adhesins: facilitate attachment to host tissues</div>
+                        <div class="virulence-item">Cytolysin: can lyse red blood cells</div>
+                        <div class="virulence-item">Ability to form biofilms on medical devices</div>
+                        <div class="virulence-item">Vancomycin-resistant Enterococcus (VRE) strains</div>
+                    </div>
+
+                    <div class="clinical-section">
+                        <div class="section-title">🏥 Clinical Importance</div>
+                        <div class="clinical-item">Urinary tract infections (UTIs)</div>
+                        <div class="clinical-item">Bacteremia and endocarditis in immunocompromised patients</div>
+                        <div class="clinical-item">Intra-abdominal and wound infections</div>
+                        <div class="clinical-item">Major concern for antibiotic-resistant infections</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bacillus anthracis -->
+            <div class="slide-card" data-category="gram-positive aerobic">
+                <div class="slide-header gram-positive">
+                    <div class="slide-number">4</div>
+                </div>
+                <div class="slide-content">
+                    <div class="organism-icon">📦</div>
+                    <div class="slide-title gram-positive">Bacillus anthracis</div>
+                    <div class="gram-stain gram-positive">Gram-Positive</div>
+                    
+                    <div class="characteristics-section">
+                        <div class="section-title">

@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embryology Chapter - بەشی کۆرپەلەزانی</title>
+    <title>Embryology Chapter - بەشی زاروناسی</title>
     <style>
         * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
+        
 @font-face {
     font-family: 'NotoKufiArabic';
     src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
@@ -61,9 +61,9 @@ body {
     right: 0;
     bottom: 0;
     background-image:
-        radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 60%);
+        radial-gradient(circle at 20% 30%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(34, 197, 94, 0.1) 0%, transparent 60%);
     animation: float 6s ease-in-out infinite;
 }
 
@@ -77,17 +77,17 @@ body {
     z-index: 2;
 }
 
-.microscope-icon {
+.embryo-icon {
     font-size: 6em;
     margin-bottom: 30px;
     opacity: 0.95;
-    text-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+    text-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
     animation: glow 3s ease-in-out infinite alternate;
 }
 
 @keyframes glow {
-    0% { text-shadow: 0 0 30px rgba(34, 197, 94, 0.5); }
-    100% { text-shadow: 0 0 50px rgba(34, 197, 94, 0.8); }
+    0% { text-shadow: 0 0 30px rgba(236, 72, 153, 0.5); }
+    100% { text-shadow: 0 0 50px rgba(236, 72, 153, 0.8); }
 }
 
 .main-title {
@@ -95,7 +95,7 @@ body {
     font-size: 4em;
     font-weight: 700;
     margin-bottom: 25px;
-    background: linear-gradient(135deg, #22c55e, #3b82f6, #a855f7);
+    background: linear-gradient(135deg, #ec4899, #a855f7, #3b82f6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -155,7 +155,7 @@ body {
     font-weight: 700;
     font-size: 1.3em;
     margin-bottom: 8px;
-    color: #22c55e;
+    color: #ec4899;
 }
 
 .field-info {
@@ -188,7 +188,7 @@ body {
 }
 
 .nav-title {
-    color: #22c55e;
+    color: #ec4899;
     font-weight: 700;
     font-size: 1.2em;
 }
@@ -209,8 +209,8 @@ body {
 
 .nav-link:hover, 
 .nav-link.active {
-    color: #22c55e;
-    background: rgba(34, 197, 94, 0.1);
+    color: #ec4899;
+    background: rgba(236, 72, 153, 0.1);
 }
 
 /* Table of Contents */
@@ -226,7 +226,7 @@ body {
     font-weight: 700;
     text-align: center;
     margin-bottom: 50px;
-    background: linear-gradient(135deg, #22c55e, #3b82f6);
+    background: linear-gradient(135deg, #ec4899, #a855f7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -314,7 +314,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1));
+    background: linear-gradient(45deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1));
 }
 
 .chapter-number {
@@ -363,11 +363,11 @@ body {
     transform: translateY(-10px) scale(1.02);
     box-shadow:
         0 30px 60px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(34, 197, 94, 0.2);
+        0 0 0 1px rgba(236, 72, 153, 0.2);
 }
 
 .slide-header {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
+    background: linear-gradient(135deg, #ec4899, #db2777);
     color: white;
     padding: 25px;
     text-align: center;
@@ -381,7 +381,7 @@ body {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #3b82f6, #a855f7, #ec4899);
+    background: linear-gradient(90deg, #a855f7, #3b82f6, #22c55e);
 }
 
 .slide-number {
@@ -415,7 +415,7 @@ body {
     color: #0f172a;
     margin-bottom: 20px;
     font-size: 1.4em;
-    border-bottom: 2px solid #22c55e;
+    border-bottom: 2px solid #ec4899;
     padding-bottom: 10px;
 }
 
@@ -431,17 +431,17 @@ body {
 }
 
 .component-item {
-    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+    background: linear-gradient(135deg, #fce7f3, #f3e8ff);
     padding: 12px 16px;
     margin: 8px 0;
     border-radius: 10px;
-    border-left: 4px solid #22c55e;
+    border-left: 4px solid #ec4899;
     transition: all 0.3s ease;
 }
 
 .component-item:hover {
     transform: translateX(5px);
-    background: linear-gradient(135deg, #bbf7d0, #a7f3d0);
+    background: linear-gradient(135deg, #f3e8ff, #e879f9);
 }
 
 .location-section, 
@@ -463,11 +463,11 @@ body {
     content: '';
     width: 4px;
     height: 20px;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    background: linear-gradient(135deg, #a855f7, #ec4899);
     border-radius: 2px;
 }
 
-/* Updated Location List Styling */
+/* Location List Styling */
 .location-list {
     list-style: none;
     padding: 0;
@@ -549,7 +549,7 @@ body {
 
 .search-input:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.3);
     width: 300px;
 }
 
@@ -566,7 +566,7 @@ body {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #22c55e, #3b82f6, #a855f7);
+    background: linear-gradient(90deg, #ec4899, #a855f7, #3b82f6);
     width: 0%;
     transition: width 0.3s ease;
 }
@@ -576,7 +576,7 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #22c55e;
+    background: #ec4899;
     color: white;
     border: none;
     width: 60px;
@@ -587,14 +587,14 @@ body {
     justify-content: center;
     font-size: 24px;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+    box-shadow: 0 5px 15px rgba(236, 72, 153, 0.4);
     z-index: 100;
     transition: all 0.3s ease;
 }
 
 .print-btn:hover {
     transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.6);
+    box-shadow: 0 8px 20px rgba(236, 72, 153, 0.6);
 }
 
 /* Filter buttons */
@@ -618,59 +618,8 @@ body {
 
 .filter-btn.active, 
 .filter-btn:hover {
-    background: #22c55e;
+    background: #ec4899;
     color: white;
-}
-
-/* Slide navigation controls */
-.slide-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-}
-
-.slide-nav-btn {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.slide-nav-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-}
-
-.slide-nav-btn.prev {
-    background: linear-gradient(135deg, #64748b, #475569);
-}
-
-.chapter-indicator {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 10px;
-}
-
-.chapter-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #cbd5e1;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.chapter-dot.active {
-    background: #3b82f6;
-    transform: scale(1.3);
 }
 
 /* Print styles */
@@ -752,23 +701,13 @@ body {
     .subtitle {
         font-size: 1.4em;
     }
-    
-    .slide-nav {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .slide-nav-btn {
-        width: 100%;
-        justify-content: center;
-    }
 }
     </style>
 </head>
 <body>
     <div style="position:fixed;left:20px;top:20px;z-index:2000">
         <a href="https://scence-bio.github.io/Biology/" 
-           style="text-decoration:none;background:#22c55e;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
+           style="text-decoration:none;background:#ec4899;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
             back to home - گەڕانەوە بۆ سەرەکی
         </a>
     </div>
@@ -782,898 +721,740 @@ body {
     <button class="print-btn" title="Print Guide" onclick="window.print()">🖨️</button>
 
     <!-- Embryology Chapter -->
-        <div class="chapter-page" id="embryology">
-            <div class="chapter-header">
-                <div class="chapter-number">Chapter 2</div>
-                <h2 class="chapter-main-title">🤰 Embryology - Embryonic Development</h2>
-                <p class="chapter-description">Study of embryonic development from fertilization to birth</p>
-            </div>
-
-            <!-- Filter controls -->
-            <div class="filter-controls">
-                <button class="filter-btn active" data-filter="all">All Slides</button>
-                <button class="filter-btn" data-filter="human">Human Development</button>
-                <button class="filter-btn" data-filter="frog">Frog Development</button>
-                <button class="filter-btn" data-filter="gametes">Gametes</button>
-            </div>
-
-            <div class="slide-grid">
-                <!-- Slide 1: Human Testis -->
-                <div class="slide-card" data-category="human">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 1</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Embrology/1. Testis of Rabbit (T.S.) Spermatogenesis.jpg" alt="Human Testis" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Human Testis</div>
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Seminiferous tubules</div>
-                            <div class="component-item">Spermatogonia</div>
-                            <div class="component-item">Primary spermatocytes</div>
-                            <div class="component-item">Secondary spermatocytes</div>
-                            <div class="component-item">Spermatids</div>
-                            <div class="component-item">Spermatozoa</div>
-                            <div class="component-item">Sertoli cells</div>
-                            <div class="component-item">Interstitial (Leydig) cells</div>
-                        </div>
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Scrotal sac, outside abdominal cavity</li>
-                            </ul>
-                        </div>
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Oogenesis (egg production)</li>
-                                <li>Secretion of female sex hormones (estrogen and progesterone)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 4: Frog Sperm -->
-                <div class="slide-card" data-category="gametes">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 4</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/areolar.jpg" alt="Frog Sperm" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Frog Sperm</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Head (with nucleus)</div>
-                            <div class="component-item">Midpiece (with mitochondria)</div>
-                            <div class="component-item">Tail (flagellum)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Testes of male frog</li>
-                                <li>Seminal fluid of male frog</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Fertilization of frog egg</li>
-                                <li>Transfer of genetic material to ovum</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 5: Frog Egg (Ovum) -->
-                <div class="slide-card" data-category="gametes">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 5</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Frog Egg (Ovum).jpg" alt="Frog Egg" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Frog Egg (Ovum)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Egg membrane</div>
-                            <div class="component-item">Cytoplasm</div>
-                            <div class="component-item">Yolk granules</div>
-                            <div class="component-item">Nucleus (germinal vesicle)</div>
-                            <div class="component-item">Animal pole</div>
-                            <div class="component-item">Vegetal pole</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Outer surface of egg</li>
-                                <li>Inner content of egg</li>
-                                <li>Concentrated in vegetal pole</li>
-                                <li>Near animal pole</li>
-                                <li>Upper region of egg</li>
-                                <li>Lower region of egg</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Protects the egg</li>
-                                <li>Supports cellular activities</li>
-                                <li>Provides nutrients for the embryo</li>
-                                <li>Controls genetic functions</li>
-                                <li>Site of future cleavage</li>
-                                <li>Stores yolk for nourishment</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 6: Frog Sperm -->
-                <div class="slide-card" data-category="gametes">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 6</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Frog-Sperm.jpg" alt="Frog Sperm" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Frog Sperm</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Head (with nucleus)</div>
-                            <div class="component-item">Midpiece (with mitochondria)</div>
-                            <div class="component-item">Tail (flagellum)</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Testes of male frog</li>
-                                <li>Seminal fluid of male frog</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Fertilization of frog egg</li>
-                                <li>Transfer of genetic material to ovum</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 7: Frog Cleavage -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 7</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Frog Cleavage (Cell Division).jpg" alt="Frog Cleavage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Frog Cleavage (Cell Division)</div>
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Blastomeres</div>
-                            <div class="component-item">Yolk</div>
-                            <div class="component-item">Cleavage furrows</div>
-                            <div class="component-item">Animal pole</div>
-                            <div class="component-item">Vegetal pole</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Dividing zygote of frog embryo</li>
-                                <li>Vegetal pole of egg</li>
-                                <li>Between blastomeres</li>
-                                <li>Upper region of egg</li>
-                                <li>Lower region of egg</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Form the cells of the early embryo</li>
-                                <li>Provide nutrition for development</li>
-                                <li>Help separate dividing cells</li>
-                                <li>Site of rapid cell division (animal pole)</li>
-                                <li>Site of slower cell division and nutrient storage (vegetal pole)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 8: Frog Egg -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 8</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Frog Egg (Ovum).jpg" alt="Frog Egg" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Frog Egg (Ovum)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Egg membrane</div>
-                            <div class="component-item">Cytoplasm</div>
-                            <div class="component-item">Yolk granules</div>
-                            <div class="component-item">Nucleus (germinal vesicle)</div>
-                            <div class="component-item">Animal pole</div>
-                            <div class="component-item">Vegetal pole</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Outer surface of egg</li>
-                                <li>Inner content of egg</li>
-                                <li>Concentrated in vegetal pole</li>
-                                <li>Near animal pole</li>
-                                <li>Upper region of egg</li>
-                                <li>Lower region of egg</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Protects the egg</li>
-                                <li>Supports cellular activities</li>
-                                <li>Provides nutrients for the embryo</li>
-                                <li>Controls genetic functions</li>
-                                <li>Site of future cleavage</li>
-                                <li>Stores yolk for nourishment</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 9: Frog Neurula -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 9</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Frog Neurula Stage.jpg" alt="Frog Neurula Stage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Frog Neurula Stage</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Neural tube</div>
-                            <div class="component-item">Notochord</div>
-                            <div class="component-item">Somites</div>
-                            <div class="component-item">Tail bud</div>
-                            <div class="component-item">Archenteron</div>
-                            <div class="component-item">Yolk cells</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Dorsal midline of embryo</li>
-                                <li>Below neural tube</li>
-                                <li>Lateral sides of notochord</li>
-                                <li>Posterior end of embryo</li>
-                                <li>Ventral cavity</li>
-                                <li>Lower part of embryo</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Develops into the central nervous system</li>
-                                <li>Provides axial support and signals for development</li>
-                                <li>Forms muscles and vertebrae</li>
-                                <li>Initiates tail formation</li>
-                                <li>Primitive gut cavity</li>
-                                <li>Provides nutrition to the embryo</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 10: Frog Zygote -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 10</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Frog Zygote (Fertilized Egg).jpg" alt="Frog Zygote" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Frog Zygote (Fertilized Egg)</div>
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Blastomeres</div>
-                            <div class="component-item">Animal pole</div>
-                            <div class="component-item">Vegetal pole</div>
-                            <div class="component-item">Cleavage furrow</div>
-                            <div class="component-item">Gray crescent</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Entire zygote</li>
-                                <li>Upper hemisphere of egg</li>
-                                <li>Lower hemisphere of egg</li>
-                                <li>Across the egg</li>
-                                <li>Opposite sperm entry point</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Form embryonic cells</li>
-                                <li>Undergo rapid division, form micromeres</li>
-                                <li>Undergo slower division, form macromeres</li>
-                                <li>Divide the zygote during cleavage</li>
-                                <li>Establish body axis and initiate gastrulation</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 11: Four Cell Stage -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 11</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Four Cell Stage (Second Cleavage).jpg" alt="Four Cell Stage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Four Cell Stage (Second Cleavage)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Blastomeres</div>
-                            <div class="component-item">Cleavage furrow (second)</div>
-                            <div class="component-item">Animal pole</div>
-                            <div class="component-item">Vegetal pole</div>
-                            <div class="component-item">Vitelline membrane</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Entire egg (four equal or unequal cells)</li>
-                                <li>Vertical plane perpendicular to first furrow</li>
-                                <li>Upper region of egg</li>
-                                <li>Lower region of egg</li>
-                                <li>Surrounding the egg cell</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Form early embryonic structure</li>
-                                <li>Divide the embryo into four blastomeres</li>
-                                <li>Site of faster cell division</li>
-                                <li>Site of slower cell division due to yolk</li>
-                                <li>Protects the egg and maintains shape</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 12: Neurulation Stage -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 12</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Neurulation Stage (Neural Tube Formation).jpg" alt="Neurulation Stage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Neurulation Stage (Neural Tube Formation)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Neural folds</div>
-                            <div class="component-item">Neural groove</div>
-                            <div class="component-item">Neural tube</div>
-                            <div class="component-item">Notochord</div>
-                            <div class="component-item">Somites</div>
-                            <div class="component-item">Archenteron</div>
-                            <div class="component-item">Yolk cells</div>
-                            <div class="component-item">Ectoderm</div>
-                            <div class="component-item">Mesoderm</div>
-                            <div class="component-item">Endoderm</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Sides of dorsal midline</li>
-                                <li>Between neural folds</li>
-                                <li>Mid dorsal region (after folds fuse)</li>
-                                <li>Below neural tube</li>
-                                <li>Lateral to notochord</li>
-                                <li>Ventral cavity</li>
-                                <li>Lower part of embryo</li>
-                                <li>Outer layer</li>
-                                <li>Middle germ layer</li>
-                                <li>Inner germ layer</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Elevate and form neural tube</li>
-                                <li>Initial depression forming neural tube</li>
-                                <li>Forms brain and spinal cord</li>
-                                <li>Provides support and signals to surrounding tissues</li>
-                                <li>Give rise to muscle and vertebrae</li>
-                                <li>Forms the primitive gut</li>
-                                <li>Store and supply nutrients</li>
-                                <li>Forms skin and nervous tissue</li>
-                                <li>Forms muscles, bones, and circulatory system</li>
-                                <li>Forms digestive and respiratory linings</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 13: Gastrulation Stage -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 13</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Gastrulation Stage.jpg" alt="Gastrulation Stage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Gastrulation Stage</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Blastopore</div>
-                            <div class="component-item">Dorsal lip of blastopore</div>
-                            <div class="component-item">Archenteron</div>
-                            <div class="component-item">Ectoderm</div>
-                            <div class="component-item">Endoderm</div>
-                            <div class="component-item">Yolk plug</div>
-                            <div class="component-item">Mesoderm</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Posterior region of embryo</li>
-                                <li>Upper margin of blastopore</li>
-                                <li>Internal cavity forming behind blastopore</li>
-                                <li>Outer surface of embryo</li>
-                                <li>Inner lining of archenteron</li>
-                                <li>Center of blastopore opening</li>
-                                <li>Between ectoderm and endoderm</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Opening through which cells migrate inward</li>
-                                <li>Initiates gastrulation and mesoderm formation</li>
-                                <li>Forms the primitive gut</li>
-                                <li>Forms skin and nervous system</li>
-                                <li>Forms digestive and respiratory tract</li>
-                                <li>Temporary plug of yolky cells during invagination</li>
-                                <li>Forms muscles, bones, and circulatory tissues</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 14: Blastula Stage -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 14</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Blastula Stage.jpg" alt="Blastula Stage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Blastula Stage</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Blastocoel</div>
-                            <div class="component-item">Blastomeres</div>
-                            <div class="component-item">Animal pole</div>
-                            <div class="component-item">Vegetal pole</div>
-                            <div class="component-item">Yolk</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Central cavity of blastula</li>
-                                <li>Surrounding blastocoel</li>
-                                <li>Upper hemisphere of blastula</li>
-                                <li>Lower hemisphere of blastula</li>
-                                <li>Inside vegetal blastomeres</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Space for cell migration during gastrulation</li>
-                                <li>Develop into embryonic tissues</li>
-                                <li>Forms ectoderm</li>
-                                <li>Forms endoderm and stores yolk</li>
-                                <li>Provides nutrients to embryo</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 15: Mid-Gastrula -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 15</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Mid-Gastrula Stage.jpg" alt="Mid-Gastrula Stage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Mid-Gastrula Stage</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Blastopore</div>
-                            <div class="component-item">Yolk plug</div>
-                            <div class="component-item">Archenteron</div>
-                            <div class="component-item">Ectoderm</div>
-                            <div class="component-item">Endoderm</div>
-                            <div class="component-item">Mesoderm</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Opening at posterior side</li>
-                                <li>Center of blastopore</li>
-                                <li>Internal cavity above yolk plug</li>
-                                <li>Outer layer</li>
-                                <li>Inner layer surrounding archenteron</li>
-                                <li>Between ectoderm and endoderm</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Entry point for gastrulation cell movement</li>
-                                <li>Remaining yolk-filled cells being enclosed</li>
-                                <li>Future digestive tract</li>
-                                <li>Forms skin and nervous system</li>
-                                <li>Forms internal organs like gut lining</li>
-                                <li>Forms muscles, notochord, and circulatory system</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 16: Morula Stage -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 16</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Morula Stage.jpg" alt="Morula Stage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Morula Stage (16-Cell Stage)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Micromeres</div>
-                            <div class="component-item">Macromeres</div>
-                            <div class="component-item">Cleavage furrows</div>
-                            <div class="component-item">Blastomeres</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Upper (animal pole) region</li>
-                                <li>Lower (vegetal pole) region</li>
-                                <li>Between dividing blastomeres</li>
-                                <li>Entire morula mass</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Divide rapidly; contribute to ectoderm</li>
-                                <li>Store yolk; contribute to endoderm</li>
-                                <li>Indicate division planes</li>
-                                <li>Form all embryonic tissues</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 17: Early Blastula -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 17</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Blastula Stage.jpg" alt="Early Blastula Stage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Early Blastula Stage</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Blastocoel</div>
-                            <div class="component-item">Micromeres</div>
-                            <div class="component-item">Macromeres</div>
-                            <div class="component-item">Blastoderm</div>
-                            <div class="component-item">Blastomeres</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Central fluid-filled cavity</li>
-                                <li>Animal pole (upper region)</li>
-                                <li>Vegetal pole (lower region)</li>
-                                <li>Layer of cells surrounding blastocoel</li>
-                                <li>Entire cellular mass</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Space for cell movement during gastrulation</li>
-                                <li>Form ectoderm</li>
-                                <li>Form endoderm and store yolk</li>
-                                <li>Develops into embryonic germ layers</li>
-                                <li>Give rise to all body tissues</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-               <!-- Slide 18: Eight Cell Stage -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 18</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Eight Cell Stage (Third Cleavage).jpg" alt="Eight Cell Stage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Eight Cell Stage (Third Cleavage)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Blastomeres</div>
-                            <div class="component-item">Micromeres</div>
-                            <div class="component-item">Macromeres</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Entire cellular mass</li>
-                                <li>Animal pole (upper region)</li>
-                                <li>Vegetal pole (lower region)</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Give rise to all body tissues</li>
-                                <li>Form ectoderm</li>
-                                <li>Form endoderm and store yolk</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 19: Neural Plate Stage -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 19</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Neural Plate Stage.jpg" alt="Neural Plate Stage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Neural Plate Stage</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Neural plate</div>
-                            <div class="component-item">Notochord</div>
-                            <div class="component-item">Neural folds</div>
-                            <div class="component-item">Archenteron</div>
-                            <div class="component-item">Somites</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Dorsal midline (surface ectoderm)</li>
-                                <li>Just beneath neural plate (mesoderm)</li>
-                                <li>Lateral edges of neural plate</li>
-                                <li>Ventral to notochord (primitive gut cavity)</li>
-                                <li>On either side of notochord</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Forms central nervous system (brain and spinal cord)</li>
-                                <li>Induces neural plate formation, forms axial support</li>
-                                <li>Elevate and fuse to form neural tube</li>
-                                <li>Develops into digestive tract</li>
-                                <li>Form muscles, vertebrae, and dermis</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 20: Tadpole Stage -->
-                <div class="slide-card" data-category="frog">
-                    <div class="slide-header">
-                        <div class="slide-number">Slide 20</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Tadpole Stage (Larval Form).jpg" alt="Tadpole Stage" class="slide-image" />
-                    </div>
-                    <div class="slide-content">
-                        <div class="slide-title">Tadpole Stage (Larval Form)</div>
-
-                        <div class="components-list">
-                            <div class="components-title">Components:</div>
-                            <div class="component-item">Head</div>
-                            <div class="component-item">Eyes</div>
-                            <div class="component-item">External gills (in early tadpole)</div>
-                            <div class="component-item">Tail</div>
-                            <div class="component-item">Notochord</div>
-                            <div class="component-item">Somites</div>
-                            <div class="component-item">Brain region</div>
-                            <div class="component-item">Heart (may be visible)</div>
-                            <div class="component-item">Intestine</div>
-                        </div>
-
-                        <div class="location-section">
-                            <div class="section-title">📍 Location:</div>
-                            <ul class="location-list">
-                                <li>Anterior region</li>
-                                <li>On either side of head</li>
-                                <li>Lateral to head (early stages)</li>
-                                <li>Posterior elongated part</li>
-                                <li>Along midline of body axis</li>
-                                <li>Segmentally arranged on both sides of notochord</li>
-                                <li>Front dorsal side of head</li>
-                                <li>Ventral side behind head</li>
-                                <li>Coiled in mid-body region</li>
-                            </ul>
-                        </div>
-
-                        <div class="function-section">
-                            <div class="section-title">⚙️ Functions:</div>
-                            <ul class="function-list">
-                                <li>Contains brain and sensory organs</li>
-                                <li>Vision</li>
-                                <li>Temporary respiration in water</li>
-                                <li>Swimming and locomotion</li>
-                                <li>Structural support</li>
-                                <li>Develop into muscles and vertebrae</li>
-                                <li>Controls nervous activity</li>
-                                <li>Circulates blood</li>
-                                <li>Digestion and absorption</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="chapter-page" id="embryology">
+        <div class="chapter-header">
+            <div class="chapter-number">Chapter 2</div>
+            <h2 class="chapter-main-title">🧬 Embryology - Study of Development</h2>
+            <p class="chapter-description">Microscopic examination of embryonic development and reproductive structures</p>
         </div>
 
-    <script>
-        // Filter functionality
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const slideCards = document.querySelectorAll('.slide-card');
+        <!-- Filter controls -->
+        <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">All Slides</button>
+            <button class="filter-btn" data-filter="reproductive">Reproductive Structures</button>
+            <button class="filter-btn" data-filter="development">Developmental Stages</button>
+            <button class="filter-btn" data-filter="parasitic">Parasitic Forms</button>
+        </div>
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterBtns.forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                btn.classList.add('active');
+        <div class="slide-grid">
+            <!-- Slide 1: Rabbit Testis Spermatogenesis -->
+            <div class="slide-card" data-category="reproductive">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 1</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/1.jpg" alt="Rabbit Testis Spermatogenesis" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Testis of Rabbit (T.S.) Spermatogenesis</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Seminiferous tubules</div>
+                        <div class="component-item">Spermatogonia</div>
+                        <div class="component-item">Primary spermatocytes</div>
+                        <div class="component-item">Secondary spermatocytes</div>
+                        <div class="component-item">Spermatids</div>
+                        <div class="component-item">Spermatozoa</div>
+                        <div class="component-item">Sertoli cells</div>
+                        <div class="component-item">Interstitial (Leydig) cells</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Scrotal sac, outside abdominal cavity</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Oogenesis (egg production)</li>
+                            <li>Secretion of female sex hormones (estrogen and progesterone)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 2: Human Testis -->
+            <div class="slide-card" data-category="reproductive">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 2</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/2.jpg" alt="Human Testis" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Hoden (Testis) T.S. Normal Human</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Seminiferous tubules</div>
+                        <div class="component-item">Spermatogenic cells (spermatogonia, spermatocytes, spermatids, spermatozoa)</div>
+                        <div class="component-item">Sertoli cells</div>
+                        <div class="component-item">Interstitial (Leydig) cells</div>
+                        <div class="component-item">Basement membrane</div>
+                        <div class="component-item">Tunica albuginea</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Scrotum (outside the abdominal cavity)</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Spermatogenesis (sperm production)</li>
+                            <li>Secretion of testosterone (by Leydig cells)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-                const filterValue = btn.getAttribute('data-filter');
+            <!-- Slide 3: Human Spermatozoa -->
+            <div class="slide-card" data-category="reproductive">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 3</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/3.jpg" alt="Human Spermatozoa" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Spermatozoa Human Smear</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Head (with nucleus and acrosome)</div>
+                        <div class="component-item">Midpiece (with mitochondria)</div>
+                        <div class="component-item">Tail (flagellum)</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Semen (ejaculate), male reproductive tract (e.g., epididymis, vas deferens)</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Fertilization of the ovum</li>
+                            <li>Transmission of paternal genetic material</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-                slideCards.forEach(card => {
-                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
+            <!-- Slide 4: Human Ovary -->
+            <div class="slide-card" data-category="reproductive">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 4</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/4.jpg" alt="Human Ovary" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Ovary (Ovarium) T.S. Normal Human</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Germinal epithelium</div>
+                        <div class="component-item">Tunica albuginea</div>
+                        <div class="component-item">Cortex</div>
+                        <div class="component-item">Medulla</div>
+                        <div class="component-item">Primordial follicles</div>
+                        <div class="component-item">Primary follicles</div>
+                        <div class="component-item">Secondary (growing) follicles</div>
+                        <div class="component-item">Graafian (mature) follicle</div>
+                        <div class="component-item">Corpus luteum</div>
+                        <div class="component-item">Corpus albicans</div>
+                        <div class="component-item">Blood vessels and connective tissue</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Pelvic cavity, one on each side of the uterus</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Production of sperm (spermatogenesis)</li>
+                            <li>Secretion of male sex hormone (testosterone by Leydig cells)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-        // Progress bar functionality
-        window.addEventListener('scroll', () => {
-            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            document.getElementById('progressFill').style.width = scrolled + '%';
-        });
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+            <!-- Slide 5: Ascaris Ova -->
+            <div class="slide-card" data-category="parasitic">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 5</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/5.jpg" alt="Ascaris Ova" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Ascaris lumbricoides (Roundworm of Man), Ova – W.M. from Faeces</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Thick shell (mammillated albuminous coat)</div>
+                        <div class="component-item">Fertilized egg (embryo or zygote inside)</div>
+                        <div class="component-item">Unfertilized egg (with amorphous contents)</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Intestine of infected humans (host)</li>
+                            <li>Eggs passed in feces</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Reproduction and transmission of parasitic infection</li>
+                            <li>Development into larvae after reaching suitable environment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-        // Add animation to cards on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+            <!-- Slide 6: Frog Spermatozoa -->
+            <div class="slide-card" data-category="reproductive">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 6</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/6.jpg" alt="Frog Spermatozoa" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog Spermatozoa, Smear</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Head (with nucleus)</div>
+                        <div class="component-item">Midpiece (with mitochondria)</div>
+                        <div class="component-item">Tail (flagellum)</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Testes and seminal fluid of male frog</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Fertilization of frog egg</li>
+                            <li>Transfer of genetic material to ovum</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+            <!-- Slide 7: Frog Cleavage Section -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 7</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/7.jpg" alt="Frog Cleavage Section" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog Cleavage Section</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Blastomeres</div>
+                        <div class="component-item">Yolk</div>
+                        <div class="component-item">Cleavage furrows</div>
+                        <div class="component-item">Animal pole</div>
+                        <div class="component-item">Vegetal pole</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Dividing zygote of frog embryo</li>
+                            <li>Upper region of the egg (Animal pole)</li>
+                            <li>Lower region of the egg (Vegetal pole)</li>
+                            <li>Between blastomeres (Cleavage furrows)</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Form the cells of the early embryo</li>
+                            <li>Provide nutrition for development</li>
+                            <li>Help separate dividing cells</li>
+                            <li>Site of rapid cell division (Animal pole)</li>
+                            <li>Site of slower cell division and nutrient storage (Vegetal pole)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-        // Observe all slide cards
-        slideCards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(50px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
-        });
+            <!-- Slide 8: Frog Uncleaved Egg -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 8</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/8.jpg" alt="Frog Uncleaved Egg" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana) Uncleaved Egg T.S.</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Egg membrane</div>
+                        <div class="component-item">Cytoplasm</div>
+                        <div class="component-item">Yolk granules</div>
+                        <div class="component-item">Nucleus (germinal vesicle)</div>
+                        <div class="component-item">Animal pole</div>
+                        <div class="component-item">Vegetal pole</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Outer surface of the egg (Egg membrane)</li>
+                            <li>Inner content of the egg (Cytoplasm)</li>
+                            <li>Concentrated in the vegetal pole (Yolk granules)</li>
+                            <li>Near the animal pole (Nucleus)</li>
+                            <li>Upper region of the egg (Animal pole)</li>
+                            <li>Lower region of the egg (Vegetal pole)</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Protects the egg</li>
+                            <li>Supports cellular activities</li>
+                            <li>Provides nutrients for the embryo</li>
+                            <li>Controls genetic functions</li>
+                            <li>Site of future cleavage</li>
+                            <li>Stores yolk for nourishment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-        // Print functionality
-        function printPage() {
-            window.print();
-        }
-    </script>
-</body>
-</html>
+            <!-- Slide 9: Frog Early Tail Bud Stage -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 9</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/9.jpg" alt="Frog Early Tail Bud Stage" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana) Embryology Early Tail Bud Stage, Sagittal L.S.</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Neural tube</div>
+                        <div class="component-item">Notochord</div>
+                        <div class="component-item">Somites</div>
+                        <div class="component-item">Tail bud</div>
+                        <div class="component-item">Archenteron</div>
+                        <div class="component-item">Yolk cells</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Dorsal midline of embryo (Neural tube)</li>
+                            <li>Below the neural tube (Notochord)</li>
+                            <li>Lateral sides of notochord (Somites)</li>
+                            <li>Posterior end of embryo (Tail bud)</li>
+                            <li>Ventral cavity (Archenteron)</li>
+                            <li>Lower part of embryo (Yolk cells)</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Develops into the central nervous system</li>
+                            <li>Provides axial support and signals for development</li>
+                            <li>Forms muscles and vertebrae</li>
+                            <li>Initiates tail formation</li>
+                            <li>Primitive gut cavity</li>
+                            <li>Provides nutrition to the embryo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Frog Holoblastic Cleavage -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 10</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/10.jpg" alt="Frog Holoblastic Cleavage" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana) Holoblastic Cleavage</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Blastomeres</div>
+                        <div class="component-item">Animal pole</div>
+                        <div class="component-item">Vegetal pole</div>
+                        <div class="component-item">Cleavage furrow</div>
+                        <div class="component-item">Gray crescent</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Entire zygote (Blastomeres)</li>
+                            <li>Upper hemisphere of egg (Animal pole)</li>
+                            <li>Lower hemisphere of egg (Vegetal pole)</li>
+                            <li>Across the egg (Cleavage furrow)</li>
+                            <li>Opposite sperm entry point (Gray crescent)</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Form embryonic cells</li>
+                            <li>Undergo rapid division, form micromeres</li>
+                            <li>Undergo slower division, form macromeres</li>
+                            <li>Divide the zygote during cleavage</li>
+                            <li>Establish body axis and initiate gastrulation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Frog Four Cells Stage -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 11</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/11.jpg" alt="Frog Four Cells Stage" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana), Egg Four Cells Stage (Second Cleavage), T.S.</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Blastomeres</div>
+                        <div class="component-item">Cleavage furrow (second)</div>
+                        <div class="component-item">Animal pole</div>
+                        <div class="component-item">Vegetal pole</div>
+                        <div class="component-item">Vitelline membrane</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Entire egg (four equal or unequal cells)</li>
+                            <li>Vertical plane, perpendicular to first furrow</li>
+                            <li>Upper region of egg</li>
+                            <li>Lower region of egg</li>
+                            <li>Surrounding the egg cell</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Form early embryonic structure</li>
+                            <li>Divide the embryo into four blastomeres</li>
+                            <li>Site of faster cell division</li>
+                            <li>Site of slower cell division due to yolk</li>
+                            <li>Protects the egg and maintains shape</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Frog Neurula Stage -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 12</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/12.jpg" alt="Frog Neurula Stage" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana) Embryology Neurula Stage, T.S.</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Neural folds</div>
+                        <div class="component-item">Neural groove</div>
+                        <div class="component-item">Neural tube</div>
+                        <div class="component-item">Notochord</div>
+                        <div class="component-item">Somites</div>
+                        <div class="component-item">Archenteron</div>
+                        <div class="component-item">Yolk cells</div>
+                        <div class="component-item">Ectoderm</div>
+                        <div class="component-item">Mesoderm</div>
+                        <div class="component-item">Endoderm</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Sides of the dorsal midline</li>
+                            <li>Between neural folds</li>
+                            <li>Mid dorsal region (after folds fuse)</li>
+                            <li>Below the neural tube</li>
+                            <li>Lateral to notochord</li>
+                            <li>Ventral cavity</li>
+                            <li>Lower part of embryo</li>
+                            <li>Outer layer of embryo</li>
+                            <li>Middle germ layer</li>
+                            <li>Inner germ layer</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Elevate and form neural tube</li>
+                            <li>Initial depression forming neural tube</li>
+                            <li>Forms brain and spinal cord</li>
+                            <li>Provides support and signals to surrounding tissues</li>
+                            <li>Give rise to muscle and vertebrae</li>
+                            <li>Forms the primitive gut</li>
+                            <li>Store and supply nutrients</li>
+                            <li>Forms skin and nervous tissue</li>
+                            <li>Forms muscles, bones, and circulatory system</li>
+                            <li>Forms digestive and respiratory linings</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: Frog Early Gastrula Stage -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 13</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/13.jpg" alt="Frog Early Gastrula Stage" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana) Embryology Early Gastrula Stage, Sagittal L.S.</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Blastopore</div>
+                        <div class="component-item">Dorsal lip of blastopore</div>
+                        <div class="component-item">Archenteron</div>
+                        <div class="component-item">Ectoderm</div>
+                        <div class="component-item">Endoderm</div>
+                        <div class="component-item">Yolk plug</div>
+                        <div class="component-item">Mesoderm</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Posterior region of embryo</li>
+                            <li>Upper margin of the blastopore</li>
+                            <li>Internal cavity forming behind blastopore</li>
+                            <li>Outer surface of embryo</li>
+                            <li>Inner lining of archenteron</li>
+                            <li>Center of blastopore opening</li>
+                            <li>Between ectoderm and endoderm</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Opening through which cells migrate inward</li>
+                            <li>Initiates gastrulation and mesoderm formation</li>
+                            <li>Forms the primitive gut</li>
+                            <li>Forms skin and nervous system</li>
+                            <li>Forms digestive and respiratory tract</li>
+                            <li>Temporary plug of yolky cells during invagination</li>
+                            <li>Forms muscles, bones, and circulatory tissues</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14: Frog Blastula Stage -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 14</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/14.jpg" alt="Frog Blastula Stage" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog Blastula T.S.</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Blastocoel</div>
+                        <div class="component-item">Blastomeres</div>
+                        <div class="component-item">Animal pole</div>
+                        <div class="component-item">Vegetal pole</div>
+                        <div class="component-item">Yolk</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Central cavity of blastula</li>
+                            <li>Surrounding blastocoel</li>
+                            <li>Upper hemisphere of blastula</li>
+                            <li>Lower hemisphere of blastula</li>
+                            <li>Inside vegetal blastomeres</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Space for cell migration during gastrulation</li>
+                            <li>Develop into embryonic tissues</li>
+                            <li>Forms ectoderm</li>
+                            <li>Forms endoderm and stores yolk</li>
+                            <li>Provides nutrients to embryo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Frog Later Gastrula (Yolk Plug Stage) -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 15</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/15.jpg" alt="Frog Later Gastrula" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana) Later Gastrula (Yolk Plug Stage), Sagittal L.S.</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Blastopore</div>
+                        <div class="component-item">Yolk plug</div>
+                        <div class="component-item">Archenteron</div>
+                        <div class="component-item">Ectoderm</div>
+                        <div class="component-item">Endoderm</div>
+                        <div class="component-item">Mesoderm</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Opening at posterior side</li>
+                            <li>Center of blastopore</li>
+                            <li>Internal cavity above yolk plug</li>
+                            <li>Outer layer</li>
+                            <li>Inner layer surrounding archenteron</li>
+                            <li>Between ectoderm and endoderm</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Entry point for gastrulation cell movement</li>
+                            <li>Remaining yolk-filled cells being enclosed</li>
+                            <li>Future digestive tract</li>
+                            <li>Forms skin and nervous system</li>
+                            <li>Forms internal organs like gut lining</li>
+                            <li>Forms muscles, notochord, and circulatory system</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 16: Frog Morula Stage (First) -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 16</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/16.jpg" alt="Frog Morula Stage" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana) - Morula Stage Longitudinal Section L.S</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Micromeres</div>
+                        <div class="component-item">Macromeres</div>
+                        <div class="component-item">Cleavage furrows</div>
+                        <div class="component-item">Blastomeres</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Upper (animal pole) region</li>
+                            <li>Lower (vegetal pole) region</li>
+                            <li>Between dividing blastomeres</li>
+                            <li>Entire morula mass</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Divide rapidly; contribute to ectoderm</li>
+                            <li>Store yolk; contribute to endoderm</li>
+                            <li>Indicate division planes</li>
+                            <li>Form all embryonic tissues</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 17: Frog Blastula Stage (Second) -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 17</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/17.jpg" alt="Frog Blastula Stage Showing Blastocoel" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana) - Blastula Stage Longitudinal Section (L.S.) Showing Blastocoel</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Blastocoel</div>
+                        <div class="component-item">Micromeres</div>
+                        <div class="component-item">Macromeres</div>
+                        <div class="component-item">Blastoderm</div>
+                        <div class="component-item">Blastomeres</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Central fluid filled cavity</li>
+                            <li>Animal pole (upper region)</li>
+                            <li>Vegetal pole (lower region)</li>
+                            <li>Layer of cells surrounding blastocoel</li>
+                            <li>Entire cellular mass</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Space for cell movement during gastrulation</li>
+                            <li>Form ectoderm</li>
+                            <li>Form endoderm and store yolk</li>
+                            <li>Develops into embryonic germ layers</li>
+                            <li>Give rise to all body tissues</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 18: Frog Morula Stage (Second) -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 18</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embryology/18.jpg" alt="Frog Morula Stage Second" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana) - Morula Stage Longitudinal Section (L.S.)</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Blastomeres</div>
+                        <div class="component-item">Micromeres</div>
+                        <div class="component-item">Macromeres</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Entire cellular mass</li>
+                            <li>Animal pole (upper region)</li>
+                            <li>Vegetal pole (lower region)</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Give rise to all body tissues</li>
+                            <li>Form ectoderm</li>
+                            <li>Form endoderm and store yolk</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            

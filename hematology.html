@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ku" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>هێماتۆلۆجی - Coming Soon</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hematology Chapter - بەشی خوێنناسی</title>
     <style>
-     * {
+        * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
+        
 @font-face {
     font-family: 'NotoKufiArabic';
     src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
@@ -61,8 +61,8 @@ body {
     right: 0;
     bottom: 0;
     background-image:
-        radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 20% 30%, rgba(220, 38, 127, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(239, 68, 68, 0.15) 0%, transparent 50%),
         radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 60%);
     animation: float 6s ease-in-out infinite;
 }
@@ -81,13 +81,13 @@ body {
     font-size: 6em;
     margin-bottom: 30px;
     opacity: 0.95;
-    text-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+    text-shadow: 0 0 30px rgba(220, 38, 127, 0.5);
     animation: glow 3s ease-in-out infinite alternate;
 }
 
 @keyframes glow {
-    0% { text-shadow: 0 0 30px rgba(34, 197, 94, 0.5); }
-    100% { text-shadow: 0 0 50px rgba(34, 197, 94, 0.8); }
+    0% { text-shadow: 0 0 30px rgba(220, 38, 127, 0.5); }
+    100% { text-shadow: 0 0 50px rgba(220, 38, 127, 0.8); }
 }
 
 .main-title {
@@ -95,7 +95,7 @@ body {
     font-size: 4em;
     font-weight: 700;
     margin-bottom: 25px;
-    background: linear-gradient(135deg, #22c55e, #3b82f6, #a855f7);
+    background: linear-gradient(135deg, #dc2626, #e11d48, #a855f7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -155,7 +155,7 @@ body {
     font-weight: 700;
     font-size: 1.3em;
     margin-bottom: 8px;
-    color: #22c55e;
+    color: #dc2626;
 }
 
 .field-info {
@@ -188,7 +188,7 @@ body {
 }
 
 .nav-title {
-    color: #22c55e;
+    color: #dc2626;
     font-weight: 700;
     font-size: 1.2em;
 }
@@ -209,8 +209,8 @@ body {
 
 .nav-link:hover, 
 .nav-link.active {
-    color: #22c55e;
-    background: rgba(34, 197, 94, 0.1);
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
 }
 
 /* Table of Contents */
@@ -226,7 +226,7 @@ body {
     font-weight: 700;
     text-align: center;
     margin-bottom: 50px;
-    background: linear-gradient(135deg, #22c55e, #3b82f6);
+    background: linear-gradient(135deg, #dc2626, #e11d48);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -314,7 +314,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1));
+    background: linear-gradient(45deg, rgba(220, 38, 127, 0.1), rgba(239, 68, 68, 0.1));
 }
 
 .chapter-number {
@@ -363,11 +363,11 @@ body {
     transform: translateY(-10px) scale(1.02);
     box-shadow:
         0 30px 60px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(34, 197, 94, 0.2);
+        0 0 0 1px rgba(220, 38, 38, 0.2);
 }
 
 .slide-header {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
     color: white;
     padding: 25px;
     text-align: center;
@@ -381,7 +381,7 @@ body {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #3b82f6, #a855f7, #ec4899);
+    background: linear-gradient(90deg, #e11d48, #a855f7, #3b82f6);
 }
 
 .slide-number {
@@ -415,7 +415,7 @@ body {
     color: #0f172a;
     margin-bottom: 20px;
     font-size: 1.4em;
-    border-bottom: 2px solid #22c55e;
+    border-bottom: 2px solid #dc2626;
     padding-bottom: 10px;
 }
 
@@ -431,17 +431,17 @@ body {
 }
 
 .component-item {
-    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+    background: linear-gradient(135deg, #fecaca, #fca5a5);
     padding: 12px 16px;
     margin: 8px 0;
     border-radius: 10px;
-    border-left: 4px solid #22c55e;
+    border-left: 4px solid #dc2626;
     transition: all 0.3s ease;
 }
 
 .component-item:hover {
     transform: translateX(5px);
-    background: linear-gradient(135deg, #bbf7d0, #a7f3d0);
+    background: linear-gradient(135deg, #fca5a5, #f87171);
 }
 
 .location-section, 
@@ -463,7 +463,7 @@ body {
     content: '';
     width: 4px;
     height: 20px;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    background: linear-gradient(135deg, #e11d48, #a855f7);
     border-radius: 2px;
 }
 
@@ -549,7 +549,7 @@ body {
 
 .search-input:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
     width: 300px;
 }
 
@@ -566,7 +566,7 @@ body {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #22c55e, #3b82f6, #a855f7);
+    background: linear-gradient(90deg, #dc2626, #e11d48, #a855f7);
     width: 0%;
     transition: width 0.3s ease;
 }
@@ -576,7 +576,7 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #22c55e;
+    background: #dc2626;
     color: white;
     border: none;
     width: 60px;
@@ -587,14 +587,14 @@ body {
     justify-content: center;
     font-size: 24px;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+    box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
     z-index: 100;
     transition: all 0.3s ease;
 }
 
 .print-btn:hover {
     transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.6);
+    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.6);
 }
 
 /* Filter buttons */
@@ -618,7 +618,7 @@ body {
 
 .filter-btn.active, 
 .filter-btn:hover {
-    background: #22c55e;
+    background: #dc2626;
     color: white;
 }
 
@@ -630,7 +630,7 @@ body {
 }
 
 .slide-nav-btn {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    background: linear-gradient(135deg, #e11d48, #be185d);
     color: white;
     border: none;
     padding: 12px 25px;
@@ -645,7 +645,7 @@ body {
 
 .slide-nav-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 10px 20px rgba(225, 29, 72, 0.3);
 }
 
 .slide-nav-btn.prev {
@@ -669,7 +669,7 @@ body {
 }
 
 .chapter-dot.active {
-    background: #3b82f6;
+    background: #e11d48;
     transform: scale(1.3);
 }
 
@@ -766,36 +766,652 @@ body {
     </style>
 </head>
 <body>
-    <!-- Hematology Chapter -->
-        <div class="chapter-page" id="hematology">
-            <div class="chapter-header">
-                <div class="chapter-number">Chapter 5</div>
-                <h2 class="chapter-main-title">🩸 Hematology - Blood Studies</h2>
-                <p class="chapter-description">Study of blood and blood-forming organs</p>
-                <p>Hematology is the branch of medicine and biology that focuses on the study of blood, blood-forming organs, and blood diseases. This field encompasses the examination of blood cells, bone marrow, spleen, and lymph nodes. Hematologists study the formation, structure, and function of blood cells including red blood cells (erythrocytes), white blood cells (leukocytes), and platelets (thrombocytes). The field is essential for diagnosing and treating blood disorders such as anemia, leukemia, lymphoma, bleeding disorders, and clotting abnormalities. Hematology also plays a crucial role in transfusion medicine and understanding the immune system.</p>
-            </div>
+    <div style="position:fixed;left:20px;top:20px;z-index:2000">
+        <a href="https://scence-bio.github.io/Biology/" 
+           style="text-decoration:none;background:#dc2626;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
+            back to home - گەڕانەوە بۆ سەرەکی
+        </a>
+    </div>
 
-            <!-- Placeholder for hematology slides -->
-            <div class="slide-grid">
-                <div class="slide-card">
-                    <div class="slide-header">
-                        <div class="slide-number">Coming Soon</div>
+    <!-- Progress bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Print button -->
+    <button class="print-btn" title="Print Guide" onclick="window.print()">🖨️</button>
+
+    <!-- Hematology Chapter -->
+    <div class="chapter-page" id="hematology">
+        <div class="chapter-header">
+            <div class="chapter-number">Chapter 2</div>
+            <h2 class="chapter-main-title">🩸 Hematology - Blood Studies</h2>
+            <p class="chapter-description">Study of blood and blood-forming organs, blood cells, and blood diseases</p>
+        </div>
+
+        <!-- Filter controls -->
+        <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">All Slides</button>
+            <button class="filter-btn" data-filter="blood-cells">Blood Cells</button>
+            <button class="filter-btn" data-filter="fungal-spores">Fungal Spores</button>
+            <button class="filter-btn" data-filter="disorders">Blood Disorders</button>
+            <button class="filter-btn" data-filter="parasites">Blood Parasites</button>
+        </div>
+
+        <div class="slide-grid">
+            <!-- Slide 1: Platelet Cell -->
+            <div class="slide-card" data-category="blood-cells">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 1</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Platelet Cell</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Small, colorless, disc-shaped cell fragments in blood</div>
+                        <div class="component-item">Formed from cytoplasm of megakaryocytes in bone marrow</div>
+                        <div class="component-item">Not complete cells but play crucial role in blood clotting</div>
                     </div>
-                    <div class="slide-content">
-                        <div class="slide-image-placeholder">
-                            🩸 Hematology Slides
-                            <br>Under Development
-                        </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Size: Very small (2-4 μm in diameter)</div>
+                        <div class="component-item">Shape: Disc-like when inactive; irregular with finger-like projections when active</div>
+                        <div class="component-item">Structure: Contains granules storing clotting factors, growth factors, serotonin, calcium</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Blood clotting: Stick to injury sites (adhesion), clump together (aggregation)</li>
+                            <li>Wound healing: Release growth factors for tissue repair</li>
+                            <li>Immune role: Interact with white blood cells and pathogens</li>
+                            <li>Vascular integrity maintenance</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </div>
 
-    <div style="position:fixed; left:20px; top:20px; z-index:2000;">
-    <a href="index.html" style="text-decoration:none; background:#22c55e; color:white; padding:10px 14px; border-radius:10px; font-weight:600;">
-        گەڕانەوە بۆ پەڕەی سەرەکی
-    </a>
-</div>
+            <!-- Slide 2: White Blood Cell -->
+            <div class="slide-card" data-category="blood-cells">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 2</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">White Blood Cell (Leukocyte)</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Type of blood cell vital for immune system</div>
+                        <div class="component-item">Defends against infections, foreign substances, abnormal cells</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Larger than red blood cells (12-20 μm)</div>
+                        <div class="component-item">Have nucleus (unlike RBCs)</div>
+                        <div class="component-item">Various types with different appearances</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Defense: Protect body against pathogens</li>
+                            <li>Immune memory: Lymphocytes recognize antigens</li>
+                            <li>Disease indicator: Abnormal counts signal infections or cancers</li>
+                            <li>Inflammation response coordination</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-</body>
-</html>
+            <!-- Slide 3: Red Blood Cell -->
+            <div class="slide-card" data-category="blood-cells">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 3</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Red Blood Cell (Erythrocyte)</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Specialized blood cell for oxygen transport</div>
+                        <div class="component-item">Carries oxygen from lungs to body tissues</div>
+                        <div class="component-item">Returns carbon dioxide from tissues to lungs</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Small, round, biconcave disc-shaped</div>
+                        <div class="component-item">Red color due to hemoglobin presence</div>
+                        <div class="component-item">No nucleus in mature cells</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Oxygen transport via hemoglobin</li>
+                            <li>Carbon dioxide transport</li>
+                            <li>pH balance maintenance</li>
+                            <li>Essential for tissue respiration and energy production</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Basophil Cell -->
+            <div class="slide-card" data-category="blood-cells">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 4</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Basophil Cell (WBC)</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Type of white blood cell belonging to granulocytes</div>
+                        <div class="component-item">Plays role in allergic reactions, inflammation, parasite defense</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Large cell (10-14 μm)</div>
+                        <div class="component-item">Contains bilobed nucleus</div>
+                        <div class="component-item">Cytoplasm filled with large, dark blue-purple granules</div>
+                        <div class="component-item">Granules contain histamine, heparin, and other mediators</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Allergic response: Releases histamine causing blood vessel dilation</li>
+                            <li>Inflammation: Releases chemicals attracting other immune cells</li>
+                            <li>Anticoagulation: Heparin prevents blood clotting at infection sites</li>
+                            <li>Parasitic defense: Helps in immune responses against parasites</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Eosinophil Cell -->
+            <div class="slide-card" data-category="blood-cells">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 5</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Eosinophil Cell (WBC)</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Type of white blood cell belonging to granulocyte group</div>
+                        <div class="component-item">Important role in defense against parasitic infections</div>
+                        <div class="component-item">Controls allergic and inflammatory responses</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Medium-sized cell (12-17 μm)</div>
+                        <div class="component-item">Bilobed nucleus</div>
+                        <div class="component-item">Cytoplasm contains large, coarse red-orange granules (eosin staining)</div>
+                        <div class="component-item">Granules contain enzymes and proteins toxic to parasites</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Parasitic defense: Releases toxic proteins to kill helminths and parasites</li>
+                            <li>Allergy regulation: Modulates allergic responses by breaking down histamine</li>
+                            <li>Inflammation: Involved in asthma and allergic diseases</li>
+                            <li>Immune balance: Helps regulate immune responses with T cells and mast cells</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Neutrophil Cell -->
+            <div class="slide-card" data-category="blood-cells">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 6</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Neutrophil Cell (WBC)</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Most abundant type of white blood cell</div>
+                        <div class="component-item">Member of granulocyte group</div>
+                        <div class="component-item">First line of defense specializing in phagocytosis</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Medium-sized cell (10-15 μm)</div>
+                        <div class="component-item">Multilobed nucleus (2-5 lobes) - "polymorphonuclear" appearance</div>
+                        <div class="component-item">Cytoplasm contains fine, pale neutral-staining granules</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Phagocytosis: Engulf and digest bacteria, fungi, dead tissue</li>
+                            <li>First responders: Rapidly migrate to infection or injury sites</li>
+                            <li>Inflammation: Release enzymes and reactive oxygen species</li>
+                            <li>Short lifespan: Live few hours to days, forming pus when they die</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Monocyte Cell -->
+            <div class="slide-card" data-category="blood-cells">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 7</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Monocyte Cell (WBC)</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Large type of white blood cell belonging to agranulocyte group</div>
+                        <div class="component-item">Circulates in blood and migrates into tissues</div>
+                        <div class="component-item">Differentiates into macrophages or dendritic cells</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Largest WBC (15-20 μm)</div>
+                        <div class="component-item">Kidney-shaped or horseshoe-shaped nucleus</div>
+                        <div class="component-item">Abundant cytoplasm, grayish-blue in color</div>
+                        <div class="component-item">Few or no visible granules (agranular)</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Phagocytosis: Engulf pathogens and cellular debris</li>
+                            <li>Antigen presentation: Present antigens to T cells</li>
+                            <li>Cytokine production: Release signaling molecules</li>
+                            <li>Tissue repair and remodeling</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Blood Smear -->
+            <div class="slide-card" data-category="blood-cells">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 8</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Blood Smear</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Laboratory test with thin blood layer on microscope slide</div>
+                        <div class="component-item">Stained and examined under microscope</div>
+                        <div class="component-item">Used to study blood cell appearance, number, and shape</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Thin film of blood on glass slide</div>
+                        <div class="component-item">Stained with special dyes (Wright's stain, Giemsa stain)</div>
+                        <div class="component-item">Shows different blood cell types under microscope</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Diagnostic tool: Detect anemia, infections, leukemia, malaria</li>
+                            <li>Cell evaluation: Check size, shape, number of RBCs, WBCs, platelets</li>
+                            <li>Parasite detection: Useful in diagnosing malaria and other parasites</li>
+                            <li>Differential WBC count: Classify types of white blood cells</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Bone Marrow -->
+            <div class="slide-card" data-category="blood-cells">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 9</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Bone Marrow</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Soft, spongy tissue found inside hollow bone cavities</div>
+                        <div class="component-item">Primary site of blood cell production (hematopoiesis)</div>
+                        <div class="component-item">Generates red blood cells, white blood cells, and platelets</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Soft, gelatinous tissue</div>
+                        <div class="component-item">Red marrow: reddish-brown (active blood formation)</div>
+                        <div class="component-item">Yellow marrow: yellowish (mostly fat storage)</div>
+                        <div class="component-item">Contains hematopoietic stem cells, fat cells, stromal cells</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Hematopoiesis: Produces all blood cell types</li>
+                            <li>Immune function: Site for developing lymphocytes (B cells mature here)</li>
+                            <li>Storage: Yellow marrow stores fat as energy reserve</li>
+                            <li>Diagnostic importance: Examination helps diagnose blood disorders</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Blood Clot Formation -->
+            <div class="slide-card" data-category="blood-cells">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 10</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Blood Clot Formation</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Process where blood changes from liquid to gel-like state</div>
+                        <div class="component-item">Stops bleeding after injury (hemostasis)</div>
+                        <div class="component-item">Involves platelets, clotting factors, and fibrin</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Visible as gel-like mass at injury site</div>
+                        <div class="component-item">Initially platelet plug, then stabilized by fibrin mesh</div>
+                        <div class="component-item">In test tube: blood coagulates forming visible clot</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Process & Functions:</div>
+                        <ul class="function-list">
+                            <li>Vascular spasm: Blood vessels constrict</li>
+                            <li>Platelet plug formation: Platelets aggregate at injury</li>
+                            <li>Coagulation cascade: Clotting factors activate fibrin formation</li>
+                            <li>Fibrinolysis: Clot dissolves after healing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Sickle Cell Anemia -->
+            <div class="slide-card" data-category="disorders">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 11</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Sickle Cell Anemia</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Condition where RBCs become abnormally crescent or sickle-shaped</div>
+                        <div class="component-item">Due to genetic mutation in hemoglobin gene (HbS)</div>
+                        <div class="component-item">Leads to sickle cell disease (SCD)</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">RBCs are crescent/sickle-shaped instead of normal biconcave disc</div>
+                        <div class="component-item">Cells are rigid, less flexible, can clump together</div>
+                        <div class="component-item">Visible under microscope, especially in oxygen-deprived conditions</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Effects & Complications:</div>
+                        <ul class="function-list">
+                            <li>Oxygen transport impaired: Sickled cells carry less oxygen, block blood flow</li>
+                            <li>Shortened lifespan: 10-20 days (normal RBC ~120 days), leading to anemia</li>
+                            <li>Complications: Pain crises, organ damage, infections</li>
+                            <li>Genetic importance: Sickle cell trait provides malaria resistance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Multiple Myeloma -->
+            <div class="slide-card" data-category="disorders">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 12</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Multiple Myeloma</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Cancer of plasma cells (type of white blood cell producing antibodies)</div>
+                        <div class="component-item">Abnormal plasma cells multiply uncontrollably in bone marrow</div>
+                        <div class="component-item">Crowds out normal blood cells</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Bone marrow contains clusters of malignant plasma cells with large nuclei</div>
+                        <div class="component-item">Blood shows high levels of abnormal antibodies (M-protein)</div>
+                        <div class="component-item">Bones show lesions or thinning on X-ray</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Effects & Complications:</div>
+                        <ul class="function-list">
+                            <li>Antibody production disrupted: Malignant cells produce defective antibodies</li>
+                            <li>Bone damage: Causes bone pain, fractures, hypercalcemia</li>
+                            <li>Blood cell reduction: Crowding bone marrow leads to anemia, infections, bleeding</li>
+                            <li>Kidney damage: Abnormal proteins can damage kidneys</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: Thalassemia -->
+            <div class="slide-card" data-category="disorders">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 13</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Thalassemia</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Genetic blood disorder affecting hemoglobin production</div>
+                        <div class="component-item">Body produces abnormal hemoglobin</div>
+                        <div class="component-item">Leads to reduced functional red blood cell production and anemia</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">RBCs are small (microcytic) and pale (hypochromic) under microscope</div>
+                        <div class="component-item">Cells may appear irregularly shaped and sometimes fragmented</div>
+                        <div class="component-item">Target cells and other abnormal RBC shapes visible</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Effects & Complications:</div>
+                        <ul class="function-list">
+                            <li>Impaired oxygen transport: Abnormal hemoglobin reduces oxygen delivery</li>
+                            <li>Anemia: Causes fatigue, weakness, pallor</li>
+                            <li>Bone changes: Chronic anemia may lead to bone deformities</li>
+                            <li>Growth retardation: Severe cases affect growth and development in children</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14: Paroxysmal Nocturnal Hemoglobinuria (PNH) -->
+            <div class="slide-card" data-category="disorders">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 14</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Paroxysmal Nocturnal Hemoglobinuria (PNH)</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Rare, acquired blood disorder</div>
+                        <div class="component-item">RBCs destroyed by immune system due to lack of protective surface proteins</div>
+                        <div class="component-item">Caused by mutation in PIGA gene</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">RBCs may look normal under microscope but are fragile</div>
+                        <div class="component-item">Lab tests show hemoglobin in urine (dark-colored urine, especially morning)</div>
+                        <div class="component-item">Flow cytometry shows absence of CD55 and CD59 proteins</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Effects & Complications:</div>
+                        <ul class="function-list">
+                            <li>Defective stem cells: Leads to abnormal RBCs, WBCs, and platelets production</li>
+                            <li>Hemolysis: RBC destruction causes anemia, dark urine, jaundice</li>
+                            <li>Blood clots (thrombosis): Major cause of death in PNH patients</li>
+                            <li>Bone marrow failure: Can lead to low counts of all blood cells</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Malaria -->
+            <div class="slide-card" data-category="parasites">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 15</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Malaria (Blood Stage)</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Blood stage of malaria where Plasmodium parasites invade RBCs</div>
+                        <div class="component-item">Parasites multiply inside RBCs and eventually destroy them</div>
+                        <div class="component-item">Responsible for malaria symptoms</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Ring stage: Small ring-like parasite inside RBCs</div>
+                        <div class="component-item">Trophozoite stage: Larger, more active form</div>
+                        <div class="component-item">Schizont stage: RBC filled with many daughter parasites (merozoites)</div>
+                        <div class="component-item">Gametocyte stage: Sexual forms (banana-shaped in P. falciparum)</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Effects & Complications:</div>
+                        <ul class="function-list">
+                            <li>RBC invasion and multiplication: Each infected RBC releases 8-32 merozoites</li>
+                            <li>Hemolysis: RBC rupture causes anemia and releases toxins</li>
+                            <li>Cyclic fevers: Symptoms occur in cycles (every 48 or 72 hours)</li>
+                            <li>Severe complications: Anemia, enlarged spleen, cerebral malaria, organ failure</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 16: Visceral Leishmaniasis -->
+            <div class="slide-card" data-category="parasites">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 16</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Visceral Leishmaniasis (Kala-azar)</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Parasitic disease caused by Leishmania donovani and related species</div>
+                        <div class="component-item">Transmitted through bite of infected female sandflies (Phlebotomus species)</div>
+                        <div class="component-item">Also known as Kala-azar</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">In blood/bone marrow smears: small, oval parasites (2-5 μm)</div>
+                        <div class="component-item">Found inside macrophages (called amastigotes)</div>
+                        <div class="component-item">Enlarged spleen and liver visible clinically</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Effects & Complications:</div>
+                        <ul class="function-list">
+                            <li>Infection of macrophages: Parasite multiplies inside immune cells</li>
+                            <li>Spreads through blood, spleen, liver, and bone marrow</li>
+                            <li>Complications: Can be fatal if untreated due to severe anemia</li>
+                            <li>Secondary infections and organ failure possible</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 17: Leukemia Blood Cancer -->
+            <div class="slide-card" data-category="disorders">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 17</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Leukemia (Blood Cancer)</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Cancer of blood and bone marrow</div>
+                        <div class="component-item">Causes uncontrolled production of abnormal white blood cells</div>
+                        <div class="component-item">Abnormal cells don't function properly and crowd out normal cells</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Blood smear shows immature or abnormal WBCs (blasts)</div>
+                        <div class="component-item">Bone marrow often packed with abnormal leukocytes</div>
+                        <div class="component-item">Normal RBCs and platelets are reduced</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Effects & Complications:</div>
+                        <ul class="function-list">
+                            <li>Immune dysfunction: Abnormal WBCs cannot fight infections properly</li>
+                            <li>Anemia: Reduced RBCs cause fatigue, weakness, pallor</li>
+                            <li>Bleeding and bruising: Low platelet count</li>
+                            <li>Enlarged organs: Spleen, liver, and lymph nodes may enlarge</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fungal Spores Section -->
+            <!-- Slide 18: Conidium -->
+            <div class="slide-card" data-category="fungal-spores">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 18</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Conidium</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Asexual spore produced by many fungi</div>
+                        <div class="component-item">Formed externally on specialized hyphae called conidiophores</div>
+                        <div class="component-item">Does not develop inside a sac (sporangium)</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Microscopic, usually round, oval, or elongated</div>
+                        <div class="component-item">Found singly, in chains, or clusters</div>
+                        <div class="component-item">May be colorless (hyaline) or pigmented (green, brown, black)</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions & Importance:</div>
+                        <ul class="function-list">
+                            <li>Reproduction: Allows fungi to reproduce asexually</li>
+                            <li>Dispersal: Spread easily by air, water, or insects</li>
+                            <li>Medical importance: Some cause human infections (e.g., Aspergillus)</li>
+                            <li>Agricultural importance: Some cause plant diseases (e.g., powdery mildew)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 19: Yeast Cell -->
+            <div class="slide-card" data-category="fungal-spores">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 19</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Yeast Cell</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Unicellular form of fungi</div>
+                        <div class="component-item">Reproduces mainly by budding or fission</div>
+                        <div class="component-item">Unlike filamentous fungi, exists as single cells</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Small, oval, or spherical shape (3-10 μm)</div>
+                        <div class="component-item">Smooth cell wall, usually colorless under light microscope</div>
+                        <div class="component-item">Sometimes seen with bud attached (daughter cell)</div>
+                        <div class="component-item">Colonies on agar look moist, creamy, or pasty</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions & Importance:</div>
+                        <ul class="function-list">
+                            <li>Reproduction: Multiply rapidly by budding or binary fission</li>
+                            <li>Fermentation: Convert sugars to alcohol and CO2 (brewing, baking)</li>
+                            <li>Medical role: Some beneficial (S. cerevisiae), others pathogenic (Candida)</li>
+                            <li>Industrial applications: Used in biotechnology and food production</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 20: Additional fungal spores can be added here -->
+            <div class="slide-card" data-category="fungal-spores">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 20</div>
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Chlamydospore</div>
+                    <div class="components-list">
+                        <div class="components-title">Definition:</div>
+                        <div class="component-item">Thick-walled, asexual fungal spore</div>
+                        <div class="component-item">Formed from modification of hyphal cell</div>
+                        <div class="component-item">Resistant structure for survival under unfavorable conditions</div>
+                    </div>
+                    <div class="components-list">
+                        <div class="components-title">Appearance:</div>
+                        <div class="component-item">Large, round or oval with thick double wall</div>
+                        <div class="component-item">Usually darker (brownish or black) compared to other fungal cells</div>
+                        <div class="component-item">Formed singly, in pairs, or chains, often at ends of hyphae</div>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions & Importance:</div>
+                        <ul class="function-list">

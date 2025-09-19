@@ -1461,45 +1461,7 @@ body {
             window.print();
         }
 
-        // Search functionality
-        function initSearch() {
-            const searchInput = document.createElement('input');
-            searchInput.type = 'text';
-            searchInput.placeholder = 'Search algae...';
-            searchInput.className = 'search-input';
-            
-            const searchContainer = document.createElement('div');
-            searchContainer.className = 'search-container';
-            searchContainer.appendChild(searchInput);
-            document.body.appendChild(searchContainer);
-
-            searchInput.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                
-                slideCards.forEach(card => {
-                    const title = card.querySelector('.slide-title').textContent.toLowerCase();
-                    const content = card.querySelector('.slide-content').textContent.toLowerCase();
-                    
-                    if (title.includes(searchTerm) || content.includes(searchTerm)) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-
-                // If search is empty, show filtered results
-                if (searchTerm === '') {
-                    const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
-                    slideCards.forEach(card => {
-                        if (activeFilter === 'all' || card.getAttribute('data-category') === activeFilter) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
-                }
-            });
-        }
+       
 
         // Initialize search when page loads
         document.addEventListener('DOMContentLoaded', initSearch);

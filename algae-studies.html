@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ku" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>قارچک - Coming Soon</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algae Studies - لێکۆڵینەوەی ئەڵگا</title>
     <style>
         * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
+        
 @font-face {
     font-family: 'NotoKufiArabic';
     src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
@@ -41,7 +41,7 @@ body {
 
 /* Cover Page */
 .cover-page {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 70%, #475569 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 70%, #065f46 100%);
     color: white;
     padding: 80px 50px;
     text-align: center;
@@ -61,9 +61,9 @@ body {
     right: 0;
     bottom: 0;
     background-image:
-        radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 60%);
+        radial-gradient(circle at 20% 30%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(5, 150, 105, 0.1) 0%, transparent 60%);
     animation: float 6s ease-in-out infinite;
 }
 
@@ -81,13 +81,13 @@ body {
     font-size: 6em;
     margin-bottom: 30px;
     opacity: 0.95;
-    text-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+    text-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
     animation: glow 3s ease-in-out infinite alternate;
 }
 
 @keyframes glow {
-    0% { text-shadow: 0 0 30px rgba(34, 197, 94, 0.5); }
-    100% { text-shadow: 0 0 50px rgba(34, 197, 94, 0.8); }
+    0% { text-shadow: 0 0 30px rgba(16, 185, 129, 0.5); }
+    100% { text-shadow: 0 0 50px rgba(16, 185, 129, 0.8); }
 }
 
 .main-title {
@@ -95,7 +95,7 @@ body {
     font-size: 4em;
     font-weight: 700;
     margin-bottom: 25px;
-    background: linear-gradient(135deg, #22c55e, #3b82f6, #a855f7);
+    background: linear-gradient(135deg, #10b981, #22c55e, #16a34a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -155,7 +155,7 @@ body {
     font-weight: 700;
     font-size: 1.3em;
     margin-bottom: 8px;
-    color: #22c55e;
+    color: #10b981;
 }
 
 .field-info {
@@ -188,7 +188,7 @@ body {
 }
 
 .nav-title {
-    color: #22c55e;
+    color: #10b981;
     font-weight: 700;
     font-size: 1.2em;
 }
@@ -209,85 +209,8 @@ body {
 
 .nav-link:hover, 
 .nav-link.active {
-    color: #22c55e;
-    background: rgba(34, 197, 94, 0.1);
-}
-
-/* Table of Contents */
-.table-of-contents {
-    padding: 60px 50px;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-}
-
-.toc-title {
-    color: #0f172a;
-    font-family: 'Georgia', serif;
-    font-size: 3em;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 50px;
-    background: linear-gradient(135deg, #22c55e, #3b82f6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.toc-list {
-    list-style: none;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.toc-item {
-    background: white;
-    margin: 20px 0;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-}
-
-.toc-item:hover {
-    transform: translateX(15px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-}
-
-.toc-link {
-    display: flex;
-    align-items: center;
-    padding: 25px 30px;
-    text-decoration: none;
-    color: #334155;
-}
-
-.chapter-icon {
-    font-size: 2.5em;
-    margin-right: 25px;
-    width: 70px;
-    text-align: center;
-}
-
-.chapter-details {
-    flex: 1;
-}
-
-.chapter-title {
-    font-size: 1.4em;
-    font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 8px;
-}
-
-.chapter-subtitle {
-    font-size: 1em;
-    color: #64748b;
-}
-
-.chapter-info {
-    text-align: right;
-    font-size: 0.9em;
-    color: #94a3b8;
-    font-weight: 600;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
 }
 
 /* Chapter Pages */
@@ -297,7 +220,7 @@ body {
 }
 
 .chapter-header {
-    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+    background: linear-gradient(135deg, #0f172a, #1e293b, #065f46);
     color: white;
     padding: 40px;
     border-radius: 25px;
@@ -314,7 +237,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1));
+    background: linear-gradient(45deg, rgba(16, 185, 129, 0.1), rgba(34, 197, 94, 0.1));
 }
 
 .chapter-number {
@@ -363,15 +286,31 @@ body {
     transform: translateY(-10px) scale(1.02);
     box-shadow:
         0 30px 60px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(34, 197, 94, 0.2);
+        0 0 0 1px rgba(16, 185, 129, 0.2);
 }
 
 .slide-header {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
+    background: linear-gradient(135deg, #10b981, #059669);
     color: white;
     padding: 25px;
     text-align: center;
     position: relative;
+}
+
+.slide-header.green {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.slide-header.brown {
+    background: linear-gradient(135deg, #a16207, #92400e);
+}
+
+.slide-header.red {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+.slide-header.golden {
+    background: linear-gradient(135deg, #d97706, #b45309);
 }
 
 .slide-header::after {
@@ -415,7 +354,7 @@ body {
     color: #0f172a;
     margin-bottom: 20px;
     font-size: 1.4em;
-    border-bottom: 2px solid #22c55e;
+    border-bottom: 2px solid #10b981;
     padding-bottom: 10px;
 }
 
@@ -435,7 +374,7 @@ body {
     padding: 12px 16px;
     margin: 8px 0;
     border-radius: 10px;
-    border-left: 4px solid #22c55e;
+    border-left: 4px solid #10b981;
     transition: all 0.3s ease;
 }
 
@@ -463,11 +402,10 @@ body {
     content: '';
     width: 4px;
     height: 20px;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    background: linear-gradient(135deg, #10b981, #059669);
     border-radius: 2px;
 }
 
-/* Updated Location List Styling */
 .location-list {
     list-style: none;
     padding: 0;
@@ -549,7 +487,7 @@ body {
 
 .search-input:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
     width: 300px;
 }
 
@@ -566,7 +504,7 @@ body {
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #22c55e, #3b82f6, #a855f7);
+    background: linear-gradient(90deg, #10b981, #22c55e, #16a34a);
     width: 0%;
     transition: width 0.3s ease;
 }
@@ -576,7 +514,7 @@ body {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #22c55e;
+    background: #10b981;
     color: white;
     border: none;
     width: 60px;
@@ -587,14 +525,14 @@ body {
     justify-content: center;
     font-size: 24px;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
     z-index: 100;
     transition: all 0.3s ease;
 }
 
 .print-btn:hover {
     transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.6);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.6);
 }
 
 /* Filter buttons */
@@ -618,59 +556,8 @@ body {
 
 .filter-btn.active, 
 .filter-btn:hover {
-    background: #22c55e;
+    background: #10b981;
     color: white;
-}
-
-/* Slide navigation controls */
-.slide-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-}
-
-.slide-nav-btn {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.slide-nav-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-}
-
-.slide-nav-btn.prev {
-    background: linear-gradient(135deg, #64748b, #475569);
-}
-
-.chapter-indicator {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 10px;
-}
-
-.chapter-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #cbd5e1;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.chapter-dot.active {
-    background: #3b82f6;
-    transform: scale(1.3);
 }
 
 /* Print styles */
@@ -710,8 +597,7 @@ body {
     }
 
     .cover-page, 
-    .chapter-page, 
-    .table-of-contents {
+    .chapter-page {
         padding: 40px 25px;
     }
 
@@ -726,22 +612,6 @@ body {
     .search-input:focus {
         width: 220px;
     }
-    
-    .toc-link {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .chapter-icon {
-        margin-right: 0;
-        margin-bottom: 15px;
-    }
-    
-    .chapter-info {
-        text-align: left;
-        width: 100%;
-        margin-top: 10px;
-    }
 }
 
 @media (max-width: 480px) {
@@ -752,50 +622,939 @@ body {
     .subtitle {
         font-size: 1.4em;
     }
-    
-    .slide-nav {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .slide-nav-btn {
-        width: 100%;
-        justify-content: center;
-    }
 }
     </style>
 </head>
 <body>
-    <!-- Algae Chapter -->
-        <div class="chapter-page" id="Algae">
-            <div class="chapter-header">
-                <div class="chapter-number">Chapter 8</div>
-                <h2 class="chapter-main-title">Algae - Algae Studies</h2>
-                <p class="chapter-description">Study of Algae</p>
-                <p>Algae</p>
+    <div style="position:fixed;left:20px;top:20px;z-index:2000">
+        <a href="https://scence-bio.github.io/Biology/" 
+           style="text-decoration:none;background:#10b981;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
+            back to home - گەڕانەوە بۆ سەرەکی
+        </a>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Print button -->
+    <button class="print-btn" title="Print Guide" onclick="window.print()">🖨️</button>
+
+    <!-- Algae Studies Chapter -->
+    <div class="chapter-page" id="algae">
+        <div class="chapter-header">
+            <div class="chapter-number">Algae Studies</div>
+            <h2 class="chapter-main-title">🌱 Algae - Primary Producers</h2>
+            <p class="chapter-description">Microscopic examination of algae structure, classification and ecological importance</p>
+        </div>
+
+        <!-- Filter controls -->
+        <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">All Algae</button>
+            <button class="filter-btn" data-filter="green">Green Algae</button>
+            <button class="filter-btn" data-filter="brown">Brown Algae</button>
+            <button class="filter-btn" data-filter="red">Red Algae</button>
+            <button class="filter-btn" data-filter="blue-green">Blue-Green Algae</button>
+            <button class="filter-btn" data-filter="golden">Golden-Brown Algae</button>
+        </div>
+
+        <div class="slide-grid">
+            <!-- Slide 1: Scenedesmus -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 1</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/1.Scenedesmus.jpg" alt="Scenedesmus" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Scenedesmus - Green Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Small colonies with 2, 4, or 8 cells arranged in a line</div>
+                        <div class="component-item">Cells are green due to chlorophyll</div>
+                        <div class="component-item">Some cells have spines for defense</div>
+                        <div class="component-item">Reproduces asexually by splitting</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in ponds, lakes, and slow rivers</li>
+                            <li>Freshwater environments</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Produces oxygen needed by aquatic animals</li>
+                            <li>Forms the base of the food chain, eaten by zooplankton</li>
+                            <li>Absorbs excess nutrients, helping reduce water pollution</li>
+                            <li>Used to monitor water quality</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <!-- Placeholder for Algae slides -->
-            <div class="slide-grid">
-                <div class="slide-card">
-                    <div class="slide-header">
-                        <div class="slide-number">Coming Soon</div>
+            <!-- Slide 2: Pediastrum -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 2</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/2.Pediastrum.jpg" alt="Pediastrum" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Pediastrum - Green Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Flat and circular or star-shaped colonies</div>
+                        <div class="component-item">Many connected cells</div>
+                        <div class="component-item">Green due to chlorophyll</div>
+                        <div class="component-item">Outer cells often have spines or lobes</div>
+                        <div class="component-item">Reproduces asexually by forming daughter colonies</div>
                     </div>
-                    <div class="slide-content">
-                        <div class="slide-image-placeholder">
-                             Algae Slides
-                            <br>Under Development
-                        </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in ponds, lakes, and slow-moving streams</li>
+                            <li>Freshwater environments</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Produces oxygen for aquatic life through photosynthesis</li>
+                            <li>Serves as food for small aquatic animals like zooplankton</li>
+                            <li>Helps indicate the health of freshwater environments</li>
+                            <li>Can absorb excess nutrients, helping reduce water pollution</li>
+                            <li>Used in studies of algae biodiversity and water quality monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Microcystis -->
+            <div class="slide-card" data-category="blue-green">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 3</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/3.Microcystis.jpg" alt="Microcystis" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Microcystis - Cyanobacteria (Blue-Green Algae)</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Forms round or irregular colonies</div>
+                        <div class="component-item">Blue-green color from chlorophyll and phycocyanin</div>
+                        <div class="component-item">Colonies float on water surface and form dense scums</div>
+                        <div class="component-item">Reproduces asexually through binary fission</div>
+                        <div class="component-item">Can produce harmful toxins (microcystins)</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in ponds, lakes, and nutrient-rich water bodies</li>
+                            <li>Forms floating colonies on water surface</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Produces oxygen through photosynthesis but may cause water pollution</li>
+                            <li>Part of aquatic ecosystem but not commonly consumed by animals</li>
+                            <li>Can release microcystins, toxins harmful to fish, animals, and humans</li>
+                            <li>Used in scientific studies on water quality and harmful algal blooms</li>
+                            <li>Acts as an indicator of eutrophication in freshwater environments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Haematococcus -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 4</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/4.Haematococcus.jpg" alt="Haematococcus" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Haematococcus - Green Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Spherical or oval unicellular algae with smooth cell wall</div>
+                        <div class="component-item">Bright green in normal conditions</div>
+                        <div class="component-item">Turns red under stress due to astaxanthin accumulation</div>
+                        <div class="component-item">Has motile stage with two flagella and nonmotile resting stage (cyst)</div>
+                        <div class="component-item">Cysts have thick cell walls for protection</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Freshwater ponds, lakes, birdbaths</li>
+                            <li>Temporary water bodies</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Performs photosynthesis and contributes to oxygen production</li>
+                            <li>Plays a role in aquatic ecosystems as a primary producer</li>
+                            <li>Source of natural astaxanthin used in nutraceuticals, cosmetics and aquaculture</li>
+                            <li>Studied for its stress resistance and commercial potential in biotechnology</li>
+                            <li>Acts as a bioindicator for water quality and environmental stress</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Ankistrodesmus -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 5</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/5.Ankistrodesmus.jpg" alt="Ankistrodesmus" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Ankistrodesmus - Green Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Elongated, curved or needle-shaped cells</div>
+                        <div class="component-item">Often forming loose colonies</div>
+                        <div class="component-item">Green color due to chlorophyll</div>
+                        <div class="component-item">Cells usually occur singly or in small groups without mucilage</div>
+                        <div class="component-item">Nonmotile and reproduces asexually through autospores</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in lakes, ponds, rivers</li>
+                            <li>Other freshwater habitats</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Contributes to oxygen production through photosynthesis</li>
+                            <li>Important food source for small aquatic organisms like zooplankton</li>
+                            <li>Used in water quality studies and freshwater ecology research</li>
+                            <li>Can be cultured for biofuel and biomass production research</li>
+                            <li>Acts as a natural indicator of nutrient levels in freshwater systems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Volvox -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 6</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/6.Volvox.jpg" alt="Volvox" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Volvox - Green Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Forms spherical colonies made of thousands of individual cells</div>
+                        <div class="component-item">Each cell has two flagella for coordinated movement</div>
+                        <div class="component-item">Colonies appear green due to chlorophyll</div>
+                        <div class="component-item">Visible to the naked eye</div>
+                        <div class="component-item">Reproduces both sexually and asexually depending on conditions</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in ponds, ditches and shallow freshwater habitats</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Produces oxygen through photosynthesis and supports aquatic food chains</li>
+                            <li>Used in research on cell cooperation and colony formation</li>
+                            <li>Helps study the transition from unicellular to multicellular life</li>
+                            <li>Serves as a model organism in developmental biology</li>
+                            <li>Indicator of healthy freshwater environments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Closterium -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 7</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/7.Closterium.jpg" alt="Closterium" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Closterium - Green Algae (Desmids)</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Elongated and curved resembling a crescent or banana shape</div>
+                        <div class="component-item">Contains two symmetrical halves with a central constriction</div>
+                        <div class="component-item">Green color due to chloroplasts often with visible pyrenoids</div>
+                        <div class="component-item">Reproduces asexually and sexually through conjugation</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Commonly found in ponds, lakes and wetlands</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Contributes to oxygen production and supports aquatic life</li>
+                            <li>Used in water quality monitoring as an indicator species</li>
+                            <li>Helps study cell symmetry and reproduction in algae</li>
+                            <li>Part of the phytoplankton community in freshwater systems</li>
+                            <li>Sensitive to pollutants and environmental changes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Zygnema -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 8</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/8.Zygnema.jpg" alt="Zygnema" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Zygnema - Green Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Forms unbranched filaments made of cylindrical cells joined end to end</div>
+                        <div class="component-item">Each cell contains two star-shaped chloroplasts (key feature)</div>
+                        <div class="component-item">Appears green and often forms slimy floating mats on water surface</div>
+                        <div class="component-item">Reproduces asexually by fragmentation and sexually by conjugation</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in ponds, streams and other still or slow-moving freshwater bodies</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Produces oxygen and forms the base of freshwater food chains</li>
+                            <li>Used in studies of cell structure and sexual reproduction in algae</li>
+                            <li>Can act as a bioindicator of water quality and nutrient levels</li>
+                            <li>Provides shelter and food for small aquatic organisms</li>
+                            <li>Contributes to the biodiversity of freshwater ecosystems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Sphacelaria -->
+            <div class="slide-card" data-category="brown">
+                <div class="slide-header brown">
+                    <div class="slide-number">Slide 9</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/9.Sphacelaria.jpg" alt="Sphacelaria" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Sphacelaria - Brown Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Forms branched filaments with specialized apical cell called sphacelus</div>
+                        <div class="component-item">Appears brown due to fucoxanthin mixed with chlorophyll</div>
+                        <div class="component-item">Grows in small tufts, visible as brown patches on surfaces</div>
+                        <div class="component-item">Reproduces asexually by spores and in some species sexually</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in shallow coastal waters</li>
+                            <li>Attached to rocks, shells or other algae</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Contributes to marine ecosystems as part of the seaweed community</li>
+                            <li>Provides shelter and food for small marine organisms</li>
+                            <li>Plays a role in oxygen production and nutrient cycling in coastal zones</li>
+                            <li>Used in research related to algal structure and development</li>
+                            <li>Adds to the biodiversity of marine habitats</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Microspora -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 10</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/10.Microspora.jpg" alt="Microspora" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Microspora - Green Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Forms unbranched filaments made of cylindrical cells</div>
+                        <div class="component-item">Each cell contains multiple chloroplasts without specific shape</div>
+                        <div class="component-item">Cells are separated by clear cross walls called septa</div>
+                        <div class="component-item">Reproduces asexually by fragmentation or zoospores</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in ponds, streams and damp soils</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Contributes to oxygen production through photosynthesis</li>
+                            <li>Acts as a food source for small aquatic organisms</li>
+                            <li>Used in ecological studies related to freshwater habitats</li>
+                            <li>Helps indicate water quality and presence of nutrients</li>
+                            <li>Plays a role in the base of freshwater food chains</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Agardhiella -->
+            <div class="slide-card" data-category="red">
+                <div class="slide-header red">
+                    <div class="slide-number">Slide 11</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/11.Agardhiella.jpg" alt="Agardhiella" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Agardhiella - Red Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Forms soft, bushy and branched thalli</div>
+                        <div class="component-item">Reddish to purplish color due to phycoerythrin pigment</div>
+                        <div class="component-item">Cells arranged in filaments surrounded by gelatinous material</div>
+                        <div class="component-item">Reproduces through complex life cycles involving spores and gametes</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Commonly found in tropical and subtropical marine habitats</li>
+                            <li>Attached to rocks or shells in shallow coastal waters</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Contributes to oxygen production and marine biodiversity</li>
+                            <li>Used in the production of carrageenan, a natural thickener</li>
+                            <li>Studied for its ecological role in seaweed communities</li>
+                            <li>Provides shelter and food for small marine organisms</li>
+                            <li>Supports the structure and health of coastal ecosystems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Volvox (duplicate entry) -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 12</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/12.Volvox.jpg" alt="Volvox Colonial" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Volvox - Colonial Green Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Round colonies made of thousands of individual cells</div>
+                        <div class="component-item">Each cell has two flagella and is embedded in jelly-like matrix</div>
+                        <div class="component-item">Colonies move in coordinated rolling motion</div>
+                        <div class="component-item">Reproduces both asexually and sexually depending on conditions</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Lives in ponds, ditches and shallow freshwater bodies</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Produces oxygen through photosynthesis</li>
+                            <li>Used in studies of cell cooperation and multicellularity</li>
+                            <li>Important model organism in developmental biology</li>
+                            <li>Indicator of healthy freshwater environments</li>
+                            <li>Forms part of the base of aquatic food chains</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: Eudorina -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 13</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/13.Eudorina.jpg" alt="Eudorina" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Eudorina - Green Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Forms small round colonies made of 16 to 64 individual cells</div>
+                        <div class="component-item">Each cell has two flagella for movement and is embedded in gelatinous matrix</div>
+                        <div class="component-item">Cells are similar in shape and arranged near outer surface of colony</div>
+                        <div class="component-item">Reproduces both asexually and sexually depending on environmental conditions</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in ponds, ditches and slow-moving freshwater habitats</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Performs photosynthesis and contributes to oxygen production</li>
+                            <li>Used in studies of colony formation and evolution of multicellularity</li>
+                            <li>Helps in understanding the transition from unicellular to colonial life forms</li>
+                            <li>Serves as food for small aquatic organisms</li>
+                            <li>Indicator of clean and nutrient-rich freshwater environments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14: Pandorina -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 14</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/14.Pandorina.jpg" alt="Pandorina morum" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Pandorina morum - Green Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Forms spherical or oval colonies of 8, 16 or 32 cells</div>
+                        <div class="component-item">Cells are pear-shaped with two flagella and embedded in mucilage</div>
+                        <div class="component-item">All cells in colony move together in coordinated motion</div>
+                        <div class="component-item">Reproduces both asexually and sexually under different conditions</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Lives in ponds, lakes and other quiet freshwater environments</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Performs photosynthesis and releases oxygen into the water</li>
+                            <li>Used in research on cell cooperation and early multicellularity</li>
+                            <li>Serves as food for small aquatic animals like protozoa and zooplankton</li>
+                            <li>Helps scientists understand evolutionary links between unicellular and colonial life</li>
+                            <li>Acts as an indicator of nutrient levels and water quality in freshwater systems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Polysiphonia and Porphyra -->
+            <div class="slide-card" data-category="red">
+                <div class="slide-header red">
+                    <div class="slide-number">Slide 15</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/15.Polysiphonia_Porphyra.jpg" alt="Polysiphonia and Porphyra" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Polysiphonia and Porphyra - Red Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Polysiphonia has branched filamentous structure with central and surrounding cells</div>
+                        <div class="component-item">Porphyra has flat sheet-like thalli that are reddish or purplish</div>
+                        <div class="component-item">Both contain phycoerythrin pigment which gives them red color</div>
+                        <div class="component-item">Reproduce through complex life cycles involving alternation of generations</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in intertidal and subtidal zones</li>
+                            <li>Attached to rocks or other algae</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Important in marine ecosystems as primary producers</li>
+                            <li>Porphyra is harvested and eaten as nori in many cultures</li>
+                            <li>Polysiphonia is used in research on algal morphology and reproduction</li>
+                            <li>Both contribute to marine biodiversity and coastal habitat formation</li>
+                            <li>Used in education and scientific studies of red algae</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 16: Ectocarpus -->
+            <div class="slide-card" data-category="brown">
+                <div class="slide-header brown">
+                    <div class="slide-number">Slide 16</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/16.Ectocarpus.jpg" alt="Ectocarpus" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Ectocarpus - Brown Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Consists of branched filaments with distinct cell walls</div>
+                        <div class="component-item">Contains brown pigments such as fucoxanthin giving it brown color</div>
+                        <div class="component-item">Exhibits alternation of generations with sporophyte and gametophyte stages</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found attached to rocks or other surfaces</li>
+                            <li>In intertidal and subtidal zones</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Important in marine ecosystems for primary production and habitat formation</li>
+                            <li>Used in research to understand brown algal development, genetics and reproduction</li>
+                            <li>Helps study evolution of multicellularity and adaptation to marine habitats</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 17: Synura -->
+            <div class="slide-card" data-category="golden">
+                <div class="slide-header golden">
+                    <div class="slide-number">Slide 17</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/17.Synura.jpg" alt="Synura" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Synura sp. - Freshwater Golden-Brown Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Forms colonies of numerous flagellated cells embedded in mucilaginous matrix</div>
+                        <div class="component-item">Covered with silica scales</div>
+                        <div class="component-item">Contains chlorophylls a and c, carotenoids, and fucoxanthin</div>
+                        <div class="component-item">Motile due to two unequal flagella on each cell</div>
+                        <div class="component-item">Life cycle includes vegetative reproduction and resting cysts</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in freshwater lakes and ponds</li>
+                            <li>Spherical or oval cell aggregates</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Plays crucial role as primary producer in freshwater ecosystems</li>
+                            <li>Silica scales contribute to sediment composition when colonies die</li>
+                            <li>Used as indicator of water quality in limnological studies</li>
+                            <li>Research helps understand algal ecology, motility mechanisms, and silica biomineralization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 18: Dictyota -->
+            <div class="slide-card" data-category="brown">
+                <div class="slide-header brown">
+                    <div class="slide-number">Slide 18</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/18.Dictyota.jpg" alt="Dictyota" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Dictyota - Brown Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Has flat, dichotomously branched fronds</div>
+                        <div class="component-item">Brown color comes from fucoxanthin pigment</div>
+                        <div class="component-item">Cells show distinct walls and internal structures under microscope</div>
+                        <div class="component-item">Reproduces through alternation of generations, including sexual and asexual stages</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Commonly inhabits tropical and subtropical marine environments</li>
+                            <li>Grows attached to rocks or other substrates in shallow waters</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Acts as primary producer in marine ecosystems</li>
+                            <li>Provides habitat and food for various marine organisms</li>
+                            <li>Studied for bioactive compounds with pharmaceutical and antifouling potential</li>
+                            <li>Plays role in maintaining marine biodiversity and coastal habitats</li>
+                            <li>Used in scientific research and ecological education</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 19: Ulva -->
+            <div class="slide-card" data-category="green">
+                <div class="slide-header green">
+                    <div class="slide-number">Slide 19</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/19.Ulva.jpg" alt="Ulva" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Ulva sp. - Green Algae (Sea Lettuce)</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Flat, thin, green leaf-like thalli</div>
+                        <div class="component-item">Composed of two cell layers with chlorophyll a and b</div>
+                        <div class="component-item">Reproduces via alternation of generations</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in marine and freshwater environments</li>
+                            <li>Grows attached to rocks or substrates in intertidal zones</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Important primary producer in coastal ecosystems</li>
+                            <li>Provides food and habitat for marine life</li>
+                            <li>Used as human food, animal feed, and fertilizer</li>
+                            <li>Studied for biofuel production and water purification</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 20: Bangia -->
+            <div class="slide-card" data-category="red">
+                <div class="slide-header red">
+                    <div class="slide-number">Slide 20</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Algae/20.Bangia.jpg" alt="Bangia" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Bangia sp. - Red Algae</div>
+                    <div class="components-list">
+                        <div class="components-title">Description:</div>
+                        <div class="component-item">Filamentous, thread-like thalli made up of cylindrical cells arranged in series</div>
+                        <div class="component-item">Contains phycoerythrin pigment which gives it reddish coloration</div>
+                        <div class="component-item">Reproduces through alternation of generations involving sexual and asexual phases</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Found in marine and freshwater environments</li>
+                            <li>Grows attached to rocks or substrates in intertidal and subtidal zones</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Role and Uses:</div>
+                        <ul class="function-list">
+                            <li>Functions as primary producer in coastal and freshwater ecosystems</li>
+                            <li>Provides habitat and food for various aquatic organisms</li>
+                            <li>Plays role in nutrient cycling and water quality maintenance</li>
+                            <li>Has potential uses in biotechnology, including food supplements and bioactive compounds</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-    <div style="position:fixed; left:20px; top:20px; z-index:2000;">
-    <a href="index.html" style="text-decoration:none; background:#22c55e; color:white; padding:10px 14px; border-radius:10px; font-weight:600;">
-        گەڕانەوە بۆ پەڕەی سەرەکی
-    </a>
-</div>
+    <script>
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const slideCards = document.querySelectorAll('.slide-card');
 
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                slideCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Progress bar functionality
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressFill').style.width = scrolled + '%';
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation to cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all slide cards
+        slideCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Print functionality
+        function printPage() {
+            window.print();
+        }
+
+        // Search functionality
+        function initSearch() {
+            const searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.placeholder = 'Search algae...';
+            searchInput.className = 'search-input';
+            
+            const searchContainer = document.createElement('div');
+            searchContainer.className = 'search-container';
+            searchContainer.appendChild(searchInput);
+            document.body.appendChild(searchContainer);
+
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                
+                slideCards.forEach(card => {
+                    const title = card.querySelector('.slide-title').textContent.toLowerCase();
+                    const content = card.querySelector('.slide-content').textContent.toLowerCase();
+                    
+                    if (title.includes(searchTerm) || content.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // If search is empty, show filtered results
+                if (searchTerm === '') {
+                    const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                    slideCards.forEach(card => {
+                        if (activeFilter === 'all' || card.getAttribute('data-category') === activeFilter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        }
+
+        // Initialize search when page loads
+        document.addEventListener('DOMContentLoaded', initSearch);
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const searchInput = document.querySelector('.search-input');
+                if (searchInput) {
+                    searchInput.value = '';
+                    searchInput.dispatchEvent(new Event('input'));
+                }
+            }
+        });
+
+        // Add slide counter
+        function updateSlideCounter() {
+            const visibleSlides = document.querySelectorAll('.slide-card[style*="block"], .slide-card:not([style*="none"])');
+            const totalSlides = document.querySelectorAll('.slide-card');
+            
+            // Create or update counter
+            let counter = document.getElementById('slide-counter');
+            if (!counter) {
+                counter = document.createElement('div');
+                counter.id = 'slide-counter';
+                counter.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    left: 20px;
+                    background: rgba(16, 185, 129, 0.9);
+                    color: white;
+                    padding: 10px 15px;
+                    border-radius: 20px;
+                    font-weight: 600;
+                    z-index: 100;
+                    font-size: 14px;
+                `;
+                document.body.appendChild(counter);
+            }
+            
+            counter.textContent = `${visibleSlides.length} / ${totalSlides.length} slides`;
+        }
+
+        // Update counter when filters change
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                setTimeout(updateSlideCounter, 100);
+            });
+        });
+
+        // Initial counter update
+        updateSlideCounter();
+    </script>
 </body>
 </html>

@@ -1458,3 +1458,232 @@ body {
                 </div>
             </div>
             
+<!-- Slide 19: Frog (Rana) - Early Neurula Stage Transverse Section (T.S.) Showing Neural Plate -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 19</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embrology/19. Frog (Rana) - Early Neurula Stage Transverse Section (T.S.) Showing Neural Plate.jpg" alt="Frog Early Neurula Stage Showing Neural Plate" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana) - Early Neurula Stage Transverse Section (T.S.) Showing Neural Plate</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Neural plate</div>
+                        <div class="component-item">Notochord</div>
+                        <div class="component-item">Neural folds</div>
+                        <div class="component-item">Archenteron</div>
+                        <div class="component-item">Somites</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Dorsal midline (surface ectoderm)</li>
+                            <li>Just beneath the neural plate (mesoderm)</li>
+                            <li>Lateral edges of neural plate</li>
+                            <li>Ventral to notochord (primitive gut cavity)</li>
+                            <li>On either side of notochord</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Forms central nervous system (brain and spinal cord)</li>
+                            <li>Induces neural plate formation, forms axial support</li>
+                            <li>Elevate and fuse to form neural tube</li>
+                            <li>Develops into digestive tract</li>
+                            <li>Form muscles, vertebrae, and dermis</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 20: Frog (Rana) - Tadpole Stage Whole Mount (W.M) -->
+            <div class="slide-card" data-category="development">
+                <div class="slide-header">
+                    <div class="slide-number">Slide 20</div>
+                </div>
+                <div class="image-wrapper">
+                    <img src="images/Embrology/20. Frog (Rana) - Tadpole Stage Whole Mount (W.M).jpg" alt="Frog Tadpole Stage Whole Mount" class="slide-image" />
+                </div>
+                <div class="slide-content">
+                    <div class="slide-title">Frog (Rana) - Tadpole Stage Whole Mount (W.M)</div>
+                    <div class="components-list">
+                        <div class="components-title">Components:</div>
+                        <div class="component-item">Head</div>
+                        <div class="component-item">Eyes</div>
+                        <div class="component-item">External gills (in early tadpole)</div>
+                        <div class="component-item">Tail</div>
+                        <div class="component-item">Notochord</div>
+                        <div class="component-item">Somites</div>
+                        <div class="component-item">Brain region</div>
+                        <div class="component-item">Heart (may be visible)</div>
+                        <div class="component-item">Intestine</div>
+                    </div>
+                    <div class="location-section">
+                        <div class="section-title">📍 Location:</div>
+                        <ul class="location-list">
+                            <li>Anterior region</li>
+                            <li>On either side of head</li>
+                            <li>Lateral to head (early stages)</li>
+                            <li>Posterior elongated part</li>
+                            <li>Along the midline of body axis</li>
+                            <li>Segmentally arranged on both sides of notochord</li>
+                            <li>Front dorsal side of head</li>
+                            <li>Ventral side, behind the head</li>
+                            <li>Coiled in mid-body region</li>
+                        </ul>
+                    </div>
+                    <div class="function-section">
+                        <div class="section-title">⚙️ Functions:</div>
+                        <ul class="function-list">
+                            <li>Contains brain and sensory organs</li>
+                            <li>Vision</li>
+                            <li>Temporary respiration in water</li>
+                            <li>Swimming and locomotion</li>
+                            <li>Structural support</li>
+                            <li>Develop into muscles and vertebrae</li>
+                            <li>Controls nervous activity</li>
+                            <li>Circulates blood</li>
+                            <li>Digestion and absorption</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script>
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const slideCards = document.querySelectorAll('.slide-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                slideCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Progress bar functionality
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressFill').style.width = scrolled + '%';
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation to cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all slide cards
+        slideCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(50px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+
+        // Print functionality
+        function printPage() {
+            window.print();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                printPage();
+            }
+        });
+
+        // Auto-scroll to top button
+        const scrollToTopBtn = document.createElement('button');
+        scrollToTopBtn.innerHTML = '↑';
+        scrollToTopBtn.style.cssText = `
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 99;
+        `;
+        document.body.appendChild(scrollToTopBtn);
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollToTopBtn.style.opacity = '1';
+            } else {
+                scrollToTopBtn.style.opacity = '0';
+            }
+        });
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fade in cover page
+            const coverPage = document.querySelector('.cover-page');
+            if (coverPage) {
+                coverPage.style.opacity = '0';
+                setTimeout(() => {
+                    coverPage.style.transition = 'opacity 1s ease';
+                    coverPage.style.opacity = '1';
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>

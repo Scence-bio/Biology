@@ -119,6 +119,46 @@
             box-shadow: 0 6px 20px var(--shadow-medium);
         }
 
+        /* Home Button */
+        .btn-home {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--light-blue));
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-home:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px var(--shadow-medium);
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-home:active {
+            transform: translateY(0) scale(1.02);
+        }
+
+        .btn-home svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
         /* Loading Animation */
         @keyframes fadeInUp {
             from {
@@ -391,27 +431,6 @@
             border-radius: 0 12px 12px 0;
             margin: 25px 0;
         }
-                 .btn-home {
-                top: 15px;
-                right: 15px;
-                padding: 10px 16px;
-                font-size: 0.85rem;
-                gap: 6px;
-            }
-
-            .btn-home svg {
-                width: 14px;
-                height: 14px;
-            }
-
-            .back-to-top {
-                bottom: 20px;
-                left: 20px;
-                width: 45px;
-                height: 45px;
-                font-size: 1.3rem;
-            }
-
 
         /* Footer and Team Section */
         .footer {
@@ -525,39 +544,6 @@
             display: flex;
         }
 
-        /* Home Button */
-        .btn-home {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 15px 30px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--light-blue));
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            font-size: 1rem;
-            box-shadow: 0 6px 20px var(--shadow-light);
-            margin: 30px auto;
-            width: fit-content;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-home:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px var(--shadow-medium);
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-        }
-
-        .btn-home svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
         /* Search Box */
         .search-container {
             max-width: 600px;
@@ -635,6 +621,19 @@
                 font-size: 1.1rem;
             }
 
+            .btn-home {
+                top: 15px;
+                right: 15px;
+                padding: 10px 16px;
+                font-size: 0.85rem;
+                gap: 6px;
+            }
+
+            .btn-home svg {
+                width: 14px;
+                height: 14px;
+            }
+
             .back-to-top {
                 bottom: 20px;
                 left: 20px;
@@ -688,7 +687,8 @@
     <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" aria-label="Toggle Dark Mode">
         🌙
     </button>
-<!-- Home Button -->
+
+    <!-- Home Button -->
     <a href="index.html" class="btn-home" title="Return to Homepage">
         <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
@@ -832,7 +832,7 @@
                     <li>وەک سەرچاوەی یەدەگی بەکاربهێنە</li>
                     <li>ناوەڕۆکەکان بۆ خولی خۆت گونجاو بکە</li>
                     <li>پرسیارەکانی تاقیکردنەوە لەسەر ئاساس بکە</li>
-                    <li>پڕۆژەی کۆماری بۆ خوێندکاران دابنێ</li>
+                    <li>پرۆژەی کۆماری بۆ خوێندکاران دابنێ</li>
                 </ul>
                 
                 <p><strong>بۆ لێکۆڵەران:</strong></p>

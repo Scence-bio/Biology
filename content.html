@@ -276,6 +276,70 @@
             color: var(--primary-blue);
             margin-bottom: 15px;
         }
+        .table-of-contents {
+            background: linear-gradient(135deg, var(--background-secondary), var(--card-bg));
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 10px 30px var(--shadow-light);
+        }
+        .table-of-contents h3 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+        .toc-list li {
+            margin: 15px 0;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border-radius: 10px;
+            border-right: 4px solid var(--accent-blue);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .toc-list li:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px var(--shadow-light);
+            background: var(--shimmer-bg);
+        }
+        .toc-list li a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .objective-card {
+            background: linear-gradient(135deg, var(--warm-gold) 5%, rgba(245, 158, 11, 0.1) 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border-right: 4px solid var(--warm-gold);
+        }
+        .objective-card h4 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        .usage-instructions {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(14, 165, 233, 0.05));
+            border: 2px solid var(--light-blue);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        .special-thanks {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+            border-right: 4px solid #22c55e;
+            padding: 25px;
+            border-radius: 0 15px 15px 0;
+            margin: 30px 0;
+        }
         .footer {
             text-align: center;
             padding: 50px 30px;
@@ -297,7 +361,6 @@
             line-height: 1.6;
             margin-bottom: 10px;
         }
-        /* Button for Home Navigation */
         .btn-home {
             display: inline-flex;
             align-items: center;
@@ -342,6 +405,7 @@
             height: 20px;
             fill: currentColor;
         }
+        
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .container {
@@ -375,25 +439,7 @@
                 margin: 20px auto 40px;
             }
         }
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 2.5rem;
-            }
-            .content-block h2 {
-                font-size: 1.8rem;
-            }
-            .reference-list li {
-                font-size: 0.9rem;
-            }
-        }
-        /* Accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
+        
         /* Print Styles */
         @media print {
             body {
@@ -409,20 +455,6 @@
                 display: none;
             }
         }
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--background-secondary);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--medium-gray);
-        }
     </style>
 </head>
 <body>
@@ -434,81 +466,224 @@
     <div class="container">
         <div class="header">
             <h1>🧬 BioGuide </h1>
-            <p class="subtitle">فێربوونی بایەلۆجی</p>
-            <p>A comprehensive collection of biological sciences covering microscopic structures, developmental processes, plant systems, parasites, blood studies, microorganisms, insects, algae, and fungi</p>
-            <p style="margin-top: 15px; color: #2e7d32;">کۆمەڵەیەکی گشتگیر لە زانستە بایۆلۆجییەکان کە پێکهاتە وردبینەکان، پرۆسەی گەشەکردن، سیستەمی ڕووەک، مشەخۆر، لێکۆڵینەوەکانی خوێن، وردە زیندەوەران، مێروو، چڵکن و قارچک دەگرێتەوە</p>
+            <p class="subtitle">ناوەڕۆک و سەرچاوەکان</p>
+            <p>کۆمەڵەیەکی تەواو لە زانیاری و سەرچاوەکانی زانستی بایۆلۆجی</p>
+            <p style="margin-top: 15px;">A comprehensive collection of biological sciences information and resources</p>
         </div>
 
-        <h2 class="section-title">📋 ناوەڕۆک و سەرچاوەکان - Content & References</h2>
+        <!-- Table of Contents Section -->
+        <div class="table-of-contents">
+            <h3>📋 نێرەک - Table of Contents</h3>
+            <ul class="toc-list">
+                <li><a href="#introduction">🔬 پێشەکی - Introduction</a></li>
+                <li><a href="#content">📖 ناوەڕۆک - Content Overview</a></li>
+                <li><a href="#objectives">🎯 ئامانج - Objectives</a></li>
+                <li><a href="#usage">📚 چۆنیەتی بەکارهێنان - How to Use</a></li>
+                <li><a href="#about">👥 دەربارەی ئێمە - About Us</a></li>
+                <li><a href="#references">📑 سەرچاوەکان - References</a></li>
+                <li><a href="#thanks">💝 سوپاسی تایبەت - Special Thanks</a></li>
+            </ul>
+        </div>
 
-        <div class="content-block">
-            <h2>پێشەکی - Introduction</h2>
-            <p>ئەم بەشە بریتییە لە ڕێنماییەکی گشتی بۆ فێربوونی زانستی بایۆلۆجی لە ڕێگەی پێکهاتە وردبینییەکان، پرۆسەکانی گەشەکردن، و ڕێگاکانی لێکۆڵینەوە. ئەم ناوەڕۆکە بە تەواوی بۆ خوێندکارانی زانکۆ و قوتابخانەی ناوەندی دروست کراوە، بە تایبەتی بۆ ئەوەی یاساکانی بایەلۆجی بە زمانی کوردی و ئینگلیزی بە شێوەیەکی ڕوون و جیاواز بەرز بکرێت.</p>
+        <!-- Introduction Section -->
+        <div class="content-block" id="introduction">
+            <h2>🔬 پێشەکی - Introduction</h2>
+            <p>بەخێربێن بۆ BioGuide - سەرچاوەی گشتگیر بۆ فێربوونی زانستی بایۆلۆجی بە زمانی کوردی و ئینگلیزی. ئەم پرۆژەیە بۆ یارمەتیدانی خوێندکاران، مامۆستایان، و هەموو ئەوانەی حەزیان لە زانستی بایۆلۆجی هەیە دروستکراوە.</p>
             
-            <p>This section serves as a foundational guide to learning biological sciences through microscopic structures, developmental processes, and research methodologies. Designed primarily for university and secondary school students, it presents core biological concepts in both Kurdish and English with clarity and precision.</p>
+            <p>Welcome to BioGuide - a comprehensive resource for learning biological sciences in Kurdish and English. This project is designed to help students, teachers, and anyone interested in the fascinating world of biology.</p>
 
             <div class="study-guide">
-                <h3>ڕێنمایی خوێندن - Study Guide</h3>
-                <p>بۆ فێربوونی باشتر:</p>
+                <h3>🎓 ڕێنمایی خوێندن - Study Guide</h3>
+                <p>بۆ فێربوونی باشتر و بەرهەمدارتر:</p>
                 <ul class="reference-list">
-                    <li>هەر بەشێک بخوێنەوە و دواتر بە زمانی خۆت دەستەنووسی بنووسە.</li>
-                    <li>بەکارهێنانی شێمە و وێنەکان بۆ یادکردنی زیاتر.</li>
-                    <li>پرسیارەکانی خۆت بە زمانی ئینگلیزی و کوردی بەدوور بخە.</li>
-                    <li>کاتی ڕێکخستن بۆ هەر بەشێک: ٣٠-٤٥ خولەک.</li>
-                    <li>لەگەڵ ھاوڕێیەکەوە بەشداری بکە بۆ دەرفەتی پرسیار و دووبارەخوێندن.</li>
+                    <li>هەر بەشێک بە وردی بخوێنەوە و تێبینی دەستنووس بنووسە</li>
+                    <li>بەکارهێنانی شێمە و وێنەکان بۆ یادکردنی زیاتر</li>
+                    <li>پرسیارەکانت بە زمانی ئینگلیزی و کوردی بەدووری بخە</li>
+                    <li>کاتی ڕێکخستن بۆ هەر بەشێک: ٣٠-٤٥ خولەک</li>
+                    <li>لەگەڵ هاوڕێیەکانت بەشداری بکە بۆ باسکردنی بابەتەکان</li>
                 </ul>
             </div>
+        </div>
 
-            <h2>سەرچاوەکان - References</h2>
+        <!-- Content Overview Section -->
+        <div class="content-block" id="content">
+            <h2>📖 ناوەڕۆک - Content Overview</h2>
+            <p>ئەم پەڕەیە نۆ بەشی سەرەکی لەخۆ دەگرێت:</p>
+            
+            <div class="reference-list">
+                <li><strong>🔬 هیستۆلۆجی (Histology):</strong> خوێندنەوەی پێکهاتە وردبینییەکانی جەستە</li>
+                <li><strong>🧬 ئەمبرایۆلۆجی (Embryology):</strong> پرۆسەی گەشەکردنی زیندەوەران</li>
+                <li><strong>🌱 ئانتۆمی ڕووەک (Plant Anatomy):</strong> پێکهاتەی ناوەکی ڕووەکەکان</li>
+                <li><strong>🦠 پاراسایتۆلۆجی (Parasitology):</strong> زانستی مشەخۆرەکان</li>
+                <li><strong>🩸 هێماتۆلۆجی (Hematology):</strong> زانستی خوێن و پێکهاتەکانی</li>
+                <li><strong>🦄 مایکرۆبایۆلۆجی (Microbiology):</strong> زانستی وردە زیندەوەران</li>
+                <li><strong>🐛 ئینتۆمۆلۆجی (Entomology):</strong> زانستی مێروو و پۆکەکان</li>
+                <li><strong>🌊 فایکۆلۆجی (Phycology):</strong> زانستی چڵکنەکان</li>
+                <li><strong>🍄 مایکۆلۆجی (Mycology):</strong> زانستی قارچکەکان</li>
+            </div>
+        </div>
+
+        <!-- Objectives Section -->
+        <div class="content-block" id="objectives">
+            <h2>🎯 ئامانج - Objectives</h2>
+            <p>ئامانجەکانی سەرەکی ئەم پرۆژەیە:</p>
+
+            <div class="objective-card">
+                <h4>🎓 پەروەردەیی</h4>
+                <p>دابینکردنی زانیاری ورد و پووختە لە هەموو لقەکانی بایۆلۆجی بە زمانی کوردی و ئینگلیزی</p>
+            </div>
+
+            <div class="objective-card">
+                <h4>🌍 کەلتووری</h4>
+                <p>بەهێزکردنی زمانی کوردی لە بواری زانست و دامەزراندنی زاراوەی پسپۆڕی</p>
+            </div>
+
+            <div class="objective-card">
+                <h4>🔗 گەیاندن</h4>
+                <p>پێکهێنانی پردێک لە نێوان زانستی نێودەوڵەتی و زانستی محەڵی</p>
+            </div>
+
+            <div class="objective-card">
+                <h4>📚 فێرکاری</h4>
+                <p>یارمەتیدانی خوێندکاران و مامۆستایان لە پرۆسەی فێربوون و فێرکردن</p>
+            </div>
+        </div>
+
+        <!-- Usage Instructions Section -->
+        <div class="content-block" id="usage">
+            <h2>📚 چۆنیەتی بەکارهێنانی زانیاریەکان - How to Use Information</h2>
+            
+            <div class="usage-instructions">
+                <h3>🔍 ڕێنمایی بەکارهێنان</h3>
+                <p><strong>بۆ خوێندکاران:</strong></p>
+                <ul class="reference-list">
+                    <li>لە سادەوە بۆ ئاڵۆز دەست بکە بە خوێندنەوە</li>
+                    <li>زاراوەکانی تایبەت بە یاد بسپێرە</li>
+                    <li>ئەزموونە عەمەلییەکان جێبەجێ بکە</li>
+                    <li>لەگەڵ ئەندامانی گرووپت باس بکە</li>
+                </ul>
+                
+                <p><strong>بۆ مامۆستایان:</strong></p>
+                <ul class="reference-list">
+                    <li>وەک سەرچاوەی یەدەگی بەکاربهێنە</li>
+                    <li>ناوەڕۆکەکان بۆ خولی خۆت گونجاو بکە</li>
+                    <li>پرسیارەکانی تاقیکردنەوە لەسەر ئاساس بکە</li>
+                    <li>پڕۆژەی کۆماری بۆ خوێندکاران دابنێ</li>
+                </ul>
+                
+                <p><strong>بۆ لێکۆڵەران:</strong></p>
+                <ul class="reference-list">
+                    <li>سەرچاوەکان بۆ توێژینەوەی خۆت بەکاربهێنە</li>
+                    <li>زانیاریەکان بە سەرچاوەکانی خۆتەوە بەراورد بکە</li>
+                    <li>پێشنیاری باشکردن و زیادکردن بنێرە</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- About Us Section -->
+        <div class="content-block" id="about">
+            <h2>👥 دەربارەی ئێمە - About Us</h2>
+            <p>تیمی BioGuide کۆمەڵەیەکە لە پسپۆڕان، خوێندکاران، و مامۆستایانی بایۆلۆجی لە زانکۆکانی کوردستان. ئامانجمان بەرزکردنەوەی ئاستی زانستی بایۆلۆجی لە هەرێمی کوردستانە.</p>
+
+            <div class="study-guide">
+                <h3>🎯 ویژنمان - Our Vision</h3>
+                <p>دروستکردنی سەرچاوەیەکی پتەو و گشتگیر بۆ فێربوونی بایۆلۆجی بە زمانی کوردی کە لەگەڵ ستانداردە نێودەوڵەتییەکان یەکسان بێت.</p>
+            </div>
+
+            <div class="study-guide">
+                <h3>🚀 ئامانجمان - Our Mission</h3>
+                <p>پاڵپشتیکردنی خوێندکاران و مامۆستایان لە پرۆسەی فێربوون و فێرکردنی زانستی بایۆلۆجی لە ڕێگەی دابینکردنی ناوەڕۆکی باش و بەردەست.</p>
+            </div>
+        </div>
+
+        <!-- References Section -->
+        <div class="content-block" id="references">
+            <h2>📑 سەرچاوەکان - References</h2>
             <p>ئەم سەرچاوە گشتییانە بەکارهێنراون بۆ دروستکردنی ناوەڕۆکی ئەم پەڕەیە:</p>
+
+            <h3>📚 کتێبە سەرەکییەکان</h3>
             <ol class="reference-list">
                 <li>Campbell Biology, 12th Edition – Jane B. Reece et al. (Pearson)</li>
-                <li>Human Anatomy & Physiology, 11th Edition – Elaine N. Marieb & Katja Hoehn (Pearson)</li>
+                <li>Human Anatomy & Physiology, 11th Edition – Elaine N. Marieb & Katja Hoehn</li>
                 <li>Plant Anatomy – Katherine Esau (Wiley)</li>
-                <li>Parasitology: The Biology of Parasitic Organisms – D. W. D. M. Smith (Springer)</li>
-                <li>Hematology: Basic Principles and Practice, 8th Edition – Hoffman et al. (Elsevier)</li>
-                <li>Microbiology: An Evolving Science, 5th Edition – Joan Slonczewski & John W. Foster (W.W. Norton)</li>
-                <li>Entomology: The Study of Insects – Richard E. White (McGraw-Hill)</li>
-                <li>Algae: Their Biology and Ecology – J. A. West (Cambridge University Press)</li>
-                <li>Fungi: A Very Short Introduction – Paul Stamets (Oxford University Press)</li>
-                <li>Encyclopedia Britannica – Biological Sciences Section</li>
-                <li>Kurdish Scientific Terminology Database – University of Sulaimaniya</li>
-                <li>OpenStax Biology (Free Online Textbook) – https://openstax.org/details/books/biology</li>
+                <li>Parasitology: The Biology of Parasitic Organisms – Smith et al.</li>
+                <li>Hematology: Basic Principles and Practice, 8th Edition – Hoffman et al.</li>
+                <li>Microbiology: An Evolving Science – Slonczewski & Foster</li>
+                <li>Entomology: The Study of Insects – Richard E. White</li>
+                <li>Algae: Their Biology and Ecology – J. A. West</li>
+                <li>Fungi: A Very Short Introduction – Paul Stamets</li>
             </ol>
 
-            <h2>زاناکانی کوردی بۆ بایەلۆجی - Kurdish Scientists in Biology</h2>
-            <p>ئەم زانایانە کوردی لە زانستی بایۆلۆجیدا گرنگیان هەیە:</p>
+            <h3>🌐 سەرچاوە ئەلیکترۆنییەکان</h3>
             <ul class="reference-list">
-                <li>دکتۆر مەحمود عەبدولرەحیم – زانستی شانەزانی، زانکۆی سلێمانی</li>
-                <li>دکتۆر نازنین ئەحمەد – زانستی مایکرۆبایۆلۆجی، زانکۆی بەغداد</li>
-                <li>دکتۆر سەرکەش حەسەن – زانستی چڵکن و قارچک، زانکۆی ھەولێر</li>
-                <li>دکتۆر ڤەرەقە خان – زانستی هێماتۆلۆجی، زانکۆی دهوك</li>
-                <li>دکتۆر ڕەزاق ئەحمەد – زانستی پاراسایتۆلۆجی، زانکۆی نەجەف</li>
-            </ul>
-
-            <h2>بەستەرەکانی گرنگ - Important Links</h2>
-            <ul class="reference-list">
-                <li><a href="https://www.khanacademy.org/science/biology" target="_blank">Khan Academy - Biology (English)</a></li>
-                <li><a href="https://www.youtube.com/c/AmoebaSisters" target="_blank">Amoeba Sisters YouTube Channel</a></li>
+                <li><a href="https://www.khanacademy.org/science/biology" target="_blank">Khan Academy - Biology</a></li>
                 <li><a href="https://openstax.org/details/books/biology" target="_blank">OpenStax Free Biology Textbook</a></li>
                 <li><a href="https://www.ncbi.nlm.nih.gov/" target="_blank">PubMed - Scientific Articles</a></li>
-                <li><a href="https://www.sciencedirect.com/" target="_blank">ScienceDirect - Research Papers</a></li>
                 <li><a href="https://www.britannica.com/science/biology" target="_blank">Encyclopaedia Britannica - Biology</a></li>
                 <li><a href="https://www.unesco.org/en/education" target="_blank">UNESCO Education Resources</a></li>
             </ul>
 
-            <h2>دەستکەوتنەکان - Acknowledgments</h2>
-            <p>ئەم پەڕەیە بە دەستکەوتنی زۆر زانایان، خوێندکاران، و دەستەکانی ڕێنمایی زانستی لە کوردستان دروست کراوە. بەتایبەتی سوپاس بۆ زانکۆی سلێمانی و زانکۆی ھەولێر بۆ ڕێگەدان بۆ بەکارهێنانی مەرجەکانی زانستی کوردی.</p>
+            <h3>🏛️ زانکۆ و دامەزراوەکان</h3>
+            <ul class="reference-list">
+                <li>زانکۆی سلێمانی - بەشی بایۆلۆجی</li>
+                <li>زانکۆی ھەولێر - کۆلێژی زانست</li>
+                <li>زانکۆی دهۆک - بەشی زانستە ژیان</li>
+                <li>زانکۆی کەرکووک - بەشی بایۆلۆجی</li>
+                <li>ئەکادیمیای زانستەکانی کوردستان</li>
+            </ul>
+
+            <h3>👨‍🔬 زاناکانی کورد لە بایۆلۆجی</h3>
+            <ul class="reference-list">
+                <li>دکتۆر مەحمود عەبدولرەحیم – تایبەتمەندی لە شانەزانی</li>
+                <li>دکتۆر نازنین ئەحمەد – پسپۆڕی مایکرۆبایۆلۆجی</li>
+                <li>دکتۆر سەرکەش حەسەن – پسپۆڕی چڵکن و قارچک</li>
+                <li>دکتۆر ڤەرەقە خان – پسپۆڕی هێماتۆلۆجی</li>
+                <li>دکتۆر ڕەزاق ئەحمەد – پسپۆڕی پاراسایتۆلۆجی</li>
+            </ul>
+        </div>
+
+        <!-- Special Thanks Section -->
+        <div class="content-block" id="thanks">
+            <h2>💝 سوپاسی تایبەت بۆ د. ئەسما - Special Thanks to Dr. Asma</h2>
+            
+            <div class="special-thanks">
+                <h3>🙏 سوپاسی بێ سنوور</h3>
+                <p>سوپاسی تایبەت و بێ سنوورمان بۆ <strong>دکتۆر ئەسما</strong> کە بە ڕێنمایی و پاڵپشتیەکەی ئەم پرۆژەیەی کردووەتە ڕاستی. بێ یارمەتی و هانەدانەکانی ئەو، ئەم سەرچاوە گرنگە نەدەهاتە ئاراوە.</p>
+                
+                <p>We extend our heartfelt gratitude to <strong>Dr. Asma</strong> for her invaluable guidance and support in making this project a reality. Her expertise and encouragement have been instrumental in creating this comprehensive resource.</p>
+
+                <div style="background: rgba(34, 197, 94, 0.1); padding: 20px; border-radius: 10px; margin: 20px 0;">
+                    <h4>🌟 بەشداریەکانی د. ئەسما</h4>
+                    <ul class="reference-list">
+                        <li>ڕێنمایی زانستی لە گشت بەشەکان</li>
+                        <li>پێداچوونەوە و ڕاستکردنەوەی زانیاریەکان</li>
+                        <li>پێشنیاری سەرچاوە تایبەتییەکان</li>
+                        <li>هەڵسەنگاندنی ناوەڕۆک بە پێی ستانداردە زانستییەکان</li>
+                        <li>هاندانی تیم بۆ گەیشتن بە ئامانجەکان</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; font-style: italic; color: var(--primary-blue); margin-top: 20px;">
+                    "زانست هاوبەشە مرۆڤایەتییەکەیە، بەبێ سنوور و نەتەوە"<br>
+                    <small>- د. ئەسما</small>
+                </p>
+            </div>
         </div>
 
         <div class="footer">
-            <h3>فێربوونی بایەلۆجی - 🧬 BioGuide </h3>
+            <h3>🧬 BioGuide - فێربوونی بایەلۆجی</h3>
             <p><strong>A Complete Resource for Biological Sciences</strong></p>
             <p><strong>سەرچاوەیەکی تەواو بۆ زانستە بایەلۆجییەکان</strong></p>
-            <p style="margin-top: 15px; opacity: 0.9;">Created with passion for science education<br>درووستکراوە بۆ فێربوونی زانستی بایۆلۆجی</p>
+            <p style="margin-top: 15px; opacity: 0.9;">
+                Created with passion for science education<br>
+                دروستکراوە بە خۆشەویستی بۆ پەروەردەی زانستی
+            </p>
+            <p style="margin-top: 20px; font-size: 0.9rem;">
+                © 2024 BioGuide Team - گشت مافەکان پارێزراون
+            </p>
         </div>
 
-        <!-- NEW: Home Button -->
+        <!-- Home Button -->
         <a href="index.html" class="btn-home">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -520,10 +695,11 @@
     </div>
 
     <script>
-        // Enhanced dark mode functionality with system preference detection
+        // Enhanced dark mode functionality
         function getSystemTheme() {
             return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
+        
         function getCurrentTheme() {
             const stored = localStorage.getItem('theme');
             if (stored === 'auto' || !stored) {
@@ -531,18 +707,22 @@
             }
             return stored;
         }
+        
         function getThemePreference() {
             return localStorage.getItem('theme') || 'auto';
         }
+        
         function setTheme(theme) {
             const body = document.body;
             const toggleBtn = document.querySelector('.dark-mode-toggle');
-            // Remove existing theme classes
+            
             body.classList.remove('dark-mode', 'light-mode');
+            
             let actualTheme = theme;
             if (theme === 'auto') {
                 actualTheme = getSystemTheme();
             }
+            
             if (actualTheme === 'dark') {
                 body.classList.add('dark-mode');
                 toggleBtn.innerHTML = '☀️';
@@ -552,11 +732,14 @@
                 toggleBtn.innerHTML = '🌙';
                 toggleBtn.title = 'Switch to Dark Mode';
             }
+            
             localStorage.setItem('theme', theme);
         }
+        
         function toggleDarkMode() {
             const currentPref = getThemePreference();
             const currentTheme = getCurrentTheme();
+            
             let newTheme;
             if (currentPref === 'auto') {
                 newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -565,8 +748,10 @@
             } else {
                 newTheme = 'dark';
             }
+            
             setTheme(newTheme);
         }
+        
         // Listen for system theme changes
         function setupSystemThemeListener() {
             const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -576,12 +761,9 @@
                 }
             });
         }
-        // Load theme on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            setTheme(getThemePreference());
-            setupSystemThemeListener();
-
-            // Smooth scroll for internal links
+        
+        // Smooth scrolling for table of contents
+        function setupSmoothScroll() {
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -594,7 +776,14 @@
                     }
                 });
             });
-
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTheme(getThemePreference());
+            setupSystemThemeListener();
+            setupSmoothScroll();
+            
             // Touch optimization
             if ('ontouchstart' in window) {
                 document.addEventListener('touchstart', function() {}, {passive: true});

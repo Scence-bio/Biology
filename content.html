@@ -77,8 +77,15 @@
             box-sizing: border-box;
         }
 
+        @font-face {
+            font-family: 'NotoKufiArabic';
+            src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, var(--background-primary) 0%, var(--background-secondary) 100%);
             min-height: 100vh;
             color: var(--text-primary);

@@ -345,27 +345,49 @@
             font-weight: 600;
         }
 
+        /* Justified text for content blocks */
         .content-block p {
             font-size: clamp(0.95rem, 2vw, 1.1rem);
-            line-height: 1.7;
+            line-height: 1.8;
             color: var(--text-secondary);
             margin-bottom: 15px;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        /* Additional justification for Kurdish text */
+        .content-block p:not([dir="ltr"]) {
+            text-align: justify;
+            -moz-text-align-last: auto;
+            text-align-last: auto;
+            word-spacing: 0.1em;
+            letter-spacing: 0.01em;
+        }
+
+        /* English text alignment */
+        .content-block p[dir="ltr"] {
+            text-align: justify;
+            text-justify: inter-word;
+            direction: ltr;
         }
 
         /* Lists */
         .reference-list {
             margin: 20px 0;
             padding-right: 20px;
+            text-align: justify;
         }
 
         .reference-list li {
             margin-bottom: 15px;
             font-size: clamp(0.9rem, 2vw, 1rem);
-            line-height: 1.6;
+            line-height: 1.7;
             color: var(--text-secondary);
             position: relative;
             padding-right: 20px;
             transition: all 0.3s ease;
+            text-align: justify;
+            text-justify: inter-word;
         }
 
         .reference-list li:before {
@@ -415,6 +437,12 @@
             font-weight: 600;
         }
 
+        .objective-card p {
+            text-align: justify !important;
+            text-justify: inter-word !important;
+            line-height: 1.7 !important;
+        }
+
         .usage-instructions {
             background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(14, 165, 233, 0.05));
             border: 1px solid var(--light-blue);
@@ -429,6 +457,11 @@
             padding: 25px;
             border-radius: 0 12px 12px 0;
             margin: 25px 0;
+        }
+
+        .special-thanks p {
+            text-align: justify !important;
+            text-justify: inter-word !important;
         }
 
         .study-guide {
@@ -657,7 +690,8 @@
 
         /* English text styling */
         [dir="ltr"] {
-            text-align: left;
+            text-align: justify;
+            text-justify: inter-word;
             font-family: 'Inter', sans-serif;
         }
 

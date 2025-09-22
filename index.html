@@ -124,6 +124,33 @@
             line-height: 1.6;
         }
 
+        /* Text alignment classes */
+        .text-ku, .kurdish {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .text-en, .english {
+            direction: ltr;
+            text-align: left;
+        }
+
+        .bilingual-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .bilingual-content .english-part {
+            direction: ltr;
+            text-align: left;
+        }
+
+        .bilingual-content .kurdish-part {
+            direction: rtl;
+            text-align: right;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -211,7 +238,7 @@
             z-index: 1;
         }
 
-        .header p {
+        .header-description {
             font-size: clamp(1rem, 2vw, 1.3rem);
             color: var(--text-secondary);
             max-width: 800px;
@@ -219,7 +246,6 @@
             line-height: 1.7;
             position: relative;
             z-index: 1;
-            text-align: justify;
         }
 
         .sections-title {
@@ -305,6 +331,9 @@
             color: var(--primary-blue);
             font-weight: 800;
             line-height: 1.2;
+            direction: ltr;
+            text-align: left;
+            flex: 1;
         }
 
         .title-ku {
@@ -312,6 +341,9 @@
             font-weight: 700;
             font-size: clamp(1.2rem, 2.5vw, 1.7rem);
             line-height: 1.3;
+            direction: rtl;
+            text-align: right;
+            flex: 1;
         }
 
         .chapter-description {
@@ -319,10 +351,20 @@
             line-height: 1.8;
             margin-bottom: 25px;
             font-size: clamp(0.9rem, 2vw, 1.1rem);
-            text-align: justify;
             hyphens: auto;
             -webkit-hyphens: auto;
             -moz-hyphens: auto;
+        }
+
+        .chapter-description .english-part {
+            direction: ltr;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .chapter-description .kurdish-part {
+            direction: rtl;
+            text-align: right;
         }
 
         .chapter-stats {
@@ -476,11 +518,11 @@
             font-weight: 800;
         }
 
-        .content-section p {
+        .content-section .bilingual-content p {
             font-size: clamp(1rem, 2vw, 1.2rem);
             line-height: 1.7;
             color: var(--text-secondary);
-            text-align: justify;
+            margin-bottom: 15px;
             hyphens: auto;
             -webkit-hyphens: auto;
             -moz-hyphens: auto;
@@ -508,7 +550,16 @@
             font-size: clamp(1rem, 2vw, 1.2rem);
             line-height: 1.6;
             margin-bottom: 10px;
-            text-align: justify;
+        }
+
+        .footer .english-part {
+            direction: ltr;
+            text-align: center;
+        }
+
+        .footer .kurdish-part {
+            direction: rtl;
+            text-align: center;
         }
 
         .chapter-icon {
@@ -651,13 +702,17 @@
 
      <div class="container">
         <div class="header">
-            <h1>Welcome to </h1>
-            <h1>🧬 BioGuide </h1>
-            <h1>بەخێربێن بۆ</h1>
-            <h1>ڕێبەری بایۆلۆجی🧬</h1>
-            <p dir="ltr">
-            <p> It is a biological and medical website that studies all microscopic structures in a scientific way and explains them in a simple and easy way</p>
-            <p style="margin-top: 15px; color: #2e7d32;">ماڵپەڕێکی بایۆلۆجی و پزیشکییە کە لە تەواوی پێکهاتە وردبینەکان دەکۆڵێتەوە بە شێوازێکی زانستی و بە شێوەیەکی سادە و ئاسان ڕوونکردنەوە ئەدات.</p>
+            <h1 class="english">Welcome to 🧬 BioGuide</h1>
+            <h1 class="kurdish">بەخێربێن بۆ ڕێبەری بایۆلۆجی🧬</h1>
+            
+            <div class="header-description bilingual-content">
+                <p class="english-part">
+                    It is a biological and medical website that studies all microscopic structures in a scientific way and explains them in a simple and easy way
+                </p>
+                <p class="kurdish-part">
+                    ماڵپەڕێکی بایۆلۆجی و پزیشکییە کە لە تەواوی پێکهاتە وردبینەکان دەکۆڵێتەوە بە شێوازێکی زانستی و بە شێوەیەکی سادە و ئاسان ڕوونکردنەوە ئەدات.
+                </p>
+            </div>
         </div>
 
         <div class="summary-stats">
@@ -681,21 +736,24 @@
                 </div>
             </div>
         </div>
-<div class="content-section">
+
+        <div class="content-section">
             <h2>📋 Additional Content - ناوەڕۆک و زانیاریی تر</h2>
-            <p dir="ltr">
-            <p  style="margin-bottom: 15px;">
-                <strong>English:</strong> In this section you will learn more about the website, what it looks like, what it is for, how to use it, and information about the content of the website, its authors, and the sources used for the information
-           </p>
-            <p style="margin-bottom: 25px;">
-                <strong>کوردی:</strong> لەم بەشەدا زانیاری تەواو دەربارەی ماڵپەرەکە وەردەگریت، ئامانجی درووستکردنی و چۆنیەتی بەکارهێنانی و زانیاری دەربارەی ناوەڕۆکی ماڵپەرەکە و ئامادەکارانی و سەرچاوەکان کە بۆ زانیارییەکان بەکارهاتوون بەدەست دەهێنیت.
-            </p>
+            <div class="bilingual-content">
+                <p class="english-part">
+                    <strong>English:</strong> In this section you will learn more about the website, what it looks like, what it is for, how to use it, and information about the content of the website, its authors, and the sources used for the information
+                </p>
+                <p class="kurdish-part">
+                    <strong>کوردی:</strong> لەم بەشەدا زانیاری تەواو دەربارەی ماڵپەرەکە وەردەگریت، ئامانجی درووستکردنی و چۆنیەتی بەکارهێنانی و زانیاری دەربارەی ناوەڕۆکی ماڵپەرەکە و ئامادەکارانی و سەرچاوەکان کە بۆ زانیارییەکان بەکارهاتوون بەدەست دەهێنیت.
+                </p>
+            </div>
             <div style="margin-top: 25px;">
                 <a href="content.html" class="btn" style="width: auto; display: inline-block;">
                     View Content & Information - بینینی ناوەڕۆک و زانیاریەکان 
                 </a>
             </div>
         </div>
+
         <div class="sections-title">
             📚 Chapters - بەشەکان
         </div>
@@ -710,14 +768,16 @@
                         <div class="title-ku">شانەزانی</div>
                     </div>
                 </h3>
-                <p class="chapter-description">
-                    The study of tissues and their microscopic structure, including epithelial, connective, muscle, and nervous tissues.
-                    <br><br>
-                    لێکۆڵینەوە لە شانەکان و پێکهاتەی وردبینییان، لەوانەش شانەکانی ڕووپۆشی لەش، بەستەرە، ماسولکە و دەمارەکان دەگرێتەوە.
-                </p>
+                <div class="chapter-description bilingual-content">
+                    <p class="english-part">
+                        The study of tissues and their microscopic structure, including epithelial, connective, muscle, and nervous tissues.
+                    </p>
+                    <p class="kurdish-part">
+                        لێکۆڵینەوە لە شانەکان و پێکهاتەی وردبینییان، لەوانەش شانەکانی ڕووپۆشی لەش، بەستەرە، ماسولکە و دەمارەکان دەگرێتەوە.
+                    </p>
+                </div>
                 <div class="chapter-stats">
                     <span>20 Slides - سلاید</span>
-                    
                 </div>
                 <a href="histology.html" class="btn">Start Learning - دەستپێکردن</a>
             </div>
@@ -731,14 +791,16 @@
                         <div class="title-ku">کۆرپەلەزانی</div>
                     </div>
                 </h3>
-                <p class="chapter-description">
-                    Developmental biology focusing on embryonic development from fertilization through organogenesis.
-                    <br><br>
-                    بایۆلۆژیای گەشەکردن کە گرنگی بە گەشەکردنی کۆرپەلە دەدات لە پیتاندنەوە تا دروستبوونی ئەندامەکان.
-                </p>
+                <div class="chapter-description bilingual-content">
+                    <p class="english-part">
+                        Developmental biology focusing on embryonic development from fertilization through organogenesis.
+                    </p>
+                    <p class="kurdish-part">
+                        بایۆلۆژیای گەشەکردن کە گرنگی بە گەشەکردنی کۆرپەلە دەدات لە پیتاندنەوە تا دروستبوونی ئەندامەکان.
+                    </p>
+                </div>
                 <div class="chapter-stats">
                     <span>20 Slides - سلاید</span>
-                    
                 </div>
                 <a href="embryology.html" class="btn">Start Learning - دەستپێکردن</a>
             </div>
@@ -752,14 +814,16 @@
                         <div class="title-ku">توێکاری ڕووەک</div>
                     </div>
                 </h3>
-                <p class="chapter-description">
-                    Structure and function of plant organs including roots, stems, leaves, and reproductive structures.
-                    <br><br>
-                    پێکهاتە و کارکردنی ئەندامەکانی ڕووەک لەوانە ڕەگ، لق، گەڵا و پێکهاتەی زاوزێ.
-                </p>
+                <div class="chapter-description bilingual-content">
+                    <p class="english-part">
+                        Structure and function of plant organs including roots, stems, leaves, and reproductive structures.
+                    </p>
+                    <p class="kurdish-part">
+                        پێکهاتە و کارکردنی ئەندامەکانی ڕووەک لەوانە ڕەگ، لق، گەڵا و پێکهاتەی زاوزێ.
+                    </p>
+                </div>
                 <div class="chapter-stats">
                     <span>20 Slides - سلاید</span>
-                    
                 </div>
                 <a href="plant-anatomy.html" class="btn">Start Learning - دەستپێکردن</a>
             </div>
@@ -773,14 +837,16 @@
                         <div class="title-ku">مشەخۆرزانی</div>
                     </div>
                 </h3>
-                <p class="chapter-description">
-                    Study of parasites, their life cycles, host-parasite relationships, and parasitic diseases.
-                    <br><br>
-                   لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان و نەخۆشییە مشەخۆرەکان.
-                </p>
+                <div class="chapter-description bilingual-content">
+                    <p class="english-part">
+                        Study of parasites, their life cycles, host-parasite relationships, and parasitic diseases.
+                    </p>
+                    <p class="kurdish-part">
+                        لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان و نەخۆشییە مشەخۆرەکان.
+                    </p>
+                </div>
                 <div class="chapter-stats">
                     <span>20 Slides - سلاید</span>
-                    
                 </div>
                 <a href="parasitology.html" class="btn">Start Learning - دەستپێکردن</a>
             </div>
@@ -794,14 +860,16 @@
                         <div class="title-ku">خوێنزانی</div>
                     </div>
                 </h3>
-                <p class="chapter-description">
-                    Study of blood, blood-forming organs, and blood diseases including cellular components and plasma.
-                    <br><br>
-                    لێکۆڵینەوە لە خوێن و ئەندامە خوێن دروستکەرەکان و نەخۆشییەکانی خوێن کە پێکهاتە خانەییەکان و پلازما دەگرێتەوە.
-                </p>
+                <div class="chapter-description bilingual-content">
+                    <p class="english-part">
+                        Study of blood, blood-forming organs, and blood diseases including cellular components and plasma.
+                    </p>
+                    <p class="kurdish-part">
+                        لێکۆڵینەوە لە خوێن و ئەندامە خوێن دروستکەرەکان و نەخۆشییەکانی خوێن کە پێکهاتە خانەییەکان و پلازما دەگرێتەوە.
+                    </p>
+                </div>
                 <div class="chapter-stats">
                     <span>20 Slides - سلاید</span>
-                    
                 </div>
                 <a href="hematology.html" class="btn">Start Learning - دەستپێکردن</a>
             </div>
@@ -815,14 +883,16 @@
                         <div class="title-ku">وردەزیندەزانی</div>
                     </div>
                 </h3>
-                <p class="chapter-description">
-                    Study of microorganisms including bacteria, viruses, fungi, and their roles in health and disease.
-                    <br><br>
-                    لێکۆڵینەوە لە وردە زیندەوەران لەوانە بەکتریا، ڤایرۆس، قارچک، و ڕۆڵەکانیان لە تەندروستی و نەخۆشیدا.
-                </p>
+                <div class="chapter-description bilingual-content">
+                    <p class="english-part">
+                        Study of microorganisms including bacteria, viruses, fungi, and their roles in health and disease.
+                    </p>
+                    <p class="kurdish-part">
+                        لێکۆڵینەوە لە وردە زیندەوەران لەوانە بەکتریا، ڤایرۆس، قارچک، و ڕۆڵەکانیان لە تەندروستی و نەخۆشیدا.
+                    </p>
+                </div>
                 <div class="chapter-stats">
                     <span>20 Slides - سلاید</span>
-                    
                 </div>
                 <a href="microbiology.html" class="btn">Start Learning - دەستپێکردن</a>
             </div>
@@ -836,14 +906,16 @@
                         <div class="title-ku">مێرولەزانی</div>
                     </div>
                 </h3>
-                <p class="chapter-description">
-                    Scientific study of insects, their classification, morphology, physiology, and ecological importance.
-                    <br><br>
-                 لێکۆڵینەوەی زانستی لە مێرووەکان،لە ڕووی پۆلێن کردن، شێوەیان، کارئەندام زانیان، و گرنگیان بۆ ژینگە.
-                </p>
+                <div class="chapter-description bilingual-content">
+                    <p class="english-part">
+                        Scientific study of insects, their classification, morphology, physiology, and ecological importance.
+                    </p>
+                    <p class="kurdish-part">
+                        لێکۆڵینەوەی زانستی لە مێرووەکان،لە ڕووی پۆلێن کردن، شێوەیان، کارئەندام زانیان، و گرنگیان بۆ ژینگە.
+                    </p>
+                </div>
                 <div class="chapter-stats">
                     <span>20 Slides - سلاید</span>
-                    
                 </div>
                 <a href="entomology.html" class="btn">Start Learning - دەستپێکردن</a>
             </div>
@@ -854,17 +926,19 @@
                     <span class="chapter-icon">🧪</span>
                     <div>
                         <div class="title-en">Algae Studies</div>
-                        <div class="title-ku"> قەوزە</div>
+                        <div class="title-ku">قەوزە</div>
                     </div>
                 </h3>
-                <p class="chapter-description">
-                    Study of algae, their diversity, classification, structure, and ecological significance.
-                    <br><br>
-                   لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان.
-                </p>
+                <div class="chapter-description bilingual-content">
+                    <p class="english-part">
+                        Study of algae, their diversity, classification, structure, and ecological significance.
+                    </p>
+                    <p class="kurdish-part">
+                        لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان.
+                    </p>
+                </div>
                 <div class="chapter-stats">
                     <span>20 Slides - سلاید</span>
-                    
                 </div>
                 <a href="algae-studies.html" class="btn">Start Learning - دەستپێکردن</a>
             </div>
@@ -878,46 +952,54 @@
                         <div class="title-ku">کەڕووزانی</div>
                     </div>
                 </h3>
-                <p class="chapter-description">
-                    Study of fungi, their morphology, reproduction, classification, and ecological and economic importance.
-                    <br><br>
-لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان، و گرنگی ئیکۆلۆژی و ئابوورییان
-                </p>
+                <div class="chapter-description bilingual-content">
+                    <p class="english-part">
+                        Study of fungi, their morphology, reproduction, classification, and ecological and economic importance.
+                    </p>
+                    <p class="kurdish-part">
+                        لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان، و گرنگی ئیکۆلۆژی و ئابوورییان
+                    </p>
+                </div>
                 <div class="chapter-stats">
                     <span>20 Slides - سلاید</span>
-                    
                 </div>
                 <a href="fungi.html" class="btn">Start Learning - دەستپێکردن</a>
             </div>
+            
             <div class="chapter-card">
-        <div class="chapter-number">10</div>
-        <h3 class="chapter-title">
-            <span class="chapter-icon">🛡️</span>
-            <div>
-                <div class="title-en">Immunology</div>
-                <div class="title-ku">بەرگریزانی</div>
+                <div class="chapter-number">10</div>
+                <h3 class="chapter-title">
+                    <span class="chapter-icon">🛡️</span>
+                    <div>
+                        <div class="title-en">Immunology</div>
+                        <div class="title-ku">بەرگریزانی</div>
+                    </div>
+                </h3>
+                <div class="chapter-description bilingual-content">
+                    <p class="english-part">
+                        Study of immune system including microscopic examination of immune organs, cells, and pathological conditions affecting immune responses.
+                    </p>
+                    <p class="kurdish-part">
+                        لێکۆڵینەوە لە سیستمی بەرگری لەش کە بریتییە لە پشکنینی مایکرۆسکۆپی ئەندامە بەرگرییەکان، خانەکان، و دۆخە نەخۆشییەکان کە کاریگەرییان لەسەر وەڵامە بەرگرییەکان هەیە
+                    </p>
+                </div>
+                <div class="chapter-stats">
+                    <span>20 Slides - سلاید</span>
+                </div>
+                <a href="immunology.html" class="btn">Start Learning - دەستپێکردن</a>
             </div>
-        </h3>
-        <p class="chapter-description">
-            Study of immune system including microscopic examination of immune organs, cells, and pathological conditions affecting immune responses.
-            <br><br>
-            لێکۆڵینەوە لە سیستمی بەرگری لەش کە بریتییە لە پشکنینی مایکرۆسکۆپی ئەندامە بەرگرییەکان، خانەکان، و دۆخە نەخۆشییەکان کە کاریگەرییان لەسەر وەڵامە بەرگرییەکان هەیە
-        </p>
-        <div class="chapter-stats">
-            <span>20 Slides - سلاید</span>
         </div>
-        <a href="immunology.html" class="btn">Start Learning - دەستپێکردن</a>
-    </div>
-</div>
 
         <div class="footer">
             <h3>ڕێبەری بایۆلۆجی - 🧬 BioGuide </h3>
-            <p><strong>It is a biological, scientific and medical website</strong></p>
-            <p><strong>ماڵپەرێکی بایۆلۆجی و زانستی و پزیشکییە</strong></p>
-            <p style="margin-top: 15px; opacity: 0.9;">created by scientists to serve science<br>درووستکراوە لە لایەن زاستخوازانەوە بۆ خزمەتی زانست</p>
+            <div class="bilingual-content">
+                <p class="english-part"><strong>It is a biological, scientific and medical website</strong></p>
+                <p class="kurdish-part"><strong>ماڵپەرێکی بایۆلۆجی و زانستی و پزیشکییە</strong></p>
+                <p class="english-part" style="margin-top: 15px; opacity: 0.9;">created by scientists to serve science</p>
+                <p class="kurdish-part" style="margin-top: 15px; opacity: 0.9;">درووستکراوە لە لایەن زاستخوازانەوە بۆ خزمەتی زانست</p>
+            </div>
         </div>
     </div>
-
 
     <script>
         // Enhanced dark mode functionality with system preference detection

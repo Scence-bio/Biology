@@ -530,24 +530,27 @@
     </style>
 </head>
 <body>
+       <div style="position:fixed;left:20px;top:20px;z-index:2000">
+        <a href="https://scence-bio.github.io/Biology/" 
+           style="text-decoration:none;background:#f59e0b;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
+            back to home - گەڕانەوە بۆ سەرەکی
+        </a>
+    </div>
+
     <!-- Progress bar -->
     <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
-      </div>
-   </div>
-</div>
+    </div>
 
     <!-- Search -->
     <div class="search-container">
         <input type="text" class="search-input" placeholder="Search by scientific or common name..." id="searchInput">
-     </div>
-   </div>
-</div>
-
+    </div>
 
     <!-- Print button -->
     <button class="print-btn" title="Print Guide" onclick="window.print()">🖨️</button>
-</div>
+
+    <!-- Entomology Chapter -->
         <!-- Entomology Chapter -->
     <div class="chapter-page" id="entomology">
         <div class="chapter-header">
@@ -555,8 +558,13 @@
             <h2 class="chapter-main-title">🐛 Entomology - Study of Insects</h2>
             <p class="chapter-description">Microscopic examination of insect morphology and adaptations</p>
         </div>
-      </div>
-    </div>
+
+        <!-- Filter controls -->
+        <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">All Slides</button>
+            <button class="filter-btn" data-filter="beneficial">Beneficial Insects</button>
+            <button class="filter-btn" data-filter="pest">Pest Insects</button>
+            <button class="filter-btn" data-filter="social">Social Insects</button>
         <!-- Navigation -->
         <div class="nav-bar">
             <div class="nav-content">

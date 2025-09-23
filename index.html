@@ -127,12 +127,14 @@
         /* Text alignment classes */
         .text-ku, .kurdish {
             direction: rtl;
-            text-align: justify low;
+            text-align: justify;
+            text-align-last: Right; /* یان center */
         }
 
         .text-en, .english {
             direction: ltr;
-            text-align: justify low;
+            text-align: justify;
+            text-align-last: left; /* یان center */
         }
 
         .bilingual-content {
@@ -144,11 +146,13 @@
         .bilingual-content .english-part {
             direction: ltr;
             text-align: justify;
+            text-align-last: left; /* یان center */
         }
 
         .bilingual-content .kurdish-part {
             direction: rtl;
             text-align: justify;
+            text-align-last: Right; /* یان center */
         }
 
         .container {

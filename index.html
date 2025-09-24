@@ -247,7 +247,7 @@
             position: relative;
             z-index: 1;
         }
-           /* Logo Styles - Responsive Design */
+                 /* Logo Styles - Responsive Design */
         .logo-container {
             display: flex;
             justify-content: center;
@@ -258,9 +258,13 @@
         }
 
         .logo-image {
-            max-width: clamp(220px, 20vw, 300px);
+            max-width: clamp(120px, 15vw, 200px);
             height: auto;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px var(--shadow-medium);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 3px solid var(--border-color);
+            background: var(--card-bg);
             padding: 10px;
         }
 

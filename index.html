@@ -73,7 +73,8 @@
       background-attachment: fixed;
       min-height: 100vh;
     }
-    .dark .bg-main {
+    /* FIX 1: dark class must target html element — handled via JS below */
+    html.dark .bg-main {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #0f172a 50%, #1e293b 75%, #334155 100%);
     }
     .card-glass {
@@ -82,7 +83,7 @@
       box-shadow: 0 15px 40px rgba(15,76,117,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
       transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
     }
-    .dark .card-glass {
+    html.dark .card-glass {
       background: rgba(30,41,59,0.95);
       border-color: rgba(59,130,246,0.4);
       box-shadow: 0 15px 40px rgba(15,23,42,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
@@ -92,7 +93,7 @@
       box-shadow: 0 25px 60px rgba(15,76,117,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
       border-color: #3282b8;
     }
-    .dark .card-glass:hover {
+    html.dark .card-glass:hover {
       box-shadow: 0 25px 60px rgba(15,23,42,0.6);
       border-color: rgba(59,130,246,0.6);
     }
@@ -112,7 +113,7 @@
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .dark .grad-text {
+    html.dark .grad-text {
       background: linear-gradient(135deg, #93c5fd, #60a5fa, #06b6d4);
       -webkit-background-clip: text;
       background-clip: text;
@@ -132,6 +133,8 @@
       animation: rotateBg 20s linear infinite;
       pointer-events: none;
     }
+    @keyframes rotateBg { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
     .stat-item {
       background: rgba(255,255,255,0.2);
       border: 2px solid rgba(255,255,255,0.3);
@@ -142,17 +145,13 @@
     .sections-title-bar {
       background: linear-gradient(135deg, #0f4c75, #3282b8);
     }
-    .dark .sections-title-bar {
+    html.dark .sections-title-bar {
       background: linear-gradient(135deg, #1e3a5f, #2563eb);
     }
     .chapter-orb {
       background: linear-gradient(135deg, #0f4c75, #3282b8);
       box-shadow: 0 8px 20px rgba(15,76,117,0.3);
       transition: transform 0.5s ease, background 0.3s ease;
-    }
-    .chapter-orb:hover {
-      transform: rotate(360deg) scale(1.1);
-      background: linear-gradient(135deg, #1e6091, #0891b2);
     }
     .btn-primary {
       background: linear-gradient(135deg, #0f4c75, #3282b8);
@@ -194,21 +193,21 @@
       transition: all 0.3s ease;
     }
     .toggle-btn:hover { transform: scale(1.1); box-shadow: 0 12px 30px rgba(15,76,117,0.5); }
-    .dark .text-primary   { color: #f1f5f9; }
-    .dark .text-secondary { color: #cbd5e1; }
+    html.dark .text-primary   { color: #f1f5f9; }
+    html.dark .text-secondary { color: #cbd5e1; }
     .content-card {
       background: rgba(255,255,255,0.98);
       border: 2px solid rgba(50,130,184,0.3);
       box-shadow: 0 15px 40px rgba(15,76,117,0.2);
       transition: all 0.3s ease;
     }
-    .dark .content-card {
+    html.dark .content-card {
       background: rgba(30,41,59,0.95);
       border-color: rgba(59,130,246,0.4);
       box-shadow: 0 15px 40px rgba(15,23,42,0.4);
     }
     .footer-bg { background: linear-gradient(135deg, #0f4c75, #3282b8); }
-    .logo-float { animation: float 6s ease-in-out infinite; }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
@@ -254,69 +253,73 @@
   </style>
 </head>
 
-<body :class="[dark ? 'dark' : '']">
+<body>
 <div id="app" class="bg-main">
 
-  <!-- Dark Mode Toggle -->
-  <button @click="toggleDark"
+  <!-- FIX 1: Dark Mode Toggle — now applies class to <html> not <body> via JS -->
+  <button id="darkBtn"
           class="toggle-btn fixed top-5 left-5 z-50 w-14 h-14 rounded-full text-white text-2xl flex items-center justify-center"
-          :title="dark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
           aria-label="Toggle Dark Mode">
-    {{ dark ? '☀️' : '🌙' }}
+    🌙
   </button>
 
   <div class="max-w-screen-xl mx-auto px-4 py-4">
 
-    <!-- ══════════════════════════════════════════
-         HERO CAROUSEL HEADER (11 slides)
-    ══════════════════════════════════════════ -->
+    <!-- ══ HERO CAROUSEL ══ -->
     <div class="hero-carousel" id="heroCarousel">
       <div id="heroSlides"></div>
-      <button class="hero-nav-btn hero-prev" id="hPrev">‹</button>
-      <button class="hero-nav-btn hero-next" id="hNext">›</button>
+      <button class="hero-nav-btn hero-prev" id="hPrev">&#8249;</button>
+      <button class="hero-nav-btn hero-next" id="hNext">&#8250;</button>
       <div class="hero-dots" id="heroDots"></div>
-      <div class="hero-counter" id="heroCtr">1 / 11</div>
+      <div class="hero-counter" id="heroCtr">1 / 10</div>
       <div class="hero-prog" id="hProg" style="width:0%"></div>
     </div>
 
-    <!-- ══════════════════════════════════════════
-         SUMMARY STATS
-    ══════════════════════════════════════════ -->
+    <!-- ══ STATS ══ -->
     <section class="stats-bg rounded-3xl p-10 mb-10 text-white text-center shadow-2xl">
       <h2 class="font-arabic font-black mb-9 relative z-10"
           style="font-size:clamp(2rem,4vw,3.2rem); text-shadow:2px 4px 8px rgba(0,0,0,0.4)">
         📊 Overview - تێڕوانینی گشتی
       </h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 relative z-10">
-        <div v-for="s in stats" :key="s.labelEn" class="stat-item rounded-2xl py-8 px-5">
-          <div class="font-black mb-3"
-               style="font-size:clamp(2rem,4vw,2.8rem); font-family:'IBM Plex Sans Arabic',sans-serif; text-shadow:2px 2px 4px rgba(0,0,0,0.3)">
-            {{ s.value }}
+        <div class="stat-item rounded-2xl py-8 px-5">
+          <div class="font-black mb-3" style="font-size:clamp(2rem,4vw,2.8rem)">200</div>
+          <div class="font-semibold leading-tight text-center opacity-95" style="font-size:clamp(0.9rem,2vw,1.1rem)">
+            <div class="dir-ltr">Total Slides</div><div class="dir-rtl">کۆی سلایدەکان</div>
           </div>
-          <div class="font-semibold leading-tight text-center opacity-95"
-               style="font-size:clamp(0.9rem,2vw,1.1rem)">
-            <div class="dir-ltr">{{ s.labelEn }}</div>
-            <div class="dir-rtl">{{ s.labelKu }}</div>
+        </div>
+        <div class="stat-item rounded-2xl py-8 px-5">
+          <div class="font-black mb-3" style="font-size:clamp(2rem,4vw,2.8rem)">4</div>
+          <div class="font-semibold leading-tight text-center opacity-95" style="font-size:clamp(0.9rem,2vw,1.1rem)">
+            <div class="dir-ltr">Our Team</div><div class="dir-rtl">تیمەکەمان</div>
+          </div>
+        </div>
+        <div class="stat-item rounded-2xl py-8 px-5">
+          <div class="font-black mb-3" style="font-size:clamp(2rem,4vw,2.8rem)">10</div>
+          <div class="font-semibold leading-tight text-center opacity-95" style="font-size:clamp(0.9rem,2vw,1.1rem)">
+            <div class="dir-ltr">Chapters</div><div class="dir-rtl">بەشەکان</div>
+          </div>
+        </div>
+        <div class="stat-item rounded-2xl py-8 px-5">
+          <div class="font-black mb-3" style="font-size:clamp(2rem,4vw,2.8rem)">1</div>
+          <div class="font-semibold leading-tight text-center opacity-95" style="font-size:clamp(0.9rem,2vw,1.1rem)">
+            <div class="dir-ltr">Content</div><div class="dir-rtl">ناوەڕۆک</div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════════
-         ADDITIONAL CONTENT SECTION
-    ══════════════════════════════════════════ -->
+    <!-- ══ ADDITIONAL CONTENT ══ -->
     <section class="content-card rounded-3xl p-10 mb-10">
       <h2 class="grad-text font-arabic font-extrabold inline-block pb-4 mb-6 border-b-4 border-ocean-500"
           style="font-size:clamp(1.6rem,3vw,2.4rem)">
         📋 Additional Content - ناوەڕۆک و زانیاریی تر
       </h2>
       <div class="space-y-4">
-        <p class="dir-justify-ltr text-slate-600 dark:text-slate-300"
-           style="font-size:clamp(1rem,2vw,1.2rem); line-height:1.7">
+        <p class="dir-justify-ltr text-slate-600" style="font-size:clamp(1rem,2vw,1.2rem); line-height:1.7">
           <strong>English:</strong> In this section you will learn more about the website, what it looks like, what it is for, how to use it, and information about the content of the website, its authors, and the sources used for the information
         </p>
-        <p class="dir-justify-rtl text-slate-600 dark:text-slate-300"
-           style="font-size:clamp(1rem,2vw,1.2rem); line-height:1.7">
+        <p class="dir-justify-rtl text-slate-600" style="font-size:clamp(1rem,2vw,1.2rem); line-height:1.7">
           <strong>کوردی:</strong> لەم بەشەدا زانیاری تەواو دەربارەی ماڵپەرەکە وەردەگریت، ئامانجی درووستکردنی و چۆنیەتی بەکارهێنانی و زانیاری دەربارەی ناوەڕۆکی ماڵپەرەکە و ئامادەکارانی و سەرچاوەکان کە بۆ زانیارییەکان بەکارهاتوون بەدەست دەهێنیت.
         </p>
       </div>
@@ -324,72 +327,23 @@
         <a href="content.html"
            class="btn-primary inline-block text-white font-bold rounded-2xl py-4 px-8 no-underline"
            style="font-size:clamp(1rem,2vw,1.2rem)">
-          View Content & Information - بینینی ناوەڕۆک و زانیاریەکان
+          View Content &amp; Information - بینینی ناوەڕۆک و زانیاریەکان
         </a>
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════════
-         SECTIONS TITLE
-    ══════════════════════════════════════════ -->
+    <!-- ══ SECTIONS TITLE ══ -->
     <div class="sections-title-bar text-white text-center rounded-2xl px-6 py-6 mb-9 shadow-xl font-arabic font-extrabold"
          style="font-size:clamp(1.8rem,4vw,2.8rem); text-shadow:2px 4px 8px rgba(0,0,0,0.4)">
       📚 Chapters - بەشەکان
     </div>
 
-    <!-- ══════════════════════════════════════════
-         CHAPTERS GRID
-    ══════════════════════════════════════════ -->
-    <div class="grid gap-6 mb-12"
+    <!-- ══ CHAPTERS GRID ══ -->
+    <div id="chaptersGrid" class="grid gap-6 mb-12"
          style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr))">
-
-      <div v-for="(ch, i) in chapters" :key="ch.id"
-           class="card-glass reveal-card relative rounded-3xl p-8 overflow-hidden"
-           :ref="el => registerCard(el)"
-           :style="`transition-delay: ${i * 100}ms`">
-
-        <div class="chapter-orb w-[70px] h-[70px] rounded-full flex items-center justify-center text-white font-black text-3xl mb-6">
-          {{ ch.id }}
-        </div>
-
-        <h3 class="flex items-start gap-3 flex-wrap mb-4"
-            style="font-size:clamp(1.4rem,3vw,1.9rem)">
-          <span style="font-size:clamp(2rem,4vw,2.8rem); filter:drop-shadow(2px 2px 4px rgba(15,76,117,0.3))">{{ ch.icon }}</span>
-          <div class="flex-1">
-            <div class="dir-ltr font-extrabold text-ocean-700 dark:text-blue-300"
-                 style="line-height:1.2; font-size:clamp(1.4rem,3vw,1.9rem)">
-              {{ ch.titleEn }}
-            </div>
-            <div class="dir-rtl font-bold text-ocean-600 dark:text-blue-400"
-                 style="font-size:clamp(1.2rem,2.5vw,1.7rem); line-height:1.3">
-              {{ ch.titleKu }}
-            </div>
-          </div>
-        </h3>
-
-        <div class="text-slate-500 dark:text-slate-400 mb-6 space-y-2"
-             style="font-size:clamp(0.9rem,2vw,1.1rem); line-height:1.8">
-          <p class="dir-justify-ltr">{{ ch.descEn }}</p>
-          <p class="dir-justify-rtl">{{ ch.descKu }}</p>
-        </div>
-
-        <div class="flex justify-between flex-wrap gap-2 mb-6 rounded-2xl px-5 py-4"
-             :class="dark ? 'bg-blue-500/10' : 'bg-ocean-500/5'"
-             style="font-size:clamp(0.8rem,1.5vw,1rem)">
-          <span class="text-slate-500 dark:text-slate-400">20 Slides - سلاید</span>
-        </div>
-
-        <a :href="ch.href"
-           class="btn-primary block text-white font-bold text-center rounded-2xl py-5 px-9 no-underline"
-           style="font-size:clamp(1rem,2vw,1.2rem)">
-          Start Learning - دەستپێکردن
-        </a>
-      </div>
     </div>
-    
-    <!-- ══════════════════════════════════════════
-         FOOTER
-    ══════════════════════════════════════════ -->
+
+    <!-- ══ FOOTER ══ -->
     <footer class="footer-bg text-white text-center rounded-3xl px-8 py-12 mt-16 shadow-xl">
       <h3 class="font-arabic font-extrabold mb-5"
           style="font-size:clamp(1.6rem,3vw,2.2rem); text-shadow:2px 2px 4px rgba(0,0,0,0.3)">
@@ -411,144 +365,364 @@
       </div>
     </footer>
 
-  </div><!-- /container -->
-</div><!-- /#app -->
+  </div>
+</div>
 
 <script>
-const { createApp, ref, onMounted, nextTick } = Vue;
+/* ══════════════════════════════════════════════════════
+   FIX 1 — DARK MODE: apply class to <html> (required by Tailwind darkMode:'class')
+══════════════════════════════════════════════════════ */
+(function() {
+  const saved = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved && prefersDark)) {
+    document.documentElement.classList.add('dark');
+  }
+})();
 
-createApp({
-  setup() {
+const darkBtn = document.getElementById('darkBtn');
+darkBtn.addEventListener('click', () => {
+  const isDark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  darkBtn.textContent = isDark ? '☀️' : '🌙';
+});
+// Set initial icon
+darkBtn.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
 
-    /* ── Dark mode ── */
-    const dark = ref(localStorage.getItem('theme') === 'dark'
-      || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches));
 
-    function toggleDark() {
-      dark.value = !dark.value;
-      localStorage.setItem('theme', dark.value ? 'dark' : 'light');
-    }
+/* ══════════════════════════════════════════════════════
+   FIX 2 — HERO CAROUSEL: full working implementation
+   10 slides (one per chapter + 1 intro)
+══════════════════════════════════════════════════════ */
+const SLIDES = [
+  {
+    badge: 'BIOGUIDE',
+    titleEn: 'BioGuide',
+    titleKu: 'ڕێبەری بایۆلۆجی',
+    desc: 'پۆرتاڵی زانستی بایۆلۆجی بۆ خوێندکارانی زانکۆ — ١٠ بەش، ٢٠٠ سلاید',
+    pills: ['Biology', 'Science', 'Medical'],
+    color1: '#0f4c75', color2: '#1e6091',
+    particles: 80
+  },
+  {
+    badge: 'CHAPTER 1',
+    titleEn: 'Histology',
+    titleKu: 'شانەزانی',
+    desc: 'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە',
+    pills: ['Cells', 'Tissues', 'Organs'],
+    color1: '#0f4c75', color2: '#0891b2',
+    particles: 60
+  },
+  {
+    badge: 'CHAPTER 2',
+    titleEn: 'Embryology',
+    titleKu: 'کۆرپەلەزانی',
+    desc: 'لێکۆڵینەوە دەکات دەربارەی چۆنیەتی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون',
+    pills: ['Development', 'Fetus', 'Birth'],
+    color1: '#1e3a5f', color2: '#2563eb',
+    particles: 55
+  },
+  {
+    badge: 'CHAPTER 3',
+    titleEn: 'Plant Anatomy',
+    titleKu: 'توێکاری ڕووەک',
+    desc: 'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک',
+    pills: ['Roots', 'Stems', 'Leaves'],
+    color1: '#064e3b', color2: '#065f46',
+    particles: 65
+  },
+  {
+    badge: 'CHAPTER 4',
+    titleEn: 'Parasitology',
+    titleKu: 'مشەخۆرزانی',
+    desc: 'لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان',
+    pills: ['Parasites', 'Life Cycle', 'Host'],
+    color1: '#4c1d95', color2: '#5b21b6',
+    particles: 50
+  },
+  {
+    badge: 'CHAPTER 5',
+    titleEn: 'Hematology',
+    titleKu: 'خوێنزانی',
+    desc: 'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی',
+    pills: ['Blood', 'Cells', 'Function'],
+    color1: '#7f1d1d', color2: '#991b1b',
+    particles: 70
+  },
+  {
+    badge: 'CHAPTER 6',
+    titleEn: 'Microbiology',
+    titleKu: 'وردەزیندەزانی',
+    desc: 'لێکۆڵینەوە دەکات دەربارەی وردە زیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان',
+    pills: ['Bacteria', 'Viruses', 'Fungi'],
+    color1: '#1e3a5f', color2: '#0f4c75',
+    particles: 90
+  },
+  {
+    badge: 'CHAPTER 7',
+    titleEn: 'Entomology',
+    titleKu: 'مێرولەزانی',
+    desc: 'لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان',
+    pills: ['Insects', 'Structure', 'Ecology'],
+    color1: '#713f12', color2: '#92400e',
+    particles: 55
+  },
+  {
+    badge: 'CHAPTER 8',
+    titleEn: 'Algae Studies',
+    titleKu: 'قەوزە',
+    desc: 'لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان',
+    pills: ['Algae', 'Aquatic', 'Classification'],
+    color1: '#0c4a6e', color2: '#075985',
+    particles: 60
+  },
+  {
+    badge: 'CHAPTER 9',
+    titleEn: 'Mycology',
+    titleKu: 'کەڕووزانی',
+    desc: 'لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان',
+    pills: ['Fungi', 'Morphology', 'Ecology'],
+    color1: '#3b0764', color2: '#4c1d95',
+    particles: 50
+  },
+  {
+    badge: 'CHAPTER 10',
+    titleEn: 'Immunology',
+    titleKu: 'بەرگریزانی',
+    desc: 'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش و وەڵامدانەوەکانی',
+    pills: ['Immune System', 'Antibodies', 'Defense'],
+    color1: '#0f4c75', color2: '#0369a1',
+    particles: 75
+  },
+];
 
-    /* ── Stats data ── */
-    const stats = [
-      { value: '200', labelEn: 'Total Slides',  labelKu: 'کۆی سلایدەکان' },
-      { value: '4',   labelEn: 'Our Team',       labelKu: 'تیمەکەمان'     },
-      { value: '10',  labelEn: 'Chapters',       labelKu: 'بەشەکان'        },
-      { value: '1',   labelEn: 'Content',        labelKu: 'ناوەڕۆک'        },
-    ];
+const TOTAL = SLIDES.length;
+let current = 0;
+let autoTimer = null;
+let progInterval = null;
+let progStart = null;
+const AUTO_DURATION = 5000;
 
-    /* ── Chapter data — exact original text ── */
-    const chapters = [
-      {
-        id: 1, icon: '🔬',
-        titleEn: 'Histology', titleKu: 'شانەزانی',
-        href: 'histology.html',
-        descEn: 'It studies the structure, location, and function of cells, tissues, and organs in the body',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی  پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە',
-      },
-      {
-        id: 2, icon: '🤰🏻',
-        titleEn: 'Embryology', titleKu: 'کۆرپەلەزانی',
-        href: 'embryology.html',
-        descEn: 'It studies how and how the fetus develops from fertilization to birth',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی چۆنیەتی و شێوازی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون',
-      },
-      {
-        id: 3, icon: '🌱',
-        titleEn: 'Plant Anatomy', titleKu: 'توێکاری ڕووەک',
-        href: 'plant-anatomy.html',
-        descEn: 'It studies the structure and functions of different parts of the plant',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک',
-      },
-      {
-        id: 4, icon: '🪱',
-        titleEn: 'Parasitology', titleKu: 'مشەخۆرزانی',
-        href: 'parasitology.html',
-        descEn: 'Study of parasites, their life cycles, host-parasite relationships, and parasitic diseases.',
-        descKu: 'لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان و نەخۆشییە مشەخۆرەکان.',
-      },
-      {
-        id: 5, icon: '🩸',
-        titleEn: 'Hematology', titleKu: 'خوێنزانی',
-        href: 'hematology.html',
-        descEn: 'It researches the structure, function and properties of blood and its components',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی',
-      },
-      {
-        id: 6, icon: '🦠',
-        titleEn: 'Microbiology', titleKu: 'وردەزیندەزانی',
-        href: 'microbiology.html',
-        descEn: 'Studies about microorganisms in terms of their characteristics, pathogenicity, importance and characteristics',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی وردە زیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان و گرنگی و تایبەتمەندیان',
-      },
-      {
-        id: 7, icon: '🐛',
-        titleEn: 'Entomology', titleKu: 'مێرولەزانی',
-        href: 'entomology.html',
-        descEn: 'It studies ants in terms of their structure, shape, function and importance',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان',
-      },
-      {
-        id: 8, icon: '🧪',
-        titleEn: 'Algae Studies', titleKu: 'قەوزە',
-        href: 'algae-studies.html',
-        descEn: 'Study of algae, their diversity, classification, structure, and ecological significance.',
-        descKu: 'لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان.',
-      },
-      {
-        id: 9, icon: '🍄',
-        titleEn: 'Mycology', titleKu: 'کەڕووزانی',
-        href: 'fungi.html',
-        descEn: 'Study of fungi, their morphology, reproduction, classification, and ecological and economic importance.',
-        descKu: 'لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان، و گرنگی ئیکۆلۆژی و ئابوورییان',
-      },
-      {
-        id: 10, icon: '🛡️',
-        titleEn: 'Immunology', titleKu: 'بەرگریزانی',
-        href: 'immunology.html',
-        descEn: 'It studies the structure and function of the immune system and its responses',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش و وەڵامدانەوەکانی',
-      },
-    ];
+const slidesWrap = document.getElementById('heroSlides');
+const dotsWrap   = document.getElementById('heroDots');
+const ctrEl      = document.getElementById('heroCtr');
+const progEl     = document.getElementById('hProg');
 
-    /* ── Scroll reveal ── */
-    const cardEls = [];
-    function registerCard(el) {
-      if (el && !cardEls.includes(el)) cardEls.push(el);
-    }
+// Build slides & dots
+SLIDES.forEach((s, i) => {
+  // Slide
+  const slide = document.createElement('div');
+  slide.className = 'hero-slide' + (i === 0 ? ' active' : '');
+  slide.innerHTML = `
+    <canvas id="cvs${i}"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-label">${s.badge}</div>
+    <div class="hero-content">
+      <span class="hero-badge">${s.badge}</span>
+      <div class="hero-title-en">${s.titleEn}</div>
+      <div class="hero-title-ku">${s.titleKu}</div>
+      <div class="hero-desc">${s.desc}</div>
+      <div class="hero-pills">${s.pills.map(p=>`<span class="hero-pill">${p}</span>`).join('')}</div>
+    </div>
+  `;
+  slidesWrap.appendChild(slide);
 
-    onMounted(() => {
-      nextTick(() => {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-              observer.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  // Dot
+  const dot = document.createElement('div');
+  dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goTo(i));
+  dotsWrap.appendChild(dot);
 
-        cardEls.forEach(el => observer.observe(el));
+  // Canvas particle animation
+  initCanvas(i, s);
+});
 
-        /* Chapter orb spin on card hover */
-        cardEls.forEach(card => {
-          const orb = card.querySelector('.chapter-orb');
-          if (!orb) return;
-          card.addEventListener('mouseenter', () => {
-            orb.style.transform = 'rotate(360deg) scale(1.1)';
-            orb.style.background = 'linear-gradient(135deg, #1e6091, #0891b2)';
-          });
-          card.addEventListener('mouseleave', () => {
-            orb.style.transform = '';
-            orb.style.background = 'linear-gradient(135deg, #0f4c75, #3282b8)';
-          });
-        });
+function initCanvas(i, s) {
+  const cvs = document.getElementById('cvs' + i);
+  if (!cvs) return;
+  const ctx = cvs.getContext('2d');
+  let W, H, pts = [];
+
+  function resize() {
+    W = cvs.width  = cvs.offsetWidth  || 800;
+    H = cvs.height = cvs.offsetHeight || 500;
+  }
+
+  function makeParticles() {
+    pts = [];
+    for (let k = 0; k < (s.particles || 60); k++) {
+      pts.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 2.5 + 0.5,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        a: Math.random(),
       });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    // Gradient BG
+    const gr = ctx.createLinearGradient(0, 0, W, H);
+    gr.addColorStop(0, s.color1);
+    gr.addColorStop(1, s.color2);
+    ctx.fillStyle = gr;
+    ctx.fillRect(0, 0, W, H);
+
+    // Particles
+    pts.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      p.a += 0.005;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(160,210,255,${0.15 + 0.2 * Math.abs(Math.sin(p.a))})`;
+      ctx.fill();
     });
 
-    return { dark, toggleDark, stats, chapters, registerCard };
+    // Connect nearby particles
+    for (let a = 0; a < pts.length; a++) {
+      for (let b = a + 1; b < pts.length; b++) {
+        const dx = pts[a].x - pts[b].x, dy = pts[a].y - pts[b].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 90) {
+          ctx.beginPath();
+          ctx.moveTo(pts[a].x, pts[a].y);
+          ctx.lineTo(pts[b].x, pts[b].y);
+          ctx.strokeStyle = `rgba(100,180,255,${0.08 * (1 - dist/90)})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
   }
-}).mount('#app');
+
+  resize();
+  makeParticles();
+  draw();
+  window.addEventListener('resize', () => { resize(); makeParticles(); });
+}
+
+function updateUI() {
+  document.querySelectorAll('.hero-slide').forEach((el, i) => el.classList.toggle('active', i === current));
+  document.querySelectorAll('.hero-dot').forEach((el, i) => el.classList.toggle('active', i === current));
+  ctrEl.textContent = (current + 1) + ' / ' + TOTAL;
+}
+
+function startProgress() {
+  clearInterval(progInterval);
+  progStart = Date.now();
+  progEl.style.transition = 'none';
+  progEl.style.width = '0%';
+  progInterval = setInterval(() => {
+    const elapsed = Date.now() - progStart;
+    const pct = Math.min(100, (elapsed / AUTO_DURATION) * 100);
+    progEl.style.width = pct + '%';
+    if (pct >= 100) clearInterval(progInterval);
+  }, 50);
+}
+
+function goTo(idx) {
+  current = (idx + TOTAL) % TOTAL;
+  updateUI();
+  clearTimeout(autoTimer);
+  startProgress();
+  autoTimer = setTimeout(() => goTo(current + 1), AUTO_DURATION);
+}
+
+document.getElementById('hPrev').addEventListener('click', () => goTo(current - 1));
+document.getElementById('hNext').addEventListener('click', () => goTo(current + 1));
+
+// Start auto-play
+updateUI();
+startProgress();
+autoTimer = setTimeout(() => goTo(1), AUTO_DURATION);
+
+
+/* ══════════════════════════════════════════════════════
+   FIX 3 — CHAPTERS GRID: plain JS (avoids Vue ref issue)
+══════════════════════════════════════════════════════ */
+const chapters = [
+  { id:1, icon:'🔬', titleEn:'Histology',     titleKu:'شانەزانی',      href:'histology.html',
+    descEn:'It studies the structure, location, and function of cells, tissues, and organs in the body',
+    descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە' },
+  { id:2, icon:'🤰🏻', titleEn:'Embryology',    titleKu:'کۆرپەلەزانی',   href:'embryology.html',
+    descEn:'It studies how the fetus develops from fertilization to birth',
+    descKu:'لێکۆڵینەوە دەکات دەربارەی چۆنیەتی و شێوازی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون' },
+  { id:3, icon:'🌱', titleEn:'Plant Anatomy',  titleKu:'توێکاری ڕووەک', href:'plant-anatomy.html',
+    descEn:'It studies the structure and functions of different parts of the plant',
+    descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک' },
+  { id:4, icon:'🪱', titleEn:'Parasitology',   titleKu:'مشەخۆرزانی',   href:'parasitology.html',
+    descEn:'Study of parasites, their life cycles, host-parasite relationships, and parasitic diseases.',
+    descKu:'لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان و نەخۆشییە مشەخۆرەکان' },
+  { id:5, icon:'🩸', titleEn:'Hematology',     titleKu:'خوێنزانی',      href:'hematology.html',
+    descEn:'It researches the structure, function and properties of blood and its components',
+    descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی' },
+  { id:6, icon:'🦠', titleEn:'Microbiology',   titleKu:'وردەزیندەزانی', href:'microbiology.html',
+    descEn:'Studies microorganisms in terms of their characteristics, pathogenicity and importance',
+    descKu:'لێکۆڵینەوە دەکات دەربارەی وردە زیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان و گرنگی و تایبەتمەندیان' },
+  { id:7, icon:'🐛', titleEn:'Entomology',     titleKu:'مێرولەزانی',   href:'entomology.html',
+    descEn:'It studies insects in terms of their structure, shape, function and importance',
+    descKu:'لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان' },
+  { id:8, icon:'🧪', titleEn:'Algae Studies',  titleKu:'قەوزە',         href:'algae-studies.html',
+    descEn:'Study of algae, their diversity, classification, structure, and ecological significance.',
+    descKu:'لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان' },
+  { id:9, icon:'🍄', titleEn:'Mycology',       titleKu:'کەڕووزانی',    href:'fungi.html',
+    descEn:'Study of fungi, their morphology, reproduction, classification, and ecological importance.',
+    descKu:'لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان، و گرنگی ئیکۆلۆژی و ئابوورییان' },
+  { id:10,icon:'🛡️', titleEn:'Immunology',     titleKu:'بەرگریزانی',   href:'immunology.html',
+    descEn:'It studies the structure and function of the immune system and its responses',
+    descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش و وەڵامدانەوەکانی' },
+];
+
+const grid = document.getElementById('chaptersGrid');
+chapters.forEach((ch, i) => {
+  const card = document.createElement('div');
+  card.className = 'card-glass reveal-card relative rounded-3xl p-8 overflow-hidden';
+  card.style.transitionDelay = (i * 100) + 'ms';
+  card.innerHTML = `
+    <div class="chapter-orb w-[70px] h-[70px] rounded-full flex items-center justify-center text-white font-black text-3xl mb-6">${ch.id}</div>
+    <h3 class="flex items-start gap-3 flex-wrap mb-4" style="font-size:clamp(1.4rem,3vw,1.9rem)">
+      <span style="font-size:clamp(2rem,4vw,2.8rem); filter:drop-shadow(2px 2px 4px rgba(15,76,117,0.3))">${ch.icon}</span>
+      <div class="flex-1">
+        <div class="dir-ltr font-extrabold text-ocean-700" style="line-height:1.2; font-size:clamp(1.4rem,3vw,1.9rem)">${ch.titleEn}</div>
+        <div class="dir-rtl font-bold text-ocean-600" style="font-size:clamp(1.2rem,2.5vw,1.7rem); line-height:1.3">${ch.titleKu}</div>
+      </div>
+    </h3>
+    <div class="text-slate-500 mb-6 space-y-2" style="font-size:clamp(0.9rem,2vw,1.1rem); line-height:1.8">
+      <p class="dir-justify-ltr">${ch.descEn}</p>
+      <p class="dir-justify-rtl">${ch.descKu}</p>
+    </div>
+    <div class="flex justify-between flex-wrap gap-2 mb-6 rounded-2xl px-5 py-4 bg-blue-50" style="font-size:clamp(0.8rem,1.5vw,1rem)">
+      <span class="text-slate-500">20 Slides - سلاید</span>
+    </div>
+    <a href="${ch.href}" class="btn-primary block text-white font-bold text-center rounded-2xl py-5 px-9 no-underline" style="font-size:clamp(1rem,2vw,1.2rem)">
+      Start Learning - دەستپێکردن
+    </a>
+  `;
+  grid.appendChild(card);
+
+  // Orb hover
+  const orb = card.querySelector('.chapter-orb');
+  card.addEventListener('mouseenter', () => {
+    orb.style.transform = 'rotate(360deg) scale(1.1)';
+    orb.style.background = 'linear-gradient(135deg, #1e6091, #0891b2)';
+  });
+  card.addEventListener('mouseleave', () => {
+    orb.style.transform = '';
+    orb.style.background = 'linear-gradient(135deg, #0f4c75, #3282b8)';
+  });
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal-card').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>

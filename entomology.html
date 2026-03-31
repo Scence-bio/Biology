@@ -4,1418 +4,1088 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entomology Chapter - بەشی مێروولەزانی</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg: #080c10;
+            --surface: #0d1117;
+            --surface2: #161b22;
+            --border: #21262d;
+            --accent-green: #39d353;
+            --accent-blue: #58a6ff;
+            --accent-amber: #e3b341;
+            --accent-red: #f85149;
+            --accent-purple: #bc8cff;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --text-dim: #484f58;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            line-height: 1.7;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            color: #1e293b;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Header Styles */
-        .header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 70%, #475569 100%);
-            color: white;
-            padding: 60px 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
+        /* Noise texture overlay */
+        body::before {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 40%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 60%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
-            animation: float 6s ease-in-out infinite;
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
 
-        .header-content {
+        /* HEADER */
+        .hero {
             position: relative;
-            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
-        .main-title {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #22c55e, #3b82f6, #a855f7);
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(57,211,83,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57,211,83,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(57,211,83,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(5rem, 15vw, 13rem);
+            letter-spacing: 0.05em;
+            line-height: 0.9;
+            background: linear-gradient(135deg, #39d353 0%, #58a6ff 50%, #bc8cff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            position: relative;
+            z-index: 2;
+            text-align: center;
         }
 
-        .subtitle {
-            font-size: 1.8rem;
-            opacity: 0.9;
-            margin-bottom: 30px;
-            font-weight: 500;
+        .hero-subtitle {
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(0.8rem, 2vw, 1.1rem);
+            color: var(--text-muted);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+            margin-top: 1rem;
         }
 
-        .microscope-icon {
-            font-size: 5rem;
-            margin-bottom: 30px;
-            text-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
-            animation: glow 3s ease-in-out infinite alternate;
+        .hero-badge {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            border: 1px solid rgba(57,211,83,0.3);
+            padding: 0.4rem 1.2rem;
+            border-radius: 2px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 2rem;
+            background: rgba(57,211,83,0.05);
         }
 
-        @keyframes glow {
-            0% { text-shadow: 0 0 30px rgba(34, 197, 94, 0.5); }
-            100% { text-shadow: 0 0 50px rgba(34, 197, 94, 0.8); }
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-dim);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            z-index: 2;
         }
 
-        /* Navigation */
-        .nav-bar {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 20px 40px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--accent-green), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(1); }
+            50% { opacity: 1; transform: scaleY(1.2); }
+        }
+
+        /* NAV */
+        .sticky-nav {
             position: sticky;
             top: 0;
             z-index: 100;
+            background: rgba(8,12,16,0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
         }
 
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .nav-title {
-            color: #22c55e;
-            font-weight: 700;
-            font-size: 1.3rem;
-        }
-
-        .filter-controls {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 600;
+        .filter-pill {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            padding: 0.4rem 1rem;
+            border-radius: 2px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
         }
 
-        .filter-btn:hover,
-        .filter-btn.active {
-            background: #22c55e;
-            border-color: #22c55e;
-            transform: translateY(-2px);
+        .filter-pill:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
         }
 
-        /* Main Content */
-        .main-content {
-            padding: 60px 40px;
+        .filter-pill.active {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+            color: var(--bg);
+            font-weight: 700;
         }
 
-        .insects-grid {
+        .filter-pill.pest.active {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+        }
+
+        .filter-pill.social.active {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        /* SEARCH */
+        .search-field {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
+            border-radius: 2px;
+            outline: none;
+            width: 240px;
+            transition: border-color 0.2s;
+        }
+
+        .search-field:focus {
+            border-color: var(--accent-green);
+        }
+
+        .search-field::placeholder {
+            color: var(--text-dim);
+        }
+
+        /* CARDS */
+        .card-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 40px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
+            gap: 1px;
+            background: var(--border);
         }
 
-        /* Insect Card Styles */
         .insect-card {
-            background: white;
-            border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--surface);
+            transition: background 0.2s ease;
             position: relative;
+            overflow: hidden;
         }
 
         .insect-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+            background: var(--surface2);
         }
 
-        .card-header {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-            padding: 25px;
-            text-align: center;
-            position: relative;
-        }
-
-        .card-header::after {
+        .insect-card::before {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #3b82f6, #a855f7, #ec4899);
-        }
-
-        .slide-number {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .image-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 25px;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .slide-image {
-            width: 280px;
-            height: 280px;
-            object-fit: cover;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            border: 2px solid #ffffff;
-            transition: all 0.3s ease;
-        }
-
-        .slide-image:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-content {
-            padding: 35px;
-        }
-
-        .scientific-name {
-            color: #059669;
-            font-style: italic;
-            font-weight: 600;
-            font-size: 1.3rem;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .common-name {
-            color: #374151;
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .slide-type {
-            background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
-            padding: 12px 20px;
-            border-radius: 12px;
-            border-left: 4px solid #8b5cf6;
-            font-size: 1rem;
-            margin-bottom: 25px;
-            color: #5b21b6;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .section {
-            margin: 25px 0;
-        }
-
-        .section-title {
-            color: #0f172a;
-            font-weight: 700;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-title::before {
-            content: '';
-            width: 4px;
-            height: 24px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            border-radius: 2px;
-        }
-
-        .features-list {
-            list-style: none;
-            margin: 20px 0;
-        }
-
-        .features-list li {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            padding: 15px 20px;
-            margin: 12px 0;
-            border-radius: 12px;
-            border-left: 4px solid #f59e0b;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .features-list li:hover {
-            transform: translateX(8px);
-            background: linear-gradient(135deg, #fde68a, #fcd34d);
-        }
-
-        .features-list li::before {
-            content: '🔬';
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-
-        .functions-list {
-            list-style: none;
-        }
-
-        .functions-list li {
-            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-            padding: 15px 20px;
-            margin: 12px 0;
-            border-radius: 12px;
-            border-left: 4px solid #22c55e;
-            transition: all 0.3s ease;
-        }
-
-        .functions-list li:hover {
-            transform: translateX(8px);
-            background: linear-gradient(135deg, #bbf7d0, #a7f3d0);
-        }
-
-        .functions-list li::before {
-            content: '⚙️';
-            margin-right: 10px;
-        }
-
-        .importance-section {
-            background: linear-gradient(135deg, #fef9c3, #fde047);
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 4px solid #eab308;
-            margin-top: 25px;
-        }
-
-        .importance-title {
-            color: #92400e;
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .importance-title::before {
-            content: '⭐';
-            font-size: 1.3rem;
-        }
-
-        .importance-list {
-            list-style: none;
-        }
-
-        .importance-list li {
-            color: #78350f;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(146, 64, 14, 0.2);
-            font-weight: 500;
-            font-size: 1.1rem;
-        }
-
-        .importance-list li:last-child {
-            border-bottom: none;
-        }
-
-        /* Category badges */
-        .category-badge {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: white;
-        }
-
-        .category-beneficial { background: #22c55e; }
-        .category-pest { background: #ef4444; }
-        .category-social { background: #8b5cf6; }
-
-        /* Search */
-        .search-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 200;
-        }
-
-        .search-input {
-            padding: 15px 25px;
-            border: none;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            font-size: 16px;
-            width: 300px;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        .search-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
-            width: 350px;
-        }
-
-        /* Print button */
-        .print-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #f59e0b;
-            color: white;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
-            z-index: 100;
-            transition: all 0.3s ease;
-        }
-
-        .print-btn:hover {
-            transform: translateY(-3px) scale(1.1);
-            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.6);
-        }
-
-        /* Progress bar */
-        .progress-bar {
-            position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: rgba(0, 0, 0, 0.1);
-            z-index: 1000;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--card-accent, var(--accent-green)), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .insect-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-inner {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            min-height: 280px;
+        }
+
+        .card-image-side {
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid var(--border);
+        }
+
+        .card-image-side img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%) contrast(1.05);
+            transition: filter 0.4s ease, transform 0.4s ease;
+        }
+
+        .insect-card:hover .card-image-side img {
+            filter: grayscale(0%) contrast(1.1);
+            transform: scale(1.04);
+        }
+
+        .slide-num {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1;
+            color: rgba(255,255,255,0.06);
+            padding: 0.25rem 0.5rem;
+            pointer-events: none;
+        }
+
+        .cat-dot {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .cat-dot.beneficial { background: var(--accent-green); box-shadow: 0 0 8px rgba(57,211,83,0.6); }
+        .cat-dot.pest { background: var(--accent-red); box-shadow: 0 0 8px rgba(248,81,73,0.6); }
+        .cat-dot.social { background: var(--accent-purple); box-shadow: 0 0 8px rgba(188,140,255,0.6); }
+
+        .img-placeholder {
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface2);
+            color: var(--text-dim);
+            font-size: 2rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .card-names {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+        }
+
+        .sci-name {
+            font-family: 'DM Sans', sans-serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--accent-green);
+            font-weight: 500;
+        }
+
+        .common-name {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .slide-type-badge {
+            display: inline-block;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.6rem;
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            border-radius: 1px;
+            width: fit-content;
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 0.4rem;
+        }
+
+        .feature-item {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            padding: 0.4rem 0.6rem;
+            border-left: 2px solid var(--border);
+            margin-bottom: 0.3rem;
+            line-height: 1.5;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .insect-card:hover .feature-item {
+            border-left-color: var(--accent-green);
+            color: var(--text);
+        }
+
+        .importance-box {
+            background: rgba(57,211,83,0.04);
+            border: 1px solid rgba(57,211,83,0.15);
+            border-radius: 2px;
+            padding: 0.75rem;
+        }
+
+        .importance-item {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 0.25rem 0;
+            border-bottom: 1px solid rgba(57,211,83,0.08);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .importance-item:last-child { border-bottom: none; }
+
+        .importance-item::before {
+            content: '→';
+            color: var(--accent-green);
+            font-size: 0.75rem;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        /* cat color overrides */
+        .card-pest .insect-card:hover .feature-item,
+        .pest-card:hover .feature-item { border-left-color: var(--accent-red) !important; }
+        .card-social .insect-card:hover .feature-item,
+        .social-card:hover .feature-item { border-left-color: var(--accent-purple) !important; }
+
+        [data-cat="pest"]:hover .feature-item { border-left-color: var(--accent-red); }
+        [data-cat="social"]:hover .feature-item { border-left-color: var(--accent-purple); }
+
+        [data-cat="pest"]::before { --card-accent: var(--accent-red); }
+        [data-cat="social"]::before { --card-accent: var(--accent-purple); }
+        [data-cat="beneficial"]::before { --card-accent: var(--accent-green); }
+
+        /* count bar */
+        .count-bar {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+        }
+
+        /* home button */
+        .home-btn {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            padding: 0.4rem 1rem;
+            border-radius: 2px;
+            transition: all 0.2s;
+            background: transparent;
+        }
+
+        .home-btn:hover {
+            border-color: var(--accent-amber);
+            color: var(--accent-amber);
+        }
+
+        /* progress bar */
+        .progress-track {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: transparent;
+            z-index: 200;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #22c55e, #3b82f6, #a855f7);
-            width: 0%;
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            transition: width 0.1s linear;
         }
 
-        /* Responsive design */
-        @media (max-width: 1200px) {
-            .insects-grid {
-                grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            }
+        /* print btn */
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            z-index: 100;
         }
 
-        @media (max-width: 768px) {
-            .insects-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .main-title {
-                font-size: 2.5rem;
-            }
-            
-            .main-content {
-                padding: 40px 20px;
-            }
-            
-            .filter-controls {
-                justify-content: center;
-            }
-            
-            .nav-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .search-input {
-                width: 250px;
-            }
-            
-            .search-input:focus {
-                width: 280px;
-            }
-            
-            .slide-image {
-                width: 240px;
-                height: 240px;
-            }
+        .print-btn:hover {
+            border-color: var(--accent-amber);
+            color: var(--accent-amber);
         }
 
-        @media (max-width: 480px) {
-            .insect-card {
-                margin: 10px;
-            }
-            
-            .card-content {
-                padding: 25px;
-            }
-            
-            .main-title {
-                font-size: 2rem;
-            }
-            
-            .subtitle {
-                font-size: 1.4rem;
-            }
-            
-            .slide-image {
-                width: 200px;
-                height: 200px;
-            }
+        /* Functions list */
+        .func-item {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 0.25rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
         }
 
-        /* Print styles */
+        .func-item::before {
+            content: '◦';
+            color: var(--accent-blue);
+            flex-shrink: 0;
+        }
+
+        /* No results */
+        .no-results {
+            grid-column: 1/-1;
+            padding: 4rem 2rem;
+            text-align: center;
+            font-family: 'Space Mono', monospace;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        /* transition */
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.3s, transform 0.3s; }
+        .fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(10px); }
+
+        @media (max-width: 640px) {
+            .card-inner { grid-template-columns: 1fr; }
+            .card-image-side { height: 220px; border-right: none; border-bottom: 1px solid var(--border); }
+            .card-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 5rem; }
+        }
+
         @media print {
-            .nav-bar, 
-            .search-container, 
-            .progress-bar, 
-            .print-btn {
-                display: none !important;
-            }
-
-            .insect-card {
-                break-inside: avoid;
-                margin-bottom: 30px;
-            }
+            .sticky-nav, .print-btn, .progress-track, .home-btn { display: none !important; }
+            .insect-card { break-inside: avoid; }
+            body { background: white; color: black; }
         }
     </style>
 </head>
 <body>
-    
-    <div style="position:fixed;left:20px;top:20px;z-index:2000">
-        <a href="https://scence-bio.github.io/Biology/" 
-           style="text-decoration:none;background:#f59e0b;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
-            back to home - گەڕانەوە بۆ سەرەکی
-        </a>
+<div id="app">
+    <!-- Progress Bar -->
+    <div class="progress-track">
+        <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
     </div>
 
-    <!-- Progress bar -->
-    <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-    </div>
-
-    <!-- Search -->
-    <div class="search-container">
-        <input type="text" class="search-input" placeholder="Search by scientific or common name..." id="searchInput">
-    </div>
-
-    <!-- Print button -->
-    <button class="print-btn" title="Print Guide" onclick="window.print()">🖨️</button>
-
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <div class="header-content">
-                <div class="microscope-icon">🐛</div>
-                <h1 class="main-title">ENTOMOLOGY</h1>
-                <p class="subtitle">Study of Insects</p>
-                <p style="font-size: 1.2rem; opacity: 0.8;">Microscopic examination of insect morphology and adaptations</p>
-            </div>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-glow"></div>
+        <div style="position:relative;z-index:2;text-align:center;padding:2rem;">
+            <div class="hero-badge">🔬 Microscopy Lab · بەشی مێروولەزانی</div>
+            <h1 class="hero-title">ENTOMOLOGY</h1>
+            <p class="hero-subtitle">Study of Insects · {{ insects.length }} Specimens</p>
         </div>
-
-        <!-- Navigation -->
-        <div class="nav-bar">
-            <div class="nav-content">
-                <div class="nav-title">Entomology Study Guide</div>
-                <div class="filter-controls">
-                    <button class="filter-btn active" data-filter="all">All Insects</button>
-                    <button class="filter-btn" data-filter="beneficial">Beneficial</button>
-                    <button class="filter-btn" data-filter="pest">Pest</button>
-                    <button class="filter-btn" data-filter="social">Social</button>
-                </div>
-            </div>
+        <div class="scroll-hint">
+            <div class="scroll-line"></div>
+            <span>SCROLL</span>
         </div>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <div class="insects-grid">
-
-                <!-- Slide 1: Western Honeybee -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 1</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/1.jpg" alt="Western Honeybee - Apis mellifera" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Apis mellifera</div>
-                        <div class="common-name">Common name: Western Honeybee</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Pollen Basket (Corbicula) - concave area on hind legs with stiff hairs</li>
-                                <li>Proboscis - long, tube-like mouthpart for sucking nectar</li>
-                            </ul>
-                        </div>
-
-                        <div class="section">
-                            <div class="section-title">⚙️ Functions</div>
-                            <ul class="functions-list">
-                                <li>Pollen collection and transport to hive</li>
-                                <li>Nectar feeding from flowers</li>
-                                <li>Proboscis can extend for feeding and coil when not in use</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Understanding pollination biology</li>
-                                <li>Reveals foraging behavior of bees</li>
-                                <li>Demonstrates evolutionary adaptation of insect mouthparts</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 2: Anopheles Mosquito -->
-                <div class="insect-card" data-category="pest">
-                    <div class="category-badge category-pest">Pest</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 2</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/2.jpg" alt="Anopheles Mosquito" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Anopheles spp.</div>
-                        <div class="common-name">Common name: Mosquito (Malaria vector species)</div>
-                        <div class="slide-type">Slide type: Longitudinal Section (L.S.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Head Capsule - contains compound eyes and antennae with sensory hairs</li>
-                                <li>Mouthparts (Proboscis Complex) - specialized for blood-feeding</li>
-                                <li>Labrum - forms food canal for sucking blood</li>
-                                <li>Mandibles & Maxillae - cut into host's skin</li>
-                                <li>Hypopharynx - delivers saliva with anticoagulants</li>
-                                <li>Sensory Palps - detect heat, moisture, and host odors</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Understanding vector biology and malaria transmission</li>
-                                <li>Species identification in mosquito research</li>
-                                <li>Evolution of piercing-sucking mouthparts</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 3: Housefly -->
-                <div class="insect-card" data-category="pest">
-                    <div class="category-badge category-pest">Pest</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 3</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/3.jpg" alt="Housefly - Musca domestica" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Musca domestica</div>
-                        <div class="common-name">Common name: Housefly</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Tarsal Claws - at tip of each leg for gripping rough surfaces</li>
-                                <li>Pulvilli - pad-like structures beneath claws with sticky hairs</li>
-                                <li>Sensory Hairs - detect surface texture and chemicals</li>
-                            </ul>
-                        </div>
-
-                        <div class="section">
-                            <div class="section-title">⚙️ Functions</div>
-                            <ul class="functions-list">
-                                <li>Mechanical anchoring during walking or landing</li>
-                                <li>Walking on smooth vertical or inverted surfaces</li>
-                                <li>Movement coordination and feeding behavior</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Demonstrates insect locomotion adaptations</li>
-                                <li>Surface adhesion mechanisms in insects</li>
-                                <li>Understanding how flies contaminate surfaces</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 4: Silkworm -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 4</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/4.jpg" alt="Silkworm - Bombyx mori" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Bombyx mori</div>
-                        <div class="common-name">Common name: Silkworm</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Segmented body - head, thorax, abdomen</li>
-                                <li>Chewing mouthparts adapted for mulberry leaves</li>
-                                <li>Prolegs and spiracles visible</li>
-                                <li>Large paired silk glands for silk production</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Source of natural silk (sericulture industry)</li>
-                                <li>Model organism in biotechnology and genetics</li>
-                                <li>Pupae used as food and animal feed</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 5: Termite -->
-                <div class="insect-card" data-category="social">
-                    <div class="category-badge category-social">Social</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 5</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/5.jpg" alt="Termite - Coptotermes formosanus" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Coptotermes formosanus</div>
-                        <div class="common-name">Common name: Termite / White Ant</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Soft-bodied, pale insects resembling ants</li>
-                                <li>Social structure - king, queen, workers, soldiers</li>
-                                <li>Chewing mouthparts for wood and cellulose</li>
-                                <li>Symbiotic gut protozoa for cellulose digestion</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Economic pest - damages wood, crops, and buildings</li>
-                                <li>Ecological role - decomposers, recycle cellulose</li>
-                                <li>Model for studying social insect behavior</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 6: Ant -->
-                <div class="insect-card" data-category="social">
-                    <div class="category-badge category-social">Social</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 6</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/6.jpg" alt="Ant - Formica species" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Formica spp.</div>
-                        <div class="common-name">Common name: Ant</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Segmented body with narrow waist (petiole)</li>
-                                <li>Elbowed antennae for sensing environment</li>
-                                <li>Strong mandibles for biting and carrying</li>
-                                <li>Social organization - queen, workers, soldiers</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Soil aeration, seed dispersal, decomposition</li>
-                                <li>Some species as agricultural pests</li>
-                                <li>Model for studying social behavior and cooperation</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 7: Firefly -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 7</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/7.jpg" alt="Firefly - Lampyridae family" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Lampyridae (family)</div>
-                        <div class="common-name">Common name: Firefly / Lightning Bug</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Segmented body - head, thorax, abdomen</li>
-                                <li>Soft elytra and membranous hindwings</li>
-                                <li>Light-emitting organs (photocytes) in abdomen</li>
-                                <li>Antennae for sensing environment</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Bioluminescence for mating signals</li>
-                                <li>Predators of small insects in larval stage</li>
-                                <li>Studied for bioluminescent proteins (luciferase)</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 8: Cicada -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 8</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/8.jpg" alt="Cicada - Magicicada species" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Magicicada spp.</div>
-                        <div class="common-name">Common name: Cicada</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Large compound eyes and short antennae</li>
-                                <li>Membranous wings for flight</li>
-                                <li>Tymbal organs on abdomen for sound production</li>
-                                <li>Piercing-sucking mouthparts for plant sap</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Herbivores that provide food for predators</li>
-                                <li>Studied for sound production and life cycles</li>
-                                <li>Minor economic impact on young trees</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 9: Common Mosquito -->
-                <div class="insect-card" data-category="pest">
-                    <div class="category-badge category-pest">Pest</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 9</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/9.jpg" alt="Common Mosquito - Culex pipiens" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Culex pipiens</div>
-                        <div class="common-name">Common name: Common Mosquito</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Slender body - head, thorax, abdomen</li>
-                                <li>Proboscis for piercing and sucking blood</li>
-                                <li>Antennae to detect host cues (CO₂, odors)</li>
-                                <li>Long, narrow wings with venation</li>
-                                <li>Sexual dimorphism - males with bushy antennae</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Vector of diseases (malaria, dengue, West Nile virus)</li>
-                                <li>Crucial for vector control and epidemiology</li>
-                                <li>Model for understanding sensory biology</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 10: Fruit Fly -->
-                <div class="insect-card" data-category="pest">
-                    <div class="category-badge category-pest">Pest</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 10</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/10.jpg" alt="Fruit Fly - Drosophila species" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Drosophila spp.</div>
-                        <div class="common-name">Common name: Fruit Fly</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Small, segmented body - head, thorax, abdomen</li>
-                                <li>Compound eyes and short antennae</li>
-                                <li>Three pairs of legs and one pair of functional wings</li>
-                                <li>Mouthparts adapted for sponging liquids</li>
-                                <li>Visible bristles (setae) and reproductive organs</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Widely used genetic and developmental research model</li>
-                                <li>Short life cycle for inheritance pattern studies</li>
-                                <li>Educational tool for insect morphology</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 11: Bumblebee -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 11</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/11.jpg" alt="Bumblebee - Bombus species" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Bombus spp.</div>
-                        <div class="common-name">Common name: Bumblebee</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Robust, hairy body - head, thorax, abdomen</li>
-                                <li>Large compound eyes and short antennae</li>
-                                <li>Three pairs of legs with pollen baskets</li>
-                                <li>Two pairs of wings for flight</li>
-                                <li>Proboscis for nectar feeding</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Important pollinators for agriculture</li>
-                                <li>Supports plant reproduction in ecosystems</li>
-                                <li>Studied for behavior and flight mechanics</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 12: Migratory Grasshopper -->
-                <div class="insect-card" data-category="pest">
-                    <div class="category-badge category-pest">Pest</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 12</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/12.jpg" alt="Migratory Grasshopper - Locusta migratoria" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Locusta migratoria</div>
-                        <div class="common-name">Common name: Migratory Grasshopper</div>
-                        <div class="slide-type">Slide type: Longitudinal Section (L.S.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Compound eyes with multiple ommatidia for wide-angle vision</li>
-                                <li>Antennae as sensory organs (touch, smell)</li>
-                                <li>Chewing mouthparts for plant material</li>
-                                <li>Wing veins for strength and flexibility</li>
-                                <li>Strong hind legs specialized for jumping</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Major agricultural pest affecting crops</li>
-                                <li>Flight studies help understand wing mechanics</li>
-                                <li>Compound eyes provide model for vision studies</li>
-                                <li>Food source for birds, reptiles, and mammals</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 13: Ladybug -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 13</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/13.jpg" alt="Seven-spotted Ladybird" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Coccinella septempunctata</div>
-                        <div class="common-name">Common name: Seven-spotted Ladybird / Ladybug</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Rounded, convex body with red elytra and seven black spots</li>
-                                <li>Head with compound eyes and short antennae</li>
-                                <li>Three pairs of legs for walking</li>
-                                <li>Elytra cover membranous hindwings</li>
-                                <li>Chewing mouthparts for feeding on aphids</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Natural predator of pests like aphids</li>
-                                <li>Contributes to pest management in agriculture</li>
-                                <li>Studied in entomology and ecology research</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 14: Water Strider -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 14</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/14.jpg" alt="Water Strider - Gerridae family" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Gerridae (family)</div>
-                        <div class="common-name">Common name: Water Strider</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Slender, elongated body adapted for surface locomotion</li>
-                                <li>Long legs with hydrophobic hairs</li>
-                                <li>Head with compound eyes and antennae</li>
-                                <li>Middle pair of legs for propulsion, hind pair for steering</li>
-                                <li>Piercing-sucking mouthparts for feeding on trapped insects</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Predator of small aquatic insects</li>
-                                <li>Behavioral studies of surface tension adaptations</li>
-                                <li>Model organism for biomechanics research</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 15: Butterfly Proboscis -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 15</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/15.jpg" alt="Butterfly Proboscis - Danaus plexippus" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Danaus plexippus</div>
-                        <div class="common-name">Common name: Butterfly Proboscis</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Long, coiled tubular structure extending from head</li>
-                                <li>Formed by two interlocked galeae</li>
-                                <li>Flexible - can coil or extend for feeding</li>
-                                <li>Adapted for sucking nectar from flowers</li>
-                                <li>Sensory setae for taste detection</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Allows nectar feeding from deep flowers</li>
-                                <li>Aids in plant reproduction through pollination</li>
-                                <li>Studied for insect morphology and feeding behavior</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 16: Leafcutter Ant -->
-                <div class="insect-card" data-category="social">
-                    <div class="category-badge category-social">Social</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 16</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/16.jpg" alt="Leafcutter Ant - Atta species" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Atta spp.</div>
-                        <div class="common-name">Common name: Leafcutter Ant</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Strong mandibles for cutting leaves</li>
-                                <li>Antennae for sensing and communication</li>
-                                <li>Three pairs of legs for walking and carrying</li>
-                                <li>Social structure - queen, workers, soldiers</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Decomposes plant material, enriches soil</li>
-                                <li>Can damage crops by leaf cutting</li>
-                                <li>Studied for social behavior and colony organization</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 17: Stick Insect -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 17</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/17.jpg" alt="Stick Insect - Carausius morosus" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Carausius morosus</div>
-                        <div class="common-name">Common name: Stick Insect</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Long, slender body mimicking twigs or sticks</li>
-                                <li>Head with compound eyes and thread-like antennae</li>
-                                <li>Elongated thorax and legs for camouflage</li>
-                                <li>Flexible abdomen for blending with branches</li>
-                                <li>Chewing mouthparts for leaves</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Camouflage for predator avoidance</li>
-                                <li>Studied for mimicry and insect morphology</li>
-                                <li>Demonstrates adaptation and evolution</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 18: Mayfly -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 18</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/18.jpg" alt="Mayfly - Ephemera danica" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Ephemera danica</div>
-                        <div class="common-name">Common name: Mayfly</div>
-                        <div class="slide-type">Longitudinal Section (L.S.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Transparent, membranous wings with visible vein patterns</li>
-                                <li>Thoracic muscles supporting wing movement</li>
-                                <li>Gills along abdomen for aquatic respiration (nymphs)</li>
-                                <li>Compound eyes and antennae for sensing</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Indicator of freshwater ecosystem health</li>
-                                <li>Studied for insect development and aquatic adaptations</li>
-                                <li>Demonstrates wing morphology and gill function</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 19: Ground Beetle -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 19</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/19.jpg" alt="Ground Beetle - Carabus species" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Carabus spp.</div>
-                        <div class="common-name">Common name: Ground Beetle</div>
-                        <div class="slide-type">Slide type: Longitudinal Section (L.S.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Leg segments - coxa, femur, tibia, tarsus clearly visible</li>
-                                <li>Extensor and flexor muscles controlling movement</li>
-                                <li>Claws at end of tarsi for gripping surfaces</li>
-                                <li>Tendon-like apodemes for muscle attachment</li>
-                                <li>Exoskeleton for support and protection</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Predator of soil-dwelling insects</li>
-                                <li>Demonstrates insect locomotion and biomechanics</li>
-                                <li>Understanding muscle-exoskeleton interaction</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 20: Caddisfly Larva -->
-                <div class="insect-card" data-category="beneficial">
-                    <div class="category-badge category-beneficial">Beneficial</div>
-                    <div class="card-header">
-                        <div class="slide-number">Slide 20</div>
-                    </div>
-                    <div class="image-wrapper">
-                        <img src="images/Entomology/20.jpg" alt="Caddisfly Larva - Hydropsyche species" class="slide-image" />
-                    </div>
-                    <div class="card-content">
-                        <div class="scientific-name">Scientific name: Hydropsyche spp.</div>
-                        <div class="common-name">Common name: Caddisfly Larva</div>
-                        <div class="slide-type">Slide type: Whole Mount (W.M.)</div>
-
-                        <div class="section">
-                            <div class="section-title">🔬 Key Features</div>
-                            <ul class="features-list">
-                                <li>Soft, segmented body - head, thorax, abdomen</li>
-                                <li>Chewing mouthparts for feeding on detritus and algae</li>
-                                <li>Thoracic legs for locomotion</li>
-                                <li>Case-building structures with silk glands</li>
-                                <li>Gills along abdomen for aquatic respiration</li>
-                            </ul>
-                        </div>
-
-                        <div class="importance-section">
-                            <div class="importance-title">Importance</div>
-                            <ul class="importance-list">
-                                <li>Indicator of freshwater ecosystem health</li>
-                                <li>Demonstrates case-building and adaptation</li>
-                                <li>Studied for silk production and aquatic insect morphology</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+        <!-- Home btn in hero -->
+        <div style="position:absolute;top:1.5rem;left:1.5rem;z-index:10;">
+            <a href="https://scence-bio.github.io/Biology/" class="home-btn">← Back to Home</a>
         </div>
-    </div>
+    </section>
 
-    <script>
-        // Filter functionality
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const insectCards = document.querySelectorAll('.insect-card');
+    <!-- Sticky Nav -->
+    <nav class="sticky-nav">
+        <div style="max-width:1400px;margin:0 auto;padding:0.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
+            <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+                <button class="filter-pill" :class="{ active: activeFilter === 'all' }" @click="setFilter('all')">All</button>
+                <button class="filter-pill beneficial" :class="{ active: activeFilter === 'beneficial' }" @click="setFilter('beneficial')">Beneficial</button>
+                <button class="filter-pill pest" :class="{ active: activeFilter === 'pest' }" @click="setFilter('pest')">Pest</button>
+                <button class="filter-pill social" :class="{ active: activeFilter === 'social' }" @click="setFilter('social')">Social</button>
+                <span class="count-bar">{{ filteredInsects.length }}/{{ insects.length }}</span>
+            </div>
+            <input class="search-field" v-model="searchQuery" placeholder="Search species..." />
+        </div>
+    </nav>
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterBtns.forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                btn.classList.add('active');
+    <!-- Grid -->
+    <main style="max-width:1400px;margin:0 auto;">
+        <div class="card-grid">
+            <template v-if="filteredInsects.length > 0">
+                <div
+                    v-for="insect in filteredInsects"
+                    :key="insect.id"
+                    class="insect-card"
+                    :data-cat="insect.category"
+                >
+                    <div class="card-inner">
+                        <!-- Image side -->
+                        <div class="card-image-side">
+                            <div class="cat-dot" :class="insect.category"></div>
+                            <img
+                                :src="insect.image"
+                                :alt="insect.scientificName"
+                                @error="handleImgError($event, insect)"
+                                v-show="!insect.imgFailed"
+                            />
+                            <div class="img-placeholder" v-show="insect.imgFailed">
+                                <span>{{ insect.icon }}</span>
+                            </div>
+                            <div class="slide-num">{{ String(insect.id).padStart(2,'0') }}</div>
+                        </div>
 
-                const filterValue = btn.getAttribute('data-filter');
+                        <!-- Body -->
+                        <div class="card-body">
+                            <div class="card-names">
+                                <div class="sci-name">{{ insect.scientificName }}</div>
+                                <div class="common-name">{{ insect.commonName }}</div>
+                            </div>
+                            <div class="slide-type-badge">{{ insect.slideType }}</div>
 
-                insectCards.forEach(card => {
-                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                        card.style.display = 'block';
-                        card.style.animation = 'fadeIn 0.5s ease-in-out';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+                            <div v-if="insect.features && insect.features.length">
+                                <div class="section-label">Key Features</div>
+                                <div v-for="f in insect.features.slice(0,3)" :key="f" class="feature-item">{{ f }}</div>
+                            </div>
+
+                            <div v-if="insect.functions && insect.functions.length">
+                                <div class="section-label">Functions</div>
+                                <div v-for="fn in insect.functions.slice(0,2)" :key="fn" class="func-item">{{ fn }}</div>
+                            </div>
+
+                            <div class="importance-box" v-if="insect.importance && insect.importance.length">
+                                <div class="section-label" style="color:var(--accent-green);margin-bottom:0.5rem;">Importance</div>
+                                <div v-for="imp in insect.importance" :key="imp" class="importance-item">{{ imp }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <div v-else class="no-results">NO SPECIMENS FOUND · بۆچوونێک نەدۆزرایەوە</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer style="border-top:1px solid var(--border);padding:2rem;text-align:center;margin-top:1px;">
+        <p style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;">
+            Entomology Study Guide · {{ insects.length }} Specimens · Microscopic Examination
+        </p>
+    </footer>
+
+    <!-- Print btn -->
+    <button class="print-btn" @click="window.print()" title="Print">🖨️</button>
+</div>
+
+<script>
+const { createApp, ref, computed, onMounted, onUnmounted } = Vue;
+
+createApp({
+    setup() {
+        const activeFilter = ref('all');
+        const searchQuery = ref('');
+        const scrollProgress = ref(0);
+
+        const insects = ref([
+            {
+                id: 1, category: 'beneficial', icon: '🐝',
+                image: 'images/Entomology/1.jpg',
+                scientificName: 'Scientific name: Apis mellifera',
+                commonName: 'Common name: Western Honeybee',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Pollen Basket (Corbicula) - concave area on hind legs with stiff hairs',
+                    'Proboscis - long, tube-like mouthpart for sucking nectar',
+                ],
+                functions: [
+                    'Pollen collection and transport to hive',
+                    'Nectar feeding from flowers',
+                    'Proboscis can extend for feeding and coil when not in use',
+                ],
+                importance: [
+                    'Understanding pollination biology',
+                    'Reveals foraging behavior of bees',
+                    'Demonstrates evolutionary adaptation of insect mouthparts',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 2, category: 'pest', icon: '🦟',
+                image: 'images/Entomology/2.jpg',
+                scientificName: 'Scientific name: Anopheles spp.',
+                commonName: 'Common name: Mosquito (Malaria vector species)',
+                slideType: 'Slide type: Longitudinal Section (L.S.)',
+                features: [
+                    'Head Capsule - contains compound eyes and antennae with sensory hairs',
+                    'Mouthparts (Proboscis Complex) - specialized for blood-feeding',
+                    'Labrum - forms food canal for sucking blood',
+                    'Mandibles & Maxillae - cut into host\'s skin',
+                    'Hypopharynx - delivers saliva with anticoagulants',
+                    'Sensory Palps - detect heat, moisture, and host odors',
+                ],
+                importance: [
+                    'Understanding vector biology and malaria transmission',
+                    'Species identification in mosquito research',
+                    'Evolution of piercing-sucking mouthparts',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 3, category: 'pest', icon: '🪰',
+                image: 'images/Entomology/3.jpg',
+                scientificName: 'Scientific name: Musca domestica',
+                commonName: 'Common name: Housefly',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Tarsal Claws - at tip of each leg for gripping rough surfaces',
+                    'Pulvilli - pad-like structures beneath claws with sticky hairs',
+                    'Sensory Hairs - detect surface texture and chemicals',
+                ],
+                functions: [
+                    'Mechanical anchoring during walking or landing',
+                    'Walking on smooth vertical or inverted surfaces',
+                    'Movement coordination and feeding behavior',
+                ],
+                importance: [
+                    'Demonstrates insect locomotion adaptations',
+                    'Surface adhesion mechanisms in insects',
+                    'Understanding how flies contaminate surfaces',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 4, category: 'beneficial', icon: '🐛',
+                image: 'images/Entomology/4.jpg',
+                scientificName: 'Scientific name: Bombyx mori',
+                commonName: 'Common name: Silkworm',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Segmented body - head, thorax, abdomen',
+                    'Chewing mouthparts adapted for mulberry leaves',
+                    'Prolegs and spiracles visible',
+                    'Large paired silk glands for silk production',
+                ],
+                importance: [
+                    'Source of natural silk (sericulture industry)',
+                    'Model organism in biotechnology and genetics',
+                    'Pupae used as food and animal feed',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 5, category: 'social', icon: '🐜',
+                image: 'images/Entomology/5.jpg',
+                scientificName: 'Scientific name: Coptotermes formosanus',
+                commonName: 'Common name: Termite / White Ant',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Soft-bodied, pale insects resembling ants',
+                    'Social structure - king, queen, workers, soldiers',
+                    'Chewing mouthparts for wood and cellulose',
+                    'Symbiotic gut protozoa for cellulose digestion',
+                ],
+                importance: [
+                    'Economic pest - damages wood, crops, and buildings',
+                    'Ecological role - decomposers, recycle cellulose',
+                    'Model for studying social insect behavior',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 6, category: 'social', icon: '🐜',
+                image: 'images/Entomology/6.jpg',
+                scientificName: 'Scientific name: Formica spp.',
+                commonName: 'Common name: Ant',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Segmented body with narrow waist (petiole)',
+                    'Elbowed antennae for sensing environment',
+                    'Strong mandibles for biting and carrying',
+                    'Social organization - queen, workers, soldiers',
+                ],
+                importance: [
+                    'Soil aeration, seed dispersal, decomposition',
+                    'Some species as agricultural pests',
+                    'Model for studying social behavior and cooperation',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 7, category: 'beneficial', icon: '✨',
+                image: 'images/Entomology/7.jpg',
+                scientificName: 'Scientific name: Lampyridae (family)',
+                commonName: 'Common name: Firefly / Lightning Bug',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Segmented body - head, thorax, abdomen',
+                    'Soft elytra and membranous hindwings',
+                    'Light-emitting organs (photocytes) in abdomen',
+                    'Antennae for sensing environment',
+                ],
+                importance: [
+                    'Bioluminescence for mating signals',
+                    'Predators of small insects in larval stage',
+                    'Studied for bioluminescent proteins (luciferase)',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 8, category: 'beneficial', icon: '🦗',
+                image: 'images/Entomology/8.jpg',
+                scientificName: 'Scientific name: Magicicada spp.',
+                commonName: 'Common name: Cicada',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Large compound eyes and short antennae',
+                    'Membranous wings for flight',
+                    'Tymbal organs on abdomen for sound production',
+                    'Piercing-sucking mouthparts for plant sap',
+                ],
+                importance: [
+                    'Herbivores that provide food for predators',
+                    'Studied for sound production and life cycles',
+                    'Minor economic impact on young trees',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 9, category: 'pest', icon: '🦟',
+                image: 'images/Entomology/9.jpg',
+                scientificName: 'Scientific name: Culex pipiens',
+                commonName: 'Common name: Common Mosquito',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Slender body - head, thorax, abdomen',
+                    'Proboscis for piercing and sucking blood',
+                    'Antennae to detect host cues (CO₂, odors)',
+                    'Long, narrow wings with venation',
+                    'Sexual dimorphism - males with bushy antennae',
+                ],
+                importance: [
+                    'Vector of diseases (malaria, dengue, West Nile virus)',
+                    'Crucial for vector control and epidemiology',
+                    'Model for understanding sensory biology',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 10, category: 'pest', icon: '🪰',
+                image: 'images/Entomology/10.jpg',
+                scientificName: 'Scientific name: Drosophila spp.',
+                commonName: 'Common name: Fruit Fly',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Small, segmented body - head, thorax, abdomen',
+                    'Compound eyes and short antennae',
+                    'Three pairs of legs and one pair of functional wings',
+                    'Mouthparts adapted for sponging liquids',
+                    'Visible bristles (setae) and reproductive organs',
+                ],
+                importance: [
+                    'Widely used genetic and developmental research model',
+                    'Short life cycle for inheritance pattern studies',
+                    'Educational tool for insect morphology',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 11, category: 'beneficial', icon: '🐝',
+                image: 'images/Entomology/11.jpg',
+                scientificName: 'Scientific name: Bombus spp.',
+                commonName: 'Common name: Bumblebee',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Robust, hairy body - head, thorax, abdomen',
+                    'Large compound eyes and short antennae',
+                    'Three pairs of legs with pollen baskets',
+                    'Two pairs of wings for flight',
+                    'Proboscis for nectar feeding',
+                ],
+                importance: [
+                    'Important pollinators for agriculture',
+                    'Supports plant reproduction in ecosystems',
+                    'Studied for behavior and flight mechanics',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 12, category: 'pest', icon: '🦗',
+                image: 'images/Entomology/12.jpg',
+                scientificName: 'Scientific name: Locusta migratoria',
+                commonName: 'Common name: Migratory Grasshopper',
+                slideType: 'Slide type: Longitudinal Section (L.S.)',
+                features: [
+                    'Compound eyes with multiple ommatidia for wide-angle vision',
+                    'Antennae as sensory organs (touch, smell)',
+                    'Chewing mouthparts for plant material',
+                    'Wing veins for strength and flexibility',
+                    'Strong hind legs specialized for jumping',
+                ],
+                importance: [
+                    'Major agricultural pest affecting crops',
+                    'Flight studies help understand wing mechanics',
+                    'Compound eyes provide model for vision studies',
+                    'Food source for birds, reptiles, and mammals',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 13, category: 'beneficial', icon: '🐞',
+                image: 'images/Entomology/13.jpg',
+                scientificName: 'Scientific name: Coccinella septempunctata',
+                commonName: 'Common name: Seven-spotted Ladybird / Ladybug',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Rounded, convex body with red elytra and seven black spots',
+                    'Head with compound eyes and short antennae',
+                    'Three pairs of legs for walking',
+                    'Elytra cover membranous hindwings',
+                    'Chewing mouthparts for feeding on aphids',
+                ],
+                importance: [
+                    'Natural predator of pests like aphids',
+                    'Contributes to pest management in agriculture',
+                    'Studied in entomology and ecology research',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 14, category: 'beneficial', icon: '🦟',
+                image: 'images/Entomology/14.jpg',
+                scientificName: 'Scientific name: Gerridae (family)',
+                commonName: 'Common name: Water Strider',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Slender, elongated body adapted for surface locomotion',
+                    'Long legs with hydrophobic hairs',
+                    'Head with compound eyes and antennae',
+                    'Middle pair of legs for propulsion, hind pair for steering',
+                    'Piercing-sucking mouthparts for feeding on trapped insects',
+                ],
+                importance: [
+                    'Predator of small aquatic insects',
+                    'Behavioral studies of surface tension adaptations',
+                    'Model organism for biomechanics research',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 15, category: 'beneficial', icon: '🦋',
+                image: 'images/Entomology/15.jpg',
+                scientificName: 'Scientific name: Danaus plexippus',
+                commonName: 'Common name: Butterfly Proboscis',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Long, coiled tubular structure extending from head',
+                    'Formed by two interlocked galeae',
+                    'Flexible - can coil or extend for feeding',
+                    'Adapted for sucking nectar from flowers',
+                    'Sensory setae for taste detection',
+                ],
+                importance: [
+                    'Allows nectar feeding from deep flowers',
+                    'Aids in plant reproduction through pollination',
+                    'Studied for insect morphology and feeding behavior',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 16, category: 'social', icon: '🐜',
+                image: 'images/Entomology/16.jpg',
+                scientificName: 'Scientific name: Atta spp.',
+                commonName: 'Common name: Leafcutter Ant',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Strong mandibles for cutting leaves',
+                    'Antennae for sensing and communication',
+                    'Three pairs of legs for walking and carrying',
+                    'Social structure - queen, workers, soldiers',
+                ],
+                importance: [
+                    'Decomposes plant material, enriches soil',
+                    'Can damage crops by leaf cutting',
+                    'Studied for social behavior and colony organization',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 17, category: 'beneficial', icon: '🪲',
+                image: 'images/Entomology/17.jpg',
+                scientificName: 'Scientific name: Carausius morosus',
+                commonName: 'Common name: Stick Insect',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Long, slender body mimicking twigs or sticks',
+                    'Head with compound eyes and thread-like antennae',
+                    'Elongated thorax and legs for camouflage',
+                    'Flexible abdomen for blending with branches',
+                    'Chewing mouthparts for leaves',
+                ],
+                importance: [
+                    'Camouflage for predator avoidance',
+                    'Studied for mimicry and insect morphology',
+                    'Demonstrates adaptation and evolution',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 18, category: 'beneficial', icon: '🪲',
+                image: 'images/Entomology/18.jpg',
+                scientificName: 'Scientific name: Ephemera danica',
+                commonName: 'Common name: Mayfly',
+                slideType: 'Longitudinal Section (L.S.)',
+                features: [
+                    'Transparent, membranous wings with visible vein patterns',
+                    'Thoracic muscles supporting wing movement',
+                    'Gills along abdomen for aquatic respiration (nymphs)',
+                    'Compound eyes and antennae for sensing',
+                ],
+                importance: [
+                    'Indicator of freshwater ecosystem health',
+                    'Studied for insect development and aquatic adaptations',
+                    'Demonstrates wing morphology and gill function',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 19, category: 'beneficial', icon: '🪲',
+                image: 'images/Entomology/19.jpg',
+                scientificName: 'Scientific name: Carabus spp.',
+                commonName: 'Common name: Ground Beetle',
+                slideType: 'Slide type: Longitudinal Section (L.S.)',
+                features: [
+                    'Leg segments - coxa, femur, tibia, tarsus clearly visible',
+                    'Extensor and flexor muscles controlling movement',
+                    'Claws at end of tarsi for gripping surfaces',
+                    'Tendon-like apodemes for muscle attachment',
+                    'Exoskeleton for support and protection',
+                ],
+                importance: [
+                    'Predator of soil-dwelling insects',
+                    'Demonstrates insect locomotion and biomechanics',
+                    'Understanding muscle-exoskeleton interaction',
+                ],
+                imgFailed: false
+            },
+            {
+                id: 20, category: 'beneficial', icon: '🪲',
+                image: 'images/Entomology/20.jpg',
+                scientificName: 'Scientific name: Hydropsyche spp.',
+                commonName: 'Common name: Caddisfly Larva',
+                slideType: 'Slide type: Whole Mount (W.M.)',
+                features: [
+                    'Soft, segmented body - head, thorax, abdomen',
+                    'Chewing mouthparts for feeding on detritus and algae',
+                    'Thoracic legs for locomotion',
+                    'Case-building structures with silk glands',
+                    'Gills along abdomen for aquatic respiration',
+                ],
+                importance: [
+                    'Indicator of freshwater ecosystem health',
+                    'Demonstrates case-building and adaptation',
+                    'Studied for silk production and aquatic insect morphology',
+                ],
+                imgFailed: false
+            },
+        ]);
+
+        const filteredInsects = computed(() => {
+            return insects.value.filter(insect => {
+                const matchCat = activeFilter.value === 'all' || insect.category === activeFilter.value;
+                const q = searchQuery.value.toLowerCase();
+                const matchSearch = !q ||
+                    insect.scientificName.toLowerCase().includes(q) ||
+                    insect.commonName.toLowerCase().includes(q);
+                return matchCat && matchSearch;
             });
         });
 
-        // Search functionality
-        const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            
-            insectCards.forEach(card => {
-                const scientificName = card.querySelector('.scientific-name').textContent.toLowerCase();
-                const commonName = card.querySelector('.common-name').textContent.toLowerCase();
-                
-                if (scientificName.includes(searchTerm) || commonName.includes(searchTerm)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
+        const setFilter = (f) => { activeFilter.value = f; };
 
-        // Progress bar functionality
-        window.addEventListener('scroll', () => {
-            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            document.getElementById('progressFill').style.width = scrolled + '%';
-        });
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add animation to cards on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+        const handleImgError = (event, insect) => {
+            insect.imgFailed = true;
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+        const onScroll = () => {
+            const scrolled = window.scrollY;
+            const total = document.documentElement.scrollHeight - window.innerHeight;
+            scrollProgress.value = total > 0 ? (scrolled / total) * 100 : 0;
+        };
 
-        // Observe all insect cards
-        insectCards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(50px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
-        });
+        onMounted(() => { window.addEventListener('scroll', onScroll); });
+        onUnmounted(() => { window.removeEventListener('scroll', onScroll); });
 
-        // Add CSS animation keyframes
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Image error handling
-        document.querySelectorAll('.slide-image').forEach(img => {
-            img.addEventListener('error', function() {
-                this.style.display = 'none';
-                const wrapper = this.closest('.image-wrapper');
-                if (wrapper) {
-                    wrapper.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:280px;background:#f8f9fa;border-radius:15px;border:2px dashed #dee2e6;color:#6c757d;font-size:14px;">Image will be available when you add the slide images</div>';
-                }
-            });
-        });
-    </script>
+        return {
+            insects,
+            filteredInsects,
+            activeFilter,
+            searchQuery,
+            scrollProgress,
+            setFilter,
+            handleImgError,
+            window,
+        };
+    }
+}).mount('#app');
+</script>
 </body>
 </html>

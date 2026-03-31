@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entomology Chapter - بەشی مێروولەزانی</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.prod.min.js"></script>
+    <title>Microbiology Chapter - بەشی میکرۆبایۆلۆژی</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -13,11 +13,11 @@
             --surface: #0d1117;
             --surface2: #161b22;
             --border: #21262d;
-            --accent-green: #39d353;
+            --accent-red: #f85149;
             --accent-blue: #58a6ff;
             --accent-amber: #e3b341;
-            --accent-red: #f85149;
             --accent-purple: #bc8cff;
+            --accent-green: #39d353;
             --text: #e6edf3;
             --text-muted: #8b949e;
             --text-dim: #484f58;
@@ -33,7 +33,6 @@
             overflow-x: hidden;
         }
 
-        /* Noise texture overlay */
         body::before {
             content: '';
             position: fixed;
@@ -44,13 +43,12 @@
             opacity: 0.4;
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
 
-        /* HEADER */
+        /* HERO */
         .hero {
             position: relative;
             min-height: 100vh;
@@ -65,8 +63,8 @@
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(57,211,83,0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(57,211,83,0.04) 1px, transparent 1px);
+                linear-gradient(rgba(248,81,73,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(248,81,73,0.04) 1px, transparent 1px);
             background-size: 60px 60px;
             mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
         }
@@ -76,16 +74,16 @@
             width: 600px;
             height: 600px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(57,211,83,0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(248,81,73,0.07) 0%, transparent 70%);
             pointer-events: none;
         }
 
         .hero-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(5rem, 15vw, 13rem);
+            font-size: clamp(4rem, 13vw, 12rem);
             letter-spacing: 0.05em;
             line-height: 0.9;
-            background: linear-gradient(135deg, #39d353 0%, #58a6ff 50%, #bc8cff 100%);
+            background: linear-gradient(135deg, #f85149 0%, #bc8cff 50%, #58a6ff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -108,8 +106,8 @@
         .hero-badge {
             font-family: 'Space Mono', monospace;
             font-size: 0.75rem;
-            color: var(--accent-green);
-            border: 1px solid rgba(57,211,83,0.3);
+            color: var(--accent-red);
+            border: 1px solid rgba(248,81,73,0.3);
             padding: 0.4rem 1.2rem;
             border-radius: 2px;
             letter-spacing: 0.2em;
@@ -117,7 +115,7 @@
             position: relative;
             z-index: 2;
             margin-bottom: 2rem;
-            background: rgba(57,211,83,0.05);
+            background: rgba(248,81,73,0.05);
         }
 
         .scroll-hint {
@@ -139,7 +137,7 @@
         .scroll-line {
             width: 1px;
             height: 40px;
-            background: linear-gradient(to bottom, var(--accent-green), transparent);
+            background: linear-gradient(to bottom, var(--accent-red), transparent);
             animation: scrollPulse 2s ease-in-out infinite;
         }
 
@@ -173,26 +171,20 @@
         }
 
         .filter-pill:hover {
-            border-color: var(--accent-green);
-            color: var(--accent-green);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
         }
 
         .filter-pill.active {
-            background: var(--accent-green);
-            border-color: var(--accent-green);
+            background: var(--accent-red);
+            border-color: var(--accent-red);
             color: var(--bg);
             font-weight: 700;
         }
 
-        .filter-pill.pest.active {
-            background: var(--accent-red);
-            border-color: var(--accent-red);
-        }
-
-        .filter-pill.social.active {
-            background: var(--accent-purple);
-            border-color: var(--accent-purple);
-        }
+        .filter-pill.gram-pos.active { background: var(--accent-purple); border-color: var(--accent-purple); }
+        .filter-pill.gram-neg.active { background: var(--accent-blue); border-color: var(--accent-blue); }
+        .filter-pill.spore.active { background: var(--accent-amber); border-color: var(--accent-amber); color: #000; }
 
         /* SEARCH */
         .search-field {
@@ -208,15 +200,10 @@
             transition: border-color 0.2s;
         }
 
-        .search-field:focus {
-            border-color: var(--accent-green);
-        }
+        .search-field:focus { border-color: var(--accent-red); }
+        .search-field::placeholder { color: var(--text-dim); }
 
-        .search-field::placeholder {
-            color: var(--text-dim);
-        }
-
-        /* CARDS */
+        /* GRID */
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
@@ -224,32 +211,30 @@
             background: var(--border);
         }
 
-        .insect-card {
+        .bacteria-card {
             background: var(--surface);
             transition: background 0.2s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .insect-card:hover {
-            background: var(--surface2);
-        }
+        .bacteria-card:hover { background: var(--surface2); }
 
-        .insect-card::before {
+        .bacteria-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--card-accent, var(--accent-green)), transparent);
+            background: linear-gradient(90deg, transparent, var(--card-accent, var(--accent-red)), transparent);
             opacity: 0;
             transition: opacity 0.3s;
         }
 
-        .insect-card:hover::before {
-            opacity: 1;
-        }
+        .bacteria-card:hover::before { opacity: 1; }
+
+        [data-cat="gram-positive"]::before { --card-accent: var(--accent-purple); }
+        [data-cat="gram-negative"]::before { --card-accent: var(--accent-blue); }
+        [data-cat="spore-forming"]::before { --card-accent: var(--accent-amber); }
 
         .card-inner {
             display: grid;
@@ -271,15 +256,14 @@
             transition: filter 0.4s ease, transform 0.4s ease;
         }
 
-        .insect-card:hover .card-image-side img {
+        .bacteria-card:hover .card-image-side img {
             filter: grayscale(0%) contrast(1.1);
             transform: scale(1.04);
         }
 
         .slide-num {
             position: absolute;
-            bottom: 0;
-            left: 0;
+            bottom: 0; left: 0;
             font-family: 'Bebas Neue', sans-serif;
             font-size: 3.5rem;
             line-height: 1;
@@ -288,18 +272,22 @@
             pointer-events: none;
         }
 
-        .cat-dot {
+        .cat-dots {
             position: absolute;
-            top: 0.75rem;
-            left: 0.75rem;
-            width: 8px;
-            height: 8px;
+            top: 0.75rem; left: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .cat-dot {
+            width: 7px; height: 7px;
             border-radius: 50%;
         }
 
-        .cat-dot.beneficial { background: var(--accent-green); box-shadow: 0 0 8px rgba(57,211,83,0.6); }
-        .cat-dot.pest { background: var(--accent-red); box-shadow: 0 0 8px rgba(248,81,73,0.6); }
-        .cat-dot.social { background: var(--accent-purple); box-shadow: 0 0 8px rgba(188,140,255,0.6); }
+        .cat-dot.gram-positive { background: var(--accent-purple); box-shadow: 0 0 6px rgba(188,140,255,0.6); }
+        .cat-dot.gram-negative { background: var(--accent-blue); box-shadow: 0 0 6px rgba(88,166,255,0.6); }
+        .cat-dot.spore-forming { background: var(--accent-amber); box-shadow: 0 0 6px rgba(227,179,65,0.6); }
 
         .img-placeholder {
             width: 100%;
@@ -310,7 +298,7 @@
             justify-content: center;
             background: var(--surface2);
             color: var(--text-dim);
-            font-size: 2rem;
+            font-size: 2.5rem;
         }
 
         .card-body {
@@ -318,105 +306,120 @@
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
+            overflow: hidden;
         }
 
-        .card-names {
+        .card-title-row {
             border-bottom: 1px solid var(--border);
             padding-bottom: 0.75rem;
         }
 
-        .sci-name {
+        .bact-name {
             font-family: 'DM Sans', sans-serif;
             font-style: italic;
             font-size: 1rem;
-            color: var(--accent-green);
-            font-weight: 500;
+            color: var(--accent-red);
+            font-weight: 600;
         }
 
-        .common-name {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 0.2rem;
+        .cat-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 0.4rem;
         }
 
-        .slide-type-badge {
-            display: inline-block;
+        .cat-tag {
             font-family: 'Space Mono', monospace;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            padding: 0.2rem 0.6rem;
-            border: 1px solid var(--border);
-            color: var(--text-dim);
+            padding: 0.15rem 0.5rem;
             border-radius: 1px;
-            width: fit-content;
+            border: 1px solid;
         }
+
+        .cat-tag.gram-positive { color: var(--accent-purple); border-color: rgba(188,140,255,0.3); background: rgba(188,140,255,0.05); }
+        .cat-tag.gram-negative { color: var(--accent-blue); border-color: rgba(88,166,255,0.3); background: rgba(88,166,255,0.05); }
+        .cat-tag.spore-forming { color: var(--accent-amber); border-color: rgba(227,179,65,0.3); background: rgba(227,179,65,0.05); }
 
         .section-label {
             font-family: 'Space Mono', monospace;
-            font-size: 0.65rem;
+            font-size: 0.62rem;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--text-dim);
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.35rem;
         }
 
-        .feature-item {
-            font-size: 0.82rem;
+        .char-item {
+            font-size: 0.8rem;
             color: var(--text-muted);
-            padding: 0.4rem 0.6rem;
+            padding: 0.35rem 0.6rem;
             border-left: 2px solid var(--border);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.25rem;
             line-height: 1.5;
             transition: border-color 0.2s, color 0.2s;
         }
 
-        .insect-card:hover .feature-item {
-            border-left-color: var(--accent-green);
+        .bacteria-card:hover .char-item {
+            border-left-color: var(--accent-red);
             color: var(--text);
         }
 
-        .importance-box {
-            background: rgba(57,211,83,0.04);
-            border: 1px solid rgba(57,211,83,0.15);
+        .virulence-box {
+            background: rgba(188,140,255,0.04);
+            border: 1px solid rgba(188,140,255,0.12);
             border-radius: 2px;
-            padding: 0.75rem;
+            padding: 0.7rem;
         }
 
-        .importance-item {
-            font-size: 0.8rem;
+        .virulence-item {
+            font-size: 0.78rem;
             color: var(--text-muted);
-            padding: 0.25rem 0;
-            border-bottom: 1px solid rgba(57,211,83,0.08);
+            padding: 0.22rem 0;
+            border-bottom: 1px solid rgba(188,140,255,0.07);
             display: flex;
             align-items: flex-start;
             gap: 0.5rem;
         }
 
-        .importance-item:last-child { border-bottom: none; }
+        .virulence-item:last-child { border-bottom: none; }
 
-        .importance-item::before {
-            content: '→';
-            color: var(--accent-green);
-            font-size: 0.75rem;
+        .virulence-item::before {
+            content: '◦';
+            color: var(--accent-purple);
             flex-shrink: 0;
+            font-size: 0.85rem;
+        }
+
+        .clinical-box {
+            background: rgba(88,166,255,0.04);
+            border: 1px solid rgba(88,166,255,0.12);
+            border-radius: 2px;
+            padding: 0.7rem;
+        }
+
+        .clinical-item {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            padding: 0.22rem 0;
+            border-bottom: 1px solid rgba(88,166,255,0.07);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .clinical-item:last-child { border-bottom: none; }
+
+        .clinical-item::before {
+            content: '→';
+            color: var(--accent-blue);
+            flex-shrink: 0;
+            font-size: 0.75rem;
             margin-top: 0.1rem;
         }
 
-        /* cat color overrides */
-        .card-pest .insect-card:hover .feature-item,
-        .pest-card:hover .feature-item { border-left-color: var(--accent-red) !important; }
-        .card-social .insect-card:hover .feature-item,
-        .social-card:hover .feature-item { border-left-color: var(--accent-purple) !important; }
-
-        [data-cat="pest"]:hover .feature-item { border-left-color: var(--accent-red); }
-        [data-cat="social"]:hover .feature-item { border-left-color: var(--accent-purple); }
-
-        [data-cat="pest"]::before { --card-accent: var(--accent-red); }
-        [data-cat="social"]::before { --card-accent: var(--accent-purple); }
-        [data-cat="beneficial"]::before { --card-accent: var(--accent-green); }
-
-        /* count bar */
         .count-bar {
             font-family: 'Space Mono', monospace;
             font-size: 0.7rem;
@@ -424,7 +427,6 @@
             letter-spacing: 0.1em;
         }
 
-        /* home button */
         .home-btn {
             font-family: 'Space Mono', monospace;
             font-size: 0.7rem;
@@ -439,12 +441,8 @@
             background: transparent;
         }
 
-        .home-btn:hover {
-            border-color: var(--accent-amber);
-            color: var(--accent-amber);
-        }
+        .home-btn:hover { border-color: var(--accent-amber); color: var(--accent-amber); }
 
-        /* progress bar */
         .progress-track {
             position: fixed;
             top: 0; left: 0; right: 0;
@@ -455,17 +453,14 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            background: linear-gradient(90deg, var(--accent-red), var(--accent-purple));
             transition: width 0.1s linear;
         }
 
-        /* print btn */
         .print-btn {
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 44px;
-            height: 44px;
+            bottom: 2rem; right: 2rem;
+            width: 44px; height: 44px;
             background: var(--surface2);
             border: 1px solid var(--border);
             border-radius: 2px;
@@ -479,28 +474,8 @@
             z-index: 100;
         }
 
-        .print-btn:hover {
-            border-color: var(--accent-amber);
-            color: var(--accent-amber);
-        }
+        .print-btn:hover { border-color: var(--accent-amber); color: var(--accent-amber); }
 
-        /* Functions list */
-        .func-item {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            padding: 0.25rem 0;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-        }
-
-        .func-item::before {
-            content: '◦';
-            color: var(--accent-blue);
-            flex-shrink: 0;
-        }
-
-        /* No results */
         .no-results {
             grid-column: 1/-1;
             padding: 4rem 2rem;
@@ -511,111 +486,107 @@
             letter-spacing: 0.1em;
         }
 
-        /* transition */
-        .fade-enter-active, .fade-leave-active { transition: opacity 0.3s, transform 0.3s; }
-        .fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(10px); }
-
         @media (max-width: 640px) {
             .card-inner { grid-template-columns: 1fr; }
-            .card-image-side { height: 220px; border-right: none; border-bottom: 1px solid var(--border); }
+            .card-image-side { height: 200px; border-right: none; border-bottom: 1px solid var(--border); }
             .card-grid { grid-template-columns: 1fr; }
-            .hero-title { font-size: 5rem; }
+            .hero-title { font-size: 4rem; }
         }
 
         @media print {
-            .sticky-nav, .print-btn, .progress-track, .home-btn { display: none !important; }
-            .insect-card { break-inside: avoid; }
+            .sticky-nav, .print-btn, .progress-track { display: none !important; }
+            .bacteria-card { break-inside: avoid; }
             body { background: white; color: black; }
         }
     </style>
 </head>
 <body>
 <div id="app">
-    <!-- Progress Bar -->
+
     <div class="progress-track">
         <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
     </div>
 
-    <!-- Hero -->
+    <!-- HERO -->
     <section class="hero">
         <div class="hero-grid"></div>
         <div class="hero-glow"></div>
         <div style="position:relative;z-index:2;text-align:center;padding:2rem;">
-            <div class="hero-badge">🔬 Microscopy Lab · بەشی مێروولەزانی</div>
-            <h1 class="hero-title">ENTOMOLOGY</h1>
-            <p class="hero-subtitle">Study of Insects · {{ insects.length }} Specimens</p>
+            <div class="hero-badge">🦠 Chapter 6 · بەشی میکرۆبایۆلۆژی</div>
+            <h1 class="hero-title">MICROBIOLOGY</h1>
+            <p class="hero-subtitle">Study of Microorganisms · {{ slides.length }} Specimens</p>
         </div>
         <div class="scroll-hint">
             <div class="scroll-line"></div>
             <span>SCROLL</span>
         </div>
-        <!-- Home btn in hero -->
         <div style="position:absolute;top:1.5rem;left:1.5rem;z-index:10;">
             <a href="https://scence-bio.github.io/Biology/" class="home-btn">← Back to Home</a>
         </div>
     </section>
 
-    <!-- Sticky Nav -->
+    <!-- NAV -->
     <nav class="sticky-nav">
         <div style="max-width:1400px;margin:0 auto;padding:0.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem;">
             <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
                 <button class="filter-pill" :class="{ active: activeFilter === 'all' }" @click="setFilter('all')">All</button>
-                <button class="filter-pill beneficial" :class="{ active: activeFilter === 'beneficial' }" @click="setFilter('beneficial')">Beneficial</button>
-                <button class="filter-pill pest" :class="{ active: activeFilter === 'pest' }" @click="setFilter('pest')">Pest</button>
-                <button class="filter-pill social" :class="{ active: activeFilter === 'social' }" @click="setFilter('social')">Social</button>
-                <span class="count-bar">{{ filteredInsects.length }}/{{ insects.length }}</span>
+                <button class="filter-pill gram-pos" :class="{ active: activeFilter === 'gram-positive' }" @click="setFilter('gram-positive')">Gram +</button>
+                <button class="filter-pill gram-neg" :class="{ active: activeFilter === 'gram-negative' }" @click="setFilter('gram-negative')">Gram −</button>
+                <button class="filter-pill spore" :class="{ active: activeFilter === 'spore-forming' }" @click="setFilter('spore-forming')">Spore Forming</button>
+                <span class="count-bar">{{ filteredSlides.length }}/{{ slides.length }}</span>
             </div>
-            <input class="search-field" v-model="searchQuery" placeholder="Search species..." />
+            <input class="search-field" v-model="searchQuery" placeholder="Search bacteria..." />
         </div>
     </nav>
 
-    <!-- Grid -->
+    <!-- GRID -->
     <main style="max-width:1400px;margin:0 auto;">
         <div class="card-grid">
-            <template v-if="filteredInsects.length > 0">
+            <template v-if="filteredSlides.length > 0">
                 <div
-                    v-for="insect in filteredInsects"
-                    :key="insect.id"
-                    class="insect-card"
-                    :data-cat="insect.category"
+                    v-for="slide in filteredSlides"
+                    :key="slide.id"
+                    class="bacteria-card"
+                    :data-cat="slide.categories[0]"
                 >
                     <div class="card-inner">
-                        <!-- Image side -->
+                        <!-- Image -->
                         <div class="card-image-side">
-                            <div class="cat-dot" :class="insect.category"></div>
-                            <img
-                                :src="insect.image"
-                                :alt="insect.scientificName"
-                                @error="handleImgError($event, insect)"
-                                v-show="!insect.imgFailed"
-                            />
-                            <div class="img-placeholder" v-show="insect.imgFailed">
-                                <span>{{ insect.icon }}</span>
+                            <div class="cat-dots">
+                                <div v-for="cat in slide.categories" :key="cat" class="cat-dot" :class="cat"></div>
                             </div>
-                            <div class="slide-num">{{ String(insect.id).padStart(2,'0') }}</div>
+                            <img
+                                :src="slide.image"
+                                :alt="slide.title"
+                                @error="handleImgError($event, slide)"
+                                v-show="!slide.imgFailed"
+                            />
+                            <div class="img-placeholder" v-show="slide.imgFailed">🦠</div>
+                            <div class="slide-num">{{ String(slide.id).padStart(2,'0') }}</div>
                         </div>
 
                         <!-- Body -->
                         <div class="card-body">
-                            <div class="card-names">
-                                <div class="sci-name">{{ insect.scientificName }}</div>
-                                <div class="common-name">{{ insect.commonName }}</div>
-                            </div>
-                            <div class="slide-type-badge">{{ insect.slideType }}</div>
-
-                            <div v-if="insect.features && insect.features.length">
-                                <div class="section-label">Key Features</div>
-                                <div v-for="f in insect.features.slice(0,3)" :key="f" class="feature-item">{{ f }}</div>
+                            <div class="card-title-row">
+                                <div class="bact-name">{{ slide.title }}</div>
+                                <div class="cat-tags">
+                                    <span v-for="cat in slide.categories" :key="cat" class="cat-tag" :class="cat">{{ cat }}</span>
+                                </div>
                             </div>
 
-                            <div v-if="insect.functions && insect.functions.length">
-                                <div class="section-label">Functions</div>
-                                <div v-for="fn in insect.functions.slice(0,2)" :key="fn" class="func-item">{{ fn }}</div>
+                            <div v-if="slide.characteristics && slide.characteristics.length">
+                                <div class="section-label">🔬 Identification & Characteristics</div>
+                                <div v-for="c in slide.characteristics.slice(0,3)" :key="c" class="char-item">{{ c }}</div>
                             </div>
 
-                            <div class="importance-box" v-if="insect.importance && insect.importance.length">
-                                <div class="section-label" style="color:var(--accent-green);margin-bottom:0.5rem;">Importance</div>
-                                <div v-for="imp in insect.importance" :key="imp" class="importance-item">{{ imp }}</div>
+                            <div v-if="slide.virulence && slide.virulence.length" class="virulence-box">
+                                <div class="section-label" style="color:var(--accent-purple);margin-bottom:0.4rem;">🦠 Virulence & Pathogenicity</div>
+                                <div v-for="v in slide.virulence.slice(0,3)" :key="v" class="virulence-item">{{ v }}</div>
+                            </div>
+
+                            <div v-if="slide.clinical && slide.clinical.length" class="clinical-box">
+                                <div class="section-label" style="color:var(--accent-blue);margin-bottom:0.4rem;">🏥 Clinical Importance</div>
+                                <div v-for="cl in slide.clinical.slice(0,3)" :key="cl" class="clinical-item">{{ cl }}</div>
                             </div>
                         </div>
                     </div>
@@ -625,15 +596,13 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer style="border-top:1px solid var(--border);padding:2rem;text-align:center;margin-top:1px;">
         <p style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;color:var(--text-dim);text-transform:uppercase;">
-            Entomology Study Guide · {{ insects.length }} Specimens · Microscopic Examination
+            Microbiology Study Guide · Chapter 6 · {{ slides.length }} Bacterial Specimens
         </p>
     </footer>
 
-    <!-- Print btn -->
-    <button class="print-btn" @click="window.print()" title="Print">🖨️</button>
+    <button class="print-btn" @click="printPage" title="Print">🖨️</button>
 </div>
 
 <script>
@@ -641,449 +610,196 @@ const { createApp, ref, computed, onMounted, onUnmounted } = Vue;
 
 createApp({
     setup() {
+        const scrollProgress = ref(0);
         const activeFilter = ref('all');
         const searchQuery = ref('');
-        const scrollProgress = ref(0);
 
-        const insects = ref([
+        const slides = ref([
             {
-                id: 1, category: 'beneficial', icon: '🐝',
-                image: 'images/Entomology/1.jpg',
-                scientificName: 'Scientific name: Apis mellifera',
-                commonName: 'Common name: Western Honeybee',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Pollen Basket (Corbicula) - concave area on hind legs with stiff hairs',
-                    'Proboscis - long, tube-like mouthpart for sucking nectar',
-                ],
-                functions: [
-                    'Pollen collection and transport to hive',
-                    'Nectar feeding from flowers',
-                    'Proboscis can extend for feeding and coil when not in use',
-                ],
-                importance: [
-                    'Understanding pollination biology',
-                    'Reveals foraging behavior of bees',
-                    'Demonstrates evolutionary adaptation of insect mouthparts',
-                ],
-                imgFailed: false
+                id: 1, categories: ['gram-positive'], imgFailed: false,
+                title: 'Staphylococcus aureus',
+                image: 'images/Microbiology/1.jpg',
+                characteristics: ['Gram-positive cocci in clusters (purple under Gram stain)','Catalase test: positive','Coagulase test: positive','Grows on Mannitol Salt Agar and ferments mannitol (turns medium yellow)','Shows gamma-hemolysis (no hemolysis) on blood agar'],
+                virulence: ['Found naturally on the skin, in the nose, and mucous membranes','Coagulase (clots plasma)','Protein A (binds antibodies to evade immune system)','Toxins: TSST-1 and enterotoxins (cause toxic shock and food poisoning)','Major concern for antibiotic resistance, especially MRSA strains'],
+                clinical: ['Skin infections like boils, abscesses, and impetigo','Respiratory infections, such as pneumonia','Systemic infections: sepsis, osteomyelitis, and endocarditis','Toxin-related illnesses: food poisoning and toxic shock syndrome']
             },
             {
-                id: 2, category: 'pest', icon: '🦟',
-                image: 'images/Entomology/2.jpg',
-                scientificName: 'Scientific name: Anopheles spp.',
-                commonName: 'Common name: Mosquito (Malaria vector species)',
-                slideType: 'Slide type: Longitudinal Section (L.S.)',
-                features: [
-                    'Head Capsule - contains compound eyes and antennae with sensory hairs',
-                    'Mouthparts (Proboscis Complex) - specialized for blood-feeding',
-                    'Labrum - forms food canal for sucking blood',
-                    'Mandibles & Maxillae - cut into host\'s skin',
-                    'Hypopharynx - delivers saliva with anticoagulants',
-                    'Sensory Palps - detect heat, moisture, and host odors',
-                ],
-                importance: [
-                    'Understanding vector biology and malaria transmission',
-                    'Species identification in mosquito research',
-                    'Evolution of piercing-sucking mouthparts',
-                ],
-                imgFailed: false
+                id: 2, categories: ['gram-positive'], imgFailed: false,
+                title: 'Streptococcus pyogenes',
+                image: 'images/Microbiology/2.jpg',
+                characteristics: ['Gram-positive cocci in chains (purple spheres in lines)','Catalase test: Negative (helps distinguish from staphylococci)','Beta-hemolytic on blood agar (clear zone around colonies)','Group A Streptococcus (GAS), based on Lancefield classification'],
+                virulence: ['M protein: resists phagocytosis','Streptolysins O and S: lyse red blood cells','Exotoxins: cause toxic shock and scarlet fever','Spread by respiratory droplets or contact with infected wounds'],
+                clinical: ['Common infections: strep throat (pharyngitis) and impetigo','Scarlet fever','Rheumatic fever','Post-streptococcal glomerulonephritis','Necrotizing fasciitis ("flesh-eating disease")','Toxic shock-like syndrome']
             },
             {
-                id: 3, category: 'pest', icon: '🪰',
-                image: 'images/Entomology/3.jpg',
-                scientificName: 'Scientific name: Musca domestica',
-                commonName: 'Common name: Housefly',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Tarsal Claws - at tip of each leg for gripping rough surfaces',
-                    'Pulvilli - pad-like structures beneath claws with sticky hairs',
-                    'Sensory Hairs - detect surface texture and chemicals',
-                ],
-                functions: [
-                    'Mechanical anchoring during walking or landing',
-                    'Walking on smooth vertical or inverted surfaces',
-                    'Movement coordination and feeding behavior',
-                ],
-                importance: [
-                    'Demonstrates insect locomotion adaptations',
-                    'Surface adhesion mechanisms in insects',
-                    'Understanding how flies contaminate surfaces',
-                ],
-                imgFailed: false
+                id: 3, categories: ['gram-positive'], imgFailed: false,
+                title: 'Enterococcus faecium',
+                image: 'images/Microbiology/3.jpg',
+                characteristics: ['Gram-positive cocci in pairs or short chains','Catalase test: Negative','Gamma-hemolytic or alpha-hemolytic on blood agar','Grows in 6.5% NaCl and bile-esculin agar (blackening)','Can survive harsh conditions including high salt and temperature','Intrinsically resistant to many antibiotics'],
+                virulence: ['Adhesins: facilitate attachment to host tissues','Cytolysin: can lyse red blood cells and other cell types','Ability to form biofilms on medical devices','Vancomycin-resistant Enterococcus (VRE) is a major clinical concern','Spread primarily via direct contact in healthcare settings'],
+                clinical: ['Causes urinary tract infections (UTIs)','Bacteremia and endocarditis in immunocompromised patients','Intra-abdominal and wound infections','Associated with antibiotic-resistant infections']
             },
             {
-                id: 4, category: 'beneficial', icon: '🐛',
-                image: 'images/Entomology/4.jpg',
-                scientificName: 'Scientific name: Bombyx mori',
-                commonName: 'Common name: Silkworm',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Segmented body - head, thorax, abdomen',
-                    'Chewing mouthparts adapted for mulberry leaves',
-                    'Prolegs and spiracles visible',
-                    'Large paired silk glands for silk production',
-                ],
-                importance: [
-                    'Source of natural silk (sericulture industry)',
-                    'Model organism in biotechnology and genetics',
-                    'Pupae used as food and animal feed',
-                ],
-                imgFailed: false
+                id: 4, categories: ['gram-positive','spore-forming'], imgFailed: false,
+                title: 'Bacillus anthracis',
+                image: 'images/Microbiology/4.jpg',
+                characteristics: ['Gram-positive rods in chains (purple boxcar-shaped rods)','Non-motile (unlike other Bacillus species)','Spore-forming: central, oval spores that do not bulge the cell','Capsule: polypeptide (poly-D-glutamate), not polysaccharide','Aerobic growth; non-hemolytic colonies on blood agar','Catalase test: Positive'],
+                virulence: ['Anthrax toxin (tripartite exotoxin): PA, EF, LF','Protective antigen (PA): binds host cells, facilitates entry','Edema factor (EF): increases cAMP → edema','Lethal factor (LF): metalloprotease → cell death','Capsule: inhibits phagocytosis','Transmission via spores—through inhalation, ingestion, or skin contact'],
+                clinical: ['Cutaneous anthrax: black eschar with surrounding edema (most common form)','Inhalational anthrax: severe respiratory distress, often fatal','Gastrointestinal anthrax: abdominal pain, vomiting, bloody diarrhea','Anthrax meningitis: rare, high mortality','Used as a bioterrorism agent (e.g., 2001 US postal attacks)']
             },
             {
-                id: 5, category: 'social', icon: '🐜',
-                image: 'images/Entomology/5.jpg',
-                scientificName: 'Scientific name: Coptotermes formosanus',
-                commonName: 'Common name: Termite / White Ant',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Soft-bodied, pale insects resembling ants',
-                    'Social structure - king, queen, workers, soldiers',
-                    'Chewing mouthparts for wood and cellulose',
-                    'Symbiotic gut protozoa for cellulose digestion',
-                ],
-                importance: [
-                    'Economic pest - damages wood, crops, and buildings',
-                    'Ecological role - decomposers, recycle cellulose',
-                    'Model for studying social insect behavior',
-                ],
-                imgFailed: false
+                id: 5, categories: ['gram-positive','spore-forming'], imgFailed: false,
+                title: 'Bacillus cereus',
+                image: 'images/Microbiology/5.jpg',
+                characteristics: ['Gram-positive rods with square ends','Motile via peritrichous flagella','Forms central, oval, heat-resistant spores','Aerobic or facultative anaerobe','Catalase-positive; shows beta-hemolysis on blood agar'],
+                virulence: ['Produces emetic (vomiting) and diarrheal toxins','Emetic toxin (cereulide) is heat-stable','Diarrheal toxin is heat-labile','Additional toxins: Hbl, Nhe, CytK','Spores resist heat, disinfectants, and drying'],
+                clinical: ['Causes two types of food poisoning','Emetic type: rapid onset (1–6 hrs), linked to rice','Diarrheal type: slower onset (8–16 hrs), linked to meat/veg','Can cause eye infections, wound infections, and bacteremia','Found in contaminated hospital equipment and products']
             },
             {
-                id: 6, category: 'social', icon: '🐜',
-                image: 'images/Entomology/6.jpg',
-                scientificName: 'Scientific name: Formica spp.',
-                commonName: 'Common name: Ant',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Segmented body with narrow waist (petiole)',
-                    'Elbowed antennae for sensing environment',
-                    'Strong mandibles for biting and carrying',
-                    'Social organization - queen, workers, soldiers',
-                ],
-                importance: [
-                    'Soil aeration, seed dispersal, decomposition',
-                    'Some species as agricultural pests',
-                    'Model for studying social behavior and cooperation',
-                ],
-                imgFailed: false
+                id: 6, categories: ['gram-positive'], imgFailed: false,
+                title: 'Listeria monocytogenes',
+                image: 'images/Microbiology/6.jpg',
+                characteristics: ['Gram-positive rods, often in short chains or singles','Motile at room temperature (tumbling motility)','Facultative anaerobe; catalase-positive, oxidase-negative','Grows on blood agar; weak beta-hemolysis','Can grow at refrigeration temperatures (psychrotrophic)'],
+                virulence: ['Internalins (InlA, InlB): promote epithelial cell invasion','Listeriolysin O (LLO): allows escape from phagolysosomes','ActA protein: induces actin polymerization for cell-to-cell spread','Phospholipases (PlcA, PlcB): aid vacuole escape','Evades immune system by intracellular movement'],
+                clinical: ['Causes listeriosis: fever, diarrhea, meningitis, sepsis','High risk in pregnant women, newborns, elderly, immunocompromised','Can lead to miscarriage, neonatal death, or neurolisteriosis','Transmitted via contaminated food (e.g., cheese, deli meats)','Treated with ampicillin ± gentamicin']
             },
             {
-                id: 7, category: 'beneficial', icon: '✨',
-                image: 'images/Entomology/7.jpg',
-                scientificName: 'Scientific name: Lampyridae (family)',
-                commonName: 'Common name: Firefly / Lightning Bug',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Segmented body - head, thorax, abdomen',
-                    'Soft elytra and membranous hindwings',
-                    'Light-emitting organs (photocytes) in abdomen',
-                    'Antennae for sensing environment',
-                ],
-                importance: [
-                    'Bioluminescence for mating signals',
-                    'Predators of small insects in larval stage',
-                    'Studied for bioluminescent proteins (luciferase)',
-                ],
-                imgFailed: false
+                id: 7, categories: ['gram-positive','spore-forming'], imgFailed: false,
+                title: 'Clostridium tetani',
+                image: 'images/Microbiology/7.jpg',
+                characteristics: ['Gram-positive rods with terminal spherical spores (drumstick appearance)','Obligate anaerobe; grows in oxygen-free environments','Motile (except type VI strains); has flagella','Spores are highly resistant to heat and disinfectants','Grows on blood agar; enhanced by serum or reducing agents'],
+                virulence: ['Produces two toxins: tetanospasmin (neurotoxin) and tetanolysin','Tetanospasmin blocks inhibitory neurotransmitters (GABA, glycine)','Causes uncontrolled muscle contraction and rigidity','Toxin spreads via retrograde axonal transport to CNS','No person-to-person transmission; infection via contaminated wounds'],
+                clinical: ['Causes tetanus: muscle spasms, lockjaw, opisthotonus','Infection follows contamination of wounds with spores from soil','Preventable by tetanus vaccination (tetanus toxoid)','Treatment includes antitoxin and supportive care']
             },
             {
-                id: 8, category: 'beneficial', icon: '🦗',
-                image: 'images/Entomology/8.jpg',
-                scientificName: 'Scientific name: Magicicada spp.',
-                commonName: 'Common name: Cicada',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Large compound eyes and short antennae',
-                    'Membranous wings for flight',
-                    'Tymbal organs on abdomen for sound production',
-                    'Piercing-sucking mouthparts for plant sap',
-                ],
-                importance: [
-                    'Herbivores that provide food for predators',
-                    'Studied for sound production and life cycles',
-                    'Minor economic impact on young trees',
-                ],
-                imgFailed: false
+                id: 8, categories: ['gram-positive','spore-forming'], imgFailed: false,
+                title: 'Clostridium botulinum',
+                image: 'images/Microbiology/8.jpg',
+                characteristics: ['Gram-positive rods with terminal spores (bulging, "tennis racket" shape)','Obligate anaerobe; grows in oxygen-free environments','Produces heat-resistant endospores','Slow-growing on enriched anaerobic media','Catalase-negative; non-motile (Group I)'],
+                virulence: ['Botulinum neurotoxin (BoNT): blocks acetylcholine release','Toxin types A, B, E, and F affect humans','BoNT is a zinc metalloprotease that cleaves SNARE proteins','Spores germinate in anaerobic conditions (canned food, wounds)','Toxin preformed in foodborne; produced in vivo in infant/wound botulism'],
+                clinical: ['Foodborne botulism: ingestion of preformed toxin → flaccid paralysis','Infant botulism: spores germinate in gut (e.g., from honey)','Wound botulism: infection in anaerobic wound sites','Symptoms: blurred vision, dry mouth, descending paralysis','Treated with antitoxin and supportive care']
             },
             {
-                id: 9, category: 'pest', icon: '🦟',
-                image: 'images/Entomology/9.jpg',
-                scientificName: 'Scientific name: Culex pipiens',
-                commonName: 'Common name: Common Mosquito',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Slender body - head, thorax, abdomen',
-                    'Proboscis for piercing and sucking blood',
-                    'Antennae to detect host cues (CO₂, odors)',
-                    'Long, narrow wings with venation',
-                    'Sexual dimorphism - males with bushy antennae',
-                ],
-                importance: [
-                    'Vector of diseases (malaria, dengue, West Nile virus)',
-                    'Crucial for vector control and epidemiology',
-                    'Model for understanding sensory biology',
-                ],
-                imgFailed: false
+                id: 9, categories: ['gram-negative'], imgFailed: false,
+                title: 'Escherichia coli',
+                image: 'images/Microbiology/9.jpg',
+                characteristics: ['Gram-negative bacilli (pink rods on Gram stain)','Facultative anaerobe (grows with or without oxygen)','Lactose fermenter (pink colonies on MacConkey agar)','Motile with peritrichous flagella (except some strains)','Oxidase-negative, catalase-positive'],
+                virulence: ['Possesses adhesins and exotoxins as key virulence factors','Pathotypes: EHEC, EPEC, ETEC, EIEC, EAEC, DAEC','Shiga toxin (EHEC) causes bloody diarrhea and HUS','Enterotoxins (ETEC) cause watery diarrhea','Acquires virulence via plasmids, phages, pathogenicity islands'],
+                clinical: ['Most common cause of urinary tract infections (UTIs)','Causes neonatal meningitis and sepsis','Traveler\'s diarrhea (ETEC) and foodborne outbreaks (EHEC)','Can lead to hemolytic uremic syndrome (HUS)','Antibiotic resistance is a growing concern globally']
             },
             {
-                id: 10, category: 'pest', icon: '🪰',
-                image: 'images/Entomology/10.jpg',
-                scientificName: 'Scientific name: Drosophila spp.',
-                commonName: 'Common name: Fruit Fly',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Small, segmented body - head, thorax, abdomen',
-                    'Compound eyes and short antennae',
-                    'Three pairs of legs and one pair of functional wings',
-                    'Mouthparts adapted for sponging liquids',
-                    'Visible bristles (setae) and reproductive organs',
-                ],
-                importance: [
-                    'Widely used genetic and developmental research model',
-                    'Short life cycle for inheritance pattern studies',
-                    'Educational tool for insect morphology',
-                ],
-                imgFailed: false
+                id: 10, categories: ['gram-negative'], imgFailed: false,
+                title: 'Salmonella typhi',
+                image: 'images/Microbiology/10.jpg',
+                characteristics: ['Gram-negative bacillus (pink rods on Gram stain)','Motile with peritrichous flagella','Non-spore-forming and non-encapsulated','Facultative anaerobe; grows on MacConkey and XLD agar','Lactose non-fermenter; H₂S producer'],
+                virulence: ['Vi capsule: resists phagocytosis and immune clearance','Type III secretion system (T3SS): injects effector proteins','Salmonella pathogenicity islands (SPIs): encode invasion genes','Endotoxin (LPS): triggers inflammation and fever','Survives and replicates inside macrophages'],
+                clinical: ['Causes typhoid fever: prolonged fever, abdominal pain, rose spots','Can lead to intestinal perforation, sepsis, encephalopathy','Transmitted via contaminated food or water','Diagnosed via blood culture or Widal test','Preventable by Vi conjugate vaccine (TCV)']
             },
             {
-                id: 11, category: 'beneficial', icon: '🐝',
-                image: 'images/Entomology/11.jpg',
-                scientificName: 'Scientific name: Bombus spp.',
-                commonName: 'Common name: Bumblebee',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Robust, hairy body - head, thorax, abdomen',
-                    'Large compound eyes and short antennae',
-                    'Three pairs of legs with pollen baskets',
-                    'Two pairs of wings for flight',
-                    'Proboscis for nectar feeding',
-                ],
-                importance: [
-                    'Important pollinators for agriculture',
-                    'Supports plant reproduction in ecosystems',
-                    'Studied for behavior and flight mechanics',
-                ],
-                imgFailed: false
+                id: 11, categories: ['gram-negative'], imgFailed: false,
+                title: 'Shigella dysenteriae',
+                image: 'images/Microbiology/11.jpg',
+                characteristics: ['Gram-negative bacillus (pink rods on Gram stain)','Non-motile, non-spore-forming, non-capsulated','Facultative anaerobe; grows on MacConkey and SS agar','Lactose non-fermenter; does not produce H₂S','Optimum growth at 37°C, pH 7.4'],
+                virulence: ['Produces Shiga toxin: inhibits protein synthesis, causes cell death','Invades colonic epithelial cells via Type III secretion system','Escapes phagocytic vacuoles and spreads cell-to-cell','Induces apoptosis in macrophages, releasing IL-1β','Disrupts intestinal wall integrity, leading to ulceration'],
+                clinical: ['Causes shigellosis: bloody diarrhea, fever, abdominal cramps','Low infectious dose (10–100 organisms)','Can lead to Hemolytic Uremic Syndrome (HUS)','Transmitted via fecal-oral route (food, water, flies)','Treated with hydration and antibiotics in severe cases']
             },
             {
-                id: 12, category: 'pest', icon: '🦗',
-                image: 'images/Entomology/12.jpg',
-                scientificName: 'Scientific name: Locusta migratoria',
-                commonName: 'Common name: Migratory Grasshopper',
-                slideType: 'Slide type: Longitudinal Section (L.S.)',
-                features: [
-                    'Compound eyes with multiple ommatidia for wide-angle vision',
-                    'Antennae as sensory organs (touch, smell)',
-                    'Chewing mouthparts for plant material',
-                    'Wing veins for strength and flexibility',
-                    'Strong hind legs specialized for jumping',
-                ],
-                importance: [
-                    'Major agricultural pest affecting crops',
-                    'Flight studies help understand wing mechanics',
-                    'Compound eyes provide model for vision studies',
-                    'Food source for birds, reptiles, and mammals',
-                ],
-                imgFailed: false
+                id: 12, categories: ['gram-negative'], imgFailed: false,
+                title: 'Pseudomonas aeruginosa',
+                image: 'images/Microbiology/12.jpg',
+                characteristics: ['Gram-negative bacillus (pink rods on Gram stain)','Motile with polar flagella','Strict aerobe; oxidase-positive','Produces blue-green pigment (pyocyanin)','Grows on MacConkey and cetrimide agar'],
+                virulence: ['Forms biofilms that resist antibiotics and immune attack','Secretes exotoxin A (inhibits protein synthesis)','Has Type III secretion system for injecting toxins','Produces elastase, proteases, and pyocyanin','Highly adaptable to diverse environments'],
+                clinical: ['Causes pneumonia, especially in ventilated patients','Common in burn wound and cystic fibrosis infections','Leads to UTIs, sepsis, and keratitis','Major agent of nosocomial infections','Difficult to treat due to multi-drug resistance']
             },
             {
-                id: 13, category: 'beneficial', icon: '🐞',
-                image: 'images/Entomology/13.jpg',
-                scientificName: 'Scientific name: Coccinella septempunctata',
-                commonName: 'Common name: Seven-spotted Ladybird / Ladybug',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Rounded, convex body with red elytra and seven black spots',
-                    'Head with compound eyes and short antennae',
-                    'Three pairs of legs for walking',
-                    'Elytra cover membranous hindwings',
-                    'Chewing mouthparts for feeding on aphids',
-                ],
-                importance: [
-                    'Natural predator of pests like aphids',
-                    'Contributes to pest management in agriculture',
-                    'Studied in entomology and ecology research',
-                ],
-                imgFailed: false
+                id: 13, categories: ['gram-negative'], imgFailed: false,
+                title: 'Neisseria gonorrhoeae',
+                image: 'images/Microbiology/13.jpg',
+                characteristics: ['Gram-negative diplococci (kidney-shaped, often inside neutrophils)','Non-motile, non-spore-forming','Oxidase-positive, catalase-positive','Ferments glucose only (not maltose)','Grows on Thayer-Martin or chocolate agar with CO₂'],
+                virulence: ['Pili: aid in attachment and resist phagocytosis','Opa proteins: mediate adhesion to host cells','Porin proteins: interfere with neutrophil killing','IgA protease: cleaves mucosal antibodies','Lipooligosaccharide (LOS): triggers inflammation and tissue damage'],
+                clinical: ['Causes urethritis, cervicitis, pharyngitis, and proctitis','Can lead to pelvic inflammatory disease (PID) and infertility','Ophthalmia neonatorum in newborns','May cause disseminated gonococcal infection (DGI)','Increasing resistance to antibiotics like ceftriaxone']
             },
             {
-                id: 14, category: 'beneficial', icon: '🦟',
-                image: 'images/Entomology/14.jpg',
-                scientificName: 'Scientific name: Gerridae (family)',
-                commonName: 'Common name: Water Strider',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Slender, elongated body adapted for surface locomotion',
-                    'Long legs with hydrophobic hairs',
-                    'Head with compound eyes and antennae',
-                    'Middle pair of legs for propulsion, hind pair for steering',
-                    'Piercing-sucking mouthparts for feeding on trapped insects',
-                ],
-                importance: [
-                    'Predator of small aquatic insects',
-                    'Behavioral studies of surface tension adaptations',
-                    'Model organism for biomechanics research',
-                ],
-                imgFailed: false
+                id: 14, categories: ['gram-negative'], imgFailed: false,
+                title: 'Helicobacter pylori',
+                image: 'images/Microbiology/14.jpg',
+                characteristics: ['Gram-negative, spiral-shaped rods','Motile with 4–6 polar sheathed flagella','Microaerophilic (requires low oxygen)','Urease-positive (neutralizes stomach acid)','Grows on selective media like Skirrow\'s or Campy agar'],
+                virulence: ['Urease: produces ammonia to buffer stomach acid','Flagella: corkscrew motility through mucus layer','Adhesins: bind to gastric epithelium (e.g., BabA, SabA)','VacA toxin: induces cell vacuolation and apoptosis','CagA protein: disrupts cell signaling via type IV secretion system'],
+                clinical: ['Causes chronic gastritis and peptic ulcers','Linked to gastric adenocarcinoma and MALT lymphoma','Transmitted via oral-oral or fecal-oral routes','Diagnosed by urea breath test, stool antigen, or biopsy','Treated with triple therapy: PPI + clarithromycin + amoxicillin']
             },
             {
-                id: 15, category: 'beneficial', icon: '🦋',
-                image: 'images/Entomology/15.jpg',
-                scientificName: 'Scientific name: Danaus plexippus',
-                commonName: 'Common name: Butterfly Proboscis',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Long, coiled tubular structure extending from head',
-                    'Formed by two interlocked galeae',
-                    'Flexible - can coil or extend for feeding',
-                    'Adapted for sucking nectar from flowers',
-                    'Sensory setae for taste detection',
-                ],
-                importance: [
-                    'Allows nectar feeding from deep flowers',
-                    'Aids in plant reproduction through pollination',
-                    'Studied for insect morphology and feeding behavior',
-                ],
-                imgFailed: false
+                id: 15, categories: ['gram-positive'], imgFailed: false,
+                title: 'Streptococcus pneumoniae',
+                image: 'images/Microbiology/15.jpg',
+                characteristics: ['Gram-positive, lancet-shaped diplococci or short chains','Alpha-hemolytic on blood agar (green zone)','Catalase-negative; optochin-sensitive','Bile soluble (dissolves in bile salts)','Encapsulated with >80 serotypes'],
+                virulence: ['Polysaccharide capsule: antiphagocytic, major virulence factor','Pneumolysin: damages host cells and inhibits immune response','IgA protease: cleaves mucosal antibodies','Teichoic acids: promote inflammation and adherence','Autolysins: release toxins and cell wall fragments'],
+                clinical: ['Causes community-acquired pneumonia (rusty sputum)','Major cause of meningitis, especially in children and elderly','Leads to otitis media, sinusitis, and bronchitis','Can cause bacteremia and endocarditis','Preventable by pneumococcal vaccines (PCV13, PPSV23)']
             },
             {
-                id: 16, category: 'social', icon: '🐜',
-                image: 'images/Entomology/16.jpg',
-                scientificName: 'Scientific name: Atta spp.',
-                commonName: 'Common name: Leafcutter Ant',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Strong mandibles for cutting leaves',
-                    'Antennae for sensing and communication',
-                    'Three pairs of legs for walking and carrying',
-                    'Social structure - queen, workers, soldiers',
-                ],
-                importance: [
-                    'Decomposes plant material, enriches soil',
-                    'Can damage crops by leaf cutting',
-                    'Studied for social behavior and colony organization',
-                ],
-                imgFailed: false
+                id: 16, categories: ['gram-negative'], imgFailed: false,
+                title: 'Haemophilus influenzae',
+                image: 'images/Microbiology/16.jpg',
+                characteristics: ['Gram-negative pleomorphic coccobacilli (pink, short rods)','Requires factors X (hemin) and V (NAD⁺) for growth','Grows on chocolate agar, not on blood agar','Non-motile, non-spore-forming','Type b (Hib) is encapsulated; others may lack capsule'],
+                virulence: ['Capsule (Hib): polyribosyl ribitol phosphate (PRP), antiphagocytic','Adhesins (HMW1, HMW2): promote epithelial attachment','Lipooligosaccharide (LOS): triggers inflammation and ciliary damage','IgA1 protease: cleaves mucosal antibodies','Outer membrane proteins: aid in immune evasion'],
+                clinical: ['Causes meningitis, epiglottitis, pneumonia, and otitis media','Non-typeable strains cause sinusitis, bronchitis, conjunctivitis','Transmitted via respiratory droplets','Hib vaccine has dramatically reduced invasive disease','Treated with antibiotics; resistance is emerging']
             },
             {
-                id: 17, category: 'beneficial', icon: '🪲',
-                image: 'images/Entomology/17.jpg',
-                scientificName: 'Scientific name: Carausius morosus',
-                commonName: 'Common name: Stick Insect',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Long, slender body mimicking twigs or sticks',
-                    'Head with compound eyes and thread-like antennae',
-                    'Elongated thorax and legs for camouflage',
-                    'Flexible abdomen for blending with branches',
-                    'Chewing mouthparts for leaves',
-                ],
-                importance: [
-                    'Camouflage for predator avoidance',
-                    'Studied for mimicry and insect morphology',
-                    'Demonstrates adaptation and evolution',
-                ],
-                imgFailed: false
+                id: 17, categories: ['gram-positive'], imgFailed: false,
+                title: 'Nocardia',
+                image: 'images/Microbiology/17.jpg',
+                characteristics: ['Gram-positive, branching filamentous rods','Weakly acid-fast (Ziehl-Neelsen stain)','Aerobic; slow-growing on standard media','Forms chalky, white colonies with aerial hyphae','Resembles fungi microscopically but is bacterial'],
+                virulence: ['Survives inside macrophages by blocking phagosome-lysosome fusion','Produces catalase and superoxide dismutase (resist oxidative killing)','Mycolic acids in cell wall aid acid-fastness and immune evasion','Can disseminate to CNS and other organs','Capable of relapse despite treatment'],
+                clinical: ['Pulmonary nocardiosis: mimics TB or fungal infections','Cutaneous nocardiosis: cellulitis, abscesses, mycetoma','CNS involvement: brain abscesses in immunocompromised','Acquired via inhalation or traumatic skin inoculation','Treated with sulfonamides (TMP-SMX); prolonged therapy required']
             },
             {
-                id: 18, category: 'beneficial', icon: '🪲',
-                image: 'images/Entomology/18.jpg',
-                scientificName: 'Scientific name: Ephemera danica',
-                commonName: 'Common name: Mayfly',
-                slideType: 'Longitudinal Section (L.S.)',
-                features: [
-                    'Transparent, membranous wings with visible vein patterns',
-                    'Thoracic muscles supporting wing movement',
-                    'Gills along abdomen for aquatic respiration (nymphs)',
-                    'Compound eyes and antennae for sensing',
-                ],
-                importance: [
-                    'Indicator of freshwater ecosystem health',
-                    'Studied for insect development and aquatic adaptations',
-                    'Demonstrates wing morphology and gill function',
-                ],
-                imgFailed: false
+                id: 18, categories: ['gram-negative'], imgFailed: false,
+                title: 'Yersinia pestis',
+                image: 'images/Microbiology/18.jpg',
+                characteristics: ['Gram-negative coccobacilli with bipolar ("safety pin") staining','Non-motile, non-spore-forming, facultative anaerobe','Grows on ordinary media; optimal at 27°C','Shows pleomorphism in older cultures','Catalase-positive; oxidase-negative'],
+                virulence: ['F1 capsule antigen: inhibits phagocytosis','Type III secretion system (T3SS): injects Yops into host cells','Endotoxin (LPS): causes systemic inflammation','Murine toxin: affects vascular system and liver','V and W antigens: block intracellular killing'],
+                clinical: ['Bubonic plague: swollen lymph nodes (buboes), fever','Septicemic plague: bloodstream infection, shock','Pneumonic plague: respiratory transmission, highly fatal','Transmitted via fleas, direct contact, or aerosols','Treated with antibiotics (streptomycin, doxycycline)']
             },
             {
-                id: 19, category: 'beneficial', icon: '🪲',
-                image: 'images/Entomology/19.jpg',
-                scientificName: 'Scientific name: Carabus spp.',
-                commonName: 'Common name: Ground Beetle',
-                slideType: 'Slide type: Longitudinal Section (L.S.)',
-                features: [
-                    'Leg segments - coxa, femur, tibia, tarsus clearly visible',
-                    'Extensor and flexor muscles controlling movement',
-                    'Claws at end of tarsi for gripping surfaces',
-                    'Tendon-like apodemes for muscle attachment',
-                    'Exoskeleton for support and protection',
-                ],
-                importance: [
-                    'Predator of soil-dwelling insects',
-                    'Demonstrates insect locomotion and biomechanics',
-                    'Understanding muscle-exoskeleton interaction',
-                ],
-                imgFailed: false
+                id: 19, categories: ['gram-negative'], imgFailed: false,
+                title: 'Vibrio cholerae',
+                image: 'images/Microbiology/19.jpg',
+                characteristics: ['Gram-negative, comma-shaped bacilli (pink on Gram stain)','Highly motile with a single polar flagellum (darting motility)','Oxidase-positive, catalase-positive','Grows on alkaline media; yellow colonies on TCBS agar','Sensitive to acid; prefers pH 8.5 (alkaliphilic) and 37°C'],
+                virulence: ['Cholera toxin (CT): AB toxin that increases cAMP → watery diarrhea','B subunit binds GM1 receptors; A subunit activates adenylate cyclase','Toxin-coregulated pilus (TCP): aids colonization','Accessory toxins: hemolysin, zonula occludens toxin','Encoded by CTXϕ bacteriophage'],
+                clinical: ['Causes cholera: profuse "rice-water" stools, dehydration, shock','Transmitted via contaminated water, seafood, or food','Can lead to death from hypovolemic shock if untreated','Managed with oral rehydration salts (ORS) and antibiotics','Preventable by sanitation and oral cholera vaccines']
             },
             {
-                id: 20, category: 'beneficial', icon: '🪲',
-                image: 'images/Entomology/20.jpg',
-                scientificName: 'Scientific name: Hydropsyche spp.',
-                commonName: 'Common name: Caddisfly Larva',
-                slideType: 'Slide type: Whole Mount (W.M.)',
-                features: [
-                    'Soft, segmented body - head, thorax, abdomen',
-                    'Chewing mouthparts for feeding on detritus and algae',
-                    'Thoracic legs for locomotion',
-                    'Case-building structures with silk glands',
-                    'Gills along abdomen for aquatic respiration',
-                ],
-                importance: [
-                    'Indicator of freshwater ecosystem health',
-                    'Demonstrates case-building and adaptation',
-                    'Studied for silk production and aquatic insect morphology',
-                ],
-                imgFailed: false
-            },
+                id: 20, categories: ['gram-positive'], imgFailed: false,
+                title: 'Mycobacterium tuberculosis',
+                image: 'images/Microbiology/20.jpg',
+                characteristics: ['Acid-fast bacilli (red rods on Ziehl–Neelsen stain)','Non-motile, non-spore-forming, and obligate aerobe','Cell wall contains mycolic acids and a high lipid content → waxy surface','Grows slowly (2–6 weeks for visible colonies)','Culture on Löwenstein–Jensen medium; colonies appear rough and buff-colored','Niacin test: positive; catalase: positive at room temperature, negative at 68°C'],
+                virulence: ['Cord factor (trehalose dimycolate): inhibits phagosome-lysosome fusion','Sulfatides: prevent phagolysosome formation','Mycolic acids: protect against desiccation and immune attack','Survives and replicates inside macrophages','Causes granuloma (tubercle) formation in tissues'],
+                clinical: ['Causes pulmonary tuberculosis: chronic cough, hemoptysis, weight loss, night sweats','Can cause extrapulmonary TB: meningitis, bone/joint TB (Pott\'s disease), renal TB','Transmission: airborne droplet nuclei','Treated with long-course multidrug therapy (isoniazid, rifampin, ethambutol, pyrazinamide)','Multidrug-resistant (MDR-TB) and extensively drug-resistant (XDR-TB) strains are major public health threats']
+            }
         ]);
 
-        const filteredInsects = computed(() => {
-            return insects.value.filter(insect => {
-                const matchCat = activeFilter.value === 'all' || insect.category === activeFilter.value;
+        const filteredSlides = computed(() => {
+            return slides.value.filter(s => {
+                const matchCat = activeFilter.value === 'all' || s.categories.includes(activeFilter.value);
                 const q = searchQuery.value.toLowerCase();
-                const matchSearch = !q ||
-                    insect.scientificName.toLowerCase().includes(q) ||
-                    insect.commonName.toLowerCase().includes(q);
+                const matchSearch = !q || s.title.toLowerCase().includes(q);
                 return matchCat && matchSearch;
             });
         });
 
-        const setFilter = (f) => { activeFilter.value = f; };
+        const setFilter = (v) => { activeFilter.value = v; };
+        const printPage = () => window.print();
 
-        const handleImgError = (event, insect) => {
-            insect.imgFailed = true;
-        };
+        const handleImgError = (event, slide) => { slide.imgFailed = true; };
 
         const onScroll = () => {
-            const scrolled = window.scrollY;
             const total = document.documentElement.scrollHeight - window.innerHeight;
-            scrollProgress.value = total > 0 ? (scrolled / total) * 100 : 0;
+            scrollProgress.value = total > 0 ? (window.scrollY / total) * 100 : 0;
         };
 
-        onMounted(() => { window.addEventListener('scroll', onScroll); });
-        onUnmounted(() => { window.removeEventListener('scroll', onScroll); });
+        onMounted(() => window.addEventListener('scroll', onScroll));
+        onUnmounted(() => window.removeEventListener('scroll', onScroll));
 
-        return {
-            insects,
-            filteredInsects,
-            activeFilter,
-            searchQuery,
-            scrollProgress,
-            setFilter,
-            handleImgError,
-            window,
-        };
+        return { slides, filteredSlides, activeFilter, searchQuery, scrollProgress, setFilter, printPage, handleImgError };
     }
 }).mount('#app');
 </script>

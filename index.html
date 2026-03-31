@@ -250,6 +250,33 @@
     .hero-dot.active { background: #5faede; width: 22px; border-radius: 4px; }
     .hero-counter { position: absolute; bottom: 18px; right: 20px; z-index: 20; color: rgba(150,200,230,.55); font-size: 11px; direction: ltr; }
     .hero-prog { position: absolute; bottom: 0; left: 0; height: 3px; background: linear-gradient(90deg,#1e6091,#3282b8,#0891b2); z-index: 25; transition: width .1s linear; border-radius: 0 2px 0 0; }
+  
+    .social-icons-container {
+        display: flex;
+        gap: 18px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 15px;
+    }
+
+    .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+        text-decoration: none;
+    }
+
+    .social-link:hover {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+
+    .social-link svg {
+        width: 30px;
+        height: 30px;
+    }
+
   </style>
 </head>
 
@@ -337,7 +364,7 @@
     </div>
   </div>
 
-  <div class="social-icons-container flex justify-center items-center gap-6 mt-10 flex-wrap">
+  <div class="social-icons-container">
       
      <!-- Telegram -->
         <a href="https://t.me/mahmod_faqe" target="_blank" title="Telegram" class="social-link">

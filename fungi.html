@@ -4,530 +4,161 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fungi Chapter - بەشی کەڕوو</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
     <style>
-        * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-        
-@font-face {
-    font-family: 'NotoKufiArabic';
-    src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-body {
-    font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-    line-height: 1.6;
-    min-height: 100vh;
-    color: #1e293b;
-}
-
-.book-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(20px);
-    border-radius: 25px;
-    overflow: hidden;
-    box-shadow:
-        0 25px 50px rgba(0, 0, 0, 0.2),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-}
-
-/* Cover Page */
-.cover-page {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 70%, #475569 100%);
-    color: white;
-    padding: 80px 50px;
-    text-align: center;
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.cover-page::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image:
-        radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(244, 114, 182, 0.1) 0%, transparent 60%);
-    animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-}
-
-.cover-content {
-    position: relative;
-    z-index: 2;
-}
-
-.fungi-icon {
-    font-size: 6em;
-    margin-bottom: 30px;
-    opacity: 0.95;
-    text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
-    animation: glow 3s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-    0% { text-shadow: 0 0 30px rgba(168, 85, 247, 0.5); }
-    100% { text-shadow: 0 0 50px rgba(168, 85, 247, 0.8); }
-}
-
-.main-title {
-    font-family: 'Georgia', serif;
-    font-size: 4em;
-    font-weight: 700;
-    margin-bottom: 25px;
-    background: linear-gradient(135deg, #a855f7, #8b5cf6, #ec4899);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.2;
-    text-shadow: none;
-}
-
-.subtitle {
-    font-size: 1.8em;
-    opacity: 0.9;
-    margin-bottom: 50px;
-    font-weight: 300;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.field-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    margin: 50px 0;
-}
-
-.field-item {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(15px);
-    padding: 25px 20px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    text-align: center;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.field-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-}
-
-.field-item:hover::before {
-    left: 100%;
-}
-
-.field-item:hover {
-    transform: translateY(-8px) scale(1.02);
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.field-name {
-    font-weight: 700;
-    font-size: 1.3em;
-    margin-bottom: 8px;
-    color: #a855f7;
-}
-
-.field-info {
-    font-size: 1em;
-    opacity: 0.85;
-}
-
-.author-section {
-    margin-top: 60px;
-    padding-top: 40px;
-    border-top: 2px solid rgba(255, 255, 255, 0.3);
-}
-
-/* Progress bar */
-.progress-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #a855f7, #8b5cf6, #ec4899);
-    width: 0%;
-    transition: width 0.3s ease;
-}
-
-/* Chapter Pages */
-.chapter-page {
-    padding: 60px 50px;
-    min-height: 100vh;
-}
-
-.chapter-header {
-    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
-    color: white;
-    padding: 40px;
-    border-radius: 25px;
-    margin-bottom: 50px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.chapter-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, rgba(168, 85, 247, 0.1), rgba(139, 92, 246, 0.1));
-}
-
-.chapter-number {
-    font-size: 1.3em;
-    opacity: 0.8;
-    margin-bottom: 15px;
-    position: relative;
-    z-index: 2;
-}
-
-.chapter-main-title {
-    font-family: 'Georgia', serif;
-    font-size: 2.8em;
-    font-weight: 700;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 2;
-}
-
-.chapter-description {
-    font-size: 1.2em;
-    opacity: 0.9;
-    position: relative;
-    z-index: 2;
-}
-
-.slide-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-    gap: 30px;
-    margin: 50px 0;
-}
-
-.slide-card {
-    background: white;
-    border-radius: 25px;
-    box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.1),
-        0 0 0 1px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-}
-
-.slide-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow:
-        0 30px 60px rgba(0, 0, 0, 0.15),
-        0 0 0 1px rgba(168, 85, 247, 0.2);
-}
-
-.slide-header {
-    background: linear-gradient(135deg, #a855f7, #8b5cf6);
-    color: white;
-    padding: 25px;
-    text-align: center;
-    position: relative;
-}
-
-.slide-header::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #ec4899, #f97316, #eab308);
-}
-
-.slide-number {
-    font-size: 1.6em;
-    font-weight: 800;
-}
-
-.slide-content {
-    padding: 30px;
-    height: auto;
-}
-
-.image-wrapper {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    background: #f8f9fa;
-}
-
-.slide-image {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e9ecef;
-}
-
-.slide-title {
-    font-weight: 700;
-    color: #0f172a;
-    margin-bottom: 20px;
-    font-size: 1.4em;
-    border-bottom: 2px solid #a855f7;
-    padding-bottom: 10px;
-}
-
-.components-list {
-    margin: 20px 0;
-}
-
-.components-title {
-    color: #1e293b;
-    font-weight: 700;
-    margin-bottom: 15px;
-    font-size: 1.1em;
-}
-
-.component-item {
-    background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
-    padding: 12px 16px;
-    margin: 8px 0;
-    border-radius: 10px;
-    border-left: 4px solid #a855f7;
-    transition: all 0.3s ease;
-}
-
-.component-item:hover {
-    transform: translateX(5px);
-    background: linear-gradient(135deg, #e9d5ff, #ddd6fe);
-}
-
-.location-section, 
-.function-section {
-    margin: 25px 0;
-}
-
-.section-title {
-    color: #0f172a;
-    font-weight: 700;
-    margin-bottom: 15px;
-    font-size: 1.2em;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.section-title::before {
-    content: '';
-    width: 4px;
-    height: 20px;
-    background: linear-gradient(135deg, #8b5cf6, #ec4899);
-    border-radius: 2px;
-}
-
-.location-list {
-    list-style: none;
-    padding: 0;
-    margin: 15px 0;
-}
-
-.location-list li {
-    background: linear-gradient(135deg, #fef3c7, #fde68a);
-    padding: 12px 16px;
-    margin: 8px 0;
-    border-radius: 10px;
-    border-left: 4px solid #f59e0b;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.location-list li:hover {
-    transform: translateX(5px);
-    background: linear-gradient(135deg, #fde68a, #fcd34d);
-}
-
-.location-list li::before {
-    content: '🍄';
-    margin-right: 8px;
-    font-size: 1.1em;
-}
-
-.content-text {
-    color: #475569;
-    line-height: 1.7;
-    font-size: 1.05em;
-}
-
-.function-list {
-    list-style: none;
-    padding: 0;
-}
-
-.function-list li {
-    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-    padding: 12px 16px;
-    margin: 8px 0;
-    border-radius: 10px;
-    border-left: 4px solid #22c55e;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.function-list li:hover {
-    transform: translateX(5px);
-    background: linear-gradient(135deg, #bbf7d0, #a7f3d0);
-}
-
-.function-list li::before {
-    content: '▶';
-    color: #22c55e;
-    margin-right: 8px;
-}
-
-/* Filter functionality */
-.filter-controls {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-}
-
-.filter-btn {
-    background: #e2e8f0;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 30px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.filter-btn.active, 
-.filter-btn:hover {
-    background: #a855f7;
-    color: white;
-}
-
-/* Print button */
-.print-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #a855f7;
-    color: white;
-    border: none;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
-    z-index: 100;
-    transition: all 0.3s ease;
-}
-
-.print-btn:hover {
-    transform: translateY(-3px) scale(1.1);
-    box-shadow: 0 8px 20px rgba(168, 85, 247, 0.6);
-}
-
-/* Print styles */
-@media print {
-    .progress-bar, 
-    .print-btn {
-        display: none !important;
-    }
-
-    .slide-card {
-        break-inside: avoid;
-        margin-bottom: 20px;
-    }
-}
-
-/* Responsive design */
-@media (max-width: 992px) {
-    .slide-grid {
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    }
-}
-
-@media (max-width: 768px) {
-    .field-grid, 
-    .slide-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .main-title {
-        font-size: 2.5em;
-    }
-
-    .chapter-main-title {
-        font-size: 2em;
-    }
-
-    .cover-page, 
-    .chapter-page {
-        padding: 40px 25px;
-    }
-}
-
-@media (max-width: 480px) {
-    .main-title {
-        font-size: 2em;
-    }
-    
-    .subtitle {
-        font-size: 1.4em;
-    }
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        @font-face {
+            font-family: 'NotoKufiArabic';
+            src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            line-height: 1.6;
+            min-height: 100vh;
+            color: #1e293b;
+        }
+
+        .book-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.4);
+        }
+
+        /* Progress bar */
+        .progress-bar { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: rgba(0,0,0,0.1); z-index: 1000; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #a855f7, #8b5cf6, #ec4899); transition: width 0.3s ease; }
+
+        /* Print btn */
+        .print-btn {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #a855f7; color: white; border: none;
+            width: 60px; height: 60px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(168,85,247,0.4);
+            z-index: 100; transition: all 0.3s ease;
+        }
+        .print-btn:hover { transform: translateY(-3px) scale(1.1); box-shadow: 0 8px 20px rgba(168,85,247,0.6); }
+
+        /* Chapter page */
+        .chapter-page { padding: 60px 50px; min-height: 100vh; }
+
+        .chapter-header {
+            background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+            color: white; padding: 40px; border-radius: 25px;
+            margin-bottom: 50px; text-align: center; position: relative; overflow: hidden;
+        }
+        .chapter-header::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(45deg, rgba(168,85,247,0.1), rgba(139,92,246,0.1));
+        }
+        .chapter-number { font-size: 1.3em; opacity: 0.8; margin-bottom: 15px; position: relative; z-index: 2; }
+        .chapter-main-title { font-family: 'Georgia', serif; font-size: 2.8em; font-weight: 700; margin-bottom: 20px; position: relative; z-index: 2; }
+        .chapter-description { font-size: 1.2em; opacity: 0.9; position: relative; z-index: 2; }
+
+        /* Filter */
+        .filter-controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .filter-btn {
+            background: #e2e8f0; border: none; padding: 10px 20px;
+            border-radius: 30px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .filter-btn.active, .filter-btn:hover { background: #a855f7; color: white; }
+
+        /* Slide grid */
+        .slide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; margin: 50px 0; }
+
+        /* Slide card */
+        .slide-card {
+            background: white; border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
+            overflow: hidden; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            position: relative; opacity: 0; transform: translateY(50px);
+        }
+        .slide-card.visible { opacity: 1; transform: translateY(0); }
+        .slide-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(168,85,247,0.2); }
+
+        .slide-header {
+            background: linear-gradient(135deg, #a855f7, #8b5cf6);
+            color: white; padding: 25px; text-align: center; position: relative;
+        }
+        .slide-header::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+            height: 3px; background: linear-gradient(90deg, #ec4899, #f97316, #eab308);
+        }
+        .slide-number { font-size: 1.6em; font-weight: 800; }
+
+        .image-wrapper { display: flex; justify-content: center; padding: 20px; background: #f8f9fa; }
+        .slide-image {
+            width: 200px; height: 200px; object-fit: cover;
+            border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #e9ecef;
+        }
+
+        .slide-content { padding: 30px; }
+        .slide-title { font-weight: 700; color: #0f172a; margin-bottom: 20px; font-size: 1.4em; border-bottom: 2px solid #a855f7; padding-bottom: 10px; }
+
+        .components-list { margin: 20px 0; }
+        .components-title { color: #1e293b; font-weight: 700; margin-bottom: 15px; font-size: 1.1em; }
+        .component-item {
+            background: linear-gradient(135deg, #f3e8ff, #e9d5ff);
+            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
+            border-left: 4px solid #a855f7; transition: all 0.3s ease;
+        }
+        .component-item:hover { transform: translateX(5px); background: linear-gradient(135deg, #e9d5ff, #ddd6fe); }
+
+        .location-section, .function-section { margin: 25px 0; }
+        .section-title { color: #0f172a; font-weight: 700; margin-bottom: 15px; font-size: 1.2em; display: flex; align-items: center; gap: 10px; }
+        .section-title::before { content: ''; width: 4px; height: 20px; background: linear-gradient(135deg, #8b5cf6, #ec4899); border-radius: 2px; }
+
+        .location-list { list-style: none; padding: 0; margin: 15px 0; }
+        .location-list li {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
+            border-left: 4px solid #f59e0b; transition: all 0.3s ease; position: relative;
+        }
+        .location-list li:hover { transform: translateX(5px); background: linear-gradient(135deg, #fde68a, #fcd34d); }
+        .location-list li::before { content: '🍄'; margin-right: 8px; font-size: 1.1em; }
+
+        .function-list { list-style: none; padding: 0; }
+        .function-list li {
+            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
+            border-left: 4px solid #22c55e; transition: all 0.3s ease; position: relative;
+        }
+        .function-list li:hover { transform: translateX(5px); background: linear-gradient(135deg, #bbf7d0, #a7f3d0); }
+        .function-list li::before { content: '▶'; color: #22c55e; margin-right: 8px; }
+
+        /* Responsive */
+        @media (max-width: 992px) { .slide-grid { grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); } }
+        @media (max-width: 768px) {
+            .slide-grid { grid-template-columns: 1fr; }
+            .chapter-main-title { font-size: 2em; }
+            .chapter-page { padding: 40px 25px; }
+        }
+        @media (max-width: 480px) { .chapter-main-title { font-size: 1.6em; } }
+        @media print {
+            .progress-bar, .print-btn { display: none !important; }
+            .slide-card { break-inside: avoid; margin-bottom: 20px; }
+        }
     </style>
 </head>
 <body>
+
+<div id="app">
+    <!-- Back to home -->
     <div style="position:fixed;left:20px;top:20px;z-index:2000">
-        <a href="https://scence-bio.github.io/Biology/" 
+        <a href="https://scence-bio.github.io/Biology/"
            style="text-decoration:none;background:#a855f7;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
             back to home - گەڕانەوە بۆ سەرەکی
         </a>
@@ -535,902 +166,444 @@ body {
 
     <!-- Progress bar -->
     <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
     </div>
 
     <!-- Print button -->
-    <button class="print-btn" title="Print Guide" onclick="window.print()">🖨️</button>
+    <button class="print-btn" title="Print Guide" @click="printPage">🖨️</button>
 
-   
+    <div class="book-container">
+        <div class="chapter-page" id="fungi">
+            <div class="chapter-header">
+                <div class="chapter-number">Chapter 9</div>
+                <h2 class="chapter-main-title">🍄 Mycology - Study of Fungal Structures</h2>
+                <p class="chapter-description">Microscopic examination of fungal spores, cells, and reproductive structures</p>
+            </div>
 
-    <!-- Fungi Chapter -->
-    <div class="chapter-page" id="fungi">
-        <div class="chapter-header">
-            <div class="chapter-number">Chapter 9</div>
-            <h2 class="chapter-main-title">🍄 Mycology - Study of Fungal Structures</h2>
-            <p class="chapter-description">Microscopic examination of fungal spores, cells, and reproductive structures</p>
+            <!-- Filter controls -->
+            <div class="filter-controls">
+                <button
+                    v-for="f in filters"
+                    :key="f.value"
+                    class="filter-btn"
+                    :class="{ active: activeFilter === f.value }"
+                    @click="activeFilter = f.value"
+                >{{ f.label }}</button>
+            </div>
+
+            <div class="slide-grid">
+                <div
+                    v-for="slide in filteredSlides"
+                    :key="slide.id"
+                    class="slide-card"
+                    :class="{ visible: slide.visible }"
+                    :data-category="slide.category"
+                >
+                    <div class="slide-header">
+                        <div class="slide-number">Slide {{ slide.id }}</div>
+                    </div>
+                    <div class="image-wrapper">
+                        <img
+                            :src="'images/Fungi/' + slide.id + '.jpg'"
+                            :alt="slide.title"
+                            class="slide-image"
+                            @error="handleImgError($event)"
+                        />
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-title">{{ slide.title }}</div>
+
+                        <div class="components-list">
+                            <div class="components-title">Characteristics:</div>
+                            <div class="component-item" v-for="(c, i) in slide.characteristics" :key="i">{{ c }}</div>
+                        </div>
+
+                        <template v-for="(section, i) in slide.sections" :key="i">
+                            <div :class="section.type === 'function' ? 'function-section' : 'location-section'">
+                                <div class="section-title">{{ section.title }}</div>
+                                <ul :class="section.type === 'function' ? 'function-list' : 'location-list'">
+                                    <li v-for="(item, j) in section.items" :key="j">{{ item }}</li>
+                                </ul>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
 
-        <!-- Filter controls -->
-        <div class="filter-controls">
-            <button class="filter-btn active" data-filter="all">All Structures</button>
-            <button class="filter-btn" data-filter="asexual">Asexual Spores</button>
-            <button class="filter-btn" data-filter="sexual">Sexual Spores</button>
-            <button class="filter-btn" data-filter="vegetative">Vegetative Structures</button>
-            <button class="filter-btn" data-filter="specialized">Specialized Cells</button>
-        </div>
+<script>
+const { createApp, ref, computed, reactive, onMounted, onUnmounted, nextTick } = Vue;
 
-        <div class="slide-grid">
-            <!-- Slide 1: Conidium -->
-            <div class="slide-card" data-category="asexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 1</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/1.jpg" alt="Conidium" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Conidium</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Asexual spore formed externally</div>
-                        <div class="component-item">Produced on specialized hyphae (conidiophores)</div>
-                        <div class="component-item">Not enclosed in sporangium</div>
-                        <div class="component-item">Microscopic, round, oval, or elongated</div>
-                        <div class="component-item">May be colorless (hyaline) or pigmented</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Aspergillus species</li>
-                            <li>Penicillium species</li>
-                            <li>Alternaria species</li>
-                            <li>Many filamentous fungi</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Asexual reproduction mechanism</li>
-                            <li>Efficient dispersal by air, water, or insects</li>
-                            <li>Rapid colonization of new environments</li>
-                            <li>Key role in fungal life cycles</li>
-                        </ul>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🏥 Medical & Agricultural Importance:</div>
-                        <ul class="location-list">
-                            <li>Some cause plant diseases (powdery mildew)</li>
-                            <li>Aspergillus conidia can cause respiratory disease</li>
-                            <li>Important in food spoilage</li>
-                            <li>Used in industrial fermentation processes</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Slide 2: Yeast Cell -->
-            <div class="slide-card" data-category="vegetative">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 2</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/2.jpg" alt="Yeast Cell" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Yeast Cell</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Unicellular form of fungi</div>
-                        <div class="component-item">Small, oval or spherical (3-10 µm)</div>
-                        <div class="component-item">Smooth cell wall</div>
-                        <div class="component-item">Sometimes seen with bud attached</div>
-                        <div class="component-item">Colonies look moist, creamy, or pasty</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Saccharomyces cerevisiae (baker's yeast)</li>
-                            <li>Candida species</li>
-                            <li>Various environmental sources</li>
-                            <li>Food and beverage fermentation</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Rapid multiplication by budding or fission</li>
-                            <li>Fermentation (converts sugars to alcohol and CO₂)</li>
-                            <li>Industrial applications (bread, beer, wine)</li>
-                            <li>Some cause infections (Candida albicans)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+createApp({
+    setup() {
+        const activeFilter = ref('all');
+        const scrollProgress = ref(0);
 
-            <!-- Slide 3: Chlamydospore -->
-            <div class="slide-card" data-category="asexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 3</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/3.jpg" alt="Chlamydospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Chlamydospore</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Thick-walled, asexual spore</div>
-                        <div class="component-item">Large, round or oval</div>
-                        <div class="component-item">Thick double wall</div>
-                        <div class="component-item">Usually darker (brownish or black)</div>
-                        <div class="component-item">Formed singly, in pairs, or chains</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Candida albicans</li>
-                            <li>Various filamentous fungi</li>
-                            <li>Ends or inside hyphae</li>
-                            <li>Soil-dwelling fungi</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Survival under unfavorable conditions</li>
-                            <li>Highly resistant to drying and heat</li>
-                            <li>Dormancy until conditions improve</li>
-                            <li>Diagnostic tool for Candida albicans identification</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        const filters = [
+            { value: 'all', label: 'All Structures' },
+            { value: 'asexual', label: 'Asexual Spores' },
+            { value: 'sexual', label: 'Sexual Spores' },
+            { value: 'vegetative', label: 'Vegetative Structures' },
+            { value: 'specialized', label: 'Specialized Cells' },
+        ];
 
-            <!-- Slide 4: Sporangiospore -->
-            <div class="slide-card" data-category="asexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 4</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/4.jpg" alt="Sporangiospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Sporangiospore</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Asexual spore inside sporangium</div>
-                        <div class="component-item">Small, round or oval</div>
-                        <div class="component-item">Usually uniform in shape</div>
-                        <div class="component-item">Borne on sporangiophore</div>
-                        <div class="component-item">Released when sporangium breaks</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Rhizopus (bread mold)</li>
-                            <li>Mucor species</li>
-                            <li>Other Zygomycetes</li>
-                            <li>Common on decaying organic matter</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Primary method of rapid asexual reproduction</li>
-                            <li>Efficient dispersal mechanism</li>
-                            <li>Can cause plant diseases</li>
-                            <li>Some cause opportunistic human infections (mucormycosis)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        const slides = reactive([
+            {
+                id: 1, category: 'asexual', visible: false,
+                title: 'Conidium',
+                characteristics: [
+                    'Asexual spore formed externally',
+                    'Produced on specialized hyphae (conidiophores)',
+                    'Not enclosed in sporangium',
+                    'Microscopic, round, oval, or elongated',
+                    'May be colorless (hyaline) or pigmented',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Aspergillus species', 'Penicillium species', 'Alternaria species', 'Many filamentous fungi'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Asexual reproduction mechanism', 'Efficient dispersal by air, water, or insects', 'Rapid colonization of new environments', 'Key role in fungal life cycles'] },
+                    { title: '🏥 Medical & Agricultural Importance:', type: 'location', items: ['Some cause plant diseases (powdery mildew)', 'Aspergillus conidia can cause respiratory disease', 'Important in food spoilage', 'Used in industrial fermentation processes'] },
+                ],
+            },
+            {
+                id: 2, category: 'vegetative', visible: false,
+                title: 'Yeast Cell',
+                characteristics: [
+                    'Unicellular form of fungi',
+                    'Small, oval or spherical (3-10 µm)',
+                    'Smooth cell wall',
+                    'Sometimes seen with bud attached',
+                    'Colonies look moist, creamy, or pasty',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Saccharomyces cerevisiae (baker\'s yeast)', 'Candida species', 'Various environmental sources', 'Food and beverage fermentation'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Rapid multiplication by budding or fission', 'Fermentation (converts sugars to alcohol and CO₂)', 'Industrial applications (bread, beer, wine)', 'Some cause infections (Candida albicans)'] },
+                ],
+            },
+            {
+                id: 3, category: 'asexual', visible: false,
+                title: 'Chlamydospore',
+                characteristics: [
+                    'Thick-walled, asexual spore',
+                    'Large, round or oval',
+                    'Thick double wall',
+                    'Usually darker (brownish or black)',
+                    'Formed singly, in pairs, or chains',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Candida albicans', 'Various filamentous fungi', 'Ends or inside hyphae', 'Soil-dwelling fungi'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Survival under unfavorable conditions', 'Highly resistant to drying and heat', 'Dormancy until conditions improve', 'Diagnostic tool for Candida albicans identification'] },
+                ],
+            },
+            {
+                id: 4, category: 'asexual', visible: false,
+                title: 'Sporangiospore',
+                characteristics: [
+                    'Asexual spore inside sporangium',
+                    'Small, round or oval',
+                    'Usually uniform in shape',
+                    'Borne on sporangiophore',
+                    'Released when sporangium breaks',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Rhizopus (bread mold)', 'Mucor species', 'Other Zygomycetes', 'Common on decaying organic matter'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Primary method of rapid asexual reproduction', 'Efficient dispersal mechanism', 'Can cause plant diseases', 'Some cause opportunistic human infections (mucormycosis)'] },
+                ],
+            },
+            {
+                id: 5, category: 'asexual', visible: false,
+                title: 'Arthrospore (Arthroconidium)',
+                characteristics: [
+                    'Formed by hyphal fragmentation',
+                    'Rectangular or barrel-shaped',
+                    'Formed in chains',
+                    'Usually thick-walled',
+                    'Sometimes pigmented',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Coccidioides species', 'Various dermatophytes', 'Soil-dwelling fungi', 'Desert environments'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Asexual reproduction by hyphal fragmentation', 'Each fragment can germinate', 'Highly infectious (Coccidioides)', 'Can cause Valley fever (coccidioidomycosis)'] },
+                ],
+            },
+            {
+                id: 6, category: 'asexual', visible: false,
+                title: 'Blastoconidium (Blastospore)',
+                characteristics: [
+                    'Asexual spore',
+                    'Formed externally on conidiophores',
+                    'Microscopic, round, oval, or elongated',
+                    'Can be colorless or pigmented',
+                    'Found singly, in chains, or clusters',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Many filamentous fungi', 'Aspergillus species', 'Penicillium species', 'Various molds'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Asexual reproduction', 'Easy dispersal by air, water, or insects', 'Rapid colonization of new environments', 'Some cause plant diseases or human infections'] },
+                ],
+            },
+            {
+                id: 7, category: 'sexual', visible: false,
+                title: 'Ascospore',
+                characteristics: [
+                    'Sexual spore of Ascomycota',
+                    'Produced inside ascus',
+                    'Usually oval, round, or elongated',
+                    'Formed in groups inside ascus',
+                    'May be colorless or pigmented',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Aspergillus species', 'Neurospora species', 'Saccharomyces species', 'Various cup fungi'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Sexual reproduction ensuring genetic recombination', 'Genetic variation in fungi', 'Dispersal to new environments', 'Important in genetics and research'] },
+                ],
+            },
+            {
+                id: 8, category: 'sexual', visible: false,
+                title: 'Basidiospore',
+                characteristics: [
+                    'Sexual spore of Basidiomycota',
+                    'Develops externally on basidium',
+                    'Usually small, round, oval, or elongated',
+                    'Often formed in groups of four',
+                    'Sometimes pigmented',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Mushrooms', 'Puffballs', 'Rust fungi', 'Smut fungi'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Released into air for wide distribution', 'Contribute to decomposition of organic matter', 'Nutrient cycling in ecosystems', 'Some cause allergies or plant diseases'] },
+                ],
+            },
+            {
+                id: 9, category: 'sexual', visible: false,
+                title: 'Zygospore',
+                characteristics: [
+                    'Sexual spore of Zygomycota',
+                    'Formed by fusion of compatible gametangia',
+                    'Large, spherical or oval',
+                    'Thick, dark-colored wall',
+                    'Dormant until favorable conditions',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Rhizopus species', 'Mucor species', 'Other Zygomycetes', 'Soil and decaying matter'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Produces new hyphae when conditions improve', 'Helps fungi survive unfavorable seasons', 'Maintains population continuity', 'Some belong to food spoilage or pathogenic species'] },
+                ],
+            },
+            {
+                id: 10, category: 'specialized', visible: false,
+                title: 'Sclerotial Cell',
+                characteristics: [
+                    'Forms compact, hardened mass (sclerotium)',
+                    'Dense, compact structure',
+                    'Usually round or irregular shape',
+                    'Dark-colored or pigmented',
+                    'Thick-walled hyphal cells',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Sclerotinia species', 'Claviceps species (ergot)', 'Soil environments', 'Decaying plant material'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Survival structure during adverse conditions', 'Remains dormant until conditions improve', 'Helps fungi persist in soil', 'Some produce useful secondary metabolites'] },
+                ],
+            },
+            {
+                id: 11, category: 'asexual', visible: false,
+                title: 'Zoospore',
+                characteristics: [
+                    'Motile, asexual spore',
+                    'Small, single-celled, microscopic',
+                    'Round or oval body with flagella',
+                    'Colorless (transparent)',
+                    'Moves actively in water before encysting',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Chytridiomycota (chytrid fungi)', 'Some Oomycota (water molds)', 'Aquatic environments', 'Wet soil environments'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Efficient spread in aquatic environments', 'Swimming dispersal mechanism', 'Crucial in aquatic ecosystems', 'Some are pathogens of algae, plants, or amphibians'] },
+                ],
+            },
+            {
+                id: 12, category: 'specialized', visible: false,
+                title: 'Protoplast Cell',
+                characteristics: [
+                    'Fungal cell with cell wall removed',
+                    'Round or spherical shape',
+                    'Bounded only by plasma membrane',
+                    'Contains cytoplasm, organelles, nucleus',
+                    'Created by enzymatic or mechanical methods',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Laboratory preparations', 'Research environments', 'Biotechnology applications', 'Genetic engineering studies'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Research tool in fungal genetics', 'Molecular biology applications', 'DNA transformation studies', 'Protoplast fusion for strain improvement'] },
+                ],
+            },
+            {
+                id: 13, category: 'specialized', visible: false,
+                title: 'Dikaryotic Cell',
+                characteristics: [
+                    'Contains two genetically distinct nuclei (n + n)',
+                    'Long hyphal cells with two nuclei per compartment',
+                    'Often shows clamp connections in Basidiomycota',
+                    'Bridge-like structures maintain dikaryotic state',
+                    'Occurs after plasmogamy, before karyogamy',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Basidiomycota (mushrooms)', 'Some Ascomycota', 'Plant pathogenic fungi', 'Rust and smut fungi'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Combines genetic material from two parents', 'Increases adaptability and genetic diversity', 'Forms main mycelium in higher fungi', 'Important in plant pathogen life cycles'] },
+                ],
+            },
+            {
+                id: 14, category: 'vegetative', visible: false,
+                title: 'Mycelial Cell (Vegetative Hyphae)',
+                characteristics: [
+                    'Makes up main body (mycelium) of fungus',
+                    'Long, tubular, and thread-like',
+                    'Often transparent but may be pigmented',
+                    'Divided by septa or coenocytic',
+                    'Specialized for growth and nutrient absorption',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['All filamentous fungi', 'Soil environments', 'Decaying organic matter', 'Host tissues (parasitic fungi)'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Provides structural support', 'Supports development of reproductive structures', 'Key role in decomposition and nutrient cycling', 'Forms symbiotic relationships (mycorrhizae)'] },
+                ],
+            },
+            {
+                id: 15, category: 'asexual', visible: false,
+                title: 'Urediniospore',
+                characteristics: [
+                    'Asexual, repeating spore of rust fungi',
+                    'Usually round or oval',
+                    'Thick-walled with spines or ornamentations',
+                    'Yellow, orange, or reddish-brown color',
+                    'Produced in large numbers in uredinia',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Rust fungi (Pucciniales)', 'Puccinia graminis (wheat rust)', 'Host plant surfaces', 'Agricultural crops'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Carried by wind to infect new plant tissues', 'Responsible for rapid epidemic spread', 'Spreads rust diseases over long distances', 'Major cause of crop diseases like wheat rust'] },
+                ],
+            },
+            {
+                id: 16, category: 'sexual', visible: false,
+                title: 'Teliospore',
+                characteristics: [
+                    'Thick-walled, resting spore',
+                    'Usually dark brown to black',
+                    'Often bicellular in rust fungi',
+                    'Globose, ellipsoidal, or cylindrical shape',
+                    'Final spore stage before basidium formation',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Rust fungi (Puccinia species)', 'Smut fungi (Ustilago species)', 'Plant surfaces and soil', 'Overwintering structures'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Survives harsh conditions (cold, dry seasons)', 'Site of karyogamy (nuclear fusion)', 'Undergoes meiosis to produce basidiospores', 'Central role in plant disease cycles'] },
+                ],
+            },
+            {
+                id: 17, category: 'asexual', visible: false,
+                title: 'Conidiospore',
+                characteristics: [
+                    'Asexual spore formed singly',
+                    'At tips of hyphae or short stalks',
+                    'Thick-walled, single-celled',
+                    'Often dark-colored',
+                    'Released when supporting cell breaks down',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Alternaria species', 'Cladosporium species', 'Various dematiaceous fungi', 'Environmental surfaces'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Asexual reproduction', 'Survival in harsh conditions', 'Dispersal by air currents', 'Common in plant pathogens'] },
+                ],
+            },
+            {
+                id: 18, category: 'asexual', visible: false,
+                title: 'Macroconidium',
+                characteristics: [
+                    'Large, multicellular conidium',
+                    'Long, spindle-shaped',
+                    'Several internal cross-walls (septa)',
+                    'Larger than microconidia',
+                    'Often curved or boat-shaped',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Fusarium species', 'Microsporum species', 'Various dermatophytes', 'Culture media'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Plays role in dispersal and infection', 'Important for species identification', 'Diagnostic feature in mycology', 'Asexual reproduction mechanism'] },
+                ],
+            },
+            {
+                id: 19, category: 'asexual', visible: false,
+                title: 'Aleuriospore (Aleuriconidium)',
+                characteristics: [
+                    'Formed by direct budding from hypha tip',
+                    'Single-celled, thick-walled spores',
+                    'Round or ovoid shape',
+                    'Produced singly at end of short stalks',
+                    'Appearance like "detached budding cells"',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Microsporum species', 'Trichophyton species', 'Various dermatophytes', 'Skin, hair, and nail infections'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Asexual reproduction and fungal spread', 'Important in dermatophyte life cycles', 'Key diagnostic feature in laboratory identification', 'Helps differentiate dermatophyte species'] },
+                ],
+            },
+            {
+                id: 20, category: 'sexual', visible: false,
+                title: 'Oospore',
+                characteristics: [
+                    'Thick-walled sexual spore',
+                    'Large, spherical structure',
+                    'Yellowish to brown in color',
+                    'Formed by fertilization of oosphere with antheridium',
+                    'Found inside oogonium after fertilization',
+                ],
+                sections: [
+                    { title: '🍄 Found in:', type: 'location', items: ['Oomycetes (water molds)', 'Phytophthora species', 'Pythium species', 'Aquatic and soil environments'] },
+                    { title: '⚙️ Functions:', type: 'function', items: ['Survival in unfavorable conditions', 'Sexual reproduction mechanism', 'Overwintering structure', 'Plant pathogen life cycle completion'] },
+                    { title: '🏥 Medical Importance:', type: 'location', items: ['Pythium insidiosum causes keratitis', 'Severe tissue infections in humans', 'Animal infections (pythiosis)', 'Rare but serious pathogen'] },
+                ],
+            },
+        ]);
 
-            <!-- Slide 5: Arthrospore -->
-            <div class="slide-card" data-category="asexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 5</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/5.jpg" alt="Arthrospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Arthrospore (Arthroconidium)</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Formed by hyphal fragmentation</div>
-                        <div class="component-item">Rectangular or barrel-shaped</div>
-                        <div class="component-item">Formed in chains</div>
-                        <div class="component-item">Usually thick-walled</div>
-                        <div class="component-item">Sometimes pigmented</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Coccidioides species</li>
-                            <li>Various dermatophytes</li>
-                            <li>Soil-dwelling fungi</li>
-                            <li>Desert environments</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Asexual reproduction by hyphal fragmentation</li>
-                            <li>Each fragment can germinate</li>
-                            <li>Highly infectious (Coccidioides)</li>
-                            <li>Can cause Valley fever (coccidioidomycosis)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Slide 6: Blastoconidium -->
-            <div class="slide-card" data-category="asexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 6</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/6.jpg" alt="Blastoconidium" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Blastoconidium (Blastospore)</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Asexual spore</div>
-                        <div class="component-item">Formed externally on conidiophores</div>
-                        <div class="component-item">Microscopic, round, oval, or elongated</div>
-                        <div class="component-item">Can be colorless or pigmented</div>
-                        <div class="component-item">Found singly, in chains, or clusters</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Many filamentous fungi</li>
-                            <li>Aspergillus species</li>
-                            <li>Penicillium species</li>
-                            <li>Various molds</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Asexual reproduction</li>
-                            <li>Easy dispersal by air, water, or insects</li>
-                            <li>Rapid colonization of new environments</li>
-                            <li>Some cause plant diseases or human infections</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        const filteredSlides = computed(() =>
+            slides.filter(s => activeFilter.value === 'all' || s.category === activeFilter.value)
+        );
 
-            <!-- Slide 7: Ascospore -->
-            <div class="slide-card" data-category="sexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 7</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/7.jpg" alt="Ascospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Ascospore</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Sexual spore of Ascomycota</div>
-                        <div class="component-item">Produced inside ascus</div>
-                        <div class="component-item">Usually oval, round, or elongated</div>
-                        <div class="component-item">Formed in groups inside ascus</div>
-                        <div class="component-item">May be colorless or pigmented</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Aspergillus species</li>
-                            <li>Neurospora species</li>
-                            <li>Saccharomyces species</li>
-                            <li>Various cup fungi</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Sexual reproduction ensuring genetic recombination</li>
-                            <li>Genetic variation in fungi</li>
-                            <li>Dispersal to new environments</li>
-                            <li>Important in genetics and research</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 8: Basidiospore -->
-            <div class="slide-card" data-category="sexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 8</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/8.jpg" alt="Basidiospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Basidiospore</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Sexual spore of Basidiomycota</div>
-                        <div class="component-item">Develops externally on basidium</div>
-                        <div class="component-item">Usually small, round, oval, or elongated</div>
-                        <div class="component-item">Often formed in groups of four</div>
-                        <div class="component-item">Sometimes pigmented</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Mushrooms</li>
-                            <li>Puffballs</li>
-                            <li>Rust fungi</li>
-                            <li>Smut fungi</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Released into air for wide distribution</li>
-                            <li>Contribute to decomposition of organic matter</li>
-                            <li>Nutrient cycling in ecosystems</li>
-                            <li>Some cause allergies or plant diseases</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 9: Zygospore -->
-            <div class="slide-card" data-category="sexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 9</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/9.jpg" alt="Zygospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Zygospore</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Sexual spore of Zygomycota</div>
-                        <div class="component-item">Formed by fusion of compatible gametangia</div>
-                        <div class="component-item">Large, spherical or oval</div>
-                        <div class="component-item">Thick, dark-colored wall</div>
-                        <div class="component-item">Dormant until favorable conditions</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Rhizopus species</li>
-                            <li>Mucor species</li>
-                            <li>Other Zygomycetes</li>
-                            <li>Soil and decaying matter</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Produces new hyphae when conditions improve</li>
-                            <li>Helps fungi survive unfavorable seasons</li>
-                            <li>Maintains population continuity</li>
-                            <li>Some belong to food spoilage or pathogenic species</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 10: Sclerotial Cell -->
-            <div class="slide-card" data-category="specialized">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 10</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/10.jpg" alt="Sclerotial Cell" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Sclerotial Cell</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Forms compact, hardened mass (sclerotium)</div>
-                        <div class="component-item">Dense, compact structure</div>
-                        <div class="component-item">Usually round or irregular shape</div>
-                        <div class="component-item">Dark-colored or pigmented</div>
-                        <div class="component-item">Thick-walled hyphal cells</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Sclerotinia species</li>
-                            <li>Claviceps species (ergot)</li>
-                            <li>Soil environments</li>
-                            <li>Decaying plant material</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Survival structure during adverse conditions</li>
-                            <li>Remains dormant until conditions improve</li>
-                            <li>Helps fungi persist in soil</li>
-                            <li>Some produce useful secondary metabolites</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 11: Zoospore -->
-            <div class="slide-card" data-category="asexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 11</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/11.jpg" alt="Zoospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Zoospore</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Motile, asexual spore</div>
-                        <div class="component-item">Small, single-celled, microscopic</div>
-                        <div class="component-item">Round or oval body with flagella</div>
-                        <div class="component-item">Colorless (transparent)</div>
-                        <div class="component-item">Moves actively in water before encysting</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Chytridiomycota (chytrid fungi)</li>
-                            <li>Some Oomycota (water molds)</li>
-                            <li>Aquatic environments</li>
-                            <li>Wet soil environments</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Efficient spread in aquatic environments</li>
-                            <li>Swimming dispersal mechanism</li>
-                            <li>Crucial in aquatic ecosystems</li>
-                            <li>Some are pathogens of algae, plants, or amphibians</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 12: Protoplast Cell -->
-            <div class="slide-card" data-category="specialized">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 12</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/12.jpg" alt="Protoplast Cell" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Protoplast Cell</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Fungal cell with cell wall removed</div>
-                        <div class="component-item">Round or spherical shape</div>
-                        <div class="component-item">Bounded only by plasma membrane</div>
-                        <div class="component-item">Contains cytoplasm, organelles, nucleus</div>
-                        <div class="component-item">Created by enzymatic or mechanical methods</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Laboratory preparations</li>
-                            <li>Research environments</li>
-                            <li>Biotechnology applications</li>
-                            <li>Genetic engineering studies</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Research tool in fungal genetics</li>
-                            <li>Molecular biology applications</li>
-                            <li>DNA transformation studies</li>
-                            <li>Protoplast fusion for strain improvement</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 13: Dikaryotic Cell -->
-            <div class="slide-card" data-category="specialized">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 13</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/13.jpg" alt="Dikaryotic Cell" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Dikaryotic Cell</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Contains two genetically distinct nuclei (n + n)</div>
-                        <div class="component-item">Long hyphal cells with two nuclei per compartment</div>
-                        <div class="component-item">Often shows clamp connections in Basidiomycota</div>
-                        <div class="component-item">Bridge-like structures maintain dikaryotic state</div>
-                        <div class="component-item">Occurs after plasmogamy, before karyogamy</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Basidiomycota (mushrooms)</li>
-                            <li>Some Ascomycota</li>
-                            <li>Plant pathogenic fungi</li>
-                            <li>Rust and smut fungi</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Combines genetic material from two parents</li>
-                            <li>Increases adaptability and genetic diversity</li>
-                            <li>Forms main mycelium in higher fungi</li>
-                            <li>Important in plant pathogen life cycles</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 14: Mycelial Cell -->
-            <div class="slide-card" data-category="vegetative">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 14</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/14.jpg" alt="Mycelial Cell" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Mycelial Cell (Vegetative Hyphae)</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Makes up main body (mycelium) of fungus</div>
-                        <div class="component-item">Long, tubular, and thread-like</div>
-                        <div class="component-item">Often transparent but may be pigmented</div>
-                        <div class="component-item">Divided by septa or coenocytic</div>
-                        <div class="component-item">Specialized for growth and nutrient absorption</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>All filamentous fungi</li>
-                            <li>Soil environments</li>
-                            <li>Decaying organic matter</li>
-                            <li>Host tissues (parasitic fungi)</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Provides structural support</li>
-                            <li>Supports development of reproductive structures</li>
-                            <li>Key role in decomposition and nutrient cycling</li>
-                            <li>Forms symbiotic relationships (mycorrhizae)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 15: Urediniospore -->
-            <div class="slide-card" data-category="asexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 15</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/15.jpg" alt="Urediniospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Urediniospore</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Asexual, repeating spore of rust fungi</div>
-                        <div class="component-item">Usually round or oval</div>
-                        <div class="component-item">Thick-walled with spines or ornamentations</div>
-                        <div class="component-item">Yellow, orange, or reddish-brown color</div>
-                        <div class="component-item">Produced in large numbers in uredinia</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Rust fungi (Pucciniales)</li>
-                            <li>Puccinia graminis (wheat rust)</li>
-                            <li>Host plant surfaces</li>
-                            <li>Agricultural crops</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Carried by wind to infect new plant tissues</li>
-                            <li>Responsible for rapid epidemic spread</li>
-                            <li>Spreads rust diseases over long distances</li>
-                            <li>Major cause of crop diseases like wheat rust</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 16: Teliospore -->
-            <div class="slide-card" data-category="sexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 16</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/16.jpg" alt="Teliospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Teliospore</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Thick-walled, resting spore</div>
-                        <div class="component-item">Usually dark brown to black</div>
-                        <div class="component-item">Often bicellular in rust fungi</div>
-                        <div class="component-item">Globose, ellipsoidal, or cylindrical shape</div>
-                        <div class="component-item">Final spore stage before basidium formation</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Rust fungi (Puccinia species)</li>
-                            <li>Smut fungi (Ustilago species)</li>
-                            <li>Plant surfaces and soil</li>
-                            <li>Overwintering structures</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Survives harsh conditions (cold, dry seasons)</li>
-                            <li>Site of karyogamy (nuclear fusion)</li>
-                            <li>Undergoes meiosis to produce basidiospores</li>
-                            <li>Central role in plant disease cycles</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 17: Conidiospore -->
-            <div class="slide-card" data-category="asexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 17</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/17.jpg" alt="Conidiospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Conidiospore</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Asexual spore formed singly</div>
-                        <div class="component-item">At tips of hyphae or short stalks</div>
-                        <div class="component-item">Thick-walled, single-celled</div>
-                        <div class="component-item">Often dark-colored</div>
-                        <div class="component-item">Released when supporting cell breaks down</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Alternaria species</li>
-                            <li>Cladosporium species</li>
-                            <li>Various dematiaceous fungi</li>
-                            <li>Environmental surfaces</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Asexual reproduction</li>
-                            <li>Survival in harsh conditions</li>
-                            <li>Dispersal by air currents</li>
-                            <li>Common in plant pathogens</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 18: Macroconidium -->
-            <div class="slide-card" data-category="asexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 18</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/18.jpg" alt="Macroconidium" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Macroconidium</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Large, multicellular conidium</div>
-                        <div class="component-item">Long, spindle-shaped</div>
-                        <div class="component-item">Several internal cross-walls (septa)</div>
-                        <div class="component-item">Larger than microconidia</div>
-                        <div class="component-item">Often curved or boat-shaped</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Fusarium species</li>
-                            <li>Microsporum species</li>
-                            <li>Various dermatophytes</li>
-                            <li>Culture media</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Plays role in dispersal and infection</li>
-                            <li>Important for species identification</li>
-                            <li>Diagnostic feature in mycology</li>
-                            <li>Asexual reproduction mechanism</li>
-                        </ul>
-                    </div>
-                 </div>
-             </div>
- <!-- Slide 19: Aleuriospore -->
-            <div class="slide-card" data-category="asexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 19</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/19.jpg" alt="Aleuriospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Aleuriospore (Aleuriconidium)</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Formed by direct budding from hypha tip</div>
-                        <div class="component-item">Single-celled, thick-walled spores</div>
-                        <div class="component-item">Round or ovoid shape</div>
-                        <div class="component-item">Produced singly at end of short stalks</div>
-                        <div class="component-item">Appearance like "detached budding cells"</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Microsporum species</li>
-                            <li>Trichophyton species</li>
-                            <li>Various dermatophytes</li>
-                            <li>Skin, hair, and nail infections</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Asexual reproduction and fungal spread</li>
-                            <li>Important in dermatophyte life cycles</li>
-                            <li>Key diagnostic feature in laboratory identification</li>
-                            <li>Helps differentiate dermatophyte species</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <!-- Slide 20: Oospore -->
-            <div class="slide-card" data-category="sexual">
-                <div class="slide-header">
-                    <div class="slide-number">Slide 20</div>
-                </div>
-                <div class="image-wrapper">
-                    <img src="images/Fungi/20.jpg" alt="Oospore" class="slide-image" />
-                </div>
-                <div class="slide-content">
-                    <div class="slide-title">Oospore</div>
-                    <div class="components-list">
-                        <div class="components-title">Characteristics:</div>
-                        <div class="component-item">Thick-walled sexual spore</div>
-                        <div class="component-item">Large, spherical structure</div>
-                        <div class="component-item">Yellowish to brown in color</div>
-                        <div class="component-item">Formed by fertilization of oosphere with antheridium</div>
-                        <div class="component-item">Found inside oogonium after fertilization</div>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🍄 Found in:</div>
-                        <ul class="location-list">
-                            <li>Oomycetes (water molds)</li>
-                            <li>Phytophthora species</li>
-                            <li>Pythium species</li>
-                            <li>Aquatic and soil environments</li>
-                        </ul>
-                    </div>
-                    <div class="function-section">
-                        <div class="section-title">⚙️ Functions:</div>
-                        <ul class="function-list">
-                            <li>Survival in unfavorable conditions</li>
-                            <li>Sexual reproduction mechanism</li>
-                            <li>Overwintering structure</li>
-                            <li>Plant pathogen life cycle completion</li>
-                        </ul>
-                    </div>
-                    <div class="location-section">
-                        <div class="section-title">🏥 Medical Importance:</div>
-                        <ul class="location-list">
-                            <li>Pythium insidiosum causes keratitis</li>
-                            <li>Severe tissue infections in humans</li>
-                            <li>Animal infections (pythiosis)</li>
-                            <li>Rare but serious pathogen</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-         </div>
-
-    <script>
-        // Filter functionality
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const slideCards = document.querySelectorAll('.slide-card');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterBtns.forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                btn.classList.add('active');
-
-                const filterValue = btn.getAttribute('data-filter');
-
-                slideCards.forEach(card => {
-                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-
-        // Progress bar functionality
-        window.addEventListener('scroll', () => {
-            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            document.getElementById('progressFill').style.width = scrolled + '%';
-        });
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add animation to cards on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+        const handleScroll = () => {
+            scrollProgress.value = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
         };
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+        const printPage = () => window.print();
 
-        // Observe all slide cards
-        slideCards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(50px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
+        const handleImgError = (e) => {
+            e.target.style.display = 'none';
+            const wrapper = e.target.closest('.image-wrapper');
+            if (wrapper) {
+                wrapper.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:200px;background:#f8f9fa;border-radius:10px;border:2px dashed #dee2e6;color:#6c757d;font-size:14px;">Image not available</div>';
+            }
+        };
+
+        onMounted(() => {
+            window.addEventListener('scroll', handleScroll);
+            nextTick(() => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) entry.target.classList.add('visible');
+                    });
+                }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+                document.querySelectorAll('.slide-card').forEach(card => observer.observe(card));
+            });
         });
 
-        // Print functionality
-        function printPage() {
-            window.print();
-        }
-    </script>
+        onUnmounted(() => window.removeEventListener('scroll', handleScroll));
+
+        return {
+            activeFilter, scrollProgress, filters,
+            slides, filteredSlides,
+            handleImgError, printPage,
+        };
+    },
+
+    mounted() {
+        this.$nextTick(() => {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.slide-card').forEach(card => obs.observe(card));
+        });
+    }
+}).mount('#app');
+</script>
 </body>
 </html>
-
-            
-
-            

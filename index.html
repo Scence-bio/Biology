@@ -1269,5 +1269,25 @@ It studies the structure and function of the immune system and its responses
         `;
         document.head.appendChild(touchStyles);
     </script>
+    <script>
+    const images = [
+        'biology1.webp',
+        'biology2.webp',
+        'biology3.webp',
+        'biology4.webp',
+        'biology5.webp'
+    ];
+
+    let currentIndex = 0;
+    const heroSection = document.getElementById('hero-section');
+
+    function changeBackground() {
+        currentIndex = (currentIndex + 1) % images.length;
+        heroSection.style.backgroundImage = `url('${images[currentIndex]}')`;
+    }
+
+    // گۆڕینی وێنەکان هەر ٥ چرکە جارێک
+    setInterval(changeBackground, 5000);
+</script>
 </body>
 </html>

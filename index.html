@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BioGuide - ڕێبەری بایۆلۆجی</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js" defer></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -17,302 +14,217 @@
         extend: {
           fontFamily: {
             arabic: ['"IBM Plex Sans Arabic"', 'sans-serif'],
-            mono: ['"Space Mono"', 'monospace'],
-          },
-          colors: {
-            ocean: {
-              50:  '#e8f4fb',
-              100: '#c8e4f5',
-              200: '#9acbec',
-              300: '#5faede',
-              400: '#3291cc',
-              500: '#1a75b3',
-              600: '#0f5b91',
-              700: '#0c4470',
-              800: '#0a2f50',
-              900: '#061c31',
-            },
-            bio: {
-              teal:   '#0d9488',
-              green:  '#16a34a',
-              amber:  '#d97706',
-              coral:  '#e11d48',
-            }
+            mono:   ['"Space Mono"', 'monospace'],
           },
           animation: {
-            'float': 'float 6s ease-in-out infinite',
-            'pulse-slow': 'pulse 4s ease-in-out infinite',
-            'spin-slow': 'spin 20s linear infinite',
-            'slide-up': 'slideUp 0.6s ease-out forwards',
-            'fade-in': 'fadeIn 0.8s ease-out forwards',
-            'glow': 'glow 2s ease-in-out infinite',
+            'float':     'float 6s ease-in-out infinite',
+            'spin-slow': 'spin 30s linear infinite',
+            'fade-up':   'fadeUp 0.7s ease-out forwards',
           },
           keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-10px)' },
-            },
-            slideUp: {
-              '0%': { opacity: '0', transform: 'translateY(40px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            },
-            fadeIn: {
-              '0%': { opacity: '0' },
-              '100%': { opacity: '1' },
-            },
-            glow: {
-              '0%, 100%': { boxShadow: '0 0 20px rgba(50,145,204,0.3)' },
-              '50%': { boxShadow: '0 0 40px rgba(50,145,204,0.7)' },
-            }
+            float:  { '0%,100%': {transform:'translateY(0)'}, '50%': {transform:'translateY(-10px)'} },
+            fadeUp: { '0%': {opacity:'0',transform:'translateY(40px)'}, '100%': {opacity:'1',transform:'translateY(0)'} },
           },
-          backdropBlur: {
-            xs: '2px',
-          }
         },
       },
     };
   </script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+
+    ::-webkit-scrollbar       { width: 6px; }
+    ::-webkit-scrollbar-track { background: #050e1a; }
+    ::-webkit-scrollbar-thumb { background: #2c7bb5; border-radius: 3px; }
 
     body {
       font-family: 'IBM Plex Sans Arabic', sans-serif;
       direction: rtl;
       overflow-x: hidden;
+      background: #050e1a;
     }
 
-    /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #061c31; }
-    ::-webkit-scrollbar-thumb { background: #3291cc; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #5faede; }
-
-    /* Grid noise texture overlay */
-    .noise-overlay::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-size: 200px;
-    }
-
-    /* Animated mesh gradient background */
+    /* Animated mesh gradient */
     .mesh-bg {
       background:
-        radial-gradient(ellipse at 20% 20%, rgba(15,91,145,0.6) 0%, transparent 55%),
-        radial-gradient(ellipse at 80% 10%, rgba(13,148,136,0.3) 0%, transparent 45%),
-        radial-gradient(ellipse at 60% 80%, rgba(50,145,204,0.35) 0%, transparent 50%),
-        radial-gradient(ellipse at 10% 90%, rgba(22,163,74,0.2) 0%, transparent 40%),
-        linear-gradient(180deg, #061c31 0%, #0a2f50 40%, #0c4470 70%, #061c31 100%);
+        radial-gradient(ellipse at 15% 20%, rgba(15,91,145,.55) 0%, transparent 50%),
+        radial-gradient(ellipse at 85% 15%, rgba(13,148,136,.25) 0%, transparent 45%),
+        radial-gradient(ellipse at 55% 85%, rgba(50,145,204,.3) 0%, transparent 50%),
+        radial-gradient(ellipse at 5%  85%, rgba(22,163,74,.15) 0%, transparent 40%),
+        linear-gradient(180deg, #050e1a 0%, #091d36 45%, #0c3060 75%, #050e1a 100%);
     }
 
-    /* Organic blob decoration */
-    .blob {
-      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-      animation: blob-morph 8s ease-in-out infinite;
-    }
-    @keyframes blob-morph {
-      0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-      25%       { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-      50%       { border-radius: 50% 60% 30% 60% / 30% 40% 70% 50%; }
-      75%       { border-radius: 40% 30% 60% 50% / 60% 70% 30% 40%; }
-    }
-
-    /* Card glass effect */
-    .glass-card {
-      background: rgba(10, 47, 80, 0.55);
+    /* Glass card */
+    .glass {
+      background: rgba(9,34,60,.55);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(95, 174, 222, 0.2);
+      border: 1px solid rgba(95,174,222,.18);
     }
-    .glass-card:hover {
-      background: rgba(15, 91, 145, 0.65);
-      border-color: rgba(95, 174, 222, 0.5);
-    }
-
-    /* Neon line top border */
-    .neon-top::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #5faede, #0d9488, #5faede, transparent);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-    .neon-top:hover::before { opacity: 1; }
-
-    /* Chapter number orb */
-    .orb {
-      background: conic-gradient(from 180deg, #3291cc, #0d9488, #16a34a, #3291cc);
+    .glass:hover {
+      background: rgba(15,55,95,.65);
+      border-color: rgba(95,174,222,.45);
     }
 
-    /* stat counter animation */
-    .stat-num {
-      font-family: 'Space Mono', monospace;
-      background: linear-gradient(135deg, #9acbec, #5faede, #0d9488);
+    /* Gradient text */
+    .grad-text {
+      background: linear-gradient(135deg,#9acbec,#5faede,#0d9488);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    /* Card reveal animation on scroll */
-    .card-hidden {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .card-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* RTL/LTR text helpers */
-    .ltr { direction: ltr; text-align: left; }
-    .rtl { direction: rtl; text-align: right; }
-
-    /* Toggle switch */
-    .toggle-track {
-      width: 52px; height: 28px;
-      background: rgba(50,145,204,0.3);
-      border: 1px solid rgba(95,174,222,0.4);
-      border-radius: 14px;
+    /* Neon top line on hover */
+    .card-root {
       position: relative;
-      cursor: pointer;
-      transition: background 0.3s;
+      overflow: hidden;
     }
-    .toggle-track.active { background: rgba(13,148,136,0.5); }
-    .toggle-thumb {
-      width: 20px; height: 20px;
-      background: #5faede;
-      border-radius: 50%;
-      position: absolute;
-      top: 3px; right: 4px;
-      transition: transform 0.3s, background 0.3s;
-      box-shadow: 0 0 8px rgba(95,174,222,0.6);
+    .card-root::before {
+      content:'';
+      position:absolute; top:0; left:0; right:0; height:2px;
+      background:linear-gradient(90deg,transparent,#5faede,#0d9488,transparent);
+      opacity:0; transition:opacity .4s;
     }
-    .toggle-track.active .toggle-thumb {
-      transform: translateX(-24px);
-      background: #0d9488;
+    .card-root:hover::before { opacity:1; }
+
+    /* Card scroll reveal */
+    .reveal { opacity:0; transform:translateY(48px); transition:opacity .65s ease, transform .65s ease; }
+    .revealed { opacity:1; transform:translateY(0); }
+
+    /* Text direction helpers */
+    .ltr { direction:ltr; text-align:left; }
+    .rtl-t { direction:rtl; text-align:right; }
+
+    /* Conic-gradient orb */
+    .conic-orb {
+      background: conic-gradient(from 180deg, #2c7bb5, #0d9488, #16a34a, #2c7bb5);
     }
 
-    /* Pulse ring on stat items */
-    @keyframes ring-pulse {
-      0% { box-shadow: 0 0 0 0 rgba(50,145,204,0.4); }
-      70% { box-shadow: 0 0 0 12px rgba(50,145,204,0); }
-      100% { box-shadow: 0 0 0 0 rgba(50,145,204,0); }
+    /* Stat number font */
+    .stat-val {
+      font-family: 'Space Mono', monospace;
+      background: linear-gradient(135deg,#9acbec,#0d9488);
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
     }
-    .stat-pulse:hover { animation: ring-pulse 1s ease-out; }
 
-    /* Section title underline */
-    .section-title-line {
-      display: inline-block;
-      position: relative;
+    /* Blob animation */
+    .blob { border-radius:60% 40% 30% 70%/60% 30% 70% 40%; animation: morph 9s ease-in-out infinite; }
+    @keyframes morph {
+      0%,100%{ border-radius:60% 40% 30% 70%/60% 30% 70% 40%; }
+      33%    { border-radius:30% 60% 70% 40%/50% 60% 30% 60%; }
+      66%    { border-radius:50% 30% 60% 40%/30% 50% 70% 50%; }
     }
-    .section-title-line::after {
-      content: '';
-      position: absolute;
-      bottom: -6px; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #3291cc, #0d9488);
-      border-radius: 2px;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.5s ease;
+
+    /* Pulse ring on hover */
+    @keyframes ring { 0%{box-shadow:0 0 0 0 rgba(50,145,204,.5)} 70%{box-shadow:0 0 0 14px rgba(50,145,204,0)} 100%{box-shadow:0 0 0 0 rgba(50,145,204,0)} }
+    .ring-hover:hover { animation: ring 1s ease; }
+
+    /* Nav underline links */
+    .nav-link {
+      position:relative; color:#94a3b8; transition:color .25s;
     }
-    .section-title-line:hover::after { transform: scaleX(1); }
+    .nav-link::after {
+      content:''; position:absolute; bottom:-2px; left:0; right:0; height:1.5px;
+      background:#5faede; transform:scaleX(0); transition:transform .25s; transform-origin:right;
+    }
+    .nav-link:hover { color:#bae6fd; }
+    .nav-link:hover::after { transform:scaleX(1); transform-origin:left; }
+
+    /* Chapter btn */
+    .ch-btn {
+      display:flex; align-items:center; justify-content:center; gap:.5rem;
+      width:100%; padding:.65rem 1rem;
+      border-radius:.75rem; font-size:.85rem; font-weight:600; color:#fff;
+      transition: transform .25s, box-shadow .25s;
+      border:1px solid transparent;
+    }
+    .ch-btn:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,0,0,.4); }
+
+    /* Section divider lines */
+    .divider { flex:1; height:1px; background:linear-gradient(to var(--dir,right),transparent,rgba(95,174,222,.35)); }
   </style>
 </head>
 
-<body class="mesh-bg noise-overlay min-h-screen text-slate-100">
-
+<body class="mesh-bg min-h-screen text-slate-100">
 <div id="app">
 
-  <!-- ─── Fixed top bar ─────────────────────────────────────────── -->
-  <nav class="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-3"
-       style="background: rgba(6,28,49,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(95,174,222,0.15);">
+  <!-- ── Navbar ──────────────────────────────────────────────────── -->
+  <nav style="position:fixed;top:0;inset-inline:0;z-index:50;
+              background:rgba(5,14,26,.88);backdrop-filter:blur(16px);
+              border-bottom:1px solid rgba(95,174,222,.12);"
+       class="flex items-center justify-between px-6 py-3">
 
-    <!-- Logo wordmark -->
-    <div class="flex items-center gap-3">
+    <!-- Brand -->
+    <div class="flex items-center gap-2.5">
       <span class="text-2xl">🧬</span>
-      <span class="font-mono text-lg font-bold tracking-wider"
-            style="background: linear-gradient(135deg,#9acbec,#0d9488); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">
-        BioGuide
-      </span>
+      <span class="font-mono font-bold tracking-widest text-lg grad-text">BioGuide</span>
     </div>
 
-    <!-- Nav links – hidden on mobile -->
-    <div class="hidden md:flex items-center gap-6 text-sm text-slate-300">
-      <a href="#chapters" class="hover:text-sky-300 transition-colors">بەشەکان</a>
-      <a href="#stats"    class="hover:text-sky-300 transition-colors">تێڕوانین</a>
-      <a href="#about"    class="hover:text-sky-300 transition-colors">دەربارە</a>
+    <!-- Links -->
+    <div class="hidden md:flex items-center gap-7 text-sm">
+      <a href="#stats"    class="nav-link">تێڕوانین</a>
+      <a href="#chapters" class="nav-link">بەشەکان</a>
+      <a href="#about"    class="nav-link">دەربارە</a>
     </div>
 
-    <!-- Dark/Light toggle -->
-    <button @click="toggleTheme"
-            class="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300"
-            style="background: rgba(50,145,204,0.15); border: 1px solid rgba(95,174,222,0.3);"
-            :class="{'hover:bg-teal-800/30': darkMode, 'hover:bg-sky-700/30': !darkMode}">
-      <span>{{ darkMode ? '☀️' : '🌙' }}</span>
-      <span class="hidden sm:inline text-xs opacity-80">{{ darkMode ? 'Light' : 'Dark' }}</span>
+    <!-- Theme toggle -->
+    <button @click="dark=!dark"
+            class="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono transition-all duration-300"
+            style="background:rgba(50,145,204,.14);border:1px solid rgba(95,174,222,.3);"
+            @mouseenter="e=>e.currentTarget.style.background='rgba(13,148,136,.2)'"
+            @mouseleave="e=>e.currentTarget.style.background='rgba(50,145,204,.14)'">
+      <span>{{ dark ? '☀️' : '🌙' }}</span>
+      <span class="hidden sm:inline opacity-80">{{ dark ? 'Light' : 'Dark' }}</span>
     </button>
   </nav>
 
-  <!-- ─── Hero Header ─────────────────────────────────────────────── -->
-  <header class="relative pt-28 pb-20 px-6 overflow-hidden">
-
-    <!-- Background blobs -->
-    <div class="blob absolute -top-24 -right-24 w-96 h-96 opacity-10"
-         style="background: radial-gradient(circle, #3291cc, transparent);"></div>
-    <div class="blob absolute -bottom-16 -left-16 w-72 h-72 opacity-10"
-         style="background: radial-gradient(circle, #0d9488, transparent); animation-delay:-4s;"></div>
-
-    <!-- Spinning ring decoration -->
-    <div class="absolute top-32 left-10 w-48 h-48 rounded-full opacity-5 border-2 border-sky-400"
-         style="animation: spin 30s linear infinite;"></div>
-    <div class="absolute bottom-10 right-10 w-64 h-64 rounded-full opacity-5 border border-teal-400"
-         style="animation: spin 20s linear infinite reverse;"></div>
+  <!-- ── Hero ────────────────────────────────────────────────────── -->
+  <header class="relative pt-32 pb-24 px-6 overflow-hidden">
+    <!-- Decorative blobs -->
+    <div class="blob absolute -top-20 -right-20 w-80 h-80 opacity-10 pointer-events-none"
+         style="background:radial-gradient(circle,#2c7bb5,transparent)"></div>
+    <div class="blob absolute -bottom-12 -left-12 w-64 h-64 opacity-10 pointer-events-none"
+         style="background:radial-gradient(circle,#0d9488,transparent);animation-delay:-4.5s"></div>
+    <!-- Spinning rings -->
+    <div class="absolute top-28 left-8 w-52 h-52 rounded-full border border-sky-900/30 pointer-events-none"
+         style="animation:spin 35s linear infinite"></div>
+    <div class="absolute bottom-8 right-8 w-72 h-72 rounded-full border border-teal-900/20 pointer-events-none"
+         style="animation:spin 22s linear infinite reverse"></div>
 
     <div class="relative max-w-4xl mx-auto text-center">
 
       <!-- Badge -->
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono mb-8 animate-fade-in"
-           style="background: rgba(13,148,136,0.15); border: 1px solid rgba(13,148,136,0.4); color: #5eead4;">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono mb-8"
+           style="background:rgba(13,148,136,.15);border:1px solid rgba(13,148,136,.4);color:#5eead4;">
         <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
         Biology · Science · Medicine
       </div>
 
       <!-- Title -->
-      <h1 class="font-arabic font-bold leading-tight mb-3 animate-float"
-          style="font-size: clamp(2.5rem,7vw,5rem);
-                 background: linear-gradient(135deg,#9acbec 0%,#5faede 30%,#0d9488 60%,#9acbec 100%);
-                 -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">
+      <h1 class="font-arabic font-bold animate-float mb-2 grad-text"
+          style="font-size:clamp(2.6rem,7vw,5.2rem);line-height:1.15">
         🧬 BioGuide
       </h1>
-      <h2 class="font-arabic font-semibold mb-8 text-slate-300"
-          style="font-size: clamp(1.2rem,3vw,2rem);">
+      <h2 class="font-arabic font-semibold text-slate-300 mb-8"
+          style="font-size:clamp(1.1rem,3vw,1.8rem)">
         ڕێبەری بایۆلۆجی
       </h2>
 
-      <!-- Bilingual description -->
-      <div class="glass-card rounded-2xl p-6 max-w-2xl mx-auto text-sm leading-7 text-slate-300 space-y-3">
+      <!-- Description card -->
+      <div class="glass rounded-2xl p-6 max-w-2xl mx-auto text-sm leading-7 text-slate-300 space-y-3">
         <p class="ltr">
-          A biological and medical website that studies all microscopic structures in a scientific way and explains them simply and clearly.
+          A biological and medical website that studies all microscopic structures in a scientific
+          way and explains them in a simple and easy manner.
         </p>
-        <div class="border-t border-slate-600/40 pt-3 rtl">
+        <div class="border-t border-slate-700/50 pt-3 rtl-t">
           ماڵپەڕێکی بایۆلۆجی و پزیشکییە کە لە تەواوی پێکهاتە وردبینەکان دەکۆڵێتەوە بە شێوازێکی زانستی و ئاسان.
         </div>
       </div>
 
-      <!-- CTA Button -->
+      <!-- CTA -->
       <a href="#chapters"
-         class="inline-flex items-center gap-2 mt-8 px-8 py-3 rounded-full font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
-         style="background: linear-gradient(135deg,#1a75b3,#0d9488); box-shadow: 0 8px 30px rgba(26,117,179,0.4);">
+         class="inline-flex items-center gap-2 mt-9 px-8 py-3 rounded-full font-semibold text-white transition-all duration-300 hover:-translate-y-1"
+         style="background:linear-gradient(135deg,#1a75b3,#0d9488);box-shadow:0 8px 30px rgba(26,117,179,.4);">
         📚 بەشەکان بگەرێنەوە
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -321,36 +233,33 @@
     </div>
   </header>
 
-  <!-- ─── Stats Section ──────────────────────────────────────────── -->
+  <!-- ── Stats ───────────────────────────────────────────────────── -->
   <section id="stats" class="py-16 px-6">
     <div class="max-w-5xl mx-auto">
 
-      <!-- Section heading -->
-      <div class="text-center mb-12">
-        <h3 class="section-title-line font-arabic font-bold text-2xl text-slate-200">
-          📊 تێڕوانینی گشتی — Overview
-        </h3>
-      </div>
+      <p class="text-center font-arabic font-bold text-2xl text-slate-200 mb-10">
+        📊 تێڕوانینی گشتی — Overview
+      </p>
 
       <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-        <div v-for="stat in stats" :key="stat.label"
-             class="glass-card rounded-2xl p-6 text-center stat-pulse transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
-          <div class="text-4xl mb-2">{{ stat.icon }}</div>
-          <div class="stat-num text-4xl font-bold mb-2">{{ stat.value }}</div>
-          <div class="ltr text-xs text-slate-400 font-mono">{{ stat.labelEn }}</div>
-          <div class="rtl text-xs text-slate-400 mt-1">{{ stat.labelKu }}</div>
+        <div v-for="s in stats" :key="s.labelEn"
+             class="glass rounded-2xl p-6 text-center ring-hover transition-all duration-300 hover:-translate-y-2">
+          <div class="text-4xl mb-2">{{ s.icon }}</div>
+          <div class="stat-val text-4xl font-bold mb-2">{{ s.value }}</div>
+          <div class="ltr text-xs text-slate-400 font-mono">{{ s.labelEn }}</div>
+          <div class="rtl-t text-xs text-slate-400 mt-0.5">{{ s.labelKu }}</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── About / Content Section ────────────────────────────────── -->
-  <section id="about" class="py-12 px-6">
+  <!-- ── About/Content ───────────────────────────────────────────── -->
+  <section id="about" class="py-10 px-6">
     <div class="max-w-3xl mx-auto">
-      <div class="glass-card rounded-3xl p-8 border border-sky-800/30 neon-top relative overflow-hidden">
-        <!-- Decorative corner -->
-        <div class="absolute top-0 left-0 w-32 h-32 rounded-full -translate-x-16 -translate-y-16 opacity-10"
-             style="background: radial-gradient(circle, #3291cc, transparent);"></div>
+      <div class="glass card-root rounded-3xl p-8">
+        <!-- Corner blob -->
+        <div class="absolute top-0 left-0 w-28 h-28 rounded-full -translate-x-14 -translate-y-14 pointer-events-none opacity-10"
+             style="background:radial-gradient(circle,#2c7bb5,transparent)"></div>
 
         <h3 class="font-arabic font-bold text-xl text-sky-300 mb-5">
           📋 Additional Content — ناوەڕۆک و زانیاریی تر
@@ -358,86 +267,80 @@
 
         <div class="space-y-4 text-sm leading-7 text-slate-300">
           <p class="ltr">
-            <strong class="text-sky-400">English:</strong> In this section you will learn more about the website,
-            what it looks like, what it is for, how to use it, and information about the content, its authors,
-            and the sources used.
+            <span class="font-semibold text-sky-400">English:</span>
+            In this section you will learn more about the website — what it is for, how to use it,
+            and information about its authors and sources.
           </p>
-          <p class="rtl">
-            <strong class="text-teal-400">کوردی:</strong> لەم بەشەدا زانیاری تەواو دەربارەی ماڵپەرەکە وەردەگریت،
-            ئامانجی درووستکردنی و چۆنیەتی بەکارهێنانی و زانیاری دەربارەی ناوەڕۆکی ماڵپەرەکە و ئامادەکارانی و سەرچاوەکان.
+          <p class="rtl-t">
+            <span class="font-semibold text-teal-400">کوردی:</span>
+            لەم بەشەدا زانیاری تەواو دەربارەی ماڵپەرەکە وەردەگریت، ئامانجی درووستکردنی
+            و چۆنیەتی بەکارهێنانی و زانیاری دەربارەی ناوەڕۆکی ماڵپەرەکە و ئامادەکارانی.
           </p>
         </div>
 
         <a href="content.html"
-           class="inline-flex items-center gap-2 mt-6 px-6 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:-translate-y-0.5"
-           style="background: linear-gradient(135deg,rgba(26,117,179,0.6),rgba(13,148,136,0.6)); border: 1px solid rgba(95,174,222,0.3);">
+           class="inline-flex items-center gap-2 mt-6 px-6 py-2.5 rounded-xl text-sm font-medium transition-all hover:-translate-y-0.5"
+           style="background:linear-gradient(135deg,rgba(26,117,179,.55),rgba(13,148,136,.55));border:1px solid rgba(95,174,222,.25);">
           بینینی ناوەڕۆک — View Content →
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ─── Chapters Grid ───────────────────────────────────────────── -->
+  <!-- ── Chapters Grid ───────────────────────────────────────────── -->
   <section id="chapters" class="py-16 px-6">
     <div class="max-w-6xl mx-auto">
 
-      <!-- Section heading -->
+      <!-- Section title with decorative lines -->
       <div class="flex items-center justify-center gap-4 mb-14">
-        <div class="flex-1 h-px" style="background: linear-gradient(to right, transparent, rgba(95,174,222,0.4));"></div>
-        <h2 class="font-arabic font-bold text-3xl text-center whitespace-nowrap px-4"
-            style="background: linear-gradient(135deg,#9acbec,#0d9488); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">
+        <div class="divider" style="--dir:right"></div>
+        <h2 class="font-arabic font-bold text-3xl grad-text whitespace-nowrap px-4">
           📚 بەشەکان — Chapters
         </h2>
-        <div class="flex-1 h-px" style="background: linear-gradient(to left, transparent, rgba(95,174,222,0.4));"></div>
+        <div class="divider" style="--dir:left"></div>
       </div>
 
-      <!-- Chapter cards grid -->
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div v-for="(chapter, index) in chapters" :key="chapter.id"
-             class="glass-card neon-top rounded-2xl p-6 relative overflow-hidden
-                    transition-all duration-400 hover:-translate-y-2 hover:shadow-2xl card-hidden"
-             :ref="el => registerCard(el, index)"
-             :style="`transition-delay: ${index * 60}ms`">
+        <div v-for="(ch, i) in chapters" :key="ch.id"
+             class="glass card-root reveal rounded-2xl p-6 transition-all duration-400 hover:-translate-y-2 hover:shadow-2xl"
+             :ref="el => registerCard(el)"
+             :style="`transition-delay:${i*55}ms`">
 
-          <!-- Top gradient strip (always visible) -->
-          <div class="absolute top-0 inset-x-0 h-0.5"
-               :style="`background: linear-gradient(90deg, ${chapter.color1}, ${chapter.color2})`"></div>
+          <!-- Top accent bar -->
+          <div class="absolute top-0 inset-x-0 h-0.5 rounded-t-2xl"
+               :style="`background:linear-gradient(90deg,${ch.c1},${ch.c2})`"></div>
 
-          <!-- Chapter number orb -->
-          <div class="w-14 h-14 rounded-full flex items-center justify-center text-white font-mono font-bold text-xl mb-5 orb shadow-lg"
-               style="box-shadow: 0 0 20px rgba(50,145,204,0.4);">
-            {{ chapter.id }}
+          <!-- Orb number -->
+          <div class="w-14 h-14 conic-orb rounded-full flex items-center justify-center
+                      text-white font-mono font-bold text-xl mb-5"
+               style="box-shadow:0 0 18px rgba(50,145,204,.4)">
+            {{ ch.id }}
           </div>
 
-          <!-- Icon + Title -->
+          <!-- Icon + bilingual title -->
           <div class="flex items-start gap-3 mb-4">
-            <span class="text-3xl">{{ chapter.icon }}</span>
+            <span class="text-3xl select-none">{{ ch.icon }}</span>
             <div>
-              <div class="ltr font-bold text-sky-300 text-lg leading-snug">{{ chapter.titleEn }}</div>
-              <div class="rtl text-teal-300 text-base font-semibold">{{ chapter.titleKu }}</div>
+              <div class="ltr font-bold text-sky-300 text-lg leading-tight">{{ ch.titleEn }}</div>
+              <div class="rtl-t text-teal-300 font-semibold">{{ ch.titleKu }}</div>
             </div>
           </div>
 
           <!-- Description -->
           <div class="text-xs text-slate-400 leading-6 space-y-2 mb-5">
-            <p class="ltr">{{ chapter.descEn }}</p>
-            <p class="rtl">{{ chapter.descKu }}</p>
+            <p class="ltr">{{ ch.descEn }}</p>
+            <p class="rtl-t">{{ ch.descKu }}</p>
           </div>
 
           <!-- Slides badge -->
           <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs mb-5"
-               style="background: rgba(50,145,204,0.1); border: 1px solid rgba(50,145,204,0.3); color:#9acbec;">
-            <span class="font-mono">20</span>
-            <span>Slides · سلاید</span>
+               style="background:rgba(50,145,204,.1);border:1px solid rgba(50,145,204,.3);color:#9acbec">
+            <span class="font-mono">20</span> <span>Slides · سلاید</span>
           </div>
 
-          <!-- CTA -->
-          <a :href="chapter.href"
-             class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-medium text-white transition-all duration-300 hover:shadow-lg"
-             :style="`background: linear-gradient(135deg, ${chapter.color1}cc, ${chapter.color2}cc); border: 1px solid ${chapter.color1}55`"
-             @mouseenter="e => e.currentTarget.style.transform='translateY(-2px)'"
-             @mouseleave="e => e.currentTarget.style.transform=''"
-             >
+          <!-- CTA button -->
+          <a :href="ch.href" class="ch-btn"
+             :style="`background:linear-gradient(135deg,${ch.c1}cc,${ch.c2}cc);border-color:${ch.c1}55`">
             دەستپێکردن — Start Learning
           </a>
         </div>
@@ -445,172 +348,134 @@
     </div>
   </section>
 
-  <!-- ─── Footer ───────────────────────────────────────────────────── -->
-  <footer class="mt-20 py-14 px-6 relative overflow-hidden"
-          style="background: linear-gradient(135deg,rgba(6,28,49,0.95),rgba(10,47,80,0.9)); border-top: 1px solid rgba(95,174,222,0.15);">
+  <!-- ── Footer ──────────────────────────────────────────────────── -->
+  <footer class="mt-20 py-16 px-6 relative overflow-hidden"
+          style="background:linear-gradient(135deg,rgba(5,14,26,.97),rgba(9,29,54,.95));
+                 border-top:1px solid rgba(95,174,222,.12)">
+    <!-- Spinning rings decoration -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96
+                rounded-full border border-sky-900/20 pointer-events-none"
+         style="animation:spin 45s linear infinite"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60
+                rounded-full border border-teal-900/20 pointer-events-none"
+         style="animation:spin 28s linear infinite reverse"></div>
 
-    <!-- Decorative spinning rings -->
-    <div class="absolute inset-0 pointer-events-none overflow-hidden">
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full border border-sky-900/30"
-           style="animation: spin 40s linear infinite;"></div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full border border-teal-900/30"
-           style="animation: spin 25s linear infinite reverse;"></div>
-    </div>
-
-    <div class="relative max-w-2xl mx-auto text-center">
-      <div class="text-4xl mb-4">🧬</div>
-      <h3 class="font-arabic font-bold text-2xl mb-2"
-          style="background: linear-gradient(135deg,#9acbec,#0d9488); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">
+    <div class="relative max-w-xl mx-auto text-center">
+      <div class="text-5xl mb-4">🧬</div>
+      <h3 class="font-arabic font-bold text-2xl grad-text mb-2">
         ڕێبەری بایۆلۆجی — BioGuide
       </h3>
       <p class="ltr text-sm text-slate-400 mb-1">A biological, scientific and medical website</p>
-      <p class="rtl text-sm text-slate-400 mb-4">ماڵپەرێکی بایۆلۆجی و زانستی و پزیشکییە</p>
+      <p class="rtl-t text-sm text-slate-400 mb-4">ماڵپەرێکی بایۆلۆجی و زانستی و پزیشکییە</p>
       <p class="ltr text-xs text-slate-500">Created by scientists to serve science</p>
-      <p class="rtl text-xs text-slate-500 mt-1">درووستکراوە لە لایەن زاستخوازانەوە بۆ خزمەتی زانست</p>
+      <p class="rtl-t text-xs text-slate-500 mt-1">درووستکراوە لە لایەن زاستخوازانەوە بۆ خزمەتی زانست</p>
 
-      <!-- Social-style badges -->
-      <div class="flex justify-center gap-3 mt-8">
-        <span class="px-3 py-1 rounded-full text-xs font-mono"
-              style="background:rgba(26,117,179,0.2); border:1px solid rgba(26,117,179,0.4); color:#9acbec;">Biology</span>
-        <span class="px-3 py-1 rounded-full text-xs font-mono"
-              style="background:rgba(13,148,136,0.2); border:1px solid rgba(13,148,136,0.4); color:#5eead4;">Medicine</span>
-        <span class="px-3 py-1 rounded-full text-xs font-mono"
-              style="background:rgba(22,163,74,0.2); border:1px solid rgba(22,163,74,0.4); color:#86efac;">Science</span>
+      <div class="flex justify-center flex-wrap gap-3 mt-8">
+        <span v-for="tag in ['Biology','Medicine','Science']" :key="tag"
+              class="px-3 py-1 rounded-full text-xs font-mono"
+              :style="tagStyle(tag)">{{ tag }}</span>
       </div>
     </div>
   </footer>
 
-</div><!-- /#app -->
+</div>
 
 <script>
 const { createApp, ref, onMounted, nextTick } = Vue;
 
 createApp({
   setup() {
-    const darkMode = ref(true); // default dark
-
-    function toggleTheme() {
-      darkMode.value = !darkMode.value;
-      // (In a full app you'd toggle a class on <html>)
-    }
+    const dark = ref(true);
 
     const stats = [
-      { icon: '🖼️', value: '200', labelEn: 'Total Slides',  labelKu: 'کۆی سلایدەکان' },
-      { icon: '👥', value: '4',   labelEn: 'Our Team',       labelKu: 'تیمەکەمان'      },
-      { icon: '📚', value: '10',  labelEn: 'Chapters',       labelKu: 'بەشەکان'         },
-      { icon: '📄', value: '1',   labelEn: 'Content',        labelKu: 'ناوەڕۆک'         },
+      { icon:'🖼️', value:'200', labelEn:'Total Slides', labelKu:'کۆی سلایدەکان' },
+      { icon:'👥', value:'4',   labelEn:'Our Team',      labelKu:'تیمەکەمان'     },
+      { icon:'📚', value:'10',  labelEn:'Chapters',      labelKu:'بەشەکان'        },
+      { icon:'📄', value:'1',   labelEn:'Content',       labelKu:'ناوەڕۆک'        },
     ];
 
     const chapters = [
-      {
-        id: 1, icon: '🔬',
-        titleEn: 'Histology',     titleKu: 'شانەزانی',
-        href: 'histology.html',
-        descEn: 'Studies the structure, location, and function of cells, tissues, and organs in the body.',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە.',
-        color1: '#1a75b3', color2: '#0d9488',
-      },
-      {
-        id: 2, icon: '🤰🏻',
-        titleEn: 'Embryology',    titleKu: 'کۆرپەلەزانی',
-        href: 'embryology.html',
-        descEn: 'Studies how the fetus develops from fertilization to birth.',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی چۆنیەتی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون.',
-        color1: '#7c3aed', color2: '#ec4899',
-      },
-      {
-        id: 3, icon: '🌱',
-        titleEn: 'Plant Anatomy', titleKu: 'توێکاری ڕووەک',
-        href: 'plant-anatomy.html',
-        descEn: 'Studies the structure and functions of different parts of the plant.',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک.',
-        color1: '#16a34a', color2: '#65a30d',
-      },
-      {
-        id: 4, icon: '🪱',
-        titleEn: 'Parasitology',  titleKu: 'مشەخۆرزانی',
-        href: 'parasitology.html',
-        descEn: 'Study of parasites, their life cycles, host-parasite relationships, and parasitic diseases.',
-        descKu: 'لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان.',
-        color1: '#d97706', color2: '#b45309',
-      },
-      {
-        id: 5, icon: '🩸',
-        titleEn: 'Hematology',    titleKu: 'خوێنزانی',
-        href: 'hematology.html',
-        descEn: 'Researches the structure, function and properties of blood and its components.',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی.',
-        color1: '#e11d48', color2: '#be123c',
-      },
-      {
-        id: 6, icon: '🦠',
-        titleEn: 'Microbiology',  titleKu: 'وردەزیندەزانی',
-        href: 'microbiology.html',
-        descEn: 'Studies microorganisms in terms of their characteristics, pathogenicity, and importance.',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی وردەزیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان.',
-        color1: '#0891b2', color2: '#0e7490',
-      },
-      {
-        id: 7, icon: '🐛',
-        titleEn: 'Entomology',    titleKu: 'مێرولەزانی',
-        href: 'entomology.html',
-        descEn: 'Studies insects in terms of their structure, shape, function and importance.',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان.',
-        color1: '#ca8a04', color2: '#a16207',
-      },
-      {
-        id: 8, icon: '🧪',
-        titleEn: 'Algae Studies', titleKu: 'قەوزە',
-        href: 'algae-studies.html',
-        descEn: 'Study of algae, their diversity, classification, structure, and ecological significance.',
-        descKu: 'لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان.',
-        color1: '#059669', color2: '#047857',
-      },
-      {
-        id: 9, icon: '🍄',
-        titleEn: 'Mycology',      titleKu: 'کەڕووزانی',
-        href: 'fungi.html',
-        descEn: 'Study of fungi, their morphology, reproduction, classification, and ecological importance.',
-        descKu: 'لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان و گرنگی ئیکۆلۆژییان.',
-        color1: '#9333ea', color2: '#7e22ce',
-      },
-      {
-        id: 10, icon: '🛡️',
-        titleEn: 'Immunology',    titleKu: 'بەرگریزانی',
-        href: 'immunology.html',
-        descEn: 'Studies the structure and function of the immune system and its responses.',
-        descKu: 'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش و وەڵامدانەوەکانی.',
-        color1: '#3b82f6', color2: '#2563eb',
-      },
+      { id:1,  icon:'🔬', titleEn:'Histology',      titleKu:'شانەزانی',
+        href:'histology.html',    c1:'#1a75b3', c2:'#0d9488',
+        descEn:'Studies structure, location, and function of cells, tissues, and organs.',
+        descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و شوێن و فرمانەکانی خانە و شانەکان.' },
+
+      { id:2,  icon:'🤰🏻', titleEn:'Embryology',     titleKu:'کۆرپەلەزانی',
+        href:'embryology.html',   c1:'#7c3aed', c2:'#ec4899',
+        descEn:'Studies fetal development from fertilisation to birth.',
+        descKu:'لێکۆڵینەوە دەکات دەربارەی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون.' },
+
+      { id:3,  icon:'🌱', titleEn:'Plant Anatomy',   titleKu:'توێکاری ڕووەک',
+        href:'plant-anatomy.html',c1:'#16a34a', c2:'#65a30d',
+        descEn:'Studies the structure and functions of different plant parts.',
+        descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتەی بەشە جیاوازەکانی ناوەوەی ڕووەک.' },
+
+      { id:4,  icon:'🪱', titleEn:'Parasitology',    titleKu:'مشەخۆرزانی',
+        href:'parasitology.html', c1:'#d97706', c2:'#b45309',
+        descEn:'Study of parasites, life cycles, host-parasite relationships.',
+        descKu:'لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان و پەیوەندی خانەخوێیان.' },
+
+      { id:5,  icon:'🩸', titleEn:'Hematology',      titleKu:'خوێنزانی',
+        href:'hematology.html',   c1:'#e11d48', c2:'#be123c',
+        descEn:'Researches the structure, function and properties of blood.',
+        descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن.' },
+
+      { id:6,  icon:'🦠', titleEn:'Microbiology',    titleKu:'وردەزیندەزانی',
+        href:'microbiology.html', c1:'#0891b2', c2:'#0e7490',
+        descEn:'Studies microorganisms — characteristics, pathogenicity, importance.',
+        descKu:'لێکۆڵینەوە دەکات دەربارەی وردەزیندەوەران لەڕووی تایبەتمەندی و گرنگیان.' },
+
+      { id:7,  icon:'🐛', titleEn:'Entomology',      titleKu:'مێرولەزانی',
+        href:'entomology.html',   c1:'#ca8a04', c2:'#a16207',
+        descEn:'Studies insects — structure, shape, function and importance.',
+        descKu:'لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و کارکردنیان.' },
+
+      { id:8,  icon:'🧪', titleEn:'Algae Studies',   titleKu:'قەوزە',
+        href:'algae-studies.html',c1:'#059669', c2:'#047857',
+        descEn:'Study of algae, diversity, classification, and ecological significance.',
+        descKu:'لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن و گرنگی ئیکۆلۆژییان.' },
+
+      { id:9,  icon:'🍄', titleEn:'Mycology',        titleKu:'کەڕووزانی',
+        href:'fungi.html',        c1:'#9333ea', c2:'#7e22ce',
+        descEn:'Study of fungi — morphology, reproduction, classification, importance.',
+        descKu:'لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیا، زاوزێکردن و گرنگی ئیکۆلۆژییان.' },
+
+      { id:10, icon:'🛡️', titleEn:'Immunology',      titleKu:'بەرگریزانی',
+        href:'immunology.html',   c1:'#3b82f6', c2:'#2563eb',
+        descEn:'Studies the structure and function of the immune system and its responses.',
+        descKu:'لێکۆڵینەوە دەکات دەربارەی سیستمی بەرگری لەش و وەڵامدانەوەکانی.' },
     ];
 
-    const cardRefs = ref([]);
-    function registerCard(el, index) {
-      if (el) cardRefs.value[index] = el;
+    // Scroll reveal
+    const cardEls = [];
+    function registerCard(el) {
+      if (el && !cardEls.includes(el)) cardEls.push(el);
     }
 
     onMounted(() => {
       nextTick(() => {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('card-visible');
-                entry.target.classList.remove('card-hidden');
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
-        );
-
-        cardRefs.value.forEach(el => {
-          if (el) observer.observe(el);
-        });
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('revealed');
+              obs.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.07, rootMargin: '0px 0px -40px 0px' });
+        cardEls.forEach(el => obs.observe(el));
       });
     });
 
-    return { darkMode, toggleTheme, stats, chapters, registerCard };
+    function tagStyle(t) {
+      const map = {
+        Biology: 'background:rgba(26,117,179,.2);border:1px solid rgba(26,117,179,.4);color:#9acbec',
+        Medicine: 'background:rgba(13,148,136,.2);border:1px solid rgba(13,148,136,.4);color:#5eead4',
+        Science:  'background:rgba(22,163,74,.2);border:1px solid rgba(22,163,74,.4);color:#86efac',
+      };
+      return map[t] || '';
+    }
+
+    return { dark, stats, chapters, registerCard, tagStyle };
   }
 }).mount('#app');
 </script>

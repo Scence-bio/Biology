@@ -277,47 +277,60 @@
       .card-glass, .content-card { background: white !important; box-shadow: none !important; }
     }
   </style>
-<!-- ══════════════════════════════════════════
-     HEADER (لەگەڵ وێنەی پاشبنەما)
-══════════════════════════════════════════ -->
-<header class="header-shimmer relative text-center mb-10 rounded-3xl overflow-hidden px-8 py-10 border-2 shadow-2xl"
-        :class="[dark ? 'border-blue-500/40' : 'border-ocean-500/30']"
-        style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('ناونیشانی_وێنەکە.jpg'); 
-               background-size: cover; 
-               background-position: center; 
-               background-repeat: no-repeat;
-               color: white;">
+</head>
 
-  <!-- Logo -->
-  <div class="flex justify-center mb-5 relative z-10">
-    <img src="logo.png" alt="BioGuide Logo"
-         class="logo-float max-w-[clamp(200px,30vw,430px)] h-auto p-2"
-         onerror="this.style.display='none'" />
-  </div>
+<body :class="[dark ? 'dark' : '']">
+<div id="app" class="bg-main">
 
-  <!-- Title -->
-  <h1 class="font-arabic font-black mb-3 relative z-10 text-white"
-      style="font-size:clamp(2.5rem,5vw,4.5rem); text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">
-    🧬 Welcome to BioGuide
-  </h1>
-  <h1 class="font-arabic font-black mb-5 relative z-10 text-white"
-      style="font-size:clamp(2.5rem,5vw,4.5rem); text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">
-    بەخێربێن بۆ ڕێبەری بایۆلۆجی 🧬
-  </h1>
+  <!-- ══════════════════════════════════════════
+       Dark Mode Toggle (Fixed)
+  ══════════════════════════════════════════ -->
+  <button @click="toggleDark"
+          class="toggle-btn fixed top-5 left-5 z-50 w-14 h-14 rounded-full text-white text-2xl flex items-center justify-center"
+          :title="dark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+          aria-label="Toggle Dark Mode">
+    {{ dark ? '☀️' : '🌙' }}
+  </button>
 
-  <!-- Description -->
-  <div class="max-w-2xl mx-auto space-y-2 relative z-10">
-    <p class="dir-justify-ltr text-white/90"
-       style="font-size:clamp(1rem,2vw,1.3rem); line-height:1.7; text-shadow: 1px 1px 5px rgba(0,0,0,0.5);">
-      It is a biological and medical website that studies all microscopic structures in a scientific way and explains them in a simple and easy way
-    </p>
-    <p class="dir-justify-rtl text-white/90"
-       style="font-size:clamp(1rem,2vw,1.3rem); line-height:1.7; text-shadow: 1px 1px 5px rgba(0,0,0,0.5);">
-      ماڵپەڕێکی بایۆلۆجی و پزیشکییە کە لە تەواوی پێکهاتە وردبینەکان دەکۆڵێتەوە بە شێوازێکی زانستی و بە شێوەیەکی سادە و ئاسان ڕوونکردنەوە ئەدات.
-    </p>
-  </div>
-</header>
+  <div class="max-w-screen-xl mx-auto px-4 py-4">
 
+    <!-- ══════════════════════════════════════════
+         HEADER
+    ══════════════════════════════════════════ -->
+    <header class="header-shimmer relative text-center mb-10 rounded-3xl overflow-hidden px-8 py-10"
+            :class="[dark
+              ? 'bg-slate-800/95 border-2 border-blue-500/40 shadow-2xl'
+              : 'bg-white/98 border-2 border-ocean-500/30 shadow-2xl']">
+
+      <!-- Logo -->
+      <div class="flex justify-center mb-5">
+        <img src="logo.png" alt="BioGuide Logo"
+             class="logo-float max-w-[clamp(200px,30vw,430px)] h-auto p-2"
+             onerror="this.style.display='none'" />
+      </div>
+
+      <!-- Title -->
+      <h1 class="grad-text font-arabic font-black mb-3"
+          style="font-size:clamp(2.5rem,5vw,4.5rem)">
+        🧬 Welcome to BioGuide
+      </h1>
+      <h1 class="grad-text font-arabic font-black mb-5"
+          style="font-size:clamp(2.5rem,5vw,4.5rem)">
+        بەخێربێن بۆ ڕێبەری بایۆلۆجی 🧬
+      </h1>
+
+      <!-- Description -->
+      <div class="max-w-2xl mx-auto space-y-2">
+        <p class="dir-justify-ltr text-slate-500 dark:text-slate-300"
+           style="font-size:clamp(1rem,2vw,1.3rem); line-height:1.7">
+          It is a biological and medical website that studies all microscopic structures in a scientific way and explains them in a simple and easy way
+        </p>
+        <p class="dir-justify-rtl text-slate-500 dark:text-slate-300"
+           style="font-size:clamp(1rem,2vw,1.3rem); line-height:1.7">
+          ماڵپەڕێکی بایۆلۆجی و پزیشکییە کە لە تەواوی پێکهاتە وردبینەکان دەکۆڵێتەوە بە شێوازێکی زانستی و بە شێوەیەکی سادە و ئاسان ڕوونکردنەوە ئەدات.
+        </p>
+      </div>
+    </header>
 
     <!-- ══════════════════════════════════════════
          SUMMARY STATS

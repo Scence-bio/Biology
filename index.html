@@ -420,7 +420,11 @@ darkBtn.addEventListener('click', () => {
 // Set initial icon
 darkBtn.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
 
-
+  // وەرگرتنی ساڵی ئێستا
+  const currentYear = new Date().getFullYear();
+  // دانانی ساڵەکە لەناو ئەو توخمەی کە کلاسی footer-year-ar ی هەیە
+  document.getElementById('year-ar').textContent = currentYear;
+  
 /* ══════════════════════════════════════════════════════
    FIX 2 — HERO CAROUSEL: full working implementation
    10 slides (one per chapter + 1 intro)

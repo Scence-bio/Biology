@@ -356,11 +356,11 @@
 
     <div class="mt-4">
   <p class="opacity-90 text-center" style="font-size:clamp(0.9rem,1.8vw,1.1rem)">
-    <span id="year-en"></span> created by scientists to serve science
+    &copy; <span id="year-en"></span> created by scientists to serve science
   </p>
 
-  <p class="opacity-90 text-center" style="font-size:clamp(0.9rem,1.8vw,1.1rem)">
-    <span id="year-ku"></span> درووستکراوە لە لایەن زاستخوازانەوە بۆ خزمەتی زانست
+  <p class="opacity-90 text-center" style="font-size:clamp(0.9rem,1.8vw,1.1rem)" dir="rtl">
+    درووستکراوە لە لایەن زانستخوازانەوە بۆ خزمەتی زانست &copy; <span id="year-ku"></span>
   </p>
 </div>
     
@@ -420,16 +420,18 @@ darkBtn.addEventListener('click', () => {
 // Set initial icon
 darkBtn.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
 
+  // وەرگرتنی ساڵی ئێستا (ئێستا ٢٠٢٦ـە)
   const currentYear = new Date().getFullYear().toString();
 
-  // ١. دانانی ساڵەکە بۆ بەشە ئینگلیزییەکە
+  // ١. دانانی ساڵی ئینگلیزی
   document.getElementById('year-en').textContent = currentYear;
 
-  // ٢. گۆڕینی ژمارەکان بۆ کوردی و دانانی لە بەشە کوردییەکەدا
-  const persianNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-  let kurdishYear = currentYear.replace(/[0-9]/g, (w) => persianNumbers[w]);
+  // ٢. گۆڕینی ژمارەکان بۆ کوردی و دانانی لە بەشە کوردییەکە
+  const kurdishDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  let kurdishYearFormatted = currentYear.replace(/[0-9]/g, (digit) => kurdishDigits[digit]);
   
-  document.getElementById('year-ku').textContent = kurdishYear;
+  document.getElementById('year-ku').textContent = kurdishYearFormatted;
+
 /* ══════════════════════════════════════════════════════
    FIX 2 — HERO CAROUSEL: full working implementation
    10 slides (one per chapter + 1 intro)

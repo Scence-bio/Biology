@@ -356,15 +356,14 @@
 
     <div class="mt-4">
   <p class="opacity-90 text-center" style="font-size:clamp(0.9rem,1.8vw,1.1rem)">
-    <span id="year-ar" class="footer-year-ar"></span> 
-    created by scientists to serve science
+    <span id="year-en"></span> created by scientists to serve science
   </p>
+
   <p class="opacity-90 text-center" style="font-size:clamp(0.9rem,1.8vw,1.1rem)">
-    <span id="year-ar" class="footer-year-ar"></span> 
-    درووستکراوە لە لایەن زاستخوازانەوە بۆ خزمەتی زانست
+    <span id="year-ku"></span> درووستکراوە لە لایەن زاستخوازانەوە بۆ خزمەتی زانست
   </p>
 </div>
-
+    
   <div class="social-icons-container">
       
      <!-- Telegram -->
@@ -421,11 +420,16 @@ darkBtn.addEventListener('click', () => {
 // Set initial icon
 darkBtn.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
 
-  // وەرگرتنی ساڵی ئێستا
-  const currentYear = new Date().getFullYear();
-  // دانانی ساڵەکە لەناو ئەو توخمەی کە کلاسی footer-year-ar ی هەیە
-  document.getElementById('year-ar').textContent = currentYear;
+  const currentYear = new Date().getFullYear().toString();
+
+  // ١. دانانی ساڵەکە بۆ بەشە ئینگلیزییەکە
+  document.getElementById('year-en').textContent = currentYear;
+
+  // ٢. گۆڕینی ژمارەکان بۆ کوردی و دانانی لە بەشە کوردییەکەدا
+  const persianNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  let kurdishYear = currentYear.replace(/[0-9]/g, (w) => persianNumbers[w]);
   
+  document.getElementById('year-ku').textContent = kurdishYear;
 /* ══════════════════════════════════════════════════════
    FIX 2 — HERO CAROUSEL: full working implementation
    10 slides (one per chapter + 1 intro)

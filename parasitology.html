@@ -1,467 +1,381 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parasitology Chapter - بەشی مشەخۆرناسی</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Parasitology Chapter - بەشی مشەخۆرناسی</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <style>
-        @font-face {
-            font-family: 'NotoKufiArabic';
-            src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
-        }
+    :root {
+      --red: #ef4444;
+      --red-dark: #dc2626;
+      --navy: #0f172a;
+      --navy2: #1e293b;
+      --slate: #334155;
+      --radius: 20px;
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; }
 
-        body {
-            font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            min-height: 100vh;
-            color: #1e293b;
-        }
+    body {
+      font-family: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 50%, var(--slate) 100%);
+      min-height: 100vh;
+      color: var(--navy2);
+    }
 
-        .book-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.98);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.4);
-        }
+    /* ── Progress bar ── */
+    .progress-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 3px; background: rgba(255,255,255,0.1); z-index: 1000;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red), #8b5cf6, #3b82f6);
+      transition: width 0.2s;
+    }
 
-        .progress-bar {
-            position: fixed; top: 0; left: 0; right: 0;
-            height: 4px; background: rgba(0,0,0,0.1); z-index: 1000;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ef4444, #8b5cf6, #3b82f6);
-            transition: width 0.3s ease;
-        }
+    /* ── Back button ── */
+    .back-btn {
+      position: fixed; left: 12px; top: 12px; z-index: 2000;
+      text-decoration: none; background: var(--red); color: #fff;
+      padding: 8px 14px; border-radius: 10px; font-weight: 600;
+      font-size: 0.78rem; line-height: 1.3; max-width: 160px;
+      display: inline-block; transition: background 0.2s;
+    }
+    .back-btn:hover { background: var(--red-dark); }
 
-        .back-btn {
-            position: fixed; left: 20px; top: 20px; z-index: 2000;
-            text-decoration: none; background: #ef4444; color: white;
-            padding: 10px 14px; border-radius: 10px; font-weight: 600;
-            transition: all 0.3s;
-        }
-        .back-btn:hover { background: #dc2626; transform: translateY(-2px); }
+    /* ── Print button ── */
+    .print-btn {
+      position: fixed; bottom: 16px; right: 16px;
+      background: var(--red); color: #fff; border: none;
+      width: 52px; height: 52px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; cursor: pointer; z-index: 100;
+      box-shadow: 0 4px 14px rgba(239,68,68,0.45);
+      transition: transform 0.2s;
+    }
+    .print-btn:hover { transform: scale(1.1); }
 
-        .print-btn {
-            position: fixed; bottom: 20px; right: 20px;
-            background: #ef4444; color: white; border: none;
-            width: 60px; height: 60px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; cursor: pointer; z-index: 100;
-            box-shadow: 0 5px 15px rgba(239,68,68,0.4);
-            transition: all 0.3s;
-        }
-        .print-btn:hover { transform: translateY(-3px) scale(1.1); }
+    /* ── Page wrapper ── */
+    .page-wrap {
+      padding: 16px;
+      padding-top: 60px; /* space for back button */
+    }
+    @media (min-width: 640px) { .page-wrap { padding: 24px 24px 60px; } }
 
-        .chapter-header {
-            background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
-            color: white; padding: 40px; border-radius: 25px;
-            margin-bottom: 50px; text-align: center; position: relative; overflow: hidden;
-        }
-        .chapter-header::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(45deg, rgba(239,68,68,0.1), rgba(147,51,234,0.1));
-        }
-        .chapter-main-title { font-size: 2.8em; font-weight: 700; margin-bottom: 20px; position: relative; z-index: 2; }
-        .chapter-number { font-size: 1.3em; opacity: 0.8; margin-bottom: 15px; position: relative; z-index: 2; }
-        .chapter-description { font-size: 1.2em; opacity: 0.9; position: relative; z-index: 2; }
+    /* ── Book container ── */
+    .book {
+      max-width: 1200px; margin: 0 auto;
+      background: rgba(255,255,255,0.98);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
 
-        .filter-controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
-        .filter-btn {
-            background: #e2e8f0; border: none; padding: 10px 20px;
-            border-radius: 30px; font-weight: 600; cursor: pointer;
-            transition: all 0.3s; font-family: inherit;
-        }
-        .filter-btn.active, .filter-btn:hover { background: #ef4444; color: white; }
+    .inner { padding: 20px 16px 40px; }
+    @media (min-width: 640px) { .inner { padding: 40px 36px 60px; } }
 
-        .slide-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 30px; margin: 50px 0;
-        }
+    /* ── Chapter header ── */
+    .ch-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy2), var(--slate));
+      color: #fff; border-radius: var(--radius);
+      padding: 28px 20px; text-align: center;
+      margin-bottom: 28px; position: relative; overflow: hidden;
+    }
+    .ch-header::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(45deg,rgba(239,68,68,.1),rgba(147,51,234,.1));
+    }
+    .ch-header > * { position: relative; z-index: 2; }
+    .ch-num { font-size: 0.95rem; opacity: 0.75; margin-bottom: 10px; }
+    .ch-title { font-size: clamp(1.4rem, 5vw, 2.4rem); font-weight: 700; margin-bottom: 12px; }
+    .ch-desc { font-size: clamp(0.85rem, 2.5vw, 1.05rem); opacity: 0.88; }
 
-        .slide-card {
-            background: white; border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
-            overflow: hidden; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-            opacity: 0; transform: translateY(50px);
-        }
-        .slide-card.visible { opacity: 1; transform: translateY(0); }
-        .slide-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(239,68,68,0.2);
-        }
+    /* ── Filter ── */
+    .filters {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 8px; margin-bottom: 24px;
+    }
+    .filter-btn {
+      background: #e2e8f0; border: none;
+      padding: 8px 16px; border-radius: 30px;
+      font-weight: 600; cursor: pointer;
+      font-family: inherit; font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover { background: var(--red); color: #fff; }
 
-        .slide-header {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white; padding: 25px; text-align: center; position: relative;
-        }
-        .slide-header::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-            height: 3px; background: linear-gradient(90deg, #8b5cf6, #3b82f6, #ec4899);
-        }
-        .slide-number { font-size: 1.6em; font-weight: 800; }
+    /* ── Grid ── */
+    .slide-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 700px) {
+      .slide-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1100px) {
+      .slide-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+    }
 
-        .image-wrapper { display: flex; justify-content: center; padding: 20px; background: #f8f9fa; }
-        .slide-image {
-            width: 200px; height: 200px; object-fit: cover;
-            border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 1px solid #e9ecef;
-        }
+    /* ── Card ── */
+    .slide-card {
+      background: #fff; border-radius: var(--radius);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    @media (hover: hover) {
+      .slide-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+      }
+    }
 
-        .slide-content { padding: 30px; }
-        .slide-title {
-            font-weight: 700; color: #0f172a; margin-bottom: 20px;
-            font-size: 1.4em; border-bottom: 2px solid #ef4444; padding-bottom: 10px;
-        }
+    .card-head {
+      background: linear-gradient(135deg, var(--red), var(--red-dark));
+      color: #fff; padding: 16px; text-align: center;
+      position: relative;
+    }
+    .card-head::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; background: linear-gradient(90deg, #8b5cf6, #3b82f6, #ec4899);
+    }
+    .slide-num { font-size: 1.3rem; font-weight: 800; }
 
-        .components-title { color: #1e293b; font-weight: 700; margin-bottom: 15px; font-size: 1.1em; }
-        .component-item {
-            background: linear-gradient(135deg, #fee2e2, #fecaca);
-            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
-            border-left: 4px solid #ef4444; transition: all 0.3s;
-        }
-        .component-item:hover { transform: translateX(5px); background: linear-gradient(135deg, #fecaca, #fca5a5); }
+    .img-wrap { display: flex; justify-content: center; padding: 16px; background: #f8f9fa; }
+    .slide-img {
+      width: clamp(120px, 40vw, 180px);
+      height: clamp(120px, 40vw, 180px);
+      object-fit: cover; border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 1px solid #e9ecef;
+    }
 
-        .section-title {
-            color: #0f172a; font-weight: 700; margin-bottom: 15px;
-            font-size: 1.2em; display: flex; align-items: center; gap: 10px;
-        }
-        .section-title::before {
-            content: ''; width: 4px; height: 20px;
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6); border-radius: 2px;
-        }
+    .card-body { padding: 20px 18px; }
+    .slide-title {
+      font-weight: 700; color: var(--navy); margin-bottom: 16px;
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      border-bottom: 2px solid var(--red); padding-bottom: 8px;
+      line-height: 1.4;
+    }
 
-        .location-list { list-style: none; padding: 0; margin: 15px 0; }
-        .location-list li {
-            background: linear-gradient(135deg, #e0f2fe, #b3e5fc);
-            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
-            border-left: 4px solid #0891b2; transition: all 0.3s; position: relative;
-        }
-        .location-list li:hover { transform: translateX(5px); }
-        .location-list li::before { content: '📍'; margin-right: 8px; font-size: 1.1em; }
+    .section-label {
+      color: var(--navy); font-weight: 700; margin-bottom: 10px;
+      font-size: 0.9rem; display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::before {
+      content: ''; width: 3px; height: 16px;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6); border-radius: 2px;
+      flex-shrink: 0;
+    }
 
-        .function-list { list-style: none; padding: 0; }
-        .function-list li {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
-            border-left: 4px solid #f59e0b; transition: all 0.3s; position: relative;
-        }
-        .function-list li:hover { transform: translateX(5px); }
-        .function-list li::before { content: '▶'; color: #f59e0b; margin-right: 8px; }
+    .tag-list { margin-bottom: 16px; }
+    .tag-components {
+      background: linear-gradient(135deg,#fee2e2,#fecaca);
+      padding: 9px 13px; margin: 6px 0; border-radius: 9px;
+      border-left: 4px solid var(--red);
+      font-size: 0.82rem; line-height: 1.45; color: #1e293b;
+      transition: transform 0.2s;
+    }
+    .tag-components:hover { transform: translateX(4px); }
 
-        .location-section, .function-section { margin: 25px 0; }
-        .components-list { margin: 20px 0; }
+    .tag-location {
+      background: linear-gradient(135deg,#e0f2fe,#b3e5fc);
+      padding: 9px 13px; margin: 6px 0; border-radius: 9px;
+      border-left: 4px solid #0891b2;
+      font-size: 0.82rem; line-height: 1.45; color: #1e293b;
+      transition: transform 0.2s;
+    }
+    .tag-location::before { content: '📍 '; }
+    .tag-location:hover { transform: translateX(4px); }
 
-        @media (max-width: 768px) {
-            .slide-grid { grid-template-columns: 1fr; }
-            .chapter-main-title { font-size: 2em; }
-        }
-        @media print {
-            .print-btn, .back-btn, .progress-bar { display: none !important; }
-            .slide-card { break-inside: avoid; }
-        }
-    </style>
+    .tag-function {
+      background: linear-gradient(135deg,#fef3c7,#fde68a);
+      padding: 9px 13px; margin: 6px 0; border-radius: 9px;
+      border-left: 4px solid #f59e0b;
+      font-size: 0.82rem; line-height: 1.45; color: #1e293b;
+      transition: transform 0.2s;
+    }
+    .tag-function::before { content: '▶ '; color: #f59e0b; }
+    .tag-function:hover { transform: translateX(4px); }
+
+    @media print {
+      .print-btn, .back-btn, .progress-bar { display: none !important; }
+      .slide-card { break-inside: avoid; box-shadow: none; }
+      body { background: #fff; }
+      .page-wrap { padding: 0; }
+      .book { box-shadow: none; }
+    }
+  </style>
 </head>
 <body>
 
 <div id="app">
-    <div class="progress-bar">
-        <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
-    </div>
+  <div class="progress-bar">
+    <div class="progress-fill" :style="{ width: scroll + '%' }"></div>
+  </div>
 
-    <a href="https://scence-bio.github.io/Biology/" class="back-btn">back to home - گەڕانەوە بۆ سەرەکی</a>
+  <a href="https://scence-bio.github.io/Biology/" class="back-btn">← گەڕانەوە / Home</a>
+  <button class="print-btn" @click="()=>window.print()" title="Print">🖨️</button>
 
-    <button class="print-btn" @click="printPage" title="Print Guide">🖨️</button>
+  <div class="page-wrap">
+    <div class="book">
+      <div class="inner">
 
-    <div style="padding: 30px;">
-        <div class="book-container">
-            <div class="chapter-page" style="padding: 60px 50px; min-height: 100vh;">
-
-                <div class="chapter-header">
-                    <div class="chapter-number">Chapter 4</div>
-                    <h2 class="chapter-main-title">🪱 Parasitology - Study of Parasites</h2>
-                    <p class="chapter-description">Microscopic examination of parasites and their life cycles</p>
-                </div>
-
-                <div class="filter-controls">
-                    <button
-                        v-for="f in filters"
-                        :key="f.value"
-                        class="filter-btn"
-                        :class="{ active: activeFilter === f.value }"
-                        @click="setFilter(f.value)"
-                    >{{ f.label }}</button>
-                </div>
-
-                <div class="slide-grid">
-                    <div
-                        v-for="(slide, index) in filteredSlides"
-                        :key="slide.id"
-                        class="slide-card"
-                    >
-                        <div class="slide-header">
-                            <div class="slide-number">Slide {{ slide.id }}</div>
-                        </div>
-                        <div class="image-wrapper">
-                            <img :src="slide.image" :alt="slide.title" class="slide-image" />
-                        </div>
-                        <div class="slide-content">
-                            <div class="slide-title">{{ slide.title }}</div>
-
-                            <div class="components-list">
-                                <div class="components-title">Components:</div>
-                                <div v-for="c in slide.components" :key="c" class="component-item">{{ c }}</div>
-                            </div>
-
-                            <div class="location-section">
-                                <div class="section-title">📍 Location:</div>
-                                <ul class="location-list">
-                                    <li v-for="l in slide.locations" :key="l">{{ l }}</li>
-                                </ul>
-                            </div>
-
-                            <div class="function-section">
-                                <div class="section-title">⚙️ Functions:</div>
-                                <ul class="function-list">
-                                    <li v-for="fn in slide.functions" :key="fn">{{ fn }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+        <div class="ch-header">
+          <div class="ch-num">Chapter 4</div>
+          <h2 class="ch-title">🪱 Parasitology — Study of Parasites</h2>
+          <p class="ch-desc">Microscopic examination of parasites and their life cycles</p>
         </div>
+
+        <div class="filters">
+          <button v-for="f in filters" :key="f.v"
+            class="filter-btn" :class="{ active: active===f.v }"
+            @click="active=f.v">{{ f.l }}</button>
+        </div>
+
+        <div class="slide-grid">
+          <div v-for="s in shown" :key="s.id" class="slide-card">
+            <div class="card-head"><div class="slide-num">Slide {{ s.id }}</div></div>
+            <div class="img-wrap">
+              <img :src="s.img" :alt="s.title" class="slide-img" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="slide-title">{{ s.title }}</div>
+
+              <div class="tag-list">
+                <div class="section-label">Components:</div>
+                <div v-for="c in s.components" :key="c" class="tag-components">{{ c }}</div>
+              </div>
+
+              <div class="tag-list">
+                <div class="section-label">📍 Location:</div>
+                <div v-for="l in s.locations" :key="l" class="tag-location">{{ l }}</div>
+              </div>
+
+              <div class="tag-list">
+                <div class="section-label">⚙️ Functions:</div>
+                <div v-for="fn in s.functions" :key="fn" class="tag-function">{{ fn }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
-const { createApp, ref, computed, onMounted, onUnmounted, nextTick } = Vue;
-
+const { createApp, ref, computed, onMounted, onUnmounted } = Vue;
 createApp({
-    setup() {
-        const scrollProgress = ref(0);
-        const activeFilter = ref('all');
-
-        const filters = [
-            { label: 'All Parasites', value: 'all' },
-            { label: 'Protozoa', value: 'protozoa' },
-            { label: 'Helminths', value: 'helminths' },
-            { label: 'Nematodes', value: 'nematodes' },
-        ];
-
-        const slides = [
-            {
-                id: 1, category: 'protozoa',
-                title: 'Entamoeba histolytica',
-                image: 'images/Parasitology/1.jpg',
-                components: ['Trophozoite Form: Irregular or rounded shape','Nucleus: One, with central karyosome and fine peripheral chromatin','Cytoplasm: Clear ectoplasm, granular endoplasm','Special feature: May contain ingested red blood cells (RBCs)','Cyst Form: Round or oval, 1–4 nuclei (mature cysts have 4)','Chromatoid bodies: Rod-like structures in cytoplasm','Wall: Thick and resistant to environmental stress'],
-                locations: ['Inside the host: Lives mainly in the large intestine (colon)','Outside the host: Found in contaminated food or water in its cyst form','In microscope slides: Detected in stool samples','Trophozoite form (in fresh stool or tissue samples)','Cyst form (in formed stool)'],
-                functions: ['Responsible for amoebiasis, causing bloody diarrhea','Trophozoite invades intestinal wall','Feeds on host tissues (especially red blood cells)','Causes intestinal and extraintestinal infections','Forms ulcers in the colon']
-            },
-            {
-                id: 2, category: 'protozoa',
-                title: 'Giardia lamblia (G. intestinalis or G. duodenalis)',
-                image: 'images/Parasitology/2.jpg',
-                components: ['Two nuclei','Four pairs of flagella','Adhesive disc','Cytoplasm','Axostyle'],
-                locations: ['Small intestine (mainly duodenum and jejunum) of humans and animals'],
-                functions: ['Causes giardiasis (intestinal infection)','Attaches to intestinal wall using adhesive disc','Absorbs nutrients from the host','Reproduces by binary fission','Exists in two forms: trophozoite (active) and cyst (dormant, infectious)']
-            },
-            {
-                id: 3, category: 'protozoa',
-                title: 'Plasmodium vivax',
-                image: 'images/Parasitology/3.jpg',
-                components: ['Nucleus','Cytoplasm','Apicoplast','Merozoites','Schizonts','Sporozoites','Gametocytes'],
-                locations: ['Human liver and red blood cells','Salivary glands of female Anopheles mosquitoes'],
-                functions: ['Causes vivax malaria in humans','Sporozoites infect liver cells and form merozoites','Merozoites infect red blood cells and multiply','Gametocytes are taken up by mosquitoes, continuing the life cycle','Can form dormant hypnozoites in liver (relapses)']
-            },
-            {
-                id: 4, category: 'protozoa',
-                title: 'Plasmodium falciparum',
-                image: 'images/Parasitology/4.jpg',
-                components: ['Nucleus','Apicoplast','Cytoplasm','Merozoites','Trophozoites','Schizonts','Sporozoites','Gametocytes'],
-                locations: ['Human liver and red blood cells','Mosquito salivary glands (female Anopheles mosquitoes)'],
-                functions: ['Causes the most severe and deadly form of malaria','Sporozoites infect liver cells, multiply into merozoites','Merozoites invade red blood cells, leading to cycles of fever and anemia','Gametocytes are taken up by mosquitoes, continuing the transmission cycle','Produces sticky proteins that cause infected red cells to adhere to blood vessel walls']
-            },
-            {
-                id: 5, category: 'protozoa',
-                title: 'Trypanosoma gambiense',
-                image: 'images/Parasitology/5.jpg',
-                components: ['Single nucleus','Flagellum','Undulating membrane','Kinetoplast','Cytoplasm'],
-                locations: ['Human blood, lymph, and cerebrospinal fluid','Midgut and salivary glands of the tsetse fly (Glossina species)'],
-                functions: ['Causes African sleeping sickness (West and Central Africa)','Enters the human body through the bite of an infected tsetse fly','Multiplies in blood and lymph, later invades the central nervous system','Escapes immune detection by antigenic variation of surface glycoproteins','Transmitted back to tsetse fly when it bites an infected human']
-            },
-            {
-                id: 6, category: 'protozoa',
-                title: 'Leishmania donovani',
-                image: 'images/Parasitology/6.jpg',
-                components: ['Single nucleus','Kinetoplast','Flagellum (in promastigote form)','Cytoplasm','Axoneme'],
-                locations: ['Human macrophages (mainly in spleen, liver, bone marrow)','Midgut of female sandfly (Phlebotomus species)'],
-                functions: ['Causes visceral leishmaniasis (kala-azar)','Transmitted to humans by the bite of infected sandflies','Promastigotes enter macrophages and transform into amastigotes','Amastigotes multiply within host cells, damaging internal organs','Taken up by sandflies during blood meal, completing the cycle']
-            },
-            {
-                id: 7, category: 'protozoa',
-                title: 'Balantidium coli',
-                image: 'images/Parasitology/7.jpg',
-                components: ['Macronucleus','Micronucleus','Cilia','Cytostome (mouth)','Cytoplasm','Contractile vacuole','Pellicle'],
-                locations: ['Large intestine of humans and animals (especially pigs)'],
-                functions: ['Causes balantidiasis (intestinal infection)','Cysts are ingested through contaminated food or water','Trophozoites colonize the large intestine, may cause ulcers','Reproduces by binary fission and conjugation','Exists in two forms: trophozoite (active) and cyst (infective)']
-            },
-            {
-                id: 8, category: 'nematodes',
-                title: 'Ascaris lumbricoides',
-                image: 'images/Parasitology/8.jpg',
-                components: ['Mouth with three lips','Pharynx','Long cylindrical body','Cuticle (outer covering)','Intestine','Reproductive organs (separate sexes: male and female)'],
-                locations: ['Small intestine of humans'],
-                functions: ['Causes ascariasis (intestinal infection)','Eggs are ingested via contaminated food or water','Larvae hatch in the intestine, migrate to lungs via bloodstream, then return to the intestine','Adults live in the small intestine and reproduce sexually','Heavy infection may cause intestinal blockage or malnutrition']
-            },
-            {
-                id: 9, category: 'nematodes',
-                title: 'Enterobius vermicularis (Pinworm)',
-                image: 'images/Parasitology/9.jpg',
-                components: ['Cylindrical body with pointed tail (especially in females)','Mouth with three lips','Esophagus','Intestine','Reproductive organs (separate sexes: male smaller than female)','Cuticle'],
-                locations: ['Human large intestine (especially cecum, appendix, colon)','Perianal region (females lay eggs here at night)'],
-                functions: ['Causes enterobiasis (pinworm infection)','Eggs are spread by contaminated hands, bedding, or surfaces','Larvae hatch in the intestine, mature into adults','Females migrate to the anus at night to lay eggs, causing itching','Easily transmitted, especially in children']
-            },
-            {
-                id: 10, category: 'protozoa',
-                title: 'Giardia lamblia (Alternative View)',
-                image: 'images/Parasitology/10.jpg',
-                components: ['Nucleus (two)','Flagella (eight)','Adhesive disc','Axostyle'],
-                locations: ['Small intestine (mainly duodenum)'],
-                functions: ['Attaches to intestinal lining using adhesive disc','Absorbs nutrients from the host','Causes intestinal infection and diarrhea']
-            },
-            {
-                id: 11, category: 'helminths',
-                title: 'Schistosoma haematobium (Ova with Terminal Spine) – Urine Smear',
-                image: 'images/Parasitology/11.jpg',
-                components: ['Shell','Miracidium','Terminal spine'],
-                locations: ['Urinary bladder venous plexus; eggs passed in urine'],
-                functions: ['Egg contains the miracidium for life cycle continuation','Terminal spine aids in tissue penetration for egg excretion']
-            },
-            {
-                id: 12, category: 'helminths',
-                title: 'Fasciola hepatica – Adult Fluke (Whole Mount, W.M.)',
-                image: 'images/Parasitology/12.jpg',
-                components: ['Oral sucker','Ventral sucker (acetabulum)','Intestinal caeca','Reproductive organs (testes and ovary)','Excretory bladder'],
-                locations: ['Liver and bile ducts of the host'],
-                functions: ['Oral sucker: attachment and feeding','Ventral sucker: attachment to host tissue','Intestinal caeca: digestion and nutrient absorption','Reproductive organs: egg production','Excretory bladder: waste elimination']
-            },
-            {
-                id: 13, category: 'nematodes',
-                title: 'Trichuris trichiura – Ova (Whole Mount, W.M.)',
-                image: 'images/Parasitology/13.jpg',
-                components: ['Shell','Embryo (larva)','Polar plugs (bipolar)'],
-                locations: ['Large intestine (cecum and colon); eggs passed in feces'],
-                functions: ['Embryo develops into infective larva','Polar plugs facilitate egg protection and transmission']
-            },
-            {
-                id: 14, category: 'nematodes',
-                title: 'Ancylostoma duodenale – Ova (Stool Smear)',
-                image: 'images/Parasitology/14.jpg',
-                components: ['Shell','Morula (developing embryo)'],
-                locations: ['Small intestine; eggs passed in feces'],
-                functions: ['Morula develops into infective larva in soil','Egg ensures continuation of the parasite life cycle']
-            },
-            {
-                id: 15, category: 'protozoa',
-                title: 'Plasmodium malariae',
-                image: 'images/Parasitology/15.jpg',
-                components: ['Ring stage (early trophozoite)','Trophozoite','Schizont with merozoites','Pigment granules (hemozoin)'],
-                locations: ['Red blood cells in peripheral blood'],
-                functions: ['Ring and trophozoite stages: feed on hemoglobin','Schizont: produce merozoites for further infection','Pigment granules: byproduct of hemoglobin digestion']
-            },
-            {
-                id: 16, category: 'protozoa',
-                title: 'Plasmodium knowlesi',
-                image: 'images/Parasitology/16.jpg',
-                components: ['Ring stage (early trophozoite)','Trophozoite','Schizont with merozoites','Pigment granules (hemozoin)'],
-                locations: ['Red blood cells in peripheral blood'],
-                functions: ['Ring and trophozoite stages: feed on hemoglobin','Schizont: produce merozoites to infect more RBCs','Pigment granules: result of hemoglobin digestion']
-            },
-            {
-                id: 17, category: 'protozoa',
-                title: 'Dientamoeba fragilis',
-                image: 'images/Parasitology/17.jpg',
-                components: ['Nucleus (usually two)','Cytoplasm','Food vacuoles'],
-                locations: ['Large intestine (colon)'],
-                functions: ['Feeds on intestinal contents','May cause gastrointestinal disturbance','Reproduces by binary fission']
-            },
-            {
-                id: 18, category: 'helminths',
-                title: 'Hymenolepis nana',
-                image: 'images/Parasitology/18.jpg',
-                components: ['Outer shell','Oncosphere (embryo)','Polar filaments'],
-                locations: ['Small intestine; eggs passed in feces'],
-                functions: ['Oncosphere develops into larva in host','Polar filaments aid in attachment and infection','Ensures continuation of life cycle']
-            },
-            {
-                id: 19, category: 'helminths',
-                title: 'Hymenolepis diminuta',
-                image: 'images/Parasitology/19.jpg',
-                components: ['Outer shell','Oncosphere (embryo)','Yolk granules'],
-                locations: ['Small intestine; eggs passed in feces'],
-                functions: ['Oncosphere develops into larva in intermediate host','Ensures reproduction and life cycle continuation']
-            },
-            {
-                id: 20, category: 'nematodes',
-                title: 'Trichinella spiralis',
-                image: 'images/Parasitology/20.jpg',
-                components: ['Encysted larva','Nurse cell','Cyst wall'],
-                locations: ['Striated skeletal muscles of the host'],
-                functions: ['Encysted larvae: survive in host muscle until ingested by new host','Nurse cell: supports larval survival','Cyst wall: protects larvae']
-            }
-        ];
-
-        const filteredSlides = computed(() => {
-            if (activeFilter.value === 'all') return slides;
-            return slides.filter(s => s.category === activeFilter.value);
-        });
-
-        const setFilter = (val) => {
-            activeFilter.value = val;
-            nextTick(() => observeCards());
-        };
-
-        const printPage = () => window.print();
-
-        const handleScroll = () => {
-            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            scrollProgress.value = scrolled;
-        };
-
-        let observer;
-        const observeCards = () => {
-            if (observer) observer.disconnect();
-            observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-            document.querySelectorAll('.slide-card').forEach(card => observer.observe(card));
-        };
-
-        onMounted(() => {
-            window.addEventListener('scroll', handleScroll);
-            nextTick(() => observeCards());
-        });
-
-        onUnmounted(() => {
-            window.removeEventListener('scroll', handleScroll);
-            if (observer) observer.disconnect();
-        });
-
-        return { scrollProgress, activeFilter, filters, filteredSlides, setFilter, printPage };
-    }
+  setup() {
+    const scroll = ref(0);
+    const active = ref('all');
+    const filters = [
+      { l:'All Parasites', v:'all' },
+      { l:'Protozoa', v:'protozoa' },
+      { l:'Helminths', v:'helminths' },
+      { l:'Nematodes', v:'nematodes' },
+    ];
+    const slides = [
+      { id:1, cat:'protozoa', title:'Entamoeba histolytica', img:'images/Parasitology/1.jpg',
+        components:['Trophozoite Form: Irregular or rounded shape','Nucleus: One, with central karyosome and fine peripheral chromatin','Cytoplasm: Clear ectoplasm, granular endoplasm','Special feature: May contain ingested red blood cells (RBCs)','Cyst Form: Round or oval, 1–4 nuclei (mature cysts have 4)','Chromatoid bodies: Rod-like structures in cytoplasm','Wall: Thick and resistant to environmental stress'],
+        locations:['Inside the host: Lives mainly in the large intestine (colon)','Outside the host: Found in contaminated food or water in its cyst form','Trophozoite form (in fresh stool or tissue samples)','Cyst form (in formed stool)'],
+        functions:['Responsible for amoebiasis, causing bloody diarrhea','Trophozoite invades intestinal wall','Feeds on host tissues (especially red blood cells)','Causes intestinal and extraintestinal infections','Forms ulcers in the colon'] },
+      { id:2, cat:'protozoa', title:'Giardia lamblia (G. intestinalis or G. duodenalis)', img:'images/Parasitology/2.jpg',
+        components:['Two nuclei','Four pairs of flagella','Adhesive disc','Cytoplasm','Axostyle'],
+        locations:['Small intestine (mainly duodenum and jejunum) of humans and animals'],
+        functions:['Causes giardiasis (intestinal infection)','Attaches to intestinal wall using adhesive disc','Absorbs nutrients from the host','Reproduces by binary fission','Exists in two forms: trophozoite (active) and cyst (dormant, infectious)'] },
+      { id:3, cat:'protozoa', title:'Plasmodium vivax', img:'images/Parasitology/3.jpg',
+        components:['Nucleus','Cytoplasm','Apicoplast','Merozoites','Schizonts','Sporozoites','Gametocytes'],
+        locations:['Human liver and red blood cells','Salivary glands of female Anopheles mosquitoes'],
+        functions:['Causes vivax malaria in humans','Sporozoites infect liver cells and form merozoites','Merozoites infect red blood cells and multiply','Gametocytes are taken up by mosquitoes, continuing the life cycle','Can form dormant hypnozoites in liver (relapses)'] },
+      { id:4, cat:'protozoa', title:'Plasmodium falciparum', img:'images/Parasitology/4.jpg',
+        components:['Nucleus','Apicoplast','Cytoplasm','Merozoites','Trophozoites','Schizonts','Sporozoites','Gametocytes'],
+        locations:['Human liver and red blood cells','Mosquito salivary glands (female Anopheles mosquitoes)'],
+        functions:['Causes the most severe and deadly form of malaria','Sporozoites infect liver cells, multiply into merozoites','Merozoites invade red blood cells, leading to cycles of fever and anemia','Produces sticky proteins that cause infected red cells to adhere to blood vessel walls'] },
+      { id:5, cat:'protozoa', title:'Trypanosoma gambiense', img:'images/Parasitology/5.jpg',
+        components:['Single nucleus','Flagellum','Undulating membrane','Kinetoplast','Cytoplasm'],
+        locations:['Human blood, lymph, and cerebrospinal fluid','Midgut and salivary glands of the tsetse fly (Glossina species)'],
+        functions:['Causes African sleeping sickness (West and Central Africa)','Enters the human body through the bite of an infected tsetse fly','Multiplies in blood and lymph, later invades the central nervous system','Escapes immune detection by antigenic variation of surface glycoproteins'] },
+      { id:6, cat:'protozoa', title:'Leishmania donovani', img:'images/Parasitology/6.jpg',
+        components:['Single nucleus','Kinetoplast','Flagellum (in promastigote form)','Cytoplasm','Axoneme'],
+        locations:['Human macrophages (mainly in spleen, liver, bone marrow)','Midgut of female sandfly (Phlebotomus species)'],
+        functions:['Causes visceral leishmaniasis (kala-azar)','Transmitted to humans by the bite of infected sandflies','Promastigotes enter macrophages and transform into amastigotes','Amastigotes multiply within host cells, damaging internal organs'] },
+      { id:7, cat:'protozoa', title:'Balantidium coli', img:'images/Parasitology/7.jpg',
+        components:['Macronucleus','Micronucleus','Cilia','Cytostome (mouth)','Cytoplasm','Contractile vacuole','Pellicle'],
+        locations:['Large intestine of humans and animals (especially pigs)'],
+        functions:['Causes balantidiasis (intestinal infection)','Cysts are ingested through contaminated food or water','Trophozoites colonize the large intestine, may cause ulcers','Reproduces by binary fission and conjugation'] },
+      { id:8, cat:'nematodes', title:'Ascaris lumbricoides', img:'images/Parasitology/8.jpg',
+        components:['Mouth with three lips','Pharynx','Long cylindrical body','Cuticle (outer covering)','Intestine','Reproductive organs (separate sexes: male and female)'],
+        locations:['Small intestine of humans'],
+        functions:['Causes ascariasis (intestinal infection)','Eggs are ingested via contaminated food or water','Larvae hatch in the intestine, migrate to lungs via bloodstream, then return to the intestine','Heavy infection may cause intestinal blockage or malnutrition'] },
+      { id:9, cat:'nematodes', title:'Enterobius vermicularis (Pinworm)', img:'images/Parasitology/9.jpg',
+        components:['Cylindrical body with pointed tail (especially in females)','Mouth with three lips','Esophagus','Intestine','Reproductive organs (separate sexes: male smaller than female)','Cuticle'],
+        locations:['Human large intestine (especially cecum, appendix, colon)','Perianal region (females lay eggs here at night)'],
+        functions:['Causes enterobiasis (pinworm infection)','Eggs are spread by contaminated hands, bedding, or surfaces','Females migrate to the anus at night to lay eggs, causing itching','Easily transmitted, especially in children'] },
+      { id:10, cat:'protozoa', title:'Giardia lamblia (Alternative View)', img:'images/Parasitology/10.jpg',
+        components:['Nucleus (two)','Flagella (eight)','Adhesive disc','Axostyle'],
+        locations:['Small intestine (mainly duodenum)'],
+        functions:['Attaches to intestinal lining using adhesive disc','Absorbs nutrients from the host','Causes intestinal infection and diarrhea'] },
+      { id:11, cat:'helminths', title:'Schistosoma haematobium (Ova with Terminal Spine)', img:'images/Parasitology/11.jpg',
+        components:['Shell','Miracidium','Terminal spine'],
+        locations:['Urinary bladder venous plexus; eggs passed in urine'],
+        functions:['Egg contains the miracidium for life cycle continuation','Terminal spine aids in tissue penetration for egg excretion'] },
+      { id:12, cat:'helminths', title:'Fasciola hepatica – Adult Fluke (W.M.)', img:'images/Parasitology/12.jpg',
+        components:['Oral sucker','Ventral sucker (acetabulum)','Intestinal caeca','Reproductive organs (testes and ovary)','Excretory bladder'],
+        locations:['Liver and bile ducts of the host'],
+        functions:['Oral sucker: attachment and feeding','Ventral sucker: attachment to host tissue','Intestinal caeca: digestion and nutrient absorption','Reproductive organs: egg production','Excretory bladder: waste elimination'] },
+      { id:13, cat:'nematodes', title:'Trichuris trichiura – Ova (W.M.)', img:'images/Parasitology/13.jpg',
+        components:['Shell','Embryo (larva)','Polar plugs (bipolar)'],
+        locations:['Large intestine (cecum and colon); eggs passed in feces'],
+        functions:['Embryo develops into infective larva','Polar plugs facilitate egg protection and transmission'] },
+      { id:14, cat:'nematodes', title:'Ancylostoma duodenale – Ova (Stool Smear)', img:'images/Parasitology/14.jpg',
+        components:['Shell','Morula (developing embryo)'],
+        locations:['Small intestine; eggs passed in feces'],
+        functions:['Morula develops into infective larva in soil','Egg ensures continuation of the parasite life cycle'] },
+      { id:15, cat:'protozoa', title:'Plasmodium malariae', img:'images/Parasitology/15.jpg',
+        components:['Ring stage (early trophozoite)','Trophozoite','Schizont with merozoites','Pigment granules (hemozoin)'],
+        locations:['Red blood cells in peripheral blood'],
+        functions:['Ring and trophozoite stages: feed on hemoglobin','Schizont: produce merozoites for further infection','Pigment granules: byproduct of hemoglobin digestion'] },
+      { id:16, cat:'protozoa', title:'Plasmodium knowlesi', img:'images/Parasitology/16.jpg',
+        components:['Ring stage (early trophozoite)','Trophozoite','Schizont with merozoites','Pigment granules (hemozoin)'],
+        locations:['Red blood cells in peripheral blood'],
+        functions:['Ring and trophozoite stages: feed on hemoglobin','Schizont: produce merozoites to infect more RBCs','Pigment granules: result of hemoglobin digestion'] },
+      { id:17, cat:'protozoa', title:'Dientamoeba fragilis', img:'images/Parasitology/17.jpg',
+        components:['Nucleus (usually two)','Cytoplasm','Food vacuoles'],
+        locations:['Large intestine (colon)'],
+        functions:['Feeds on intestinal contents','May cause gastrointestinal disturbance','Reproduces by binary fission'] },
+      { id:18, cat:'helminths', title:'Hymenolepis nana', img:'images/Parasitology/18.jpg',
+        components:['Outer shell','Oncosphere (embryo)','Polar filaments'],
+        locations:['Small intestine; eggs passed in feces'],
+        functions:['Oncosphere develops into larva in host','Polar filaments aid in attachment and infection'] },
+      { id:19, cat:'helminths', title:'Hymenolepis diminuta', img:'images/Parasitology/19.jpg',
+        components:['Outer shell','Oncosphere (embryo)','Yolk granules'],
+        locations:['Small intestine; eggs passed in feces'],
+        functions:['Oncosphere develops into larva in intermediate host','Ensures reproduction and life cycle continuation'] },
+      { id:20, cat:'nematodes', title:'Trichinella spiralis', img:'images/Parasitology/20.jpg',
+        components:['Encysted larva','Nurse cell','Cyst wall'],
+        locations:['Striated skeletal muscles of the host'],
+        functions:['Encysted larvae: survive in host muscle until ingested by new host','Nurse cell: supports larval survival','Cyst wall: protects larvae'] },
+    ];
+    const shown = computed(() =>
+      active.value === 'all' ? slides : slides.filter(s => s.cat === active.value)
+    );
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      scroll.value = max > 0 ? (window.scrollY / max) * 100 : 0;
+    };
+    onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }));
+    onUnmounted(() => window.removeEventListener('scroll', onScroll));
+    return { scroll, active, filters, shown };
+  }
 }).mount('#app');
 </script>
 </body>

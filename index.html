@@ -93,16 +93,27 @@
     .container {
       max-width: 1280px;
       margin: 0 auto;
-      padding: 16px max(16px, calc(16px + var(--safe-left))) 16px max(16px, calc(16px + var(--safe-right)));
+      padding: 0 max(16px, calc(16px + var(--safe-left))) 0 max(16px, calc(16px + var(--safe-right)));
+    }
+
+    /* full-bleed: breaks out of container for edge-to-edge elements */
+    .full-bleed {
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-left: 0;
     }
 
     /* ══ HERO CAROUSEL ══ */
     .hero-carousel {
-      width: 100%;
-      height: clamp(380px, 55vw, 520px);
+      width: 100vw;
       position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      height: clamp(380px, 55vw, 520px);
       overflow: hidden;
-      border-radius: var(--radius-card);
+      border-radius: 0;
       background: #050e1a;
       user-select: none;
       margin-bottom: 20px;
@@ -436,10 +447,14 @@
     footer {
       position: relative;
       overflow: hidden;
-      border-radius: var(--radius-card);
+      border-radius: 0;
+      width: 100vw;
+      left: 50%;
+      transform: translateX(-50%);
       background: #050e1a;
       margin-top: 8px;
-      margin-bottom: calc(8px + var(--safe-bottom));
+      margin-bottom: 0;
+      padding-bottom: var(--safe-bottom);
       box-shadow: 0 -4px 40px rgba(15,76,117,0.35);
       min-height: 200px;
     }
@@ -523,7 +538,7 @@
   <div class="container">
 
     <!-- ══ HERO CAROUSEL ══ -->
-    <div class="hero-carousel" id="heroCarousel" aria-label="BioGuide Hero Slideshow">
+    <div class="hero-carousel full-bleed" id="heroCarousel" aria-label="BioGuide Hero Slideshow">
       <div id="heroSlides" aria-live="polite"></div>
       <button class="hero-nav-btn hero-prev" id="hPrev" aria-label="Previous slide">&#8249;</button>
       <button class="hero-nav-btn hero-next" id="hNext" aria-label="Next slide">&#8250;</button>

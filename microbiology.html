@@ -1,466 +1,569 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microbiology Chapter - بەشی میکرۆبایۆلۆژی</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Microbiology – Chapter 6 | بەشی میکرۆبایۆلۆژی</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Sora:wght@400;700;800&display=swap" rel="stylesheet">
 
-    <style>
-        @font-face {
-            font-family: 'NotoKufiArabic';
-            src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
-        }
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+:root{
+  --red:#ef4444;
+  --red-deep:#b91c1c;
+  --red-glow:rgba(239,68,68,.22);
+  --purple:#a855f7;
+  --blue:#3b82f6;
+  --teal:#14b8a6;
+  --dark:#020c0a;
+  --dark2:#0f1a18;
+  --dark3:#1a2b28;
+  --surface:rgba(255,255,255,.04);
+  --surface2:rgba(255,255,255,.07);
+  --border:rgba(255,255,255,.09);
+  --text:#f1f5f4;
+  --text-muted:#94a3a0;
+  --radius:14px;
+  --font-head:'Sora',sans-serif;
+  --font-body:'Space Grotesk',sans-serif;
+}
 
-        body {
-            font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            min-height: 100vh;
-            color: #1e293b;
-        }
+html{scroll-behavior:smooth}
 
-        .book-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.98);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.4);
-        }
+body{
+  font-family:var(--font-body);
+  background:var(--dark);
+  color:var(--text);
+  font-size:15px;
+  line-height:1.65;
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-        .progress-bar {
-            position: fixed; top: 0; left: 0; right: 0;
-            height: 4px; background: rgba(0,0,0,0.1); z-index: 1000;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ef4444, #a855f7, #3b82f6);
-            transition: width 0.3s ease;
-        }
+/* ── scrollbar ── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--dark2)}
+::-webkit-scrollbar-thumb{background:var(--red-deep);border-radius:4px}
 
-        .back-btn {
-            position: fixed; left: 20px; top: 20px; z-index: 2000;
-            text-decoration: none; background: #ef4444; color: white;
-            padding: 10px 14px; border-radius: 10px; font-weight: 600;
-            transition: all 0.3s;
-        }
-        .back-btn:hover { background: #dc2626; transform: translateY(-2px); }
+/* ── progress bar ── */
+#prog{
+  position:fixed;top:0;left:0;right:0;
+  height:3px;z-index:2000;background:transparent;
+  pointer-events:none;
+}
+#prog-fill{
+  height:100%;width:0;
+  background:linear-gradient(90deg,var(--red),var(--purple),var(--blue));
+  transition:width .15s;
+}
 
-        .print-btn {
-            position: fixed; bottom: 20px; right: 20px;
-            background: #ef4444; color: white; border: none;
-            width: 60px; height: 60px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; cursor: pointer; z-index: 100;
-            box-shadow: 0 5px 15px rgba(239,68,68,0.4);
-            transition: all 0.3s;
-        }
-        .print-btn:hover { transform: translateY(-3px) scale(1.1); }
+/* ── top nav ── */
+.topnav{
+  position:sticky;top:0;z-index:1500;
+  background:rgba(2,12,10,.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+  padding:0 clamp(12px,4vw,28px);
+  height:54px;
+}
+.back-btn{
+  text-decoration:none;color:#fff;
+  background:var(--red-deep);
+  border-radius:8px;padding:6px 14px;
+  font-size:13px;font-weight:700;white-space:nowrap;
+  transition:background .2s,transform .15s;
+  flex-shrink:0;
+}
+.back-btn:hover{background:#dc2626;transform:translateY(-1px)}
+.nav-title{
+  font-family:var(--font-head);font-weight:700;font-size:15px;
+  color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.nav-spacer{flex:1}
+.print-btn{
+  background:transparent;border:1px solid var(--border);
+  color:var(--text-muted);border-radius:8px;padding:6px 12px;
+  font-size:13px;cursor:pointer;font-family:var(--font-body);
+  transition:all .2s;flex-shrink:0;
+}
+.print-btn:hover{border-color:var(--red);color:var(--text)}
 
-        .chapter-header {
-            background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
-            color: white; padding: 40px; border-radius: 25px;
-            margin-bottom: 50px; text-align: center; position: relative; overflow: hidden;
-        }
-        .chapter-header::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(45deg, rgba(239,68,68,0.1), rgba(168,85,247,0.1));
-        }
-        .chapter-main-title { font-size: 2.8em; font-weight: 700; margin-bottom: 20px; position: relative; z-index: 2; }
-        .chapter-number { font-size: 1.3em; opacity: 0.8; margin-bottom: 15px; position: relative; z-index: 2; }
-        .chapter-description { font-size: 1.2em; opacity: 0.9; position: relative; z-index: 2; }
+/* ── page wrap ── */
+.page{
+  max-width:1320px;margin:0 auto;
+  padding:24px clamp(12px,4vw,32px) 80px;
+}
 
-        .filter-controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
-        .filter-btn {
-            background: #e2e8f0; border: none; padding: 10px 20px;
-            border-radius: 30px; font-weight: 600; cursor: pointer;
-            transition: all 0.3s; font-family: inherit;
-        }
-        .filter-btn.active, .filter-btn:hover { background: #ef4444; color: white; }
+/* ── hero ── */
+.hero{
+  position:relative;overflow:hidden;
+  border-radius:20px;margin-bottom:32px;
+  min-height:clamp(200px,35vw,320px);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  border:1px solid var(--border);
+}
+#bio-canvas{
+  position:absolute;inset:0;
+  width:100%!important;height:100%!important;
+  display:block;
+}
+.hero-overlay{
+  position:relative;z-index:2;
+  padding:clamp(24px,5vw,56px) clamp(16px,5vw,56px);
+  width:100%;pointer-events:none;
+}
+.hero-label{
+  font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--teal);margin-bottom:10px;font-weight:600;
+}
+.hero-title{
+  font-family:var(--font-head);
+  font-size:clamp(1.6rem,5vw,3rem);
+  font-weight:800;line-height:1.1;
+  margin-bottom:12px;
+  background:linear-gradient(120deg,#fff 30%,var(--teal) 70%,var(--red) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 24px rgba(20,184,166,.3));
+}
+.hero-desc{
+  font-size:clamp(.85rem,2vw,1rem);
+  color:rgba(255,255,255,.6);
+}
 
-        .slide-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 30px; margin: 50px 0;
-        }
+/* ── filters ── */
+.filters{
+  display:flex;flex-wrap:wrap;justify-content:center;
+  gap:8px;margin-bottom:20px;
+}
+.f-btn{
+  background:var(--surface);
+  border:1px solid var(--border);
+  color:var(--text-muted);
+  border-radius:24px;padding:7px 18px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  font-family:var(--font-body);
+  transition:all .2s;
+}
+.f-btn:hover{border-color:var(--red);color:var(--text)}
+.f-btn.active{
+  background:var(--red-deep);color:#fff;
+  border-color:var(--red);
+  box-shadow:0 0 18px var(--red-glow);
+}
 
-        .slide-card {
-            background: white; border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
-            overflow: hidden; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-            opacity: 0; transform: translateY(50px);
-        }
-        .slide-card.visible { opacity: 1; transform: translateY(0); }
-        .slide-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(239,68,68,0.2);
-        }
+/* ── count ── */
+.count-line{
+  text-align:center;font-size:13px;
+  color:var(--text-muted);margin-bottom:22px;
+}
+.count-line strong{color:var(--teal)}
 
-        .slide-header {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white; padding: 25px; text-align: center; position: relative;
-        }
-        .slide-header::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-            height: 3px; background: linear-gradient(90deg, #a855f7, #3b82f6, #ec4899);
-        }
-        .slide-number { font-size: 1.6em; font-weight: 800; }
+/* ── grid ── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));
+  gap:20px;
+}
 
-        .image-wrapper { display: flex; justify-content: center; padding: 20px; background: #f8f9fa; }
-        .slide-image {
-            width: 200px; height: 200px; object-fit: cover;
-            border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 1px solid #e9ecef;
-        }
+/* ── card ── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .35s cubic-bezier(.4,0,.2,1),
+             box-shadow .35s,border-color .35s,
+             opacity .4s,translate .4s;
+  opacity:0;translate:0 28px;
+}
+.card.vis{opacity:1;translate:0 0}
+@media(hover:hover){
+  .card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(239,68,68,.35);
+    box-shadow:0 16px 48px rgba(0,0,0,.45),
+               0 0 0 1px rgba(239,68,68,.18),
+               0 0 32px var(--red-glow);
+  }
+}
 
-        .slide-content { padding: 30px; }
-        .slide-title {
-            font-weight: 700; color: #0f172a; margin-bottom: 20px;
-            font-size: 1.4em; border-bottom: 2px solid #ef4444; padding-bottom: 10px;
-        }
+/* card top strip */
+.card-top{
+  background:linear-gradient(135deg,#0d1f1c,#162620);
+  padding:14px 18px;
+  display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid var(--border);
+}
+.badge-num{
+  background:var(--red-deep);color:#fff;
+  border-radius:6px;padding:3px 10px;
+  font-size:12px;font-weight:800;white-space:nowrap;
+  font-family:var(--font-head);
+}
+.badge-cat{
+  background:rgba(20,184,166,.12);
+  color:var(--teal);border:1px solid rgba(20,184,166,.2);
+  border-radius:20px;padding:2px 10px;
+  font-size:11px;font-weight:600;
+}
 
-        .characteristics-title { color: #1e293b; font-weight: 700; margin-bottom: 15px; font-size: 1.1em; }
-        .characteristic-item {
-            background: linear-gradient(135deg, #fef2f2, #fee2e2);
-            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
-            border-left: 4px solid #ef4444; transition: all 0.3s;
-        }
-        .characteristic-item:hover { transform: translateX(5px); background: linear-gradient(135deg, #fee2e2, #fecaca); }
+/* image zone */
+.img-zone{
+  display:flex;align-items:center;justify-content:center;
+  padding:16px;
+  background:rgba(0,0,0,.25);min-height:150px;
+}
+.card-img{
+  width:clamp(110px,35%,170px);
+  height:clamp(110px,35%,170px);
+  object-fit:cover;border-radius:10px;
+  border:1px solid var(--border);
+}
 
-        .section-title {
-            color: #0f172a; font-weight: 700; margin-bottom: 15px;
-            font-size: 1.2em; display: flex; align-items: center; gap: 10px;
-        }
-        .section-title::before {
-            content: ''; width: 4px; height: 20px;
-            background: linear-gradient(135deg, #a855f7, #8b5cf6); border-radius: 2px;
-        }
+/* card body */
+.card-body{padding:18px;flex:1;display:flex;flex-direction:column;gap:16px}
 
-        .virulence-list { list-style: none; padding: 0; margin: 15px 0; }
-        .virulence-list li {
-            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
-            border-left: 4px solid #8b5cf6; transition: all 0.3s; position: relative;
-        }
-        .virulence-list li:hover { transform: translateX(5px); }
-        .virulence-list li::before { content: '🦠'; margin-right: 8px; font-size: 1.1em; }
+.card-title{
+  font-family:var(--font-head);font-size:1.05rem;
+  font-weight:700;color:#fff;
+  border-bottom:2px solid var(--red-deep);
+  padding-bottom:10px;
+}
 
-        .clinical-list { list-style: none; padding: 0; }
-        .clinical-list li {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
-            border-left: 4px solid #f59e0b; transition: all 0.3s; position: relative;
-        }
-        .clinical-list li:hover { transform: translateX(5px); }
-        .clinical-list li::before { content: '🏥'; margin-right: 8px; }
+/* sections */
+.sec-label{
+  font-size:11px;font-weight:700;letter-spacing:.8px;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;
+}
 
-        .characteristics-list, .virulence-section, .clinical-section { margin: 20px 0; }
+/* characteristics */
+.chars{display:flex;flex-direction:column;gap:5px}
+.char-item{
+  background:rgba(239,68,68,.07);
+  border-left:3px solid var(--red-deep);
+  border-radius:0 8px 8px 0;
+  padding:7px 12px;font-size:13px;color:var(--text);
+  transition:background .2s,translate .2s;
+}
+.char-item:hover{background:rgba(239,68,68,.13);translate:4px 0}
 
-        @media (max-width: 768px) {
-            .slide-grid { grid-template-columns: 1fr; }
-            .chapter-main-title { font-size: 2em; }
-        }
-        @media print {
-            .print-btn, .back-btn, .progress-bar { display: none !important; }
-            .slide-card { break-inside: avoid; }
-        }
-    </style>
+/* virulence */
+.vir-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.vir-list li{
+  background:rgba(168,85,247,.08);
+  border-left:3px solid var(--purple);
+  border-radius:0 8px 8px 0;
+  padding:7px 12px;font-size:13px;color:var(--text);
+  transition:background .2s,translate .2s;
+}
+.vir-list li:hover{background:rgba(168,85,247,.15);translate:4px 0}
+.vir-list li::before{content:'🦠 ';font-size:11px}
+
+/* clinical */
+.clin-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.clin-list li{
+  background:rgba(245,158,11,.07);
+  border-left:3px solid #d97706;
+  border-radius:0 8px 8px 0;
+  padding:7px 12px;font-size:13px;color:var(--text);
+  transition:background .2s,translate .2s;
+}
+.clin-list li:hover{background:rgba(245,158,11,.14);translate:4px 0}
+.clin-list li::before{content:'🏥 ';font-size:11px}
+
+/* ── print ── */
+@media print{
+  #prog,.topnav,.filters,.count-line{display:none!important}
+  body{background:#fff;color:#000}
+  .card{opacity:1!important;translate:0!important;break-inside:avoid;border:1px solid #ddd}
+  .hero{min-height:120px}
+  #bio-canvas{display:none}
+  .hero-title{-webkit-text-fill-color:#000;color:#000}
+  .hero-overlay{color:#000}
+  .card-top,.img-zone,.card-body{background:#fff!important}
+  .char-item,.vir-list li,.clin-list li{border-color:#ccc;background:#f9f9f9}
+  .card-title{color:#000}
+  .page{padding:8px}
+}
+
+/* ── mobile ── */
+@media(max-width:480px){
+  .grid{grid-template-columns:1fr}
+  .topnav{height:50px}
+  .card-img{width:100px;height:100px}
+}
+</style>
 </head>
 <body>
 
+<div id="prog"><div id="prog-fill"></div></div>
+
 <div id="app">
-    <div class="progress-bar">
-        <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
+  <nav class="topnav">
+    <a href="https://scence-bio.github.io/Biology/" class="back-btn">← گەڕانەوە</a>
+    <span class="nav-title">🦠 Microbiology – Chapter 6</span>
+    <span class="nav-spacer"></span>
+    <button class="print-btn" @click="printPage">🖨 Print</button>
+  </nav>
+
+  <div class="page">
+
+    <!-- Hero -->
+    <div class="hero" id="hero">
+      <canvas id="bio-canvas"></canvas>
+      <div class="hero-overlay">
+        <div class="hero-label">Chapter 6 · Microbiology</div>
+        <h1 class="hero-title">🦠 Study of Microorganisms</h1>
+        <p class="hero-desc">Bacterial structure, pathogenicity &amp; clinical significance</p>
+      </div>
     </div>
 
-    <a href="https://scence-bio.github.io/Biology/" class="back-btn">back to home - گەڕانەوە بۆ سەرەکی</a>
-    <button class="print-btn" @click="printPage" title="Print Guide">🖨️</button>
+    <!-- Filters -->
+    <div class="filters">
+      <button
+        v-for="f in filters" :key="f.value"
+        class="f-btn" :class="{active: activeFilter===f.value}"
+        @click="setFilter(f.value)"
+      >{{ f.label }}</button>
+    </div>
 
-    <div style="padding: 30px;">
-        <div class="book-container">
-            <div class="chapter-page" style="padding: 60px 50px; min-height: 100vh;">
+    <p class="count-line">
+      Showing <strong>{{ filteredSlides.length }}</strong> of {{ slides.length }} bacteria
+    </p>
 
-                <div class="chapter-header">
-                    <div class="chapter-number">Chapter 6</div>
-                    <h2 class="chapter-main-title">🦠 Microbiology - Study of Microorganisms</h2>
-                    <p class="chapter-description">Examination of bacterial structure, pathogenicity and clinical significance</p>
-                </div>
-
-                <div class="filter-controls">
-                    <button
-                        v-for="f in filters"
-                        :key="f.value"
-                        class="filter-btn"
-                        :class="{ active: activeFilter === f.value }"
-                        @click="setFilter(f.value)"
-                    >{{ f.label }}</button>
-                </div>
-
-                <div class="slide-grid">
-                    <div
-                        v-for="slide in filteredSlides"
-                        :key="slide.id"
-                        class="slide-card"
-                    >
-                        <div class="slide-header">
-                            <div class="slide-number">Bacteria {{ slide.id }}</div>
-                        </div>
-                        <div class="image-wrapper">
-                            <img :src="slide.image" :alt="slide.title" class="slide-image" />
-                        </div>
-                        <div class="slide-content">
-                            <div class="slide-title">{{ slide.title }}</div>
-
-                            <div class="characteristics-list">
-                                <div class="characteristics-title">🔬 Identification & Characteristics:</div>
-                                <div v-for="c in slide.characteristics" :key="c" class="characteristic-item">{{ c }}</div>
-                            </div>
-
-                            <div class="virulence-section">
-                                <div class="section-title">🦠 Virulence & Pathogenicity:</div>
-                                <ul class="virulence-list">
-                                    <li v-for="v in slide.virulence" :key="v">{{ v }}</li>
-                                </ul>
-                            </div>
-
-                            <div class="clinical-section">
-                                <div class="section-title">🏥 Clinical Importance:</div>
-                                <ul class="clinical-list">
-                                    <li v-for="cl in slide.clinical" :key="cl">{{ cl }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+    <!-- Grid -->
+    <div class="grid">
+      <div
+        v-for="slide in filteredSlides" :key="slide.id"
+        class="card"
+      >
+        <div class="card-top">
+          <span class="badge-num">Bacteria {{ slide.id }}</span>
+          <span class="badge-cat">{{ categoryLabel(slide.categories) }}</span>
         </div>
-    </div>
-</div>
 
+        <div class="img-zone">
+          <img :src="slide.image" :alt="slide.title" class="card-img" loading="lazy"/>
+        </div>
+
+        <div class="card-body">
+          <div class="card-title">{{ slide.title }}</div>
+
+          <div>
+            <div class="sec-label">🔬 Identification &amp; Characteristics</div>
+            <div class="chars">
+              <div v-for="c in slide.characteristics" :key="c" class="char-item">{{ c }}</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sec-label">🦠 Virulence &amp; Pathogenicity</div>
+            <ul class="vir-list">
+              <li v-for="v in slide.virulence" :key="v">{{ v }}</li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="sec-label">🏥 Clinical Importance</div>
+            <ul class="clin-list">
+              <li v-for="cl in slide.clinical" :key="cl">{{ cl }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page -->
+</div><!-- /app -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-const { createApp, ref, computed, onMounted, onUnmounted, nextTick } = Vue;
+const{createApp,ref,computed,onMounted,onUnmounted,nextTick}=Vue;
 
 createApp({
-    setup() {
-        const scrollProgress = ref(0);
-        const activeFilter = ref('all');
+  setup(){
+    const activeFilter=ref('all');
 
-        const filters = [
-            { label: 'All Bacteria', value: 'all' },
-            { label: 'Gram Positive', value: 'gram-positive' },
-            { label: 'Gram Negative', value: 'gram-negative' },
-            { label: 'Spore Forming', value: 'spore-forming' },
-        ];
+    const filters=[
+      {label:'All Bacteria',value:'all'},
+      {label:'Gram Positive',value:'gram-positive'},
+      {label:'Gram Negative',value:'gram-negative'},
+      {label:'Spore Forming',value:'spore-forming'},
+    ];
 
-        const slides = [
-            {
-                id: 1, categories: ['gram-positive'],
-                title: 'Staphylococcus aureus',
-                image: 'images/Microbiology/1.jpg',
-                characteristics: ['Gram-positive cocci in clusters (purple under Gram stain)','Catalase test: positive','Coagulase test: positive','Grows on Mannitol Salt Agar and ferments mannitol (turns medium yellow)','Shows gamma-hemolysis (no hemolysis) on blood agar'],
-                virulence: ['Found naturally on the skin, in the nose, and mucous membranes','Coagulase (clots plasma)','Protein A (binds antibodies to evade immune system)','Toxins: TSST-1 and enterotoxins (cause toxic shock and food poisoning)','Major concern for antibiotic resistance, especially MRSA strains'],
-                clinical: ['Skin infections like boils, abscesses, and impetigo','Respiratory infections, such as pneumonia','Systemic infections: sepsis, osteomyelitis, and endocarditis','Toxin-related illnesses: food poisoning and toxic shock syndrome']
-            },
-            {
-                id: 2, categories: ['gram-positive'],
-                title: 'Streptococcus pyogenes',
-                image: 'images/Microbiology/2.jpg',
-                characteristics: ['Gram-positive cocci in chains (purple spheres in lines)','Catalase test: Negative (helps distinguish from staphylococci)','Beta-hemolytic on blood agar (clear zone around colonies)','Group A Streptococcus (GAS), based on Lancefield classification'],
-                virulence: ['M protein: resists phagocytosis','Streptolysins O and S: lyse red blood cells','Exotoxins: cause toxic shock and scarlet fever','Spread by respiratory droplets or contact with infected wounds'],
-                clinical: ['Common infections: strep throat (pharyngitis) and impetigo','Scarlet fever','Rheumatic fever','Post-streptococcal glomerulonephritis','Necrotizing fasciitis ("flesh-eating disease")','Toxic shock-like syndrome']
-            },
-            {
-                id: 3, categories: ['gram-positive'],
-                title: 'Enterococcus faecium',
-                image: 'images/Microbiology/3.jpg',
-                characteristics: ['Gram-positive cocci in pairs or short chains','Catalase test: Negative','Gamma-hemolytic or alpha-hemolytic on blood agar','Grows in 6.5% NaCl and bile-esculin agar (blackening)','Can survive harsh conditions including high salt and temperature','Intrinsically resistant to many antibiotics'],
-                virulence: ['Adhesins: facilitate attachment to host tissues','Cytolysin: can lyse red blood cells and other cell types','Ability to form biofilms on medical devices','Vancomycin-resistant Enterococcus (VRE) is a major clinical concern','Spread primarily via direct contact in healthcare settings'],
-                clinical: ['Causes urinary tract infections (UTIs)','Bacteremia and endocarditis in immunocompromised patients','Intra-abdominal and wound infections','Associated with antibiotic-resistant infections']
-            },
-            {
-                id: 4, categories: ['gram-positive','spore-forming'],
-                title: 'Bacillus anthracis',
-                image: 'images/Microbiology/4.jpg',
-                characteristics: ['Gram-positive rods in chains (purple boxcar-shaped rods)','Non-motile (unlike other Bacillus species)','Spore-forming: central, oval spores that do not bulge the cell','Capsule: polypeptide (poly-D-glutamate), not polysaccharide','Aerobic growth; non-hemolytic colonies on blood agar','Catalase test: Positive'],
-                virulence: ['Anthrax toxin (tripartite exotoxin): PA, EF, LF','Protective antigen (PA): binds host cells, facilitates entry','Edema factor (EF): increases cAMP → edema','Lethal factor (LF): metalloprotease → cell death','Capsule: inhibits phagocytosis','Transmission via spores—through inhalation, ingestion, or skin contact'],
-                clinical: ['Cutaneous anthrax: black eschar with surrounding edema (most common form)','Inhalational anthrax: severe respiratory distress, often fatal','Gastrointestinal anthrax: abdominal pain, vomiting, bloody diarrhea','Anthrax meningitis: rare, high mortality','Used as a bioterrorism agent (e.g., 2001 US postal attacks)']
-            },
-            {
-                id: 5, categories: ['gram-positive','spore-forming'],
-                title: 'Bacillus cereus',
-                image: 'images/Microbiology/5.jpg',
-                characteristics: ['Gram-positive rods with square ends','Motile via peritrichous flagella','Forms central, oval, heat-resistant spores','Aerobic or facultative anaerobe','Catalase-positive; shows beta-hemolysis on blood agar'],
-                virulence: ['Produces emetic (vomiting) and diarrheal toxins','Emetic toxin (cereulide) is heat-stable','Diarrheal toxin is heat-labile','Additional toxins: Hbl, Nhe, CytK','Spores resist heat, disinfectants, and drying'],
-                clinical: ['Causes two types of food poisoning','Emetic type: rapid onset (1–6 hrs), linked to rice','Diarrheal type: slower onset (8–16 hrs), linked to meat/veg','Can cause eye infections, wound infections, and bacteremia','Found in contaminated hospital equipment and products']
-            },
-            {
-                id: 6, categories: ['gram-positive'],
-                title: 'Listeria monocytogenes',
-                image: 'images/Microbiology/6.jpg',
-                characteristics: ['Gram-positive rods, often in short chains or singles','Motile at room temperature (tumbling motility)','Facultative anaerobe; catalase-positive, oxidase-negative','Grows on blood agar; weak beta-hemolysis','Can grow at refrigeration temperatures (psychrotrophic)'],
-                virulence: ['Internalins (InlA, InlB): promote epithelial cell invasion','Listeriolysin O (LLO): allows escape from phagolysosomes','ActA protein: induces actin polymerization for cell-to-cell spread','Phospholipases (PlcA, PlcB): aid vacuole escape','Evades immune system by intracellular movement'],
-                clinical: ['Causes listeriosis: fever, diarrhea, meningitis, sepsis','High risk in pregnant women, newborns, elderly, immunocompromised','Can lead to miscarriage, neonatal death, or neurolisteriosis','Transmitted via contaminated food (e.g., cheese, deli meats)','Treated with ampicillin ± gentamicin']
-            },
-            {
-                id: 7, categories: ['gram-positive','spore-forming'],
-                title: 'Clostridium tetani',
-                image: 'images/Microbiology/7.jpg',
-                characteristics: ['Gram-positive rods with terminal spherical spores (drumstick appearance)','Obligate anaerobe; grows in oxygen-free environments','Motile (except type VI strains); has flagella','Spores are highly resistant to heat and disinfectants','Grows on blood agar; enhanced by serum or reducing agents'],
-                virulence: ['Produces two toxins: tetanospasmin (neurotoxin) and tetanolysin','Tetanospasmin blocks inhibitory neurotransmitters (GABA, glycine)','Causes uncontrolled muscle contraction and rigidity','Toxin spreads via retrograde axonal transport to CNS','No person-to-person transmission; infection via contaminated wounds'],
-                clinical: ['Causes tetanus: muscle spasms, lockjaw, opisthotonus','Infection follows contamination of wounds with spores from soil','Preventable by tetanus vaccination (tetanus toxoid)','Treatment includes antitoxin and supportive care']
-            },
-            {
-                id: 8, categories: ['gram-positive','spore-forming'],
-                title: 'Clostridium botulinum',
-                image: 'images/Microbiology/8.jpg',
-                characteristics: ['Gram-positive rods with terminal spores (bulging, "tennis racket" shape)','Obligate anaerobe; grows in oxygen-free environments','Produces heat-resistant endospores','Slow-growing on enriched anaerobic media','Catalase-negative; non-motile (Group I)'],
-                virulence: ['Botulinum neurotoxin (BoNT): blocks acetylcholine release','Toxin types A, B, E, and F affect humans','BoNT is a zinc metalloprotease that cleaves SNARE proteins','Spores germinate in anaerobic conditions (canned food, wounds)','Toxin preformed in foodborne; produced in vivo in infant/wound botulism'],
-                clinical: ['Foodborne botulism: ingestion of preformed toxin → flaccid paralysis','Infant botulism: spores germinate in gut (e.g., from honey)','Wound botulism: infection in anaerobic wound sites','Symptoms: blurred vision, dry mouth, descending paralysis','Treated with antitoxin and supportive care']
-            },
-            {
-                id: 9, categories: ['gram-negative'],
-                title: 'Escherichia coli',
-                image: 'images/Microbiology/9.jpg',
-                characteristics: ['Gram-negative bacilli (pink rods on Gram stain)','Facultative anaerobe (grows with or without oxygen)','Lactose fermenter (pink colonies on MacConkey agar)','Motile with peritrichous flagella (except some strains)','Oxidase-negative, catalase-positive'],
-                virulence: ['Possesses adhesins and exotoxins as key virulence factors','Pathotypes: EHEC, EPEC, ETEC, EIEC, EAEC, DAEC','Shiga toxin (EHEC) causes bloody diarrhea and HUS','Enterotoxins (ETEC) cause watery diarrhea','Acquires virulence via plasmids, phages, pathogenicity islands'],
-                clinical: ['Most common cause of urinary tract infections (UTIs)','Causes neonatal meningitis and sepsis','Traveler\'s diarrhea (ETEC) and foodborne outbreaks (EHEC)','Can lead to hemolytic uremic syndrome (HUS)','Antibiotic resistance is a growing concern globally']
-            },
-            {
-                id: 10, categories: ['gram-negative'],
-                title: 'Salmonella typhi',
-                image: 'images/Microbiology/10.jpg',
-                characteristics: ['Gram-negative bacillus (pink rods on Gram stain)','Motile with peritrichous flagella','Non-spore-forming and non-encapsulated','Facultative anaerobe; grows on MacConkey and XLD agar','Lactose non-fermenter; H₂S producer'],
-                virulence: ['Vi capsule: resists phagocytosis and immune clearance','Type III secretion system (T3SS): injects effector proteins','Salmonella pathogenicity islands (SPIs): encode invasion genes','Endotoxin (LPS): triggers inflammation and fever','Survives and replicates inside macrophages'],
-                clinical: ['Causes typhoid fever: prolonged fever, abdominal pain, rose spots','Can lead to intestinal perforation, sepsis, encephalopathy','Transmitted via contaminated food or water','Diagnosed via blood culture or Widal test','Preventable by Vi conjugate vaccine (TCV)']
-            },
-            {
-                id: 11, categories: ['gram-negative'],
-                title: 'Shigella dysenteriae',
-                image: 'images/Microbiology/11.jpg',
-                characteristics: ['Gram-negative bacillus (pink rods on Gram stain)','Non-motile, non-spore-forming, non-capsulated','Facultative anaerobe; grows on MacConkey and SS agar','Lactose non-fermenter; does not produce H₂S','Optimum growth at 37°C, pH 7.4'],
-                virulence: ['Produces Shiga toxin: inhibits protein synthesis, causes cell death','Invades colonic epithelial cells via Type III secretion system','Escapes phagocytic vacuoles and spreads cell-to-cell','Induces apoptosis in macrophages, releasing IL-1β','Disrupts intestinal wall integrity, leading to ulceration'],
-                clinical: ['Causes shigellosis: bloody diarrhea, fever, abdominal cramps','Low infectious dose (10–100 organisms)','Can lead to Hemolytic Uremic Syndrome (HUS)','Transmitted via fecal-oral route (food, water, flies)','Treated with hydration and antibiotics in severe cases']
-            },
-            {
-                id: 12, categories: ['gram-negative'],
-                title: 'Pseudomonas aeruginosa',
-                image: 'images/Microbiology/12.jpg',
-                characteristics: ['Gram-negative bacillus (pink rods on Gram stain)','Motile with polar flagella','Strict aerobe; oxidase-positive','Produces blue-green pigment (pyocyanin)','Grows on MacConkey and cetrimide agar'],
-                virulence: ['Forms biofilms that resist antibiotics and immune attack','Secretes exotoxin A (inhibits protein synthesis)','Has Type III secretion system for injecting toxins','Produces elastase, proteases, and pyocyanin','Highly adaptable to diverse environments'],
-                clinical: ['Causes pneumonia, especially in ventilated patients','Common in burn wound and cystic fibrosis infections','Leads to UTIs, sepsis, and keratitis','Major agent of nosocomial infections','Difficult to treat due to multi-drug resistance']
-            },
-            {
-                id: 13, categories: ['gram-negative'],
-                title: 'Neisseria gonorrhoeae',
-                image: 'images/Microbiology/13.jpg',
-                characteristics: ['Gram-negative diplococci (kidney-shaped, often inside neutrophils)','Non-motile, non-spore-forming','Oxidase-positive, catalase-positive','Ferments glucose only (not maltose)','Grows on Thayer-Martin or chocolate agar with CO₂'],
-                virulence: ['Pili: aid in attachment and resist phagocytosis','Opa proteins: mediate adhesion to host cells','Porin proteins: interfere with neutrophil killing','IgA protease: cleaves mucosal antibodies','Lipooligosaccharide (LOS): triggers inflammation and tissue damage'],
-                clinical: ['Causes urethritis, cervicitis, pharyngitis, and proctitis','Can lead to pelvic inflammatory disease (PID) and infertility','Ophthalmia neonatorum in newborns','May cause disseminated gonococcal infection (DGI)','Increasing resistance to antibiotics like ceftriaxone']
-            },
-            {
-                id: 14, categories: ['gram-negative'],
-                title: 'Helicobacter pylori',
-                image: 'images/Microbiology/14.jpg',
-                characteristics: ['Gram-negative, spiral-shaped rods','Motile with 4–6 polar sheathed flagella','Microaerophilic (requires low oxygen)','Urease-positive (neutralizes stomach acid)','Grows on selective media like Skirrow\'s or Campy agar'],
-                virulence: ['Urease: produces ammonia to buffer stomach acid','Flagella: corkscrew motility through mucus layer','Adhesins: bind to gastric epithelium (e.g., BabA, SabA)','VacA toxin: induces cell vacuolation and apoptosis','CagA protein: disrupts cell signaling via type IV secretion system'],
-                clinical: ['Causes chronic gastritis and peptic ulcers','Linked to gastric adenocarcinoma and MALT lymphoma','Transmitted via oral-oral or fecal-oral routes','Diagnosed by urea breath test, stool antigen, or biopsy','Treated with triple therapy: PPI + clarithromycin + amoxicillin']
-            },
-            {
-                id: 15, categories: ['gram-positive'],
-                title: 'Streptococcus pneumoniae',
-                image: 'images/Microbiology/15.jpg',
-                characteristics: ['Gram-positive, lancet-shaped diplococci or short chains','Alpha-hemolytic on blood agar (green zone)','Catalase-negative; optochin-sensitive','Bile soluble (dissolves in bile salts)','Encapsulated with >80 serotypes'],
-                virulence: ['Polysaccharide capsule: antiphagocytic, major virulence factor','Pneumolysin: damages host cells and inhibits immune response','IgA protease: cleaves mucosal antibodies','Teichoic acids: promote inflammation and adherence','Autolysins: release toxins and cell wall fragments'],
-                clinical: ['Causes community-acquired pneumonia (rusty sputum)','Major cause of meningitis, especially in children and elderly','Leads to otitis media, sinusitis, and bronchitis','Can cause bacteremia and endocarditis','Preventable by pneumococcal vaccines (PCV13, PPSV23)']
-            },
-            {
-                id: 16, categories: ['gram-negative'],
-                title: 'Haemophilus influenzae',
-                image: 'images/Microbiology/16.jpg',
-                characteristics: ['Gram-negative pleomorphic coccobacilli (pink, short rods)','Requires factors X (hemin) and V (NAD⁺) for growth','Grows on chocolate agar, not on blood agar','Non-motile, non-spore-forming','Type b (Hib) is encapsulated; others may lack capsule'],
-                virulence: ['Capsule (Hib): polyribosyl ribitol phosphate (PRP), antiphagocytic','Adhesins (HMW1, HMW2): promote epithelial attachment','Lipooligosaccharide (LOS): triggers inflammation and ciliary damage','IgA1 protease: cleaves mucosal antibodies','Outer membrane proteins: aid in immune evasion'],
-                clinical: ['Causes meningitis, epiglottitis, pneumonia, and otitis media','Non-typeable strains cause sinusitis, bronchitis, conjunctivitis','Transmitted via respiratory droplets','Hib vaccine has dramatically reduced invasive disease','Treated with antibiotics; resistance is emerging']
-            },
-            {
-                id: 17, categories: ['gram-positive'],
-                title: 'Nocardia',
-                image: 'images/Microbiology/17.jpg',
-                characteristics: ['Gram-positive, branching filamentous rods','Weakly acid-fast (Ziehl-Neelsen stain)','Aerobic; slow-growing on standard media','Forms chalky, white colonies with aerial hyphae','Resembles fungi microscopically but is bacterial'],
-                virulence: ['Survives inside macrophages by blocking phagosome-lysosome fusion','Produces catalase and superoxide dismutase (resist oxidative killing)','Mycolic acids in cell wall aid acid-fastness and immune evasion','Can disseminate to CNS and other organs','Capable of relapse despite treatment'],
-                clinical: ['Pulmonary nocardiosis: mimics TB or fungal infections','Cutaneous nocardiosis: cellulitis, abscesses, mycetoma','CNS involvement: brain abscesses in immunocompromised','Acquired via inhalation or traumatic skin inoculation','Treated with sulfonamides (TMP-SMX); prolonged therapy required']
-            },
-            {
-                id: 18, categories: ['gram-negative'],
-                title: 'Yersinia pestis',
-                image: 'images/Microbiology/18.jpg',
-                characteristics: ['Gram-negative coccobacilli with bipolar ("safety pin") staining','Non-motile, non-spore-forming, facultative anaerobe','Grows on ordinary media; optimal at 27°C','Shows pleomorphism in older cultures','Catalase-positive; oxidase-negative'],
-                virulence: ['F1 capsule antigen: inhibits phagocytosis','Type III secretion system (T3SS): injects Yops into host cells','Endotoxin (LPS): causes systemic inflammation','Murine toxin: affects vascular system and liver','V and W antigens: block intracellular killing'],
-                clinical: ['Bubonic plague: swollen lymph nodes (buboes), fever','Septicemic plague: bloodstream infection, shock','Pneumonic plague: respiratory transmission, highly fatal','Transmitted via fleas, direct contact, or aerosols','Treated with antibiotics (streptomycin, doxycycline)']
-            },
-            {
-                id: 19, categories: ['gram-negative'],
-                title: 'Vibrio cholerae',
-                image: 'images/Microbiology/19.jpg',
-                characteristics: ['Gram-negative, comma-shaped bacilli (pink on Gram stain)','Highly motile with a single polar flagellum (darting motility)','Oxidase-positive, catalase-positive','Grows on alkaline media; yellow colonies on TCBS agar','Sensitive to acid; prefers pH 8.5 (alkaliphilic) and 37°C'],
-                virulence: ['Cholera toxin (CT): AB toxin that increases cAMP → watery diarrhea','B subunit binds GM1 receptors; A subunit activates adenylate cyclase','Toxin-coregulated pilus (TCP): aids colonization','Accessory toxins: hemolysin, zonula occludens toxin','Encoded by CTXϕ bacteriophage'],
-                clinical: ['Causes cholera: profuse "rice-water" stools, dehydration, shock','Transmitted via contaminated water, seafood, or food','Can lead to death from hypovolemic shock if untreated','Managed with oral rehydration salts (ORS) and antibiotics','Preventable by sanitation and oral cholera vaccines']
-            },
-            {
-                id: 20, categories: ['gram-positive'],
-                title: 'Mycobacterium tuberculosis',
-                image: 'images/Microbiology/20.jpg',
-                characteristics: ['Acid-fast bacilli (red rods on Ziehl–Neelsen stain)','Non-motile, non-spore-forming, and obligate aerobe','Cell wall contains mycolic acids and a high lipid content → waxy surface','Grows slowly (2–6 weeks for visible colonies)','Culture on Löwenstein–Jensen medium; colonies appear rough and buff-colored','Niacin test: positive; catalase: positive at room temperature, negative at 68°C'],
-                virulence: ['Cord factor (trehalose dimycolate): inhibits phagosome-lysosome fusion','Sulfatides: prevent phagolysosome formation','Mycolic acids: protect against desiccation and immune attack','Survives and replicates inside macrophages','Causes granuloma (tubercle) formation in tissues'],
-                clinical: ['Causes pulmonary tuberculosis: chronic cough, hemoptysis, weight loss, night sweats','Can cause extrapulmonary TB: meningitis, bone/joint TB (Pott\'s disease), renal TB','Transmission: airborne droplet nuclei','Treated with long-course multidrug therapy (isoniazid, rifampin, ethambutol, pyrazinamide)','Multidrug-resistant (MDR-TB) and extensively drug-resistant (XDR-TB) strains are major public health threats']
-            }
-        ];
+    const catMap={
+      'gram-positive':'Gram +',
+      'gram-negative':'Gram −',
+      'spore-forming':'Spore Forming',
+    };
+    const categoryLabel=cats=>{
+      if(!cats||!cats.length)return'';
+      return cats.map(c=>catMap[c]||c).join(' · ');
+    };
 
-        const filteredSlides = computed(() => {
-            if (activeFilter.value === 'all') return slides;
-            return slides.filter(s => s.categories.includes(activeFilter.value));
-        });
+    const slides=[
+      {id:1,categories:['gram-positive'],title:'Staphylococcus aureus',image:'images/Microbiology/1.jpg',characteristics:['Gram-positive cocci in clusters (purple under Gram stain)','Catalase test: positive','Coagulase test: positive','Grows on Mannitol Salt Agar and ferments mannitol (turns medium yellow)','Shows gamma-hemolysis (no hemolysis) on blood agar'],virulence:['Found naturally on the skin, in the nose, and mucous membranes','Coagulase (clots plasma)','Protein A (binds antibodies to evade immune system)','Toxins: TSST-1 and enterotoxins (cause toxic shock and food poisoning)','Major concern for antibiotic resistance, especially MRSA strains'],clinical:['Skin infections like boils, abscesses, and impetigo','Respiratory infections, such as pneumonia','Systemic infections: sepsis, osteomyelitis, and endocarditis','Toxin-related illnesses: food poisoning and toxic shock syndrome']},
+      {id:2,categories:['gram-positive'],title:'Streptococcus pyogenes',image:'images/Microbiology/2.jpg',characteristics:['Gram-positive cocci in chains (purple spheres in lines)','Catalase test: Negative (helps distinguish from staphylococci)','Beta-hemolytic on blood agar (clear zone around colonies)','Group A Streptococcus (GAS), based on Lancefield classification'],virulence:['M protein: resists phagocytosis','Streptolysins O and S: lyse red blood cells','Exotoxins: cause toxic shock and scarlet fever','Spread by respiratory droplets or contact with infected wounds'],clinical:['Common infections: strep throat (pharyngitis) and impetigo','Scarlet fever','Rheumatic fever','Post-streptococcal glomerulonephritis','Necrotizing fasciitis ("flesh-eating disease")','Toxic shock-like syndrome']},
+      {id:3,categories:['gram-positive'],title:'Enterococcus faecium',image:'images/Microbiology/3.jpg',characteristics:['Gram-positive cocci in pairs or short chains','Catalase test: Negative','Gamma-hemolytic or alpha-hemolytic on blood agar','Grows in 6.5% NaCl and bile-esculin agar (blackening)','Can survive harsh conditions including high salt and temperature','Intrinsically resistant to many antibiotics'],virulence:['Adhesins: facilitate attachment to host tissues','Cytolysin: can lyse red blood cells and other cell types','Ability to form biofilms on medical devices','Vancomycin-resistant Enterococcus (VRE) is a major clinical concern','Spread primarily via direct contact in healthcare settings'],clinical:['Causes urinary tract infections (UTIs)','Bacteremia and endocarditis in immunocompromised patients','Intra-abdominal and wound infections','Associated with antibiotic-resistant infections']},
+      {id:4,categories:['gram-positive','spore-forming'],title:'Bacillus anthracis',image:'images/Microbiology/4.jpg',characteristics:['Gram-positive rods in chains (purple boxcar-shaped rods)','Non-motile (unlike other Bacillus species)','Spore-forming: central, oval spores that do not bulge the cell','Capsule: polypeptide (poly-D-glutamate), not polysaccharide','Aerobic growth; non-hemolytic colonies on blood agar','Catalase test: Positive'],virulence:['Anthrax toxin (tripartite exotoxin): PA, EF, LF','Protective antigen (PA): binds host cells, facilitates entry','Edema factor (EF): increases cAMP → edema','Lethal factor (LF): metalloprotease → cell death','Capsule: inhibits phagocytosis','Transmission via spores—through inhalation, ingestion, or skin contact'],clinical:['Cutaneous anthrax: black eschar with surrounding edema (most common form)','Inhalational anthrax: severe respiratory distress, often fatal','Gastrointestinal anthrax: abdominal pain, vomiting, bloody diarrhea','Anthrax meningitis: rare, high mortality','Used as a bioterrorism agent (e.g., 2001 US postal attacks)']},
+      {id:5,categories:['gram-positive','spore-forming'],title:'Bacillus cereus',image:'images/Microbiology/5.jpg',characteristics:['Gram-positive rods with square ends','Motile via peritrichous flagella','Forms central, oval, heat-resistant spores','Aerobic or facultative anaerobe','Catalase-positive; shows beta-hemolysis on blood agar'],virulence:['Produces emetic (vomiting) and diarrheal toxins','Emetic toxin (cereulide) is heat-stable','Diarrheal toxin is heat-labile','Additional toxins: Hbl, Nhe, CytK','Spores resist heat, disinfectants, and drying'],clinical:['Causes two types of food poisoning','Emetic type: rapid onset (1–6 hrs), linked to rice','Diarrheal type: slower onset (8–16 hrs), linked to meat/veg','Can cause eye infections, wound infections, and bacteremia','Found in contaminated hospital equipment and products']},
+      {id:6,categories:['gram-positive'],title:'Listeria monocytogenes',image:'images/Microbiology/6.jpg',characteristics:['Gram-positive rods, often in short chains or singles','Motile at room temperature (tumbling motility)','Facultative anaerobe; catalase-positive, oxidase-negative','Grows on blood agar; weak beta-hemolysis','Can grow at refrigeration temperatures (psychrotrophic)'],virulence:['Internalins (InlA, InlB): promote epithelial cell invasion','Listeriolysin O (LLO): allows escape from phagolysosomes','ActA protein: induces actin polymerization for cell-to-cell spread','Phospholipases (PlcA, PlcB): aid vacuole escape','Evades immune system by intracellular movement'],clinical:['Causes listeriosis: fever, diarrhea, meningitis, sepsis','High risk in pregnant women, newborns, elderly, immunocompromised','Can lead to miscarriage, neonatal death, or neurolisteriosis','Transmitted via contaminated food (e.g., cheese, deli meats)','Treated with ampicillin ± gentamicin']},
+      {id:7,categories:['gram-positive','spore-forming'],title:'Clostridium tetani',image:'images/Microbiology/7.jpg',characteristics:['Gram-positive rods with terminal spherical spores (drumstick appearance)','Obligate anaerobe; grows in oxygen-free environments','Motile (except type VI strains); has flagella','Spores are highly resistant to heat and disinfectants','Grows on blood agar; enhanced by serum or reducing agents'],virulence:['Produces two toxins: tetanospasmin (neurotoxin) and tetanolysin','Tetanospasmin blocks inhibitory neurotransmitters (GABA, glycine)','Causes uncontrolled muscle contraction and rigidity','Toxin spreads via retrograde axonal transport to CNS','No person-to-person transmission; infection via contaminated wounds'],clinical:['Causes tetanus: muscle spasms, lockjaw, opisthotonus','Infection follows contamination of wounds with spores from soil','Preventable by tetanus vaccination (tetanus toxoid)','Treatment includes antitoxin and supportive care']},
+      {id:8,categories:['gram-positive','spore-forming'],title:'Clostridium botulinum',image:'images/Microbiology/8.jpg',characteristics:['Gram-positive rods with terminal spores (bulging, "tennis racket" shape)','Obligate anaerobe; grows in oxygen-free environments','Produces heat-resistant endospores','Slow-growing on enriched anaerobic media','Catalase-negative; non-motile (Group I)'],virulence:['Botulinum neurotoxin (BoNT): blocks acetylcholine release','Toxin types A, B, E, and F affect humans','BoNT is a zinc metalloprotease that cleaves SNARE proteins','Spores germinate in anaerobic conditions (canned food, wounds)','Toxin preformed in foodborne; produced in vivo in infant/wound botulism'],clinical:['Foodborne botulism: ingestion of preformed toxin → flaccid paralysis','Infant botulism: spores germinate in gut (e.g., from honey)','Wound botulism: infection in anaerobic wound sites','Symptoms: blurred vision, dry mouth, descending paralysis','Treated with antitoxin and supportive care']},
+      {id:9,categories:['gram-negative'],title:'Escherichia coli',image:'images/Microbiology/9.jpg',characteristics:['Gram-negative bacilli (pink rods on Gram stain)','Facultative anaerobe (grows with or without oxygen)','Lactose fermenter (pink colonies on MacConkey agar)','Motile with peritrichous flagella (except some strains)','Oxidase-negative, catalase-positive'],virulence:['Possesses adhesins and exotoxins as key virulence factors','Pathotypes: EHEC, EPEC, ETEC, EIEC, EAEC, DAEC','Shiga toxin (EHEC) causes bloody diarrhea and HUS','Enterotoxins (ETEC) cause watery diarrhea','Acquires virulence via plasmids, phages, pathogenicity islands'],clinical:['Most common cause of urinary tract infections (UTIs)','Causes neonatal meningitis and sepsis','Traveler\'s diarrhea (ETEC) and foodborne outbreaks (EHEC)','Can lead to hemolytic uremic syndrome (HUS)','Antibiotic resistance is a growing concern globally']},
+      {id:10,categories:['gram-negative'],title:'Salmonella typhi',image:'images/Microbiology/10.jpg',characteristics:['Gram-negative bacillus (pink rods on Gram stain)','Motile with peritrichous flagella','Non-spore-forming and non-encapsulated','Facultative anaerobe; grows on MacConkey and XLD agar','Lactose non-fermenter; H₂S producer'],virulence:['Vi capsule: resists phagocytosis and immune clearance','Type III secretion system (T3SS): injects effector proteins','Salmonella pathogenicity islands (SPIs): encode invasion genes','Endotoxin (LPS): triggers inflammation and fever','Survives and replicates inside macrophages'],clinical:['Causes typhoid fever: prolonged fever, abdominal pain, rose spots','Can lead to intestinal perforation, sepsis, encephalopathy','Transmitted via contaminated food or water','Diagnosed via blood culture or Widal test','Preventable by Vi conjugate vaccine (TCV)']},
+      {id:11,categories:['gram-negative'],title:'Shigella dysenteriae',image:'images/Microbiology/11.jpg',characteristics:['Gram-negative bacillus (pink rods on Gram stain)','Non-motile, non-spore-forming, non-capsulated','Facultative anaerobe; grows on MacConkey and SS agar','Lactose non-fermenter; does not produce H₂S','Optimum growth at 37°C, pH 7.4'],virulence:['Produces Shiga toxin: inhibits protein synthesis, causes cell death','Invades colonic epithelial cells via Type III secretion system','Escapes phagocytic vacuoles and spreads cell-to-cell','Induces apoptosis in macrophages, releasing IL-1β','Disrupts intestinal wall integrity, leading to ulceration'],clinical:['Causes shigellosis: bloody diarrhea, fever, abdominal cramps','Low infectious dose (10–100 organisms)','Can lead to Hemolytic Uremic Syndrome (HUS)','Transmitted via fecal-oral route (food, water, flies)','Treated with hydration and antibiotics in severe cases']},
+      {id:12,categories:['gram-negative'],title:'Pseudomonas aeruginosa',image:'images/Microbiology/12.jpg',characteristics:['Gram-negative bacillus (pink rods on Gram stain)','Motile with polar flagella','Strict aerobe; oxidase-positive','Produces blue-green pigment (pyocyanin)','Grows on MacConkey and cetrimide agar'],virulence:['Forms biofilms that resist antibiotics and immune attack','Secretes exotoxin A (inhibits protein synthesis)','Has Type III secretion system for injecting toxins','Produces elastase, proteases, and pyocyanin','Highly adaptable to diverse environments'],clinical:['Causes pneumonia, especially in ventilated patients','Common in burn wound and cystic fibrosis infections','Leads to UTIs, sepsis, and keratitis','Major agent of nosocomial infections','Difficult to treat due to multi-drug resistance']},
+      {id:13,categories:['gram-negative'],title:'Neisseria gonorrhoeae',image:'images/Microbiology/13.jpg',characteristics:['Gram-negative diplococci (kidney-shaped, often inside neutrophils)','Non-motile, non-spore-forming','Oxidase-positive, catalase-positive','Ferments glucose only (not maltose)','Grows on Thayer-Martin or chocolate agar with CO₂'],virulence:['Pili: aid in attachment and resist phagocytosis','Opa proteins: mediate adhesion to host cells','Porin proteins: interfere with neutrophil killing','IgA protease: cleaves mucosal antibodies','Lipooligosaccharide (LOS): triggers inflammation and tissue damage'],clinical:['Causes urethritis, cervicitis, pharyngitis, and proctitis','Can lead to pelvic inflammatory disease (PID) and infertility','Ophthalmia neonatorum in newborns','May cause disseminated gonococcal infection (DGI)','Increasing resistance to antibiotics like ceftriaxone']},
+      {id:14,categories:['gram-negative'],title:'Helicobacter pylori',image:'images/Microbiology/14.jpg',characteristics:['Gram-negative, spiral-shaped rods','Motile with 4–6 polar sheathed flagella','Microaerophilic (requires low oxygen)','Urease-positive (neutralizes stomach acid)','Grows on selective media like Skirrow\'s or Campy agar'],virulence:['Urease: produces ammonia to buffer stomach acid','Flagella: corkscrew motility through mucus layer','Adhesins: bind to gastric epithelium (e.g., BabA, SabA)','VacA toxin: induces cell vacuolation and apoptosis','CagA protein: disrupts cell signaling via type IV secretion system'],clinical:['Causes chronic gastritis and peptic ulcers','Linked to gastric adenocarcinoma and MALT lymphoma','Transmitted via oral-oral or fecal-oral routes','Diagnosed by urea breath test, stool antigen, or biopsy','Treated with triple therapy: PPI + clarithromycin + amoxicillin']},
+      {id:15,categories:['gram-positive'],title:'Streptococcus pneumoniae',image:'images/Microbiology/15.jpg',characteristics:['Gram-positive, lancet-shaped diplococci or short chains','Alpha-hemolytic on blood agar (green zone)','Catalase-negative; optochin-sensitive','Bile soluble (dissolves in bile salts)','Encapsulated with >80 serotypes'],virulence:['Polysaccharide capsule: antiphagocytic, major virulence factor','Pneumolysin: damages host cells and inhibits immune response','IgA protease: cleaves mucosal antibodies','Teichoic acids: promote inflammation and adherence','Autolysins: release toxins and cell wall fragments'],clinical:['Causes community-acquired pneumonia (rusty sputum)','Major cause of meningitis, especially in children and elderly','Leads to otitis media, sinusitis, and bronchitis','Can cause bacteremia and endocarditis','Preventable by pneumococcal vaccines (PCV13, PPSV23)']},
+      {id:16,categories:['gram-negative'],title:'Haemophilus influenzae',image:'images/Microbiology/16.jpg',characteristics:['Gram-negative pleomorphic coccobacilli (pink, short rods)','Requires factors X (hemin) and V (NAD⁺) for growth','Grows on chocolate agar, not on blood agar','Non-motile, non-spore-forming','Type b (Hib) is encapsulated; others may lack capsule'],virulence:['Capsule (Hib): polyribosyl ribitol phosphate (PRP), antiphagocytic','Adhesins (HMW1, HMW2): promote epithelial attachment','Lipooligosaccharide (LOS): triggers inflammation and ciliary damage','IgA1 protease: cleaves mucosal antibodies','Outer membrane proteins: aid in immune evasion'],clinical:['Causes meningitis, epiglottitis, pneumonia, and otitis media','Non-typeable strains cause sinusitis, bronchitis, conjunctivitis','Transmitted via respiratory droplets','Hib vaccine has dramatically reduced invasive disease','Treated with antibiotics; resistance is emerging']},
+      {id:17,categories:['gram-positive'],title:'Nocardia',image:'images/Microbiology/17.jpg',characteristics:['Gram-positive, branching filamentous rods','Weakly acid-fast (Ziehl-Neelsen stain)','Aerobic; slow-growing on standard media','Forms chalky, white colonies with aerial hyphae','Resembles fungi microscopically but is bacterial'],virulence:['Survives inside macrophages by blocking phagosome-lysosome fusion','Produces catalase and superoxide dismutase (resist oxidative killing)','Mycolic acids in cell wall aid acid-fastness and immune evasion','Can disseminate to CNS and other organs','Capable of relapse despite treatment'],clinical:['Pulmonary nocardiosis: mimics TB or fungal infections','Cutaneous nocardiosis: cellulitis, abscesses, mycetoma','CNS involvement: brain abscesses in immunocompromised','Acquired via inhalation or traumatic skin inoculation','Treated with sulfonamides (TMP-SMX); prolonged therapy required']},
+      {id:18,categories:['gram-negative'],title:'Yersinia pestis',image:'images/Microbiology/18.jpg',characteristics:['Gram-negative coccobacilli with bipolar ("safety pin") staining','Non-motile, non-spore-forming, facultative anaerobe','Grows on ordinary media; optimal at 27°C','Shows pleomorphism in older cultures','Catalase-positive; oxidase-negative'],virulence:['F1 capsule antigen: inhibits phagocytosis','Type III secretion system (T3SS): injects Yops into host cells','Endotoxin (LPS): causes systemic inflammation','Murine toxin: affects vascular system and liver','V and W antigens: block intracellular killing'],clinical:['Bubonic plague: swollen lymph nodes (buboes), fever','Septicemic plague: bloodstream infection, shock','Pneumonic plague: respiratory transmission, highly fatal','Transmitted via fleas, direct contact, or aerosols','Treated with antibiotics (streptomycin, doxycycline)']},
+      {id:19,categories:['gram-negative'],title:'Vibrio cholerae',image:'images/Microbiology/19.jpg',characteristics:['Gram-negative, comma-shaped bacilli (pink on Gram stain)','Highly motile with a single polar flagellum (darting motility)','Oxidase-positive, catalase-positive','Grows on alkaline media; yellow colonies on TCBS agar','Sensitive to acid; prefers pH 8.5 (alkaliphilic) and 37°C'],virulence:['Cholera toxin (CT): AB toxin that increases cAMP → watery diarrhea','B subunit binds GM1 receptors; A subunit activates adenylate cyclase','Toxin-coregulated pilus (TCP): aids colonization','Accessory toxins: hemolysin, zonula occludens toxin','Encoded by CTXϕ bacteriophage'],clinical:['Causes cholera: profuse "rice-water" stools, dehydration, shock','Transmitted via contaminated water, seafood, or food','Can lead to death from hypovolemic shock if untreated','Managed with oral rehydration salts (ORS) and antibiotics','Preventable by sanitation and oral cholera vaccines']},
+      {id:20,categories:['gram-positive'],title:'Mycobacterium tuberculosis',image:'images/Microbiology/20.jpg',characteristics:['Acid-fast bacilli (red rods on Ziehl–Neelsen stain)','Non-motile, non-spore-forming, and obligate aerobe','Cell wall contains mycolic acids and a high lipid content → waxy surface','Grows slowly (2–6 weeks for visible colonies)','Culture on Löwenstein–Jensen medium; colonies appear rough and buff-colored','Niacin test: positive; catalase: positive at room temperature, negative at 68°C'],virulence:['Cord factor (trehalose dimycolate): inhibits phagosome-lysosome fusion','Sulfatides: prevent phagolysosome formation','Mycolic acids: protect against desiccation and immune attack','Survives and replicates inside macrophages','Causes granuloma (tubercle) formation in tissues'],clinical:['Causes pulmonary tuberculosis: chronic cough, hemoptysis, weight loss, night sweats','Can cause extrapulmonary TB: meningitis, bone/joint TB (Pott\'s disease), renal TB','Transmission: airborne droplet nuclei','Treated with long-course multidrug therapy (isoniazid, rifampin, ethambutol, pyrazinamide)','Multidrug-resistant (MDR-TB) and extensively drug-resistant (XDR-TB) strains are major public health threats']},
+    ];
 
-        const setFilter = (val) => {
-            activeFilter.value = val;
-            nextTick(() => observeCards());
-        };
+    const filteredSlides=computed(()=>{
+      if(activeFilter.value==='all')return slides;
+      return slides.filter(s=>s.categories.includes(activeFilter.value));
+    });
 
-        const printPage = () => window.print();
+    const setFilter=val=>{
+      activeFilter.value=val;
+      nextTick(observeCards);
+    };
 
-        const handleScroll = () => {
-            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            scrollProgress.value = scrolled;
-        };
+    const printPage=()=>window.print();
 
-        let observer;
-        const observeCards = () => {
-            if (observer) observer.disconnect();
-            observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-            document.querySelectorAll('.slide-card').forEach(card => observer.observe(card));
-        };
+    /* scroll progress */
+    const onScroll=()=>{
+      const el=document.getElementById('prog-fill');
+      if(!el)return;
+      const pct=(window.scrollY/Math.max(1,document.documentElement.scrollHeight-window.innerHeight))*100;
+      el.style.width=pct+'%';
+    };
 
-        onMounted(() => {
-            window.addEventListener('scroll', handleScroll);
-            nextTick(() => observeCards());
-        });
+    /* intersection observer */
+    let obs;
+    const observeCards=()=>{
+      if(obs)obs.disconnect();
+      obs=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+      },{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+      document.querySelectorAll('.card').forEach(c=>obs.observe(c));
+    };
 
-        onUnmounted(() => {
-            window.removeEventListener('scroll', handleScroll);
-            if (observer) observer.disconnect();
-        });
+    onMounted(()=>{
+      window.addEventListener('scroll',onScroll,{passive:true});
+      nextTick(observeCards);
+    });
+    onUnmounted(()=>{
+      window.removeEventListener('scroll',onScroll);
+      if(obs)obs.disconnect();
+    });
 
-        return { scrollProgress, activeFilter, filters, filteredSlides, setFilter, printPage };
-    }
+    return{activeFilter,filters,filteredSlides,setFilter,categoryLabel,printPage};
+  }
 }).mount('#app');
+</script>
+
+<!-- Three.js hero scene -->
+<script>
+(function(){
+  const canvas=document.getElementById('bio-canvas');
+  const hero=document.getElementById('hero');
+  if(!canvas||!hero||typeof THREE==='undefined')return;
+
+  const W=hero.clientWidth||900,H=hero.clientHeight||280;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(W,H);
+
+  const camera=new THREE.PerspectiveCamera(50,W/H,.1,100);
+  camera.position.set(0,4,11);
+  camera.lookAt(0,0,0);
+
+  function makeLights(scene){
+    scene.add(new THREE.AmbientLight(0x001a15,.6));
+    const d=new THREE.DirectionalLight(0x55ffdd,1.1);
+    d.position.set(5,8,5);scene.add(d);
+    const r=new THREE.PointLight(0xef4444,1.2,18);
+    r.position.set(-4,2,4);scene.add(r);
+  }
+  function makeStars(count,spread){
+    const g=new THREE.BufferGeometry(),pos=[];
+    for(let i=0;i<count;i++)pos.push((Math.random()-.5)*spread,(Math.random()-.5)*spread,(Math.random()-.5)*spread);
+    g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(pos),3));
+    return new THREE.Points(g,new THREE.PointsMaterial({color:0xffffff,size:.05}));
+  }
+
+  function buildMicrobiology(){
+    const scene=new THREE.Scene();
+    scene.background=new THREE.Color(0x020c0a);
+    makeLights(scene);
+    scene.add(makeStars(150,35));
+    const group=new THREE.Group();
+
+    const bM=new THREE.MeshPhongMaterial({color:0x14b8a6,emissive:0x003322,shininess:70});
+    const vM=new THREE.MeshPhongMaterial({color:0xef4444,emissive:0x440000,shininess:90});
+    const skM=new THREE.MeshPhongMaterial({color:0xfca5a5,emissive:0x2a0000,shininess:60});
+    const fM=new THREE.LineBasicMaterial({color:0x5eead4});
+
+    [[-4,.5,1],[-3,-2,-1],[-5.5,-1,-2],[2.5,2.5,.5],[1,-3,0],[-2.5,2,-1],[3.5,.5,-1],[-1,3.5,1]].forEach(([x,y,z],idx)=>{
+      const b=new THREE.Mesh(new THREE.SphereGeometry(.38,10,10),bM);
+      b.scale.set(1,2.2,1);b.position.set(x,y,z);
+      b.rotation.set(Math.random()*.8,Math.random()*Math.PI,Math.random()*.5);
+      b.userData={orig:[x,y,z],off:idx*.7};
+      group.add(b);
+      const pts=[];
+      for(let f=0;f<12;f++)pts.push(new THREE.Vector3(f*.28,Math.sin(f*.9)*.22,0));
+      const fl=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),fM);
+      fl.position.set(x,y-.8,z);fl.rotation.copy(b.rotation);group.add(fl);
+    });
+
+    const virus=new THREE.Group();
+    virus.add(new THREE.Mesh(new THREE.SphereGeometry(1.6,20,20),vM));
+    for(let i=0;i<24;i++){
+      const phi=Math.acos(-1+(2*i)/24);
+      const th=Math.sqrt(24*Math.PI)*phi;
+      const dir=new THREE.Vector3(Math.sin(phi)*Math.cos(th),Math.cos(phi),Math.sin(phi)*Math.sin(th));
+      const sp=new THREE.Mesh(new THREE.ConeGeometry(.09,.5,4),skM);
+      sp.position.copy(dir.clone().multiplyScalar(1.7));
+      sp.lookAt(dir.clone().multiplyScalar(4));
+      virus.add(sp);
+    }
+    virus.position.set(0,0,0);group.add(virus);
+    scene.add(group);
+    return{scene,animate:(t)=>{
+      group.rotation.y=t*.12;
+      virus.rotation.y=t*.35;virus.rotation.x=t*.18;
+      group.children.forEach(c=>{if(c.userData.off!==undefined)c.position.y=c.userData.orig[1]+Math.sin(t*.4+c.userData.off)*.3;});
+    }};
+  }
+
+  const{scene,animate}=buildMicrobiology();
+
+  function loop(){
+    requestAnimationFrame(loop);
+    animate(performance.now()/1000);
+    renderer.render(scene,camera);
+  }
+  loop();
+
+  const ro=new ResizeObserver(()=>{
+    const w=hero.clientWidth,h=hero.clientHeight;
+    if(!w||!h)return;
+    camera.aspect=w/h;camera.updateProjectionMatrix();
+    renderer.setSize(w,h);
+  });
+  ro.observe(hero);
+})();
 </script>
 </body>
 </html>

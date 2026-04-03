@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Plant Anatomy Chapter - بەشی توێکاری ڕووەک</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,6 +27,23 @@
       min-height: 100vh;
       color: var(--navy2);
     }
+
+    /* ── 3D Hero ── */
+    .hero-wrap {
+      position: relative; border-radius: var(--radius);
+      overflow: hidden; margin-bottom: 28px;
+      height: clamp(220px, 40vw, 320px);
+    }
+    .hero-canvas { width: 100% !important; height: 100% !important; display: block; }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .hero-num { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+    .hero-title { font-size: clamp(1.6rem, 6vw, 2.8rem); font-weight: 700; color: #fff; text-align: center; padding: 0 16px; line-height: 1.2; margin-bottom: 10px; }
+    .hero-desc { font-size: clamp(0.82rem, 2.5vw, 1rem); color: rgba(255,255,255,0.8); text-align: center; padding: 0 20px; line-height: 1.5; }
 
     /* ── Progress bar ── */
     .progress-bar {
@@ -221,10 +239,13 @@
     <div class="book">
       <div class="inner">
 
-        <div class="ch-header">
-          <div class="ch-num">Chapter 3</div>
-          <h2 class="ch-title">🌱 Plant Anatomy — Study of Plant Structure</h2>
-          <p class="ch-desc">Microscopic examination of plant tissues, organs and cellular organization</p>
+        <div class="hero-wrap">
+          <canvas class="hero-canvas" id="hero-cv"></canvas>
+          <div class="hero-overlay">
+            <div class="hero-num">Chapter 3</div>
+            <div class="hero-title">🌱 Plant Anatomy</div>
+            <div class="hero-desc">Study of Plant Structure — Microscopic examination of plant tissues, organs and cellular organization</div>
+          </div>
         </div>
 
         <div class="filters">
@@ -369,6 +390,72 @@ createApp({
     return { scroll, active, filters, shown };
   }
 }).mount('#app');
+</script>
+<script>
+(function(){
+  const canvas = document.getElementById('hero-cv');
+  if(!canvas || typeof THREE === 'undefined') return;
+  const w = canvas.clientWidth, h = canvas.clientHeight || 280;
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(w, h, false);
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x010e03);
+  scene.add(new THREE.AmbientLight(0x001a06, 0.6));
+  const d = new THREE.DirectionalLight(0x88ff88, 1.1); d.position.set(5,10,7); scene.add(d);
+  const d2 = new THREE.DirectionalLight(0x88ff88, 0.45); d2.position.set(-5,-3,-5); scene.add(d2);
+  const geo = new THREE.BufferGeometry();
+  const pos = new Float32Array(100*3);
+  for(let i=0;i<100*3;i++) pos[i]=(Math.random()-.5)*30;
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(geo,new THREE.PointsMaterial({color:0xffffff,size:0.08})));
+  const group = new THREE.Group();
+  const sM = new THREE.MeshPhongMaterial({color:0x22c55e,emissive:0x0a2d10,shininess:60});
+  const lM = new THREE.MeshPhongMaterial({color:0x86efac,transparent:true,opacity:.7,side:THREE.DoubleSide,shininess:30});
+  const cM = new THREE.MeshPhongMaterial({color:0x16a34a,emissive:0x052210,shininess:80});
+  function branch(sp, dir, len, radius, depth){
+    if(depth<0||len<.2) return;
+    const ep = sp.clone().add(dir.clone().multiplyScalar(len));
+    const mid = new THREE.Vector3().addVectors(sp,ep).multiplyScalar(.5);
+    const cy = new THREE.Mesh(new THREE.CylinderGeometry(radius*.7,radius,len,8),sM);
+    cy.position.copy(mid);
+    cy.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir.clone().normalize());
+    group.add(cy);
+    if(depth<=1){
+      const lf = new THREE.Mesh(new THREE.PlaneGeometry(.8+Math.random()*.4,.4+Math.random()*.3),lM);
+      lf.position.copy(ep);
+      lf.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,Math.random()*Math.PI);
+      group.add(lf);
+      for(let i=0;i<3;i++){
+        const ch = new THREE.Mesh(new THREE.SphereGeometry(.04,6,6),cM);
+        ch.position.set(ep.x+(Math.random()-.5)*.3,ep.y+(Math.random()-.5)*.3,ep.z+(Math.random()-.5)*.3);
+        group.add(ch);
+      }
+    }
+    if(depth>0){
+      const sp2=.6+depth*.1;
+      for(let b=0;b<2;b++){
+        const nd=dir.clone().applyEuler(new THREE.Euler((Math.random()-.5)*sp2,(Math.random()-.5)*sp2,(Math.random()-.5)*sp2*.5));
+        branch(ep,nd,len*.72,radius*.68,depth-1);
+      }
+    }
+  }
+  branch(new THREE.Vector3(0,-5,0),new THREE.Vector3(0,1,.05),3.5,.22,3);
+  scene.add(group);
+  const camera = new THREE.PerspectiveCamera(45, w/h, 0.1, 200);
+  camera.position.set(0,0,12);
+  function loop(){
+    requestAnimationFrame(loop);
+    const t = performance.now()*.001;
+    group.rotation.y = t*.15; group.rotation.z = Math.sin(t*.25)*.04;
+    renderer.render(scene,camera);
+  }
+  loop();
+  new ResizeObserver(()=>{
+    const nw=canvas.clientWidth, nh=canvas.clientHeight||280;
+    renderer.setSize(nw,nh,false); camera.aspect=nw/nh; camera.updateProjectionMatrix();
+  }).observe(canvas.parentElement);
+})();
 </script>
 </body>
 </html>

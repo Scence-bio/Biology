@@ -1,521 +1,306 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hematology Chapter - بەشی خوێنناسی</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Hematology – Chapter 5</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --red:#dc2626;--red2:#b91c1c;--red3:#ef4444;--redfade:#fef2f2;--reddark:#7c2d12;
+  --ink:#0f172a;--slate:#334155;--muted:#64748b;--border:#e2e8f0;--bg:#f8fafc;--card:#fff;
+  --cyan:#0891b2;--amber:#f59e0b;--header-h:56px;
+  --r:16px;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--bg);color:var(--ink);
+  font-size:clamp(13px,1.5vw,15px);line-height:1.6;
+  overflow-x:hidden;
+}
 
-    <style>
-        @font-face {
-            font-family: 'NotoKufiArabic';
-            src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
-        }
+/* ── Progress ── */
+#pb{position:fixed;top:0;left:0;right:0;height:3px;z-index:2000;pointer-events:none;}
+#pf{height:100%;background:linear-gradient(90deg,var(--red2),var(--red3),#f87171);width:0;transition:width .15s;}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ── Top bar ── */
+.topbar{
+  position:sticky;top:0;z-index:1000;
+  background:rgba(15,2,3,0.97);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  height:var(--header-h);
+  display:flex;align-items:center;gap:10px;padding:0 clamp(12px,3vw,24px);
+  border-bottom:1px solid rgba(220,38,38,0.25);
+}
+.back-btn{
+  text-decoration:none;color:#fff;background:var(--red);
+  border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;
+  white-space:nowrap;flex-shrink:0;transition:background .2s;font-family:'Syne',sans-serif;
+}
+.back-btn:hover{background:var(--red2);}
+.topbar-title{color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(12px,2vw,15px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}
+.print-btn{background:transparent;border:1px solid rgba(255,255,255,0.25);color:#fff;border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;flex-shrink:0;transition:background .2s;font-family:inherit;}
+.print-btn:hover{background:rgba(255,255,255,0.1);}
 
-        body {
-            font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            min-height: 100vh;
-            color: #1e293b;
-        }
+/* ── Page ── */
+.page{max-width:1280px;margin:0 auto;padding:20px clamp(12px,3vw,24px) 80px;}
 
-        .book-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.98);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.4);
-        }
+/* ── Chapter header ── */
+.chapter-header{
+  position:relative;overflow:hidden;border-radius:var(--r);margin-bottom:28px;
+  min-height:clamp(180px,30vw,260px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;background:#0f0203;
+}
+#hema-canvas{position:absolute;inset:0;width:100%!important;height:100%!important;display:block;}
+.chapter-overlay{
+  position:relative;z-index:2;color:#fff;pointer-events:none;
+  padding:clamp(20px,5vw,48px) clamp(16px,5vw,48px);width:100%;
+}
+.chapter-label{font-size:clamp(11px,1.5vw,13px);opacity:.65;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-family:'Syne',sans-serif;}
+.chapter-title{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,4.5vw,2.6rem);font-weight:800;margin-bottom:10px;text-shadow:0 2px 20px rgba(0,0,0,.8);line-height:1.2;}
+.chapter-desc{font-size:clamp(0.8rem,1.8vw,1rem);opacity:.75;}
 
-        .progress-bar {
-            position: fixed; top: 0; left: 0; right: 0;
-            height: 4px; background: rgba(0,0,0,0.1); z-index: 1000;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
-            transition: width 0.3s ease;
-        }
+/* ── Filters ── */
+.filter-wrap{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px;}
+.filter-btn{
+  background:#fff;border:1px solid var(--border);
+  padding:7px clamp(12px,2vw,18px);border-radius:30px;
+  font-size:clamp(11px,1.3vw,13px);font-weight:600;cursor:pointer;
+  transition:all .2s;font-family:'Syne',sans-serif;color:var(--ink);white-space:nowrap;
+}
+.filter-btn:hover,.filter-btn.active{background:var(--red);color:#fff;border-color:var(--red);}
 
-        .back-btn {
-            position: fixed; left: 20px; top: 20px; z-index: 2000;
-            text-decoration: none; background: #dc2626; color: white;
-            padding: 10px 14px; border-radius: 10px; font-weight: 600;
-            transition: all 0.3s;
-        }
-        .back-btn:hover { background: #b91c1c; transform: translateY(-2px); }
+/* ── Count ── */
+.count-label{text-align:center;font-size:13px;color:var(--muted);margin-bottom:18px;}
 
-        .print-btn {
-            position: fixed; bottom: 20px; right: 20px;
-            background: #dc2626; color: white; border: none;
-            width: 60px; height: 60px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; cursor: pointer; z-index: 100;
-            box-shadow: 0 5px 15px rgba(220,38,38,0.4);
-            transition: all 0.3s;
-        }
-        .print-btn:hover { transform: translateY(-3px) scale(1.1); }
+/* ── Grid ── */
+.slide-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));
+  gap:clamp(14px,2vw,22px);
+}
 
-        .chapter-header {
-            background: linear-gradient(135deg, #7c2d12, #dc2626, #ef4444);
-            color: white; padding: 40px; border-radius: 25px;
-            margin-bottom: 50px; text-align: center; position: relative; overflow: hidden;
-        }
-        .chapter-header::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(45deg, rgba(239,68,68,0.1), rgba(220,38,38,0.1));
-        }
-        .chapter-main-title { font-size: 2.8em; font-weight: 700; margin-bottom: 20px; position: relative; z-index: 2; }
-        .chapter-number { font-size: 1.3em; opacity: 0.8; margin-bottom: 15px; position: relative; z-index: 2; }
-        .chapter-description { font-size: 1.2em; opacity: 0.9; position: relative; z-index: 2; }
+/* ── Card ── */
+.slide-card{
+  background:var(--card);border-radius:var(--r);
+  border:1px solid var(--border);overflow:hidden;
+  display:flex;flex-direction:column;
+  opacity:0;transform:translateY(28px);
+  transition:opacity .4s,transform .4s,box-shadow .3s;
+}
+.slide-card.visible{opacity:1;transform:translateY(0);}
+@media(hover:hover){.slide-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.1),0 0 0 1px rgba(220,38,38,.15);}}
 
-        .filter-controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
-        .filter-btn {
-            background: #e2e8f0; border: none; padding: 10px 20px;
-            border-radius: 30px; font-weight: 600; cursor: pointer;
-            transition: all 0.3s; font-family: inherit;
-        }
-        .filter-btn.active, .filter-btn:hover { background: #dc2626; color: white; }
+.card-top{
+  background:linear-gradient(135deg,#1a0000,var(--reddark),var(--red2));
+  display:flex;align-items:center;gap:10px;padding:13px 16px;
+}
+.slide-num{background:rgba(255,255,255,0.15);color:#fff;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;font-family:'Syne',sans-serif;white-space:nowrap;backdrop-filter:blur(4px);}
+.cat-badge{background:rgba(255,255,255,0.1);color:rgba(255,255,255,.75);border-radius:20px;padding:3px 10px;font-size:10px;font-family:'Syne',sans-serif;text-transform:capitalize;}
 
-        .slide-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 30px; margin: 50px 0;
-        }
+.img-wrap{display:flex;justify-content:center;align-items:center;padding:14px;background:var(--redfade);min-height:140px;}
+.slide-img{width:clamp(100px,35%,160px);height:clamp(100px,35%,160px);object-fit:cover;border-radius:10px;border:1px solid #fecaca;}
 
-        .slide-card {
-            background: white; border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
-            overflow: hidden; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-            opacity: 0; transform: translateY(50px);
-        }
-        .slide-card.visible { opacity: 1; transform: translateY(0); }
-        .slide-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(220,38,38,0.2);
-        }
+.card-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:14px;}
+.slide-title{font-family:'Syne',sans-serif;font-size:clamp(.9rem,1.8vw,1.05rem);font-weight:700;color:var(--ink);border-bottom:2px solid var(--red);padding-bottom:10px;line-height:1.3;}
 
-        .slide-header {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            color: white; padding: 25px; text-align: center; position: relative;
-        }
-        .slide-header::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-            height: 3px; background: linear-gradient(90deg, #ef4444, #f87171, #fca5a5);
-        }
-        .slide-number { font-size: 1.6em; font-weight: 800; }
+.sec-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px;font-family:'Syne',sans-serif;}
 
-        .image-wrapper { display: flex; justify-content: center; padding: 20px; background: #fef2f2; }
-        .slide-image {
-            width: 200px; height: 200px; object-fit: cover;
-            border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 1px solid #fecaca;
-        }
+.def-box{background:linear-gradient(135deg,var(--redfade),#fee2e2);padding:12px;border-radius:10px;border-left:3px solid var(--red);font-size:clamp(12px,1.4vw,13px);color:#4b1c1c;line-height:1.65;}
 
-        .slide-content { padding: 30px; }
-        .slide-title {
-            font-weight: 700; color: #0f172a; margin-bottom: 20px;
-            font-size: 1.4em; border-bottom: 2px solid #dc2626; padding-bottom: 10px;
-        }
+.app-list,.fn-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.app-list li{background:linear-gradient(135deg,#e0f2fe,#bae6fd);color:#0c4a6e;border-left:3px solid var(--cyan);border-radius:0 6px 6px 0;padding:6px 10px;font-size:clamp(11px,1.3vw,12.5px);}
+.fn-list li{background:linear-gradient(135deg,#fef3c7,#fde68a);color:#78350f;border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:6px 10px;font-size:clamp(11px,1.3vw,12.5px);}
 
-        /* Definition section */
-        .definition-section { margin: 20px 0; }
-        .definition-label {
-            color: #1e293b; font-weight: 700; margin-bottom: 10px;
-            font-size: 1.1em; display: flex; align-items: center; gap: 8px;
-        }
-        .definition-label::before { content: '📋'; font-size: 1.2em; }
-        .definition-text {
-            color: #475569; line-height: 1.7; font-size: 1.05em;
-            background: linear-gradient(135deg, #fef2f2, #fee2e2);
-            padding: 15px; border-radius: 10px; border-left: 4px solid #dc2626;
-        }
-
-        /* Appearance section */
-        .appearance-section { margin: 25px 0; }
-        .appearance-label {
-            color: #1e293b; font-weight: 700; margin-bottom: 10px;
-            font-size: 1.1em; display: flex; align-items: center; gap: 8px;
-        }
-        .appearance-label::before { content: '👁️'; font-size: 1.2em; }
-        .appearance-list { list-style: none; padding: 0; margin: 15px 0; }
-        .appearance-list li {
-            background: linear-gradient(135deg, #e0f2fe, #b3e5fc);
-            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
-            border-left: 4px solid #0891b2; transition: all 0.3s; position: relative;
-        }
-        .appearance-list li:hover { transform: translateX(5px); }
-        .appearance-list li::before { content: '▶'; color: #0891b2; margin-right: 8px; }
-
-        /* Function section */
-        .function-section { margin: 25px 0; }
-        .function-label {
-            color: #0f172a; font-weight: 700; margin-bottom: 10px;
-            font-size: 1.2em; display: flex; align-items: center; gap: 8px;
-        }
-        .function-label::before { content: '⚙️'; font-size: 1.1em; }
-        .function-list { list-style: none; padding: 0; }
-        .function-list li {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
-            border-left: 4px solid #f59e0b; transition: all 0.3s; position: relative;
-        }
-        .function-list li:hover { transform: translateX(5px); }
-        .function-list li::before { content: '▶'; color: #f59e0b; margin-right: 8px; }
-
-        /* Chapter dots */
-        .chapter-indicator { display: flex; justify-content: center; margin-top: 20px; gap: 10px; flex-wrap: wrap; }
-        .chapter-dot {
-            width: 12px; height: 12px; border-radius: 50%;
-            background: #cbd5e1; cursor: pointer; transition: all 0.3s; border: none;
-        }
-        .chapter-dot.active { background: #dc2626; transform: scale(1.3); }
-
-        @media (max-width: 768px) {
-            .slide-grid { grid-template-columns: 1fr; }
-            .chapter-main-title { font-size: 2em; }
-        }
-        @media print {
-            .print-btn, .back-btn, .progress-bar { display: none !important; }
-            .slide-card { break-inside: avoid; }
-        }
-    </style>
+/* ── Print ── */
+@media print{
+  #pb,.topbar{display:none!important;}
+  .slide-card{opacity:1!important;transform:none!important;break-inside:avoid;}
+  .page{padding:16px;}
+}
+@media(max-width:480px){.slide-grid{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
+<div id="pb"><div id="pf"></div></div>
 
 <div id="app">
-    <div class="progress-bar">
-        <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
+  <div class="topbar">
+    <a href="https://scence-bio.github.io/Biology/" class="back-btn">← Back</a>
+    <span class="topbar-title">🩸 Hematology – Chapter 5</span>
+    <button class="print-btn" @click="()=>window.print()">🖨 Print</button>
+  </div>
+
+  <div class="page">
+    <div class="chapter-header" id="hema-header">
+      <canvas id="hema-canvas"></canvas>
+      <div class="chapter-overlay">
+        <div class="chapter-label">Chapter 5</div>
+        <h1 class="chapter-title">🩸 Hematology – Study of Blood</h1>
+        <p class="chapter-desc">Microscopic examination of blood components and disorders</p>
+      </div>
     </div>
 
-    <a href="https://scence-bio.github.io/Biology/" class="back-btn">back to home - گەڕانەوە بۆ سەرەکی</a>
-    <button class="print-btn" @click="printPage" title="Print Guide">🖨️</button>
+    <div class="filter-wrap">
+      <button v-for="f in filters" :key="f.value" class="filter-btn" :class="{active:activeFilter===f.value}" @click="setFilter(f.value)">{{f.label}}</button>
+    </div>
+    <p class="count-label">Showing {{filteredSlides.length}} of {{slides.length}} slides</p>
 
-    <div style="padding: 30px;">
-        <div class="book-container">
-            <div class="chapter-page" style="padding: 60px 50px; min-height: 100vh;">
-
-                <div class="chapter-header">
-                    <div class="chapter-number">Chapter 5</div>
-                    <h2 class="chapter-main-title">🩸 Hematology - Study of Blood</h2>
-                    <p class="chapter-description">Microscopic examination of blood components and disorders</p>
-                </div>
-
-                <div class="filter-controls">
-                    <button
-                        v-for="f in filters"
-                        :key="f.value"
-                        class="filter-btn"
-                        :class="{ active: activeFilter === f.value }"
-                        @click="setFilter(f.value)"
-                    >{{ f.label }}</button>
-                </div>
-
-                <div class="slide-grid">
-                    <div
-                        v-for="slide in filteredSlides"
-                        :key="slide.id"
-                        class="slide-card"
-                    >
-                        <div class="slide-header">
-                            <div class="slide-number">Slide {{ slide.id }}</div>
-                        </div>
-                        <div class="image-wrapper">
-                            <img :src="slide.image" :alt="slide.title" class="slide-image" />
-                        </div>
-                        <div class="slide-content">
-                            <div class="slide-title">{{ slide.title }}</div>
-
-                            <div class="definition-section">
-                                <div class="definition-label">Definition</div>
-                                <div class="definition-text">{{ slide.definition }}</div>
-                            </div>
-
-                            <div class="appearance-section">
-                                <div class="appearance-label">Appearance</div>
-                                <ul class="appearance-list">
-                                    <li v-for="a in slide.appearance" :key="a">{{ a }}</li>
-                                </ul>
-                            </div>
-
-                            <div class="function-section">
-                                <div class="function-label">{{ slide.functionLabel }}</div>
-                                <ul class="function-list">
-                                    <li v-for="fn in slide.functions" :key="fn">{{ fn }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Chapter dots -->
-                <div class="chapter-indicator">
-                    <button
-                        v-for="slide in slides"
-                        :key="slide.id"
-                        class="chapter-dot"
-                        :class="{ active: currentDot === slide.id }"
-                        @click="scrollToSlide(slide.id)"
-                    ></button>
-                </div>
-
-            </div>
+    <div class="slide-grid">
+      <div v-for="slide in filteredSlides" :key="slide.id" class="slide-card">
+        <div class="card-top">
+          <span class="slide-num">Slide {{slide.id}}</span>
+          <span class="cat-badge">{{slide.category}}</span>
         </div>
+        <div class="img-wrap"><img :src="slide.image" :alt="slide.title" class="slide-img" loading="lazy"/></div>
+        <div class="card-body">
+          <div class="slide-title">{{slide.title}}</div>
+          <div><div class="sec-label">📋 Definition</div><div class="def-box">{{slide.definition}}</div></div>
+          <div><div class="sec-label">👁 Appearance</div><ul class="app-list"><li v-for="a in slide.appearance" :key="a">{{a}}</li></ul></div>
+          <div><div class="sec-label">⚙️ {{slide.functionLabel||'Functions'}}</div><ul class="fn-list"><li v-for="fn in slide.functions" :key="fn">{{fn}}</li></ul></div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
-const { createApp, ref, computed, onMounted, onUnmounted, nextTick } = Vue;
-
+const {createApp,ref,computed,onMounted,onUnmounted,nextTick}=Vue;
 createApp({
-    setup() {
-        const scrollProgress = ref(0);
-        const activeFilter = ref('all');
-        const currentDot = ref(1);
-
-        const filters = [
-            { label: 'All Slides', value: 'all' },
-            { label: 'Blood Cells', value: 'cells' },
-            { label: 'Blood Components', value: 'components' },
-            { label: 'Blood Disorders', value: 'disorders' },
-            { label: 'Parasites', value: 'parasites' },
-        ];
-
-        const slides = [
-            {
-                id: 1, category: 'cells',
-                title: 'Platelets',
-                image: 'images/Hematology/1.jpg',
-                definition: 'Platelets are small, colorless, disc-shaped cell fragments in the blood, formed from the cytoplasm of megakaryocytes in the bone marrow. They are not complete cells, but play a crucial role in blood clotting (hemostasis).',
-                appearance: ['Size: Very small (2-4 μm in diameter)','Shape: Disc-like when inactive; become irregular with finger projections when activated','Structure: Contains granules that store clotting factors, growth factors, serotonin, calcium'],
-                functionLabel: 'Functions',
-                functions: ['Allergic response: Releases histamine, which causes blood vessels to dilate and become leaky, producing allergy symptoms','Inflammation: Releases chemicals that attract other immune cells to sites of infection or injury','Anticoagulation: Heparin prevents blood clotting at the infection site','Parasitic defense: Helps in immune responses against parasites (though eosinophils play a bigger role)','Medical importance: Increased basophils (basophilia) may indicate allergies, chronic inflammation, or certain leukemias']
-            },
-            {
-                id: 2, category: 'cells',
-                title: 'White Blood Cells (Leukocytes)',
-                image: 'images/Hematology/2.jpg',
-                definition: 'A white blood cell (WBC), also called a leukocyte, is a type of blood cell that plays a vital role in the body\'s immune system, defending against infections, foreign substances, and abnormal cells.',
-                appearance: ['Larger than red blood cells (about 12-20 µm)','Have a nucleus (unlike red blood cells)','Various subtypes with different morphologies'],
-                functionLabel: 'Functions',
-                functions: ['Defense: Protect the body against pathogens and foreign substances','Immune memory: Lymphocytes (T and B cells) recognize antigens for faster response','Disease indicator: Abnormal WBC count can signal infections, immune disorders, or blood cancers']
-            },
-            {
-                id: 3, category: 'cells',
-                title: 'Red Blood Cells (Erythrocytes)',
-                image: 'images/Hematology/3.jpg',
-                definition: 'A red blood cell (RBC), also called an erythrocyte, is a specialized blood cell responsible for carrying oxygen from the lungs to body tissues and returning carbon dioxide from tissues to the lungs.',
-                appearance: ['Small, round, and biconcave disc-shaped','Red in color due to the presence of hemoglobin','No nucleus in mature cells'],
-                functionLabel: 'Functions',
-                functions: ['Oxygen transport: Carry oxygen from lungs to tissues','Carbon dioxide transport: Return CO2 from tissues to lungs','pH balance: Help maintain blood pH','Survival role: Essential for tissue respiration and energy production']
-            },
-            {
-                id: 4, category: 'cells',
-                title: 'Basophils',
-                image: 'images/Hematology/4.jpg',
-                definition: 'A basophil is a type of white blood cell (WBC) that belongs to the group of granulocytes. It plays a role in allergic reactions, inflammation, and defense against parasites by releasing chemical mediators such as histamine and heparin.',
-                appearance: ['Large cell (10-14 µm)','Contains a bilobed nucleus','Cytoplasm filled with large, dark blue-purple granules','Granules contain histamine, heparin, and other mediators'],
-                functionLabel: 'Functions',
-                functions: ['Allergic respond: Releases histamine, which causes blood vessels to dilate and become leaky, producing allergy symptoms','Inflammation: Releases chemicals that attract other immune cells to sites of infection or injury','Anticoagulation: Heparin prevents blood clotting at the infection site','Parasitic defense: Helps in immune responses against parasites (though eosinophils play a bigger role)']
-            },
-            {
-                id: 5, category: 'cells',
-                title: 'Eosinophils',
-                image: 'images/Hematology/5.jpg',
-                definition: 'An eosinophil is a type of white blood cell (WBC) that belongs to the granulocyte group. It plays an important role in the body\'s defense against parasitic infections and in controlling allergic and inflammatory responses.',
-                appearance: ['Medium-sized cell (12-17 µm)','Bilobed nucleus','Cytoplasm contains large, coarse red-orange granules when stained with eosin dye','Granules contain enzymes and proteins (like major basic protein) toxic to parasites'],
-                functionLabel: 'Functions',
-                functions: ['Parasitic defense: Releases toxic proteins to kill helminths (worms) and other parasites','Allergy regulation: Modulates allergic responses by breaking down histamine and inflammatory mediators','Inflammation: Involved in asthma and allergic diseases (high eosinophil counts are common in these conditions)','Immune balance: Helps regulate immune responses by interacting with T cells and mast cells','Medical importance: High levels (eosinophilia) may indicate parasitic infections, asthma, hay fever, or allergic disorders']
-            },
-            {
-                id: 6, category: 'cells',
-                title: 'Neutrophils',
-                image: 'images/Hematology/6.jpg',
-                definition: 'A neutrophil is the most abundant type of white blood cell (WBC) and a member of the granulocyte group. It is a first line of defense in the immune system, specializing in phagocytosis (engulfing and destroying bacteria, fungi, and cellular debris).',
-                appearance: ['Medium-sized cell (10-15 µm)','Multilobed nucleus (2-5 lobes, giving a "polymorphonuclear" appearance)','Cytoplasm contains fine, pale neutral-staining granules (not strongly colored by acidic or basic dyes)'],
-                functionLabel: 'Functions',
-                functions: ['Phagocytosis: Engulf and digest bacteria, fungi, and dead tissue','First responders: Rapidly migrate to sites of infection or injury','Inflammation: Release enzymes and reactive oxygen species to kill pathogens','Short life span: Live only a few hours to days, then die, forming pus at infection sites']
-            },
-            {
-                id: 7, category: 'cells',
-                title: 'Monocytes',
-                image: 'images/Hematology/7.jpg',
-                definition: 'A monocyte is a large type of white blood cell (WBC) that belongs to the agranulocyte group. It circulates in the blood and migrates into tissues, where it differentiates into macrophages or dendritic cells, playing a central role in immunity.',
-                appearance: ['Largest WBC (15-20 µm)','Kidney-shaped or horseshoe-shaped nucleus','Abundant cytoplasm, grayish-blue in color','Few or no visible granules (agranular)'],
-                functionLabel: 'Functions',
-                functions: ['Phagocytosis: Engulf pathogens, dead cells, and debris','Antigen presentation: Process and present antigens to T cells','Cytokine production: Release signaling molecules for immune responses','Medical importance: Increased monocytes (monocytosis) may indicate chronic infections (e.g., tuberculosis), inflammation, or blood disorders']
-            },
-            {
-                id: 8, category: 'components',
-                title: 'Plasma',
-                image: 'images/Hematology/8.jpg',
-                definition: 'Plasma is the liquid portion of blood, making up about 55% of total blood volume. It is a pale yellow fluid composed mostly of water, proteins, electrolytes, hormones, nutrients, and waste products.',
-                appearance: ['Clear, pale yellow fluid','Accounts for more than half of the blood\'s total volume','When blood cells (RBCs, WBCs, and platelets) are removed, plasma remains as the fluid component'],
-                functionLabel: 'Functions',
-                functions: ['Transport: Carries nutrients, hormones, and proteins throughout the body','Waste removal: Transports metabolic wastes to excretory organs','Clotting: Contains clotting factors (fibrinogen, prothrombin)','Immunity: Carries antibodies (immunoglobulins) that fight infections','pH & temperature regulation: Maintains blood pH and body temperature','Medical importance: Plasma is used in transfusions, production of medicines (like clotting factors, albumin)']
-            },
-            {
-                id: 9, category: 'components',
-                title: 'Howell-Jolly Bodies',
-                image: 'images/Hematology/9.jpg',
-                definition: 'Howell-Jolly bodies are small, round, basophilic nuclear remnants found within red blood cells. They are composed of DNA and represent fragments of the cell nucleus that were not completely extruded during red blood cell maturation in the bone marrow.',
-                appearance: ['Size: 1-2 μm in diameter (small, round inclusions)','Shape: Perfectly round, dark purple-blue structures','Location: Single or rarely multiple basophilic inclusions located at the periphery of the RBC','Staining: Dark blue-purple with Wright or Giemsa stains'],
-                functionLabel: 'Clinical Significance',
-                functions: ['Splenic function indicator: Normally removed by the spleen; presence indicates splenic dysfunction or absence','Diagnostic marker: Found in splenectomy patients, functional asplenia, and severe splenic diseases','Clinical significance: Helps assess splenic filtering function and risk for bacterial infections','Associated conditions: Seen in hemolytic anemia, megaloblastic anemia, and post-splenectomy states','Medical importance: Patients with Howell-Jolly bodies have increased risk of overwhelming bacterial infections']
-            },
-            {
-                id: 10, category: 'components',
-                title: 'Rouleaux Formation',
-                image: 'images/Hematology/10.jpg',
-                definition: 'Rouleaux formation is the stacking arrangement of red blood cells that resembles a stack of coins, caused by increased plasma proteins (especially fibrinogen and globulins) that reduce the negative charge on RBC surfaces, allowing them to aggregate.',
-                appearance: ['Size: Normal RBC size (6-8 μm) arranged in linear stacks','Shape: Coin-stack appearance with RBCs lined up in rows','Structure: Reversible aggregation that disperses when diluted with saline'],
-                functionLabel: 'Functions',
-                functions: ['Inflammatory marker: Indicates elevated acute phase proteins during inflammation or infection','Disease indicator: Associated with multiple myeloma, chronic infections, and autoimmune disorders','ESR correlation: Directly related to elevated erythrocyte sedimentation rate (ESR) values','Medical importance: Can help diagnose inflammatory conditions and monitor disease progression']
-            },
-            {
-                id: 11, category: 'components',
-                title: 'Bone Marrow',
-                image: 'images/Hematology/11.jpg',
-                definition: 'Bone marrow is the soft, spongy tissue found inside the hollow cavities of bones. It is the primary site of blood cell production (hematopoiesis), generating red blood cells, white blood cells, and platelets.',
-                appearance: ['Soft, gelatinous tissue with a reddish-brown color (red marrow) or yellowish color (yellow marrow, mostly fat)','Composed of hematopoietic stem cells, fat cells, and supporting stromal cells','Red marrow is active in blood formation; yellow marrow mainly stores fat'],
-                functionLabel: 'Functions',
-                functions: ['Hematopoiesis: Produces all blood cell types (RBCs, WBCs, platelets)','Immune function: Provides a site for developing lymphocytes (B cells mature here)','Storage: Yellow marrow stores fat, which can serve as energy reserve','Medical importance: Bone marrow examination helps diagnose anemia, leukemia, lymphoma, myeloma, and other blood disorders']
-            },
-            {
-                id: 12, category: 'components',
-                title: 'Blood Clot Formation',
-                image: 'images/Hematology/12.jpg',
-                definition: 'Blood clot formation is the process by which blood changes from a liquid to a gel-like state to stop bleeding after an injury. This process is also called hemostasis and involves platelets, clotting factors, and fibrin.',
-                appearance: ['Visible as a gel-like mass at the site of injury','Initially a platelet plug forms, then it is stabilized by a fibrin mesh','In vitro (test tube), appears as a solid clot separated from serum'],
-                functionLabel: 'Functions & Process',
-                functions: ['Stop bleeding: Primary function to prevent blood loss','Wound repair: Provides framework for tissue healing','Protection: Prevents entry of pathogens through wounds','Vascular spasm: Blood vessels constrict','Platelet plug formation: Platelets aggregate at injury site','Fibrin clot formation: Coagulation cascade produces fibrin mesh','Fibrinolysis: Clot is dissolved after healing']
-            },
-            {
-                id: 13, category: 'disorders',
-                title: 'Sickle Cell Disease',
-                image: 'images/Hematology/13.jpg',
-                definition: 'Sickle cell refers to a condition in which red blood cells (RBCs) become abnormally shaped like a crescent or sickle. This occurs due to a genetic mutation in the hemoglobin gene (HbS), leading to sickle cell disease (SCD).',
-                appearance: ['RBCs are crescent- or sickle-shaped instead of the normal biconcave disc','Cells are rigid, less flexible, and can clump together','Visible under a microscope, especially in oxygen-deprived conditions'],
-                functionLabel: 'Effects & Complications',
-                functions: ['Oxygen transport impaired: Sickled cells carry less oxygen and can block blood flow','Shortened lifespan: Lifespan of sickle cells is ~10-20 days (normal RBC ~120 days), leading to anemia','Complications: Can cause pain crises, organ damage, infections','Genetic importance: Sickle cell trait (heterozygous) provides some resistance to malaria','Medical importance: Diagnosis involves blood smear, hemoglobin electrophoresis, and genetic testing']
-            },
-            {
-                id: 14, category: 'disorders',
-                title: 'Multiple Myeloma',
-                image: 'images/Hematology/14.jpg',
-                definition: 'Multiple myeloma is a cancer of plasma cells, a type of white blood cell that produces antibodies. In this disease, abnormal plasma cells multiply uncontrollably in the bone marrow, crowding out normal blood cells.',
-                appearance: ['Bone marrow contains clusters of malignant plasma cells with large nuclei','Blood may show high levels of abnormal antibodies (M-protein)','Bones may show lesions or thinning on X-ray due to plasma cell infiltration'],
-                functionLabel: 'Effects & Complications',
-                functions: ['Antibody production disrupted: Malignant plasma cells produce defective antibodies','Bone damage: Causes bone pain, fractures, and hypercalcemia','Blood cell reduction: Crowding bone marrow leads to anemia, thrombocytopenia, leukopenia','Kidney damage: Abnormal proteins can damage kidney function','Medical importance: Diagnosis involves blood tests (M-protein), urine tests, bone marrow biopsy, and imaging']
-            },
-            {
-                id: 15, category: 'disorders',
-                title: 'Thalassemia',
-                image: 'images/Hematology/15.jpg',
-                definition: 'Thalassemia is a genetic blood disorder in which the body produces abnormal hemoglobin, leading to reduced production of functional red blood cells and resulting in anemia.',
-                appearance: ['Red blood cells are small (microcytic) and pale (hypochromic) under a microscope','Cells may appear irregularly shaped and sometimes fragmented','Target cells may be present'],
-                functionLabel: 'Effects & Treatment',
-                functions: ['Impaired oxygen transport: Abnormal hemoglobin reduces oxygen delivery to tissues','Anemia: Causes fatigue, weakness, and pallor','Bone changes: Chronic anemia may lead to bone deformities (especially in the face and skull)','Growth retardation: Severe thalassemia can affect growth and development in children','Diagnosis: Blood tests, hemoglobin electrophoresis, and genetic testing','Treatment: Blood transfusions, iron chelation therapy, and sometimes bone marrow transplantation']
-            },
-            {
-                id: 16, category: 'disorders',
-                title: 'Paroxysmal Nocturnal Hemoglobinuria (PNH)',
-                image: 'images/Hematology/16.jpg',
-                definition: 'Paroxysmal Nocturnal Hemoglobinuria (PNH) is a rare, acquired blood disorder where red blood cells (RBCs) are destroyed by the immune system because they lack protective surface proteins due to a mutation in the PIGA gene.',
-                appearance: ['Under a microscope, RBCs may look normal but are fragile and easily destroyed (hemolysis)','Lab tests show hemoglobin in urine (dark-colored urine, especially in the morning)','Flow cytometry shows absence of CD55 and CD59 proteins on blood cells'],
-                functionLabel: 'Effects & Complications',
-                functions: ['Defective stem cells: Leads to production of abnormal RBCs, WBCs, and platelets','Hemolysis (RBC destruction): Causes anemia, dark urine, and jaundice','Blood clots (thrombosis): A major cause of death in PNH patients','Bone marrow failure: Can lead to low counts of all blood cells (pancytopenia)']
-            },
-            {
-                id: 17, category: 'parasites',
-                title: 'Malaria (Blood Stage)',
-                image: 'images/Hematology/17.jpg',
-                definition: 'When malaria parasites (Plasmodium species) enter the blood stage, they invade red blood cells (RBCs), multiply inside them, and eventually destroy them. This blood stage is responsible for the symptoms of malaria.',
-                appearance: ['Ring stage (early trophozoite): Small ring-like parasite inside RBCs','Trophozoite stage: Larger, more active form','Schizont stage: RBC filled with many daughter parasites (merozoites)','Gametocyte stage: Sexual forms (banana-shaped in P. falciparum)','Infected RBCs may look enlarged, deformed, or ruptured depending on the species'],
-                functionLabel: 'Process & Complications',
-                functions: ['RBC invasion: Parasite enters RBCs using special proteins','Multiplication: Each infected RBC can release 8-32 merozoites after rupture','Hemolysis: Rupture of RBCs causes anemia and releases toxins, leading to fever and chills','Cyclic fevers: Symptoms occur in cycles (every 48 or 72 hours) depending on parasite species','Severe anemia and enlarged spleen','Cerebral malaria: parasite-infected RBCs block brain vessels','Multi-organ failure in severe P. falciparum infections']
-            },
-            {
-                id: 18, category: 'parasites',
-                title: 'Kala-azar (Visceral Leishmaniasis)',
-                image: 'images/Hematology/18.jpg',
-                definition: 'Kala-azar (Visceral leishmaniasis) is a parasitic disease caused by Leishmania donovani and related species. It is transmitted to humans through the bite of infected female sandflies (Phlebotomus species).',
-                appearance: ['In blood or bone marrow smears: small, oval parasites (2-5 µm) inside macrophages (called amastigotes)','Enlarged spleen and liver in patients (clinically visible)','Parasites appear as Leishman-Donovan bodies within infected cells'],
-                functionLabel: 'Effects & Complications',
-                functions: ['Infection of macrophages: The parasite multiplies inside immune cells, spreading through blood, spleen, liver, and bone marrow','Fever, weight loss, and weakness','Hepatosplenomegaly: Enlarged liver and spleen','Anemia and reduced white blood cell count','Complications: Can be fatal if untreated due to severe anemia, infections, and organ failure']
-            },
-            {
-                id: 19, category: 'disorders',
-                title: 'Leukemia',
-                image: 'images/Hematology/19.jpg',
-                definition: 'Leukemia is a cancer of the blood and bone marrow that causes uncontrolled production of abnormal white blood cells (WBCs). These cells do not function properly and crowd out normal blood cells.',
-                appearance: ['Blood smear shows immature or abnormal WBCs (called blasts)','Bone marrow is often packed with abnormal leukocytes','Normal RBCs and platelets are reduced','Abnormal cell morphology and increased cell count'],
-                functionLabel: 'Effects & Complications',
-                functions: ['Immune dysfunction: Abnormal WBCs cannot fight infections effectively','Anemia: Due to reduced RBC production → fatigue, weakness, pallor','Bleeding & bruising: Low platelet count leads to bleeding disorders','Enlarged organs: Spleen, liver, and lymph nodes may become enlarged','Bone pain and weakness','Increased susceptibility to infections']
-            },
-            {
-                id: 20, category: 'disorders',
-                title: 'Lymphoma',
-                image: 'images/Hematology/20.jpg',
-                definition: 'Lymphoma is a type of blood cancer that begins in lymphocytes, a type of white blood cell that helps fight infections. It usually starts in the lymph nodes or other lymphatic tissues. There are two main types: Hodgkin lymphoma (HL) and Non-Hodgkin lymphoma (NHL).',
-                appearance: ['Microscopic biopsy shows abnormal lymphocytes in lymph nodes','Hodgkin lymphoma: characteristic Reed-Sternberg cells (large, bi-nucleated "owl\'s eye" cells)','Non-Hodgkin lymphoma: diffuse or nodular collections of malignant lymphocytes','Blood tests may show abnormal white cell count or tumor markers','Imaging (CT, PET scans) reveals enlarged lymph nodes, spleen, or extranodal masses'],
-                functionLabel: 'Effects & Complications',
-                functions: ['Lymph node enlargement: Causes painless swelling in neck, armpits, or groin','Systemic "B symptoms": Fever, night sweats, unexplained weight loss','Organ involvement: Can spread to bone marrow, liver, spleen, or other organs','Immune dysfunction: Compromised ability to fight infections','Complications: Anemia, fatigue, increased infection risk','Medical importance: Diagnosis requires lymph node biopsy, staging with imaging, and immunophenotyping']
-            }
-        ];
-
-        const filteredSlides = computed(() => {
-            if (activeFilter.value === 'all') return slides;
-            return slides.filter(s => s.category === activeFilter.value);
-        });
-
-        const setFilter = (val) => {
-            activeFilter.value = val;
-            nextTick(() => observeCards());
-        };
-
-        const scrollToSlide = (id) => {
-            currentDot.value = id;
-            const cards = document.querySelectorAll('.slide-card');
-            if (cards[id - 1]) cards[id - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
-        };
-
-        const printPage = () => window.print();
-
-        const handleScroll = () => {
-            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            scrollProgress.value = scrolled;
-        };
-
-        let observer;
-        const observeCards = () => {
-            if (observer) observer.disconnect();
-            observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-            document.querySelectorAll('.slide-card').forEach(card => observer.observe(card));
-        };
-
-        onMounted(() => {
-            window.addEventListener('scroll', handleScroll);
-            nextTick(() => observeCards());
-        });
-
-        onUnmounted(() => {
-            window.removeEventListener('scroll', handleScroll);
-            if (observer) observer.disconnect();
-        });
-
-        return { scrollProgress, activeFilter, filters, slides, filteredSlides, currentDot, setFilter, scrollToSlide, printPage };
-    }
+  setup(){
+    const activeFilter=ref('all');
+    const filters=[
+      {label:'All Slides',value:'all'},
+      {label:'Blood Cells',value:'cells'},
+      {label:'Components',value:'components'},
+      {label:'Disorders',value:'disorders'},
+      {label:'Parasites',value:'parasites'},
+    ];
+    const slides=[
+      {id:1,category:'cells',title:'Platelets',image:'images/Hematology/1.jpg',definition:'Platelets are small, colorless, disc-shaped cell fragments in the blood, formed from the cytoplasm of megakaryocytes in the bone marrow. They are not complete cells, but play a crucial role in blood clotting (hemostasis).',appearance:['Size: Very small (2–4 μm in diameter)','Shape: Disc-like when inactive; irregular with projections when activated','Structure: Contains granules storing clotting factors, growth factors, serotonin, calcium'],functionLabel:'Functions',functions:['Allergic response: Releases histamine causing vasodilation','Inflammation: Releases chemicals attracting immune cells','Anticoagulation: Heparin prevents clotting at infection site','Parasitic defense: Helps immune responses against parasites']},
+      {id:2,category:'cells',title:'White Blood Cells (Leukocytes)',image:'images/Hematology/2.jpg',definition:"A white blood cell (WBC), also called a leukocyte, is a type of blood cell that plays a vital role in the body's immune system, defending against infections, foreign substances, and abnormal cells.",appearance:['Larger than red blood cells (about 12–20 µm)','Have a nucleus (unlike red blood cells)','Various subtypes with different morphologies'],functionLabel:'Functions',functions:['Defense: Protect the body against pathogens and foreign substances','Immune memory: Lymphocytes recognize antigens for faster response','Disease indicator: Abnormal WBC count signals infections or cancers']},
+      {id:3,category:'cells',title:'Red Blood Cells (Erythrocytes)',image:'images/Hematology/3.jpg',definition:'A red blood cell (RBC), also called an erythrocyte, is a specialized blood cell responsible for carrying oxygen from the lungs to body tissues and returning carbon dioxide from tissues to the lungs.',appearance:['Small, round, and biconcave disc-shaped','Red in color due to hemoglobin','No nucleus in mature cells'],functionLabel:'Functions',functions:['Oxygen transport: Carry oxygen from lungs to tissues','Carbon dioxide transport: Return CO₂ from tissues to lungs','pH balance: Help maintain blood pH','Essential for tissue respiration and energy production']},
+      {id:4,category:'cells',title:'Basophils',image:'images/Hematology/4.jpg',definition:'A basophil is a type of white blood cell (WBC) that belongs to the granulocyte group. It plays a role in allergic reactions, inflammation, and defense against parasites by releasing histamine and heparin.',appearance:['Large cell (10–14 µm)','Contains a bilobed nucleus','Cytoplasm filled with large, dark blue-purple granules'],functionLabel:'Functions',functions:['Allergic response: Releases histamine causing vasodilation','Inflammation: Attracts other immune cells','Anticoagulation: Heparin prevents clotting','Parasitic defense: Assists in immune responses']},
+      {id:5,category:'cells',title:'Eosinophils',image:'images/Hematology/5.jpg',definition:"An eosinophil is a type of white blood cell (WBC) that belongs to the granulocyte group. It plays an important role in the body's defense against parasitic infections and in controlling allergic and inflammatory responses.",appearance:['Medium-sized cell (12–17 µm)','Bilobed nucleus','Large coarse red-orange granules when stained with eosin dye'],functionLabel:'Functions',functions:['Parasitic defense: Releases toxic proteins to kill helminths','Allergy regulation: Modulates allergic responses','Inflammation: Involved in asthma and allergic diseases','Immune balance: Regulates immune responses']},
+      {id:6,category:'cells',title:'Neutrophils',image:'images/Hematology/6.jpg',definition:'A neutrophil is the most abundant type of white blood cell (WBC) and a member of the granulocyte group. It is a first line of defense in the immune system, specializing in phagocytosis.',appearance:['Medium-sized cell (10–15 µm)','Multilobed nucleus (2–5 lobes, polymorphonuclear)','Fine, pale neutral-staining granules'],functionLabel:'Functions',functions:['Phagocytosis: Engulf and digest bacteria, fungi, and dead tissue','First responders: Rapidly migrate to sites of infection','Inflammation: Release enzymes and reactive oxygen species','Short life span: Live hours to days, forming pus at infection sites']},
+      {id:7,category:'cells',title:'Monocytes',image:'images/Hematology/7.jpg',definition:'A monocyte is a large type of white blood cell (WBC) that belongs to the agranulocyte group. It circulates in the blood and migrates into tissues, differentiating into macrophages or dendritic cells.',appearance:['Largest WBC (15–20 µm)','Kidney-shaped or horseshoe-shaped nucleus','Abundant grayish-blue cytoplasm, few granules'],functionLabel:'Functions',functions:['Phagocytosis: Engulf pathogens, dead cells, and debris','Antigen presentation: Process and present antigens to T cells','Cytokine production: Release signaling molecules','Monocytosis may indicate chronic infections or inflammation']},
+      {id:8,category:'components',title:'Plasma',image:'images/Hematology/8.jpg',definition:'Plasma is the liquid portion of blood, making up about 55% of total blood volume. It is a pale yellow fluid composed mostly of water, proteins, electrolytes, hormones, nutrients, and waste products.',appearance:['Clear, pale yellow fluid','Accounts for more than half of blood volume','Remains after blood cells and platelets are removed'],functionLabel:'Functions',functions:['Transport: Carries nutrients, hormones, and proteins','Waste removal: Transports metabolic wastes to excretory organs','Clotting: Contains fibrinogen and prothrombin','Immunity: Carries antibodies (immunoglobulins)']},
+      {id:9,category:'components',title:'Howell-Jolly Bodies',image:'images/Hematology/9.jpg',definition:'Howell-Jolly bodies are small, round, basophilic nuclear remnants found within red blood cells. They are composed of DNA and represent fragments of the cell nucleus not completely extruded during RBC maturation.',appearance:['Size: 1–2 μm in diameter','Shape: Perfectly round, dark purple-blue','Location: Single basophilic inclusions at periphery of RBC','Staining: Dark blue-purple with Wright or Giemsa stains'],functionLabel:'Clinical Significance',functions:['Splenic function indicator: Normally removed by spleen; presence indicates dysfunction','Diagnostic marker: Found post-splenectomy and in splenic diseases','Associated with hemolytic and megaloblastic anemia','Increased risk of overwhelming bacterial infections']},
+      {id:10,category:'components',title:'Rouleaux Formation',image:'images/Hematology/10.jpg',definition:'Rouleaux formation is the stacking arrangement of red blood cells resembling a stack of coins, caused by increased plasma proteins reducing the negative charge on RBC surfaces.',appearance:['Normal RBC size (6–8 μm) arranged in linear stacks','Coin-stack appearance','Reversible aggregation that disperses when diluted'],functionLabel:'Functions',functions:['Inflammatory marker: Indicates elevated acute phase proteins','Associated with multiple myeloma and autoimmune disorders','Directly related to elevated erythrocyte sedimentation rate (ESR)','Helps diagnose inflammatory conditions']},
+      {id:11,category:'components',title:'Bone Marrow',image:'images/Hematology/11.jpg',definition:'Bone marrow is the soft, spongy tissue found inside the hollow cavities of bones. It is the primary site of blood cell production (hematopoiesis).',appearance:['Soft, gelatinous reddish-brown (red) or yellowish (yellow, fat) tissue','Composed of hematopoietic stem cells, fat cells, and stromal cells','Red marrow is active; yellow marrow stores fat'],functionLabel:'Functions',functions:['Hematopoiesis: Produces all blood cell types','Immune function: Site for B lymphocyte development','Storage: Yellow marrow stores fat as energy reserve','Examination helps diagnose anemia, leukemia, lymphoma']},
+      {id:12,category:'components',title:'Blood Clot Formation',image:'images/Hematology/12.jpg',definition:'Blood clot formation (hemostasis) is the process by which blood changes from liquid to gel-like state to stop bleeding, involving platelets, clotting factors, and fibrin.',appearance:['Visible as a gel-like mass at the site of injury','Platelet plug forms first, then stabilized by fibrin mesh','In vitro: appears as solid clot separated from serum'],functionLabel:'Process & Functions',functions:['Stop bleeding: Prevent blood loss','Wound repair: Framework for tissue healing','Vascular spasm then platelet plug then fibrin clot then fibrinolysis','Protection: Prevents pathogen entry through wounds']},
+      {id:13,category:'disorders',title:'Sickle Cell Disease',image:'images/Hematology/13.jpg',definition:'Sickle cell disease occurs when RBCs become crescent- or sickle-shaped due to a genetic mutation in the hemoglobin gene (HbS), causing them to become rigid and block blood flow.',appearance:['RBCs are crescent- or sickle-shaped instead of biconcave disc','Cells are rigid, less flexible, can clump','Visible under microscope especially in low-oxygen conditions'],functionLabel:'Effects & Complications',functions:['Impaired oxygen transport and reduced flow','Shortened lifespan: ~10–20 days vs normal ~120 days → anemia','Causes pain crises, organ damage, infections','Heterozygous trait provides partial malaria resistance']},
+      {id:14,category:'disorders',title:'Multiple Myeloma',image:'images/Hematology/14.jpg',definition:'Multiple myeloma is a cancer of plasma cells where abnormal plasma cells multiply uncontrollably in the bone marrow, crowding out normal blood cells.',appearance:['Bone marrow shows clusters of malignant plasma cells','Blood shows high levels of abnormal antibodies (M-protein)','Bones show lesions or thinning on X-ray'],functionLabel:'Effects & Complications',functions:['Disrupted antibody production: Defective antibodies formed','Bone damage: Pain, fractures, hypercalcemia','Crowding leads to anemia, thrombocytopenia, leukopenia','Kidney damage from abnormal proteins']},
+      {id:15,category:'disorders',title:'Thalassemia',image:'images/Hematology/15.jpg',definition:'Thalassemia is a genetic blood disorder where the body produces abnormal hemoglobin, leading to reduced production of functional RBCs and resulting in anemia.',appearance:['RBCs are small (microcytic) and pale (hypochromic)','Cells may be irregularly shaped or fragmented','Target cells may be present'],functionLabel:'Effects & Treatment',functions:['Impaired oxygen transport and tissue delivery','Anemia: Fatigue, weakness, pallor','Bone changes: Deformities with chronic anemia','Treatment: Transfusions, chelation therapy, bone marrow transplant']},
+      {id:16,category:'disorders',title:'Paroxysmal Nocturnal Hemoglobinuria (PNH)',image:'images/Hematology/16.jpg',definition:'PNH is a rare acquired blood disorder where RBCs are destroyed by the immune system because they lack protective surface proteins due to a PIGA gene mutation.',appearance:['RBCs look normal but are fragile and easily destroyed','Lab tests show hemoglobin in urine (dark morning urine)','Flow cytometry: absence of CD55 and CD59'],functionLabel:'Effects & Complications',functions:['Defective stem cells produce abnormal RBCs, WBCs, platelets','Hemolysis causes anemia, dark urine, and jaundice','Thrombosis: A major cause of death in PNH','Can lead to pancytopenia (low counts of all blood cells)']},
+      {id:17,category:'parasites',title:'Malaria (Blood Stage)',image:'images/Hematology/17.jpg',definition:'Malaria parasites (Plasmodium species) invade red blood cells, multiply inside them, and eventually destroy them, causing the symptoms of malaria.',appearance:['Ring stage: Small ring-like parasite inside RBCs','Trophozoite stage: Larger, more active form','Schizont stage: RBC filled with daughter merozoites','Gametocyte: Banana-shaped in P. falciparum'],functionLabel:'Process & Complications',functions:['RBC invasion using special parasite proteins','Each infected RBC releases 8–32 merozoites after rupture','Hemolysis causes anemia, toxin release, fever and chills','Cerebral malaria and multi-organ failure in severe cases']},
+      {id:18,category:'parasites',title:'Kala-azar (Visceral Leishmaniasis)',image:'images/Hematology/18.jpg',definition:'Kala-azar is a parasitic disease caused by Leishmania donovani, transmitted through bites of infected female sandflies (Phlebotomus species).',appearance:['Small oval amastigotes (2–5 µm) inside macrophages in smears','Enlarged spleen and liver (clinically)','Leishman-Donovan bodies within infected cells'],functionLabel:'Effects & Complications',functions:['Parasite multiplies inside immune cells, spreads through blood, spleen, liver, bone marrow','Fever, weight loss, and weakness','Hepatosplenomegaly: Enlarged liver and spleen','Fatal if untreated due to severe anemia and organ failure']},
+      {id:19,category:'disorders',title:'Leukemia',image:'images/Hematology/19.jpg',definition:'Leukemia is a cancer of the blood and bone marrow causing uncontrolled production of abnormal white blood cells that crowd out normal blood cells.',appearance:['Blood smear shows immature WBCs (blasts)','Bone marrow packed with abnormal leukocytes','Reduced normal RBCs and platelets'],functionLabel:'Effects & Complications',functions:['Immune dysfunction: Abnormal WBCs cannot fight infections','Anemia from reduced RBC production → fatigue, pallor','Bleeding from low platelet count','Enlarged spleen, liver, and lymph nodes; bone pain']},
+      {id:20,category:'disorders',title:'Lymphoma',image:'images/Hematology/20.jpg',definition:"Lymphoma is blood cancer beginning in lymphocytes, usually starting in lymph nodes. Two main types: Hodgkin lymphoma (HL) and Non-Hodgkin lymphoma (NHL).",appearance:["Biopsy shows abnormal lymphocytes in lymph nodes","Hodgkin: Reed-Sternberg cells (owl's eye, bi-nucleated)",'Non-Hodgkin: Diffuse or nodular malignant lymphocytes','Imaging reveals enlarged lymph nodes, spleen, or extranodal masses'],functionLabel:'Effects & Complications',functions:['Lymph node enlargement: Painless swelling in neck, armpits, groin','Systemic B symptoms: Fever, night sweats, weight loss','Can spread to bone marrow, liver, spleen','Immune dysfunction increases infection risk']},
+    ];
+    const filteredSlides=computed(()=>activeFilter.value==='all'?slides:slides.filter(s=>s.category===activeFilter.value));
+    const setFilter=val=>{activeFilter.value=val;nextTick(observeCards);};
+    let observer;
+    const observeCards=()=>{
+      if(observer)observer.disconnect();
+      observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.07,rootMargin:'0px 0px -40px 0px'});
+      document.querySelectorAll('.slide-card').forEach(c=>observer.observe(c));
+    };
+    const updateProgress=()=>{
+      const el=document.getElementById('pf');if(!el)return;
+      const pct=(window.scrollY/Math.max(1,document.documentElement.scrollHeight-window.innerHeight))*100;
+      el.style.width=pct+'%';
+    };
+    onMounted(()=>{
+      window.addEventListener('scroll',updateProgress,{passive:true});
+      nextTick(observeCards);
+    });
+    onUnmounted(()=>{
+      window.removeEventListener('scroll',updateProgress);
+      if(observer)observer.disconnect();
+    });
+    return{activeFilter,filters,slides,filteredSlides,setFilter};
+  }
 }).mount('#app');
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  const canvas=document.getElementById('hema-canvas');
+  const header=document.getElementById('hema-header');
+  if(!canvas||!header||typeof THREE==='undefined')return;
+  const W=header.clientWidth||800,H=Math.max(header.clientHeight,180);
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  renderer.setSize(W,H);
+  const scene=new THREE.Scene();
+  scene.background=new THREE.Color(0x0f0203);
+  scene.add(new THREE.AmbientLight(0x1a0000,.5));
+  const dl=new THREE.DirectionalLight(0xff6666,1.2);dl.position.set(5,8,5);scene.add(dl);
+
+  // Stars
+  const sg=new THREE.BufferGeometry(),sp=[];
+  for(let i=0;i<100;i++)sp.push((Math.random()-.5)*30,(Math.random()-.5)*20,(Math.random()-.5)*10);
+  sg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(sp),3));
+  scene.add(new THREE.Points(sg,new THREE.PointsMaterial({color:0xffffff,size:.06})));
+
+  const group=new THREE.Group();
+  const rM=new THREE.MeshPhongMaterial({color:0xdc2626,emissive:0x3d0000,shininess:80});
+  const wM=new THREE.MeshPhongMaterial({color:0xf1f5f9,emissive:0x111111,transparent:true,opacity:.85,shininess:60});
+  const pM=new THREE.MeshPhongMaterial({color:0xfca5a5,emissive:0x1a0000,shininess:40});
+  const spkM=new THREE.MeshPhongMaterial({color:0xe2e8f0,shininess:40});
+
+  // RBCs
+  for(let i=0;i<22;i++){
+    const rbc=new THREE.Mesh(new THREE.SphereGeometry(.75,16,12),rM);
+    rbc.scale.set(1,.22,1);
+    rbc.position.set((Math.random()-.5)*14,(Math.random()-.5)*8,(Math.random()-.5)*5);
+    rbc.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,Math.random()*Math.PI);
+    rbc.userData={oy:rbc.position.y,off:Math.random()*Math.PI*2,sp:.2+Math.random()*.2};
+    group.add(rbc);
+  }
+  // WBC
+  const wbc=new THREE.Mesh(new THREE.SphereGeometry(1.4,24,24),wM);
+  for(let s=0;s<16;s++){
+    const phi=Math.acos(-1+(2*s)/16),th=Math.sqrt(16*Math.PI)*phi;
+    const sp2=new THREE.Mesh(new THREE.ConeGeometry(.07,.4,4),spkM);
+    const dir=new THREE.Vector3(Math.sin(phi)*Math.cos(th),Math.cos(phi),Math.sin(phi)*Math.sin(th));
+    sp2.position.copy(dir.clone().multiplyScalar(1.5));sp2.lookAt(dir.clone().multiplyScalar(4));wbc.add(sp2);
+  }
+  wbc.position.set(1,1,0);group.add(wbc);
+  // Platelets
+  for(let p=0;p<8;p++){
+    const pl=new THREE.Mesh(new THREE.SphereGeometry(.25,8,8),pM);
+    pl.scale.set(1,.35,1);
+    pl.position.set((Math.random()-.5)*10,(Math.random()-.5)*7,(Math.random()-.5)*4);
+    group.add(pl);
+  }
+  scene.add(group);
+
+  const camera=new THREE.PerspectiveCamera(45,W/H,.1,100);
+  camera.position.set(0,4,10);camera.lookAt(0,0,0);
+
+  function animate(){
+    requestAnimationFrame(animate);
+    const t=performance.now()/1000;
+    group.rotation.y=t*.1;
+    wbc.rotation.y=t*.3;wbc.rotation.x=t*.15;
+    group.children.forEach(c=>{if(c.userData.oy!==undefined)c.position.y=c.userData.oy+Math.sin(t*c.userData.sp+c.userData.off)*.4;});
+    renderer.render(scene,camera);
+  }
+  animate();
+
+  const ro=new ResizeObserver(()=>{
+    const w=header.clientWidth,h=Math.max(header.clientHeight,180);
+    camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);
+  });
+  ro.observe(header);
+})();
 </script>
 </body>
 </html>

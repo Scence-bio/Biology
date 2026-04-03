@@ -1,0 +1,79 @@
+<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+  <rect width="1280" height="520" fill="#050f1a"/>
+  <defs>
+    <radialGradient id="rg2" cx="50%" cy="50%" r="80%"><stop offset="0%" stop-color="#0c2540"/><stop offset="100%" stop-color="#020810"/></radialGradient>
+    <radialGradient id="cell2a" cx="45%" cy="40%" r="60%"><stop offset="0%" stop-color="#1e5a8a"/><stop offset="100%" stop-color="#0a2040"/></radialGradient>
+    <radialGradient id="cell2b" cx="45%" cy="40%" r="60%"><stop offset="0%" stop-color="#164a6e"/><stop offset="100%" stop-color="#082030"/></radialGradient>
+    <marker id="emba" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#3282b8" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1280" height="520" fill="url(#rg2)"/>
+  <text x="108" y="490" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="monospace" opacity=".7">zygote</text>
+  <text x="290" y="490" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="monospace" opacity=".7">2-cell</text>
+  <text x="480" y="490" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="monospace" opacity=".7">4-cell</text>
+  <text x="680" y="490" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="monospace" opacity=".7">8-cell</text>
+  <text x="880" y="490" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="monospace" opacity=".7">morula</text>
+  <text x="1100" y="490" text-anchor="middle" fill="#60a5fa" font-size="11" font-family="monospace" opacity=".7">blastocyst</text>
+  <g stroke="#3282b8" stroke-width="1.5" fill="none" opacity=".5">
+    <line x1="165" y1="260" x2="222" y2="260" marker-end="url(#emba)"/>
+    <line x1="362" y1="260" x2="400" y2="260" marker-end="url(#emba)"/>
+    <line x1="564" y1="260" x2="600" y2="260" marker-end="url(#emba)"/>
+    <line x1="768" y1="260" x2="806" y2="260" marker-end="url(#emba)"/>
+    <line x1="968" y1="260" x2="1006" y2="260" marker-end="url(#emba)"/>
+  </g>
+  <circle cx="108" cy="260" r="58" fill="url(#cell2a)" stroke="#3b82f6" stroke-width="2.5" opacity=".95"/>
+  <ellipse cx="100" cy="252" rx="22" ry="20" fill="#0f3060" stroke="#60a5fa" stroke-width="1.5" opacity=".9"/>
+  <circle cx="105" cy="250" r="8" fill="#1e40af" opacity=".9"/>
+  <circle cx="148" cy="212" r="10" fill="#1e4080" stroke="#3b82f6" stroke-width="1.5" opacity=".7"/>
+  <circle cx="253" cy="260" r="52" fill="none" stroke="#3b82f6" stroke-width="1.5" opacity=".5"/>
+  <circle cx="253" cy="235" r="38" fill="url(#cell2a)" stroke="#60a5fa" stroke-width="1.5" opacity=".9"/>
+  <ellipse cx="247" cy="228" rx="14" ry="13" fill="#0f3060" stroke="#60a5fa" stroke-width="1" opacity=".9"/>
+  <circle cx="253" cy="285" r="38" fill="url(#cell2b)" stroke="#60a5fa" stroke-width="1.5" opacity=".9"/>
+  <ellipse cx="258" cy="292" rx="14" ry="13" fill="#0c2850" stroke="#60a5fa" stroke-width="1" opacity=".9"/>
+  <circle cx="482" cy="260" r="52" fill="none" stroke="#3b82f6" stroke-width="1.5" opacity=".4"/>
+  <circle cx="460" cy="242" r="30" fill="url(#cell2a)" stroke="#60a5fa" stroke-width="1.5" opacity=".9"/>
+  <ellipse cx="456" cy="238" rx="10" ry="9" fill="#0f3060" stroke="#60a5fa" stroke-width="1"/>
+  <circle cx="504" cy="242" r="30" fill="url(#cell2b)" stroke="#60a5fa" stroke-width="1.5" opacity=".9"/>
+  <ellipse cx="508" cy="238" rx="10" ry="9" fill="#0c2850" stroke="#60a5fa" stroke-width="1"/>
+  <circle cx="460" cy="278" r="30" fill="url(#cell2b)" stroke="#60a5fa" stroke-width="1.5" opacity=".9"/>
+  <ellipse cx="456" cy="282" rx="10" ry="9" fill="#0c2850" stroke="#60a5fa" stroke-width="1"/>
+  <circle cx="504" cy="278" r="30" fill="url(#cell2a)" stroke="#60a5fa" stroke-width="1.5" opacity=".9"/>
+  <ellipse cx="508" cy="282" rx="10" ry="9" fill="#0f3060" stroke="#60a5fa" stroke-width="1"/>
+  <circle cx="682" cy="260" r="54" fill="none" stroke="#3b82f6" stroke-width="1.5" opacity=".4"/>
+  <g fill="url(#cell2a)" stroke="#60a5fa" stroke-width="1" opacity=".88">
+    <circle cx="660" cy="240" r="24"/><circle cx="704" cy="240" r="24"/>
+    <circle cx="660" cy="280" r="24"/><circle cx="704" cy="280" r="24"/>
+    <circle cx="639" cy="262" r="20" fill="url(#cell2b)"/><circle cx="725" cy="262" r="20" fill="url(#cell2b)"/>
+    <circle cx="682" cy="228" r="20" fill="url(#cell2b)"/><circle cx="682" cy="294" r="20" fill="url(#cell2b)"/>
+  </g>
+  <g fill="#0f3060" stroke="#60a5fa" stroke-width=".8" opacity=".9">
+    <ellipse cx="658" cy="237" rx="7" ry="6.5"/><ellipse cx="702" cy="237" rx="7" ry="6.5"/>
+    <ellipse cx="658" cy="278" rx="7" ry="6.5"/><ellipse cx="702" cy="278" rx="7" ry="6.5"/>
+  </g>
+  <circle cx="882" cy="260" r="54" fill="none" stroke="#3b82f6" stroke-width="1.5" opacity=".4"/>
+  <g fill="url(#cell2a)" stroke="#60a5fa" stroke-width="1" opacity=".85">
+    <circle cx="882" cy="225" r="22"/><circle cx="912" cy="242" r="22"/><circle cx="912" cy="278" r="22"/>
+    <circle cx="882" cy="295" r="22"/><circle cx="852" cy="278" r="22"/><circle cx="852" cy="242" r="22"/>
+    <circle cx="882" cy="262" r="24" fill="url(#cell2b)"/>
+  </g>
+  <g fill="#0f3060" opacity=".9">
+    <ellipse cx="882" cy="222" rx="7" ry="6.5"/><ellipse cx="910" cy="240" rx="7" ry="6.5"/>
+    <ellipse cx="910" cy="277" rx="7" ry="6.5"/><ellipse cx="882" cy="293" rx="7" ry="6.5"/>
+    <ellipse cx="854" cy="277" rx="7" ry="6.5"/><ellipse cx="854" cy="240" rx="7" ry="6.5"/>
+  </g>
+  <circle cx="1100" cy="260" r="72" fill="#041830" stroke="#3b82f6" stroke-width="2.5" opacity=".9"/>
+  <circle cx="1100" cy="260" r="66" fill="none" stroke="#60a5fa" stroke-width="1" opacity=".5"/>
+  <g fill="#1e4080" stroke="#60a5fa" stroke-width="1" opacity=".85">
+    <circle cx="1100" cy="194" r="16"/><circle cx="1132" cy="200" r="14"/>
+    <circle cx="1155" cy="220" r="14"/><circle cx="1165" cy="250" r="14"/>
+    <circle cx="1160" cy="278" r="14"/><circle cx="1145" cy="302" r="13"/>
+    <circle cx="1120" cy="318" r="13"/><circle cx="1094" cy="326" r="14"/>
+    <circle cx="1066" cy="318" r="13"/><circle cx="1046" cy="302" r="13"/>
+    <circle cx="1035" cy="278" r="14"/><circle cx="1034" cy="248" r="14"/>
+    <circle cx="1044" cy="220" r="14"/><circle cx="1065" cy="200" r="14"/>
+  </g>
+  <ellipse cx="1108" cy="262" rx="38" ry="34" fill="#030e20" stroke="#1d4ed8" stroke-width="1" opacity=".8"/>
+  <g fill="#1e6091" stroke="#60a5fa" stroke-width="1" opacity=".9">
+    <circle cx="1064" cy="248" r="13"/><circle cx="1048" cy="264" r="12"/>
+    <circle cx="1052" cy="280" r="11"/><circle cx="1066" cy="290" r="12"/>
+  </g>
+</svg>

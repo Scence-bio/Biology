@@ -14,9 +14,12 @@
       src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
       font-weight: normal;
     }
+    * { box-sizing: border-box; }
     body {
       font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; padding: 0;
     }
+
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
       50%       { transform: translateY(-20px); }
@@ -27,18 +30,139 @@
     }
     .anim-float { animation: float 6s ease-in-out infinite; }
     .anim-glow  { animation: glow 3s ease-in-out infinite alternate; }
+
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
     .card-hover:hover {
-      transform: translateY(-10px) scale(1.02);
+      transform: translateY(-6px) scale(1.01);
       box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(236,72,153,0.2);
     }
-    .item-hover:hover { transform: translateX(5px); }
+    .item-hover {
+      transition: transform 0.3s ease;
+    }
+    .item-hover:hover { transform: translateX(4px); }
+
     .slide-fade-enter-active,
     .slide-fade-leave-active { transition: opacity 0.35s ease, transform 0.35s ease; }
     .slide-fade-enter-from,
     .slide-fade-leave-to  { opacity: 0; transform: translateY(20px); }
+
+    /* ── Responsive Grid ── */
+    .slide-grid {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: 1fr;          /* mobile: 1 col */
+    }
+    @media (min-width: 640px) {
+      .slide-grid { grid-template-columns: repeat(2, 1fr); } /* sm: 2 col */
+    }
+    @media (min-width: 1024px) {
+      .slide-grid { grid-template-columns: repeat(3, 1fr); } /* lg: 3 col */
+    }
+
+    /* ── Slide image ── */
+    .slide-img {
+      width: 100%;
+      max-width: 180px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 0.75rem;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    /* ── Filter bar scroll on small screens ── */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      padding: 0 1rem;
+    }
+    @media (max-width: 480px) {
+      .filter-bar {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .filter-bar::-webkit-scrollbar { display: none; }
+      .filter-btn { white-space: nowrap; flex-shrink: 0; }
+    }
+
+    /* ── Back button ── */
+    .back-btn {
+      text-decoration: none;
+      background: #ec4899;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      line-height: 1.4;
+      display: inline-block;
+    }
+    @media (min-width: 640px) {
+      .back-btn { padding: 10px 14px; font-size: 0.875rem; }
+    }
+
+    /* ── Scroll-to-top & Print ── */
+    .scroll-top-btn {
+      position: fixed;
+      bottom: 90px;
+      right: 16px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #3b82f6;
+      color: white;
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(59,130,246,0.4);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .print-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 16px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #ec4899;
+      color: white;
+      font-size: 1.4rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(236,72,153,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s;
+    }
+    .print-btn:hover { transform: translateY(-2px) scale(1.08); }
+
     @media print {
       .no-print { display: none !important; }
     }
+
+    /* ── Page outer padding ── */
+    .page-pad {
+      padding: 1rem;
+    }
+    @media (min-width: 640px) { .page-pad { padding: 1.5rem; } }
+    @media (min-width: 1024px) { .page-pad { padding: 2rem 3rem; } }
+
+    /* ── Chapter header text ── */
+    .chapter-title { font-size: 1.4rem; }
+    @media (min-width: 640px) { .chapter-title { font-size: 2rem; } }
+    @media (min-width: 1024px) { .chapter-title { font-size: 2.5rem; } }
+
+    .chapter-sub { font-size: 0.9rem; }
+    @media (min-width: 640px) { .chapter-sub { font-size: 1.1rem; } }
   </style>
 </head>
 <body>
@@ -46,10 +170,9 @@
 <div id="app">
 
   <!-- Back button -->
-  <div class="fixed left-5 top-5 z-50 no-print">
-    <a href="https://scence-bio.github.io/Biology/"
-       style="text-decoration:none;background:#ec4899;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
-      back to home - گەڕانەوە بۆ سەرەکی
+  <div class="fixed left-3 top-3 z-50 no-print" style="max-width:calc(100vw - 6rem)">
+    <a href="https://scence-bio.github.io/Biology/" class="back-btn">
+      ← گەڕانەوە بۆ سەرەکی
     </a>
   </div>
 
@@ -62,118 +185,112 @@
 
   <!-- Scroll to top -->
   <button @click="scrollTop"
-          class="fixed z-50 no-print w-12 h-12 rounded-full text-white text-xl border-0 cursor-pointer transition-all duration-300"
-          style="bottom:90px;right:20px;background:#3b82f6;box-shadow:0 5px 15px rgba(59,130,246,0.4)"
+          class="scroll-top-btn no-print"
           :style="{ opacity: showTop ? '1' : '0', pointerEvents: showTop ? 'auto' : 'none' }">↑</button>
 
   <!-- Print button -->
-  <button onclick="window.print()"
-          class="fixed bottom-5 right-5 z-50 no-print w-14 h-14 rounded-full text-white text-2xl flex items-center justify-center border-0 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-110"
-          style="background:#ec4899;box-shadow:0 5px 15px rgba(236,72,153,0.4)">🖨️</button>
+  <button onclick="window.print()" class="print-btn no-print">🖨️</button>
 
   <!-- Page wrapper -->
   <div class="min-h-screen" style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#334155 100%)">
-    <div class="max-w-6xl mx-auto rounded-3xl overflow-hidden"
-         style="background:rgba(255,255,255,0.98);box-shadow:0 25px 50px rgba(0,0,0,0.2),0 0 0 1px rgba(255,255,255,0.1),inset 0 1px 0 rgba(255,255,255,0.4)">
+    <div class="max-w-screen-xl mx-auto"
+         style="background:rgba(255,255,255,0.98);min-height:100vh">
 
-      <div class="px-8 md:px-12 py-16">
+      <div class="page-pad">
 
         <!-- Chapter Header -->
-        <div class="rounded-3xl mb-12 text-center text-white relative overflow-hidden px-8 py-10"
+        <div class="rounded-2xl mb-8 text-center text-white relative overflow-hidden px-4 py-8"
              style="background:linear-gradient(135deg,#0f172a,#1e293b,#334155)">
           <div class="absolute inset-0"
                style="background:linear-gradient(45deg,rgba(236,72,153,0.1),rgba(168,85,247,0.1))"></div>
           <div class="relative" style="z-index:2">
-            <div class="text-xl mb-4" style="opacity:0.8">Chapter 2</div>
-            <h2 class="font-bold mb-5" style="font-family:Georgia,serif;font-size:2.5rem">
-              🤰🏻 Embryology - Study of Development
+            <div class="text-sm mb-2" style="opacity:0.7;letter-spacing:0.1em">CHAPTER 2</div>
+            <h2 class="font-bold mb-3 chapter-title" style="font-family:Georgia,serif;line-height:1.2">
+              🤰🏻 Embryology
             </h2>
-            <p class="text-xl" style="opacity:0.9">
+            <p class="chapter-sub" style="opacity:0.85">
               Microscopic examination of embryonic development and reproductive structures
             </p>
           </div>
         </div>
 
         <!-- Filter buttons -->
-        <div class="flex flex-wrap justify-center gap-3 mb-10">
+        <div class="filter-bar mb-6">
           <button v-for="f in filters" :key="f.value"
                   @click="activeFilter = f.value"
-                  class="px-5 py-2 rounded-full font-semibold border-0 cursor-pointer transition-all duration-300"
+                  class="filter-btn px-4 py-2 rounded-full font-semibold border-0 cursor-pointer transition-all duration-300 text-sm"
                   :style="activeFilter === f.value
-                    ? 'background:#ec4899;color:white'
+                    ? 'background:#ec4899;color:white;box-shadow:0 4px 12px rgba(236,72,153,0.35)'
                     : 'background:#e2e8f0;color:#334155'">
             {{ f.label }}
           </button>
         </div>
 
         <!-- Slide grid -->
-        <div class="grid gap-8 my-10"
-             style="grid-template-columns:repeat(auto-fit,minmax(420px,1fr))">
+        <div class="slide-grid">
           <transition-group name="slide-fade">
             <div v-for="slide in filteredSlides" :key="slide.number"
-                 class="bg-white rounded-3xl overflow-hidden card-hover transition-all duration-300"
-                 style="box-shadow:0 20px 40px rgba(0,0,0,0.1),0 0 0 1px rgba(0,0,0,0.05)">
+                 class="bg-white rounded-2xl overflow-hidden card-hover"
+                 style="box-shadow:0 8px 24px rgba(0,0,0,0.09),0 0 0 1px rgba(0,0,0,0.05)">
 
-              <!-- Header -->
-              <div class="text-white text-center px-6 py-6 relative"
+              <!-- Card header -->
+              <div class="text-white text-center px-4 py-4 relative"
                    style="background:linear-gradient(135deg,#ec4899,#db2777)">
                 <div class="absolute bottom-0 left-0 right-0 h-0.5"
                      style="background:linear-gradient(90deg,#a855f7,#3b82f6,#22c55e)"></div>
-                <div class="text-2xl font-extrabold">Slide {{ slide.number }}</div>
+                <div class="text-lg font-extrabold">Slide {{ slide.number }}</div>
               </div>
 
               <!-- Image -->
-              <div class="flex justify-center p-5 bg-gray-50">
-                <img :src="slide.img" :alt="slide.title"
-                     class="w-48 h-48 object-cover rounded-xl border border-gray-200"
-                     style="box-shadow:0 5px 15px rgba(0,0,0,0.1)" />
+              <div class="flex justify-center p-4 bg-gray-50">
+                <img :src="slide.img" :alt="slide.title" class="slide-img" />
               </div>
 
               <!-- Content -->
-              <div class="px-7 py-6">
-                <div class="text-xl font-bold text-slate-900 mb-4 pb-2 border-b-2"
+              <div class="px-4 py-4">
+                <div class="font-bold text-slate-900 mb-3 pb-2 border-b-2 text-base leading-snug"
                      style="border-color:#ec4899">
                   {{ slide.title }}
                 </div>
 
                 <!-- Components -->
-                <div class="mb-5">
-                  <div class="font-bold text-slate-800 mb-3 text-sm">Components:</div>
+                <div class="mb-4">
+                  <div class="font-bold text-slate-800 mb-2 text-xs uppercase tracking-wide">Components:</div>
                   <div v-for="(item, i) in slide.components" :key="i"
-                       class="item-hover px-4 py-2.5 my-1.5 rounded-xl border-l-4 transition-all duration-300 text-slate-700 text-sm"
+                       class="item-hover px-3 py-2 my-1 rounded-xl border-l-4 text-slate-700 text-xs leading-snug"
                        style="background:linear-gradient(135deg,#fce7f3,#f3e8ff);border-color:#ec4899">
                     {{ item }}
                   </div>
                 </div>
 
                 <!-- Location -->
-                <div class="mb-5">
-                  <div class="font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <span class="inline-block w-1 h-5 rounded-sm"
+                <div class="mb-4">
+                  <div class="font-bold text-slate-900 mb-2 flex items-center gap-1 text-xs uppercase tracking-wide">
+                    <span class="inline-block w-0.5 h-4 rounded-sm"
                           style="background:linear-gradient(135deg,#a855f7,#ec4899)"></span>
                     📍 Location:
                   </div>
                   <ul class="list-none p-0 m-0">
                     <li v-for="(loc, i) in slide.locations" :key="i"
-                        class="item-hover px-4 py-2.5 my-1.5 rounded-xl border-l-4 transition-all duration-300 text-slate-700 text-sm"
+                        class="item-hover px-3 py-2 my-1 rounded-xl border-l-4 text-slate-700 text-xs leading-snug"
                         style="background:linear-gradient(135deg,#e0f2fe,#b3e5fc);border-color:#0891b2">
-                      <span class="mr-2">📍</span>{{ loc }}
+                      <span class="mr-1">📍</span>{{ loc }}
                     </li>
                   </ul>
                 </div>
 
                 <!-- Functions -->
                 <div>
-                  <div class="font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <span class="inline-block w-1 h-5 rounded-sm"
+                  <div class="font-bold text-slate-900 mb-2 flex items-center gap-1 text-xs uppercase tracking-wide">
+                    <span class="inline-block w-0.5 h-4 rounded-sm"
                           style="background:linear-gradient(135deg,#a855f7,#ec4899)"></span>
                     ⚙️ Functions:
                   </div>
                   <ul class="list-none p-0 m-0">
                     <li v-for="(fn, i) in slide.functions" :key="i"
-                        class="item-hover px-4 py-2.5 my-1.5 rounded-xl border-l-4 border-amber-400 transition-all duration-300 text-slate-700 text-sm"
+                        class="item-hover px-3 py-2 my-1 rounded-xl border-l-4 border-amber-400 text-slate-700 text-xs leading-snug"
                         style="background:linear-gradient(135deg,#fef3c7,#fde68a)">
-                      <span class="text-amber-500 mr-2">▶</span>{{ fn }}
+                      <span class="text-amber-500 mr-1">▶</span>{{ fn }}
                     </li>
                   </ul>
                 </div>
@@ -182,6 +299,9 @@
             </div>
           </transition-group>
         </div>
+
+        <!-- Bottom spacer -->
+        <div class="h-16"></div>
 
       </div>
     </div>
@@ -199,9 +319,9 @@ createApp({
 
     const filters = [
       { value: 'all',          label: 'All Slides' },
-      { value: 'reproductive', label: 'Reproductive Structures' },
-      { value: 'development',  label: 'Developmental Stages' },
-      { value: 'parasitic',    label: 'Parasitic Forms' },
+      { value: 'reproductive', label: 'Reproductive' },
+      { value: 'development',  label: 'Development' },
+      { value: 'parasitic',    label: 'Parasitic' },
     ]
 
     const slides = [
@@ -216,8 +336,8 @@ createApp({
         ],
         locations: ['Scrotal sac, outside abdominal cavity'],
         functions: [
-          'Production of sperm ( spermatogenesis)',
-          'Secretion of male sex hormone (Testesterone by Leydig cells)',
+          'Production of sperm (spermatogenesis)',
+          'Secretion of male sex hormone (Testosterone by Leydig cells)',
         ],
       },
       {
@@ -264,7 +384,7 @@ createApp({
         locations: ['Pelvic cavity, one on each side of the uterus'],
         functions: [
           'Oogenesis (egg production)',
-          'Secretion of female sex hormones ( estrogen and progestron)',
+          'Secretion of female sex hormones (estrogen and progesterone)',
         ],
       },
       {
@@ -483,11 +603,11 @@ createApp({
           'Blastocoel','Blastomeres','Animal pole','Vegetal pole','Yolk',
         ],
         locations: [
-          'Vegetal pole : Lower hemisphere of blastula',
-          'Animal pole : Upper hemisphere of blastula',
-          'Blastomeres : Surrounding blastocoel',
-          'Blastocoel : Central cavity of blastula',
-          'Yolk : Inside vegetal blastomeres',
+          'Vegetal pole: Lower hemisphere of blastula',
+          'Animal pole: Upper hemisphere of blastula',
+          'Blastomeres: Surrounding blastocoel',
+          'Blastocoel: Central cavity of blastula',
+          'Yolk: Inside vegetal blastomeres',
         ],
         functions: [
           'Space for cell migration during gastrulation',
@@ -505,12 +625,12 @@ createApp({
           'Blastopore','Yolk plug','Archenteron','Ectoderm','Endoderm','Mesoderm',
         ],
         locations: [
-          'Blastopore : Opening at posterior side',
-          'Yolk plug : Center of blastopore',
-          'Ectoderm : Outer layer',
-          'Archenteron : Internal cavity above yolk plug',
-          'Endoderm : Inner layer surrounding archenteron',
-          'Mesoderm : Between ectoderm and endoderm',
+          'Blastopore: Opening at posterior side',
+          'Yolk plug: Center of blastopore',
+          'Ectoderm: Outer layer',
+          'Archenteron: Internal cavity above yolk plug',
+          'Endoderm: Inner layer surrounding archenteron',
+          'Mesoderm: Between ectoderm and endoderm',
         ],
         functions: [
           'Entry point for gastrulation cell movement',
@@ -524,15 +644,15 @@ createApp({
       {
         number: 16, category: 'development',
         img: 'images/Embryology/16.jpg',
-        title: 'Frog (Rana) - Morula Stage with Macro and Micromeres ,Longitudinal Section L. S.',
+        title: 'Frog (Rana) - Morula Stage with Macro and Micromeres, L.S.',
         components: [
           'Micromeres','Macromeres','Cleavage furrows','Blastomeres',
         ],
         locations: [
-          'Micromeres : Upper (animal pole) region',
-          'Macromeres : Lower (vegetal pole) region',
-          'Cleavage furrows : Between dividing blastomeres',
-          'Blastomeres : Entire morula mass',
+          'Micromeres: Upper (animal pole) region',
+          'Macromeres: Lower (vegetal pole) region',
+          'Cleavage furrows: Between dividing blastomeres',
+          'Blastomeres: Entire morula mass',
         ],
         functions: [
           'Divide rapidly; contribute to ectoderm',
@@ -544,29 +664,29 @@ createApp({
       {
         number: 17, category: 'development',
         img: 'images/Embryology/17.jpg',
-        title: 'Frog (Rana) - Blastula Stage Longitudinal Section (L.S.) Showing Blastocoel',
+        title: 'Frog (Rana) - Blastula Stage L.S. Showing Blastocoel',
         components: [
           'Blastocoel','Micromeres','Macromeres','Blastoderm','Blastomeres',
         ],
         locations: [
-          'Blastocoel : Central fluid filled cavity',
-          'Micromeres : Animal pole (upper region)',
-          'Macromeres : Vegetal pole (lower region)',
-          'Blastoderm : Layer of cells surrounding blastocoel',
-          'Blastomeres : Entire cellular mass',
+          'Blastocoel: Central fluid-filled cavity',
+          'Micromeres: Animal pole (upper region)',
+          'Macromeres: Vegetal pole (lower region)',
+          'Blastoderm: Layer of cells surrounding blastocoel',
+          'Blastomeres: Entire cellular mass',
         ],
         functions: [
-          'Blastocoel : Space for cell movement during gastrulation',
-          'Micromeres : Form ectoderm',
-          'Macromeres : Form endoderm and store yolk',
-          'Blastoderm : Develops into embryonic germ layers',
-          'Blastomeres : Give rise to all body tissues',
+          'Space for cell movement during gastrulation',
+          'Form ectoderm',
+          'Form endoderm and store yolk',
+          'Develops into embryonic germ layers',
+          'Give rise to all body tissues',
         ],
       },
       {
         number: 18, category: 'development',
         img: 'images/Embryology/18.jpg',
-        title: 'Frog (Rana) - Morula Stage Longitudinal Section (L.S.)',
+        title: 'Frog (Rana) - Morula Stage L.S.',
         components: ['Blastomeres','Micromeres','Macromeres'],
         locations: [
           'Entire cellular mass',
@@ -582,7 +702,7 @@ createApp({
       {
         number: 19, category: 'development',
         img: 'images/Embryology/19.jpg',
-        title: 'Frog (Rana) - Early Neurula Stage Transverse Section (T.S.) Showing Neural Plate',
+        title: 'Frog (Rana) - Early Neurula Stage T.S. Showing Neural Plate',
         components: [
           'Neural plate','Notochord','Neural folds','Archenteron','Somites',
         ],
@@ -604,7 +724,7 @@ createApp({
       {
         number: 20, category: 'development',
         img: 'images/Embryology/20.jpg',
-        title: 'Frog (Rana) - Tadpole Stage Whole Mount (W.M)',
+        title: 'Frog (Rana) - Tadpole Stage Whole Mount (W.M.)',
         components: [
           'Head','Eyes','External gills (in early tadpole)','Tail',
           'Notochord','Somites','Brain region','Heart (may be visible)','Intestine',
@@ -656,6 +776,114 @@ createApp({
     return { progress, showTop, scrollTop, activeFilter, filters, filteredSlides }
   }
 }).mount('#app')
+
+  function buildEmbryology() {
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0f0308);
+  makeLights(scene, 0x1a0a00, .6, 0xffd080, 1.2);
+  scene.add(makeStars(120, 30));
+
+  const group = new THREE.Group();
+  group.add(new THREE.Mesh(
+    new THREE.SphereGeometry(3.8, 32, 32),
+    new THREE.MeshPhongMaterial({ color: 0xfbbf24, transparent: true, opacity: .07, shininess: 200, side: THREE.DoubleSide })
+  ));
+  group.add(new THREE.Mesh(
+    new THREE.SphereGeometry(3.8, 20, 20),
+    new THREE.MeshPhongMaterial({ color: 0xfcd34d, wireframe: true, transparent: true, opacity: .18 })
+  ));
+
+  const bM = new THREE.MeshPhongMaterial({ color: 0xfde68a, emissive: 0x3d1500, shininess: 70, transparent: true, opacity: .9 });
+  for (let i = 0; i < 28; i++) {
+    const phi = Math.acos(-1 + (2 * i) / 28), theta = Math.sqrt(28 * Math.PI) * phi, r = 3.3;
+    const b = new THREE.Mesh(new THREE.SphereGeometry(.58, 12, 12), bM);
+    b.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta));
+    group.add(b);
+  }
+
+  const iM = new THREE.MeshPhongMaterial({ color: 0xf472b6, emissive: 0x3d0025, shininess: 90 });
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2;
+    const ic = new THREE.Mesh(new THREE.SphereGeometry(.28, 8, 8), iM);
+    ic.position.set(Math.cos(a) * .9, Math.sin(a * .7) * .5, Math.sin(a) * .9);
+    group.add(ic);
+  }
+
+  scene.add(group);
+
+  // ── Chapter Title Sprite ──────────────────────────────
+  function makeChapterLabel(line1, line2) {
+    const W = 512, H = 128;
+    const cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    const ctx = cv.getContext('2d');
+
+    // پشتەوە: تاریک بە گواستراوە
+    ctx.clearRect(0, 0, W, H);
+    const grad = ctx.createLinearGradient(0, 0, W, 0);
+    grad.addColorStop(0,   'rgba(15,3,8,0)');
+    grad.addColorStop(0.1, 'rgba(15,3,8,0.82)');
+    grad.addColorStop(0.9, 'rgba(15,3,8,0.82)');
+    grad.addColorStop(1,   'rgba(15,3,8,0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.roundRect(0, 8, W, H - 16, 14);
+    ctx.fill();
+
+    // هێڵی خەمڵێنەر لە سەرەوە
+    const accent = ctx.createLinearGradient(0, 0, W, 0);
+    accent.addColorStop(0,   'rgba(251,191,36,0)');
+    accent.addColorStop(0.3, 'rgba(251,191,36,1)');
+    accent.addColorStop(0.7, 'rgba(244,114,182,1)');
+    accent.addColorStop(1,   'rgba(244,114,182,0)');
+    ctx.fillStyle = accent;
+    ctx.fillRect(60, 10, W - 120, 2);
+
+    // Chapter label
+    ctx.font = 'bold 22px Georgia, serif';
+    ctx.letterSpacing = '4px';
+    ctx.fillStyle = 'rgba(251,191,36,0.75)';
+    ctx.textAlign = 'center';
+    ctx.fillText(line1, W / 2, 46);
+
+    // Main title
+    ctx.font = 'bold 38px Georgia, serif';
+    ctx.letterSpacing = '1px';
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = 'rgba(244,114,182,0.9)';
+    ctx.shadowBlur = 18;
+    ctx.fillText(line2, W / 2, 92);
+    ctx.shadowBlur = 0;
+
+    // هێڵی خەمڵێنەر لە خوارەوە
+    ctx.fillStyle = accent;
+    ctx.fillRect(60, H - 12, W - 120, 2);
+
+    const tex = new THREE.CanvasTexture(cv);
+    const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false });
+    const sprite = new THREE.Sprite(mat);
+    // ئەندازە و شوێن: سەرەوەی گرووپ
+    sprite.scale.set(7, 1.75, 1);
+    sprite.position.set(0, 6.2, 0);
+    return sprite;
+  }
+
+  const titleSprite = makeChapterLabel('CHAPTER 2', '🤰 Embryology');
+  scene.add(titleSprite);
+  // ────────────────────────────────────────────────────
+
+  return {
+    scene,
+    animate: (t) => {
+      group.rotation.y = t * .18;
+      group.rotation.x = Math.sin(t * .09) * .12;
+      // Sprite هەمیشە ڕووی کامێرا دەگرێتەوە (خۆکارە لە THREE.Sprite)
+      // بوونی هەڵەڵاتنی نەرم
+      titleSprite.position.y = 6.2 + Math.sin(t * .4) * 0.12;
+      titleSprite.material.opacity = 0.85 + Math.sin(t * .6) * 0.12;
+    }
+  };
+}
 </script>
 
 </body>

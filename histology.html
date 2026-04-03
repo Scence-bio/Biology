@@ -5,492 +5,366 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histology Chapter - بەشی شانەزانی</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        @font-face {
-            font-family: 'NotoKufiArabic';
-            src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --green: #22c55e;
-            --blue: #3b82f6;
-            --purple: #a855f7;
+            --green: #16a34a;
+            --green-light: #dcfce7;
+            --blue: #2563eb;
+            --blue-light: #dbeafe;
+            --cyan: #0891b2;
+            --cyan-light: #e0f2fe;
+            --amber: #d97706;
+            --amber-light: #fef3c7;
             --dark: #0f172a;
             --mid: #1e293b;
             --slate: #334155;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --header-h: 56px;
         }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            min-height: 100vh;
-            color: #1e293b;
+            font-family: 'IBM Plex Sans Arabic', 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 15px;
+            line-height: 1.6;
         }
 
-        .book-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.98);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.4);
-        }
-
-        /* Progress Bar */
-        .progress-bar {
+        /* ─── Progress bar ─── */
+        #progress-bar {
             position: fixed; top: 0; left: 0; right: 0;
-            height: 4px; background: rgba(0,0,0,0.1); z-index: 1000;
+            height: 3px; background: transparent; z-index: 1000;
         }
-        .progress-fill {
+        #progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #22c55e, #3b82f6, #a855f7);
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, var(--green), var(--blue));
+            width: 0; transition: width 0.2s;
         }
 
-        /* Back button */
+        /* ─── Top bar ─── */
+        .top-bar {
+            position: sticky; top: 0; z-index: 900;
+            background: var(--dark);
+            height: var(--header-h);
+            display: flex; align-items: center;
+            padding: 0 16px; gap: 12px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+        }
         .back-btn {
-            position: fixed; left: 20px; top: 20px; z-index: 2000;
-            text-decoration: none; background: #22c55e; color: white;
-            padding: 10px 14px; border-radius: 10px; font-weight: 600;
-            transition: all 0.3s;
+            text-decoration: none; color: #fff;
+            background: var(--green); border-radius: 8px;
+            padding: 6px 14px; font-size: 13px; font-weight: 600;
+            white-space: nowrap; flex-shrink: 0;
+            transition: background 0.2s;
         }
-        .back-btn:hover { background: #16a34a; transform: translateY(-2px); }
-
-        /* Print button */
-        .print-btn {
-            position: fixed; bottom: 20px; right: 20px;
-            background: #22c55e; color: white; border: none;
-            width: 60px; height: 60px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px; cursor: pointer; z-index: 100;
-            box-shadow: 0 5px 15px rgba(34,197,94,0.4);
-            transition: all 0.3s;
+        .back-btn:hover { background: #15803d; }
+        .top-title {
+            color: #fff; font-weight: 600; font-size: 15px;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-        .print-btn:hover { transform: translateY(-3px) scale(1.1); }
+        .top-bar .spacer { flex: 1; }
+        .print-btn-top {
+            background: transparent; border: 1px solid rgba(255,255,255,0.3);
+            color: #fff; border-radius: 8px; padding: 6px 12px;
+            font-size: 13px; cursor: pointer; flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .print-btn-top:hover { background: rgba(255,255,255,0.1); }
 
-        /* Chapter header */
+        /* ─── Page wrapper ─── */
+        .page { max-width: 1280px; margin: 0 auto; padding: 20px 16px 60px; }
+
+        /* ─── Chapter header ─── */
         .chapter-header {
-            background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
-            color: white; padding: 40px; border-radius: 25px;
-            margin-bottom: 50px; text-align: center; position: relative; overflow: hidden;
+            background: linear-gradient(135deg, var(--dark), var(--mid));
+            color: #fff; border-radius: 16px;
+            padding: clamp(24px, 5vw, 48px) clamp(20px, 5vw, 48px);
+            text-align: center; margin-bottom: 28px;
         }
-        .chapter-header::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(45deg, rgba(34,197,94,0.1), rgba(59,130,246,0.1));
-        }
-        .chapter-main-title {
-            font-size: 2.8em; font-weight: 700; margin-bottom: 20px; position: relative; z-index: 2;
-        }
-        .chapter-number { font-size: 1.3em; opacity: 0.8; margin-bottom: 15px; position: relative; z-index: 2; }
-        .chapter-description { font-size: 1.2em; opacity: 0.9; position: relative; z-index: 2; }
+        .chapter-label { font-size: 13px; opacity: 0.7; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+        .chapter-title { font-size: clamp(1.5rem, 4vw, 2.6rem); font-weight: 700; margin-bottom: 10px; }
+        .chapter-desc { font-size: clamp(0.85rem, 2vw, 1rem); opacity: 0.75; }
 
-        /* Filter buttons */
-        .filter-controls { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        /* ─── Filter controls ─── */
+        .filter-wrap {
+            display: flex; flex-wrap: wrap; gap: 8px;
+            justify-content: center; margin-bottom: 24px;
+        }
         .filter-btn {
-            background: #e2e8f0; border: none; padding: 10px 20px;
-            border-radius: 30px; font-weight: 600; cursor: pointer;
-            transition: all 0.3s; font-family: inherit;
+            background: #fff; border: 1px solid var(--border);
+            padding: 7px 16px; border-radius: 20px;
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; font-family: inherit; color: var(--text);
         }
-        .filter-btn.active, .filter-btn:hover { background: #22c55e; color: white; }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--green); color: #fff; border-color: var(--green);
+        }
 
-        /* Slide Grid */
+        /* ─── Slide grid ─── */
         .slide-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 30px; margin: 50px 0;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr));
+            gap: 20px;
         }
 
-        /* Slide Card */
+        /* ─── Slide card ─── */
         .slide-card {
-            background: white; border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
-            overflow: hidden; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-            opacity: 0; transform: translateY(50px);
+            background: var(--card-bg); border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s, opacity 0.4s;
+            opacity: 0; transform: translateY(30px);
+            display: flex; flex-direction: column;
         }
         .slide-card.visible { opacity: 1; transform: translateY(0); }
-        .slide-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(34,197,94,0.2);
+        @media (hover: hover) {
+            .slide-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+            }
         }
 
-        .slide-header {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white; padding: 25px; text-align: center; position: relative;
+        .card-top {
+            background: var(--dark);
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 18px;
         }
-        .slide-header::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-            height: 3px; background: linear-gradient(90deg, #3b82f6, #a855f7, #ec4899);
+        .slide-num {
+            background: var(--green); color: #fff;
+            border-radius: 8px; padding: 4px 10px;
+            font-size: 12px; font-weight: 700; white-space: nowrap;
         }
-        .slide-number { font-size: 1.6em; font-weight: 800; }
-
-        .image-wrapper {
-            display: flex; justify-content: center; padding: 20px; background: #f8f9fa;
-        }
-        .slide-image {
-            width: 200px; height: 200px; object-fit: cover;
-            border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            border: 1px solid #e9ecef;
+        .card-cat-badge {
+            background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8);
+            border-radius: 20px; padding: 3px 10px; font-size: 11px;
         }
 
-        .slide-content { padding: 30px; }
+        .img-wrap {
+            display: flex; justify-content: center; align-items: center;
+            padding: 16px; background: #f1f5f9; min-height: 160px;
+        }
+        .slide-img {
+            width: clamp(120px, 40%, 180px);
+            height: clamp(120px, 40%, 180px);
+            object-fit: cover; border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .card-body { padding: 18px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+
         .slide-title {
-            font-weight: 700; color: #0f172a; margin-bottom: 20px;
-            font-size: 1.4em; border-bottom: 2px solid #22c55e; padding-bottom: 10px;
+            font-size: clamp(0.95rem, 2vw, 1.1rem); font-weight: 700;
+            color: var(--dark); white-space: pre-line;
+            border-bottom: 2px solid var(--green); padding-bottom: 10px;
         }
 
-        .components-title { color: #1e293b; font-weight: 700; margin-bottom: 15px; font-size: 1.1em; }
-        .component-item {
-            background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
-            border-left: 4px solid #22c55e; transition: all 0.3s;
+        /* Components */
+        .section-label {
+            font-size: 12px; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 8px;
         }
-        .component-item:hover { transform: translateX(5px); background: linear-gradient(135deg, #bbf7d0, #a7f3d0); }
-
-        .section-title {
-            color: #0f172a; font-weight: 700; margin-bottom: 15px;
-            font-size: 1.2em; display: flex; align-items: center; gap: 10px;
-        }
-        .section-title::before {
-            content: ''; width: 4px; height: 20px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 2px;
+        .chip-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+        .chip {
+            background: var(--green-light); color: #14532d;
+            border-radius: 6px; padding: 4px 10px; font-size: 12px;
         }
 
-        .location-list { list-style: none; padding: 0; margin: 15px 0; }
-        .location-list li {
-            background: linear-gradient(135deg, #e0f2fe, #b3e5fc);
-            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
-            border-left: 4px solid #0891b2; transition: all 0.3s; position: relative;
+        /* Location list */
+        .loc-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+        .loc-list li {
+            background: var(--cyan-light); color: #0c4a6e;
+            border-left: 3px solid var(--cyan);
+            border-radius: 0 6px 6px 0;
+            padding: 6px 10px; font-size: 13px;
         }
-        .location-list li:hover { transform: translateX(5px); }
-        .location-list li::before { content: '📍'; margin-right: 8px; font-size: 1.1em; }
 
-        .function-list { list-style: none; padding: 0; }
-        .function-list li {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            padding: 12px 16px; margin: 8px 0; border-radius: 10px;
-            border-left: 4px solid #f59e0b; transition: all 0.3s; position: relative;
+        /* Function list */
+        .fn-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+        .fn-list li {
+            background: var(--amber-light); color: #78350f;
+            border-left: 3px solid var(--amber);
+            border-radius: 0 6px 6px 0;
+            padding: 6px 10px; font-size: 13px;
         }
-        .function-list li:hover { transform: translateX(5px); }
-        .function-list li::before { content: '▶'; color: #f59e0b; margin-right: 8px; }
 
-        .location-section, .function-section { margin: 25px 0; }
-        .components-list { margin: 20px 0; }
-
-        @media (max-width: 768px) {
-            .slide-grid { grid-template-columns: 1fr; }
-            .chapter-main-title { font-size: 2em; }
-        }
+        /* ─── Print ─── */
         @media print {
-            .print-btn, .back-btn, .progress-bar { display: none !important; }
-            .slide-card { break-inside: avoid; }
+            #progress-bar, .top-bar { display: none !important; }
+            .slide-card { opacity: 1 !important; transform: none !important; break-inside: avoid; }
+            .page { padding: 16px; }
+        }
+
+        /* ─── Mobile tweaks ─── */
+        @media (max-width: 480px) {
+            .slide-grid { grid-template-columns: 1fr; }
+            .img-wrap { min-height: 120px; }
         }
     </style>
 </head>
 <body>
 
+<!-- Progress bar -->
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
 <div id="app">
-    <!-- Progress Bar -->
-    <div class="progress-bar">
-        <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
+    <!-- Top bar -->
+    <div class="top-bar">
+        <a href="index.html" class="back-btn">← گەڕانەوە</a>
+        <span class="top-title">🔬 Histology – Chapter 1</span>
+        <span class="spacer"></span>
+        <button class="print-btn-top" @click="window.print()">🖨 Print</button>
     </div>
 
-    <!-- Back Button -->
-    <a href="index.html" class="back-btn">گەڕانەوە بۆ پەڕەی سەرەکی</a>
+    <div class="page">
+        <!-- Chapter header -->
+        <div class="chapter-header">
+            <div class="chapter-label">Chapter 1</div>
+            <h1 class="chapter-title">🔬 Histology – Study of Tissues</h1>
+            <p class="chapter-desc">Microscopic examination of tissue structure and function</p>
+        </div>
 
-    <!-- Print Button -->
-    <button class="print-btn" @click="printPage" title="Print Guide">🖨️</button>
+        <!-- Filters -->
+        <div class="filter-wrap">
+            <button
+                v-for="f in filters" :key="f.value"
+                class="filter-btn" :class="{ active: activeFilter === f.value }"
+                @click="setFilter(f.value)"
+            >{{ f.label }}</button>
+        </div>
 
-    <div style="padding: 30px;">
-        <div class="book-container">
-            <div class="chapter-page" style="padding: 60px 50px; min-height: 100vh;">
+        <!-- Count -->
+        <p style="text-align:center; font-size:13px; color:var(--text-muted); margin-bottom:18px;">
+            Showing {{ filteredSlides.length }} of {{ slides.length }} slides
+        </p>
 
-                <!-- Chapter Header -->
-                <div class="chapter-header">
-                    <div class="chapter-number">Chapter 1</div>
-                    <h2 class="chapter-main-title">🔬 Histology - Study of Tissues</h2>
-                    <p class="chapter-description">Microscopic examination of tissue structure and function</p>
+        <!-- Grid -->
+        <div class="slide-grid">
+            <div
+                v-for="(slide, i) in filteredSlides" :key="slide.id"
+                class="slide-card"
+                :ref="el => { if(el) cardRefs[i] = el }"
+            >
+                <div class="card-top">
+                    <span class="slide-num">Slide {{ slide.id }}</span>
+                    <span class="card-cat-badge">{{ categoryLabel(slide.category) }}</span>
                 </div>
 
-                <!-- Filter Controls -->
-                <div class="filter-controls">
-                    <button
-                        v-for="f in filters"
-                        :key="f.value"
-                        class="filter-btn"
-                        :class="{ active: activeFilter === f.value }"
-                        @click="setFilter(f.value)"
-                    >{{ f.label }}</button>
+                <div class="img-wrap">
+                    <img :src="slide.image" :alt="slide.title" class="slide-img" loading="lazy" />
                 </div>
 
-                <!-- Slide Grid -->
-                <div class="slide-grid">
-                    <div
-                        v-for="(slide, index) in filteredSlides"
-                        :key="slide.id"
-                        class="slide-card"
-                        :data-category="slide.category"
-                        :ref="el => { if(el) cardRefs[index] = el }"
-                    >
-                        <div class="slide-header">
-                            <div class="slide-number">Slide {{ slide.id }}</div>
-                        </div>
-                        <div class="image-wrapper">
-                            <img :src="slide.image" :alt="slide.title" class="slide-image" />
-                        </div>
-                        <div class="slide-content">
-                            <div class="slide-title">{{ slide.title }}</div>
+                <div class="card-body">
+                    <div class="slide-title">{{ slide.title }}</div>
 
-                            <div class="components-list">
-                                <div class="components-title">Components:</div>
-                                <div v-for="c in slide.components" :key="c" class="component-item">{{ c }}</div>
-                            </div>
-
-                            <div class="location-section">
-                                <div class="section-title">📍 Location:</div>
-                                <ul class="location-list">
-                                    <li v-for="l in slide.locations" :key="l">{{ l }}</li>
-                                </ul>
-                            </div>
-
-                            <div class="function-section">
-                                <div class="section-title">⚙️ Functions:</div>
-                                <ul class="function-list">
-                                    <li v-for="fn in slide.functions" :key="fn">{{ fn }}</li>
-                                </ul>
-                            </div>
+                    <div>
+                        <div class="section-label">Components</div>
+                        <div class="chip-wrap">
+                            <span v-for="c in slide.components" :key="c" class="chip">{{ c }}</span>
                         </div>
                     </div>
-                </div>
 
+                    <div>
+                        <div class="section-label">📍 Location</div>
+                        <ul class="loc-list">
+                            <li v-for="l in slide.locations" :key="l">{{ l }}</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <div class="section-label">⚙️ Functions</div>
+                        <ul class="fn-list">
+                            <li v-for="fn in slide.functions" :key="fn">{{ fn }}</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-const { createApp, ref, computed, onMounted, onUnmounted, nextTick, watch } = Vue;
+const { createApp, ref, computed, onMounted, onUnmounted, nextTick } = Vue;
 
 createApp({
     setup() {
-        const scrollProgress = ref(0);
         const activeFilter = ref('all');
         const cardRefs = ref([]);
 
         const filters = [
             { label: 'All Slides', value: 'all' },
-            { label: 'Connective Tissue', value: 'connective' },
-            { label: 'Epithelial Tissue', value: 'epithelial' },
-            { label: 'Glandular Tissue', value: 'glandular' },
+            { label: 'Connective', value: 'connective' },
+            { label: 'Epithelial', value: 'epithelial' },
+            { label: 'Glandular', value: 'glandular' },
         ];
+
+        const catLabels = { connective:'Connective Tissue', epithelial:'Epithelial Tissue', glandular:'Glandular Tissue' };
+        const categoryLabel = c => catLabels[c] || c;
 
         const slides = [
-            {
-                id: 1, category: 'connective',
-                title: 'Areolar Connective Tissue',
-                image: 'images/Hitology/1. Areolar Connective Tissue.jpg',
-                components: ['Fibroblasts','Collagen fibers','Elastic fibers','Ground substance','Macrophages','Mast cells','Plasma cells'],
-                locations: ['Under epithelial layers','Around blood vessels','Around nerves and lymphatics','Between muscles and organs'],
-                functions: ['Binding and Support','Cushioning and Protection','Nutrient Diffusion','Defense Mechanism']
-            },
-            {
-                id: 2, category: 'connective',
-                title: 'Adipose Tissue',
-                image: 'images/Hitology/2. Adipose tissue.jpg',
-                components: ['Adipocytes (fat cells)','Large, round cells','Central lipid droplet','Peripheral nucleus','Sparse connective tissue fibers','Capillaries'],
-                locations: ['Beneath the skin (subcutaneous layer)','Around internal organs (visceral fat)','Between muscle layers'],
-                functions: ['Energy storage','Thermal insulation','Mechanical cushioning','Endocrine function']
-            },
-            {
-                id: 3, category: 'connective',
-                title: 'Reticular Tissue',
-                image: 'images/Hitology/3. Reticular Connective Tissue.jpg',
-                components: ['Reticular fibers','Reticular cells (specialized fibroblasts)','Supporting cells'],
-                locations: ['Lymph nodes','Spleen','Bone marrow','Liver','Thymus'],
-                functions: ['Forms soft internal framework (stroma)','Supports cells in lymphatic organs','Filters body fluids','Provides structural integrity']
-            },
-            {
-                id: 4, category: 'connective',
-                title: 'Dense Adipose Tissue',
-                image: 'images/Hitology/4. Adipose Tissue.jpg',
-                components: ['Adipocytes (Fat cells)','Fibers','Blood vessels','Other cells: fibroblasts, macrophages, immune cells'],
-                locations: ['Subcutaneous layer','Around internal organs','Bone marrow (yellow marrow)','Breasts','Between muscles and joints'],
-                functions: ['Energy storage','Insulation','Cushioning and protection','Endocrine role (produces hormones)']
-            },
-            {
-                id: 5, category: 'epithelial',
-                title: 'Goblet Cells',
-                image: 'images/Hitology/5. Goblet Cells.jpg',
-                components: ['Specialized epithelial cells (goblet/wine glass shaped)','Basal nucleus','Cytoplasm filled with mucin granules','Mucins'],
-                locations: ['Lining of the colon epithelium','Interspersed among simple columnar epithelial cells','Mucosal lining of colon and intestinal tract','Most abundant in large intestine (colon)','Crypts of Lieberkühn'],
-                functions: ['Secretion of mucus','Protection','Hydration and pH balance']
-            },
-            {
-                id: 6, category: 'glandular',
-                title: 'Sweat Glands',
-                image: 'images/Hitology/6. Swaet Glands.jpg',
-                components: ['Secretory portion surrounded by myoepithelial cells','Duct portion','Lumen','Surrounding tissue: dense irregular connective tissue, blood vessels, nerve fibers'],
-                locations: ['Throughout skin, especially in palms, soles, and forehead (high density)','Armpits and groin (apocrine glands)','Embedded in dermis and extending into hypodermis'],
-                functions: ['Thermoregulation','Excretion','Hydration of skin','Pheromone release (apocrine glands)','Eccrine glands (Merocrine): cooling, found all over body','Apocrine glands: larger, armpits/groin, active after puberty']
-            },
-            {
-                id: 7, category: 'glandular',
-                title: 'Salivary Glands',
-                image: 'images/Hitology/7. Salivary Gland.jpg',
-                components: ['Serous acini','Mucous acini','Seromucous (mixed) acini','Intercalated ducts','Striated ducts','Excretory ducts','Connective tissue stroma'],
-                locations: ['Parotid gland','Submandibular gland','Sublingual gland'],
-                functions: ['Secretion of saliva','Digestion of carbohydrates','Lubrication of food and oral mucosa','Antibacterial protection','Maintenance of oral pH and tooth health']
-            },
-            {
-                id: 8, category: 'glandular',
-                title: 'Mammary Glands',
-                image: 'images/Hitology/8. Mammary Gland.jpg',
-                components: ['Lobules containing alveoli (acini)','Duct system (intralobular and interlobular ducts)','Myoepithelial cells','Adipose tissue','Fibrous connective tissue (stroma)','Blood vessels and lymphatics'],
-                locations: ['Found in the breasts of both sexes','Functionally developed in females','Especially during pregnancy and lactation'],
-                functions: ['Production and secretion of milk','Nourishment of the newborn','Endocrine responsiveness (regulated by hormones like estrogen, progesterone, and prolactin)']
-            },
-            {
-                id: 9, category: 'epithelial',
-                title: 'Simple Columnar Epithelium\nIn small intestine of mammal',
-                image: 'images/Hitology/9. Simple Columinar Epithelium.jpg',
-                components: ['Columnar epithelial cells (tall, with oval basal nuclei)','Goblet cells (interspersed, secrete mucus)','Brush border (microvilli) on apical surface','Basement membrane at the base of the epithelium'],
-                locations: ['Inner lining (mucosa) of the small intestine','Duodenum','Jejunum','Ileum'],
-                functions: ['Absorption of nutrients (via microvilli)','Secretion of digestive enzymes and mucus','Protection of underlying tissue']
-            },
-            {
-                id: 10, category: 'epithelial',
-                title: 'Pseudostratified Ciliated Columnar Epithelium',
-                image: 'images/Hitology/10. Pseudostratified Ciliated Columinar Epithelium.jpg',
-                components: ['Columnar cells with nuclei at different levels (gives stratified appearance)','Cilia on the apical surface','Goblet cells (secrete mucus)','Basal cells (stem cells near basement membrane)','Basement membrane'],
-                locations: ['Lining of the trachea','Upper respiratory tract','Bronchi'],
-                functions: ['Mucus secretion to trap dust and microbes','Ciliary movement to propel mucus upward (mucociliary escalator)','Protection and filtration of inhaled air']
-            },
-            {
-                id: 11, category: 'epithelial',
-                title: 'Buccal Smear (Squamous Epithelium)',
-                image: 'images/Hitology/11. Squamous Epithelium.jpg',
-                components: ['Flat, scale-like squamous epithelial cells','Central, round or oval nucleus','Thin cytoplasm','No visible intercellular junctions (in smear)'],
-                locations: ['Lining of the oral cavity (buccal mucosa)','Part of the non-keratinized stratified squamous epithelium'],
-                functions: ['Protection against mechanical stress and abrasion','Barrier to pathogens and harmful substances','Maintains moisture in the oral cavity']
-            },
-            {
-                id: 12, category: 'epithelial',
-                title: 'Oviduct (Fallopian Tube) Simple Ciliated Columnar Epithelium',
-                image: 'images/Hitology/12. Simple Ciliated Columnar Epithelium.jpg',
-                components: ['Tall columnar cells with oval nuclei','Cilia on the apical (free) surface','Basement membrane','May include peg cells (non-ciliated secretory cells)'],
-                locations: ['Lining of the oviduct (fallopian tube)','Infundibulum','Ampulla','Isthmus'],
-                functions: ['Ciliary movement helps transport the ovum toward the uterus','Secretion of nourishing fluid for the ovum and sperm','Protection of the reproductive tract']
-            },
-            {
-                id: 13, category: 'epithelial',
-                title: 'Non-Keratinized Stratified Squamous Epithelium',
-                image: 'images/Hitology/13. Stratified Non Cornified Squamous Epithelium.jpg',
-                components: ['Basal layer','Intermediate (polyhedral) cells','Superficial squamous cells with nuclei','Basement membrane','Lamina propria (connective tissue)'],
-                locations: ['Inner surface of buccal gum (oral mucosa)'],
-                functions: ['Protection','Maintains moisture','Acts as a barrier']
-            },
-            {
-                id: 14, category: 'epithelial',
-                title: 'Keratinized Stratified Squamous Epithelium',
-                image: 'images/Hitology/14. Stratified Cornified Squamous Epithelium.jpg',
-                components: ['Stratum basale (basal layer)','Stratum spinosum (prickle cell layer)','Stratum granulosum','Stratum lucidum (only in thick skin)','Stratum corneum (cornified, dead keratinized cells)','Basement membrane','Underlying dermis'],
-                locations: ['Epidermis of skin (entire body surface)','Thickest in palms and soles'],
-                functions: ['Protection against friction, pathogens, chemicals, and dehydration','Prevents water loss','Physical barrier']
-            },
-            {
-                id: 15, category: 'epithelial',
-                title: 'Simple Cuboidal Epithelium',
-                image: 'images/Hitology/15. Cuboidal Epithelium.jpg',
-                components: ['Cuboidal epithelial cells (cube-shaped with central, round nuclei)','Basement membrane','Visible lumen (in ducts or tubules)'],
-                locations: ['Lining of collecting ducts in the papilla of the kidney','Renal medulla of rabbit'],
-                functions: ['Conduction of urine from nephrons to renal pelvis','Minor absorption and secretion','Protection of duct lining']
-            },
-            {
-                id: 16, category: 'connective',
-                title: 'Dense Regular Connective Tissue (Tendon)',
-                image: 'images/Hitology/16. White Fibrous Tissue Tendon.jpg',
-                components: ['Parallel bundles of collagen fibers (densely packed)','Rows of fibroblasts (tendon cells or tenocytes) between collagen fibers','Very little ground substance','No elastic fibers'],
-                locations: ['Tendons: which connect muscle to bone'],
-                functions: ['Strong tensile strength for resisting pulling forces','Connects muscle to bone','Transmits mechanical force from muscle contraction to skeleton']
-            },
-            {
-                id: 17, category: 'connective',
-                title: 'Yellow Elastic Cartilage',
-                image: 'images/Hitology/17. Yellow Elastic Cartilage.jpg',
-                components: ['Chondrocytes in lacunae','Dense network of elastic fibers (stained dark with special stains like orcein or Verhoeff)','Some collagen fibers','Perichondrium (outer fibrous layer)','Matrix (firm, flexible ground substance)'],
-                locations: ['External ear (pinna)','Epiglottis','Eustachian (auditory) tube','Parts of larynx'],
-                functions: ['Flexibility with support','Maintains shape of structures','Elastic recoil after bending']
-            },
-            {
-                id: 18, category: 'connective',
-                title: 'Hyaline Cartilage',
-                image: 'images/Hitology/18. Hyaline Cartilage.jpg',
-                components: ['Chondrocytes in lacunae','Homogeneous, glassy (hyaline) matrix','Collagen type II fibers (not visible under light microscope)','Perichondrium (outer covering, except at articular surfaces)'],
-                locations: ['Tracheal rings','Nasal septum','Laryngeal cartilages','Articular surfaces of bones','Costal cartilages','Epiphyseal plates in growing bones'],
-                functions: ['Support with flexibility','Smooth surface for joint movement','Structural framework','Growth and development of long bones']
-            },
-            {
-                id: 19, category: 'connective',
-                title: 'Spongy Bone',
-                image: 'images/Hitology/19. Spongy (Cancellous) Bone.jpg',
-                components: ['Trabeculae (thin bony plates or beams)','Osteocytes in lacunae within trabeculae','Bone marrow spaces (between trabeculae, filled with red or yellow marrow)','Endosteum lining the trabeculae','No Haversian systems (unlike compact bone)'],
-                locations: ['Epiphyses of long bones (e.g., femur)','Interior of short, flat, and irregular bones','Vertebrae, sternum','Ribs, pelvis, and skull bones'],
-                functions: ['Lightweight support','Houses bone marrow for blood cell production','Distributes forces and stress across joints','Metabolic role in calcium storage and release']
-            },
-            {
-                id: 20, category: 'connective',
-                title: 'White Fibrocartilage',
-                image: 'images/Hitology/20. White Fibrocartilage.jpg',
-                components: ['Chondrocytes arranged in rows within lacunae','Abundant collagen fibers (Type I), densely packed in bundles','Sparse ground substance','No perichondrium (unlike hyaline or elastic cartilage)'],
-                locations: ['Intervertebral discs','Pubic symphysis','Menisci of knee joint','Temporomandibular joint (TMJ)'],
-                functions: ['Strong tensile strength','Shock absorption','Resistance to compression and stress in joints']
-            }
+            { id:1, category:'connective', title:'Areolar Connective Tissue', image:'images/Hitology/1. Areolar Connective Tissue.jpg', components:['Fibroblasts','Collagen fibers','Elastic fibers','Ground substance','Macrophages','Mast cells','Plasma cells'], locations:['Under epithelial layers','Around blood vessels','Around nerves and lymphatics','Between muscles and organs'], functions:['Binding and Support','Cushioning and Protection','Nutrient Diffusion','Defense Mechanism'] },
+            { id:2, category:'connective', title:'Adipose Tissue', image:'images/Hitology/2. Adipose tissue.jpg', components:['Adipocytes (fat cells)','Large, round cells','Central lipid droplet','Peripheral nucleus','Sparse connective tissue fibers','Capillaries'], locations:['Beneath the skin (subcutaneous layer)','Around internal organs (visceral fat)','Between muscle layers'], functions:['Energy storage','Thermal insulation','Mechanical cushioning','Endocrine function'] },
+            { id:3, category:'connective', title:'Reticular Tissue', image:'images/Hitology/3. Reticular Connective Tissue.jpg', components:['Reticular fibers','Reticular cells (specialized fibroblasts)','Supporting cells'], locations:['Lymph nodes','Spleen','Bone marrow','Liver','Thymus'], functions:['Forms soft internal framework (stroma)','Supports cells in lymphatic organs','Filters body fluids','Provides structural integrity'] },
+            { id:4, category:'connective', title:'Dense Adipose Tissue', image:'images/Hitology/4. Adipose Tissue.jpg', components:['Adipocytes (Fat cells)','Fibers','Blood vessels','Fibroblasts, macrophages, immune cells'], locations:['Subcutaneous layer','Around internal organs','Bone marrow (yellow marrow)','Breasts','Between muscles and joints'], functions:['Energy storage','Insulation','Cushioning and protection','Endocrine role (produces hormones)'] },
+            { id:5, category:'epithelial', title:'Goblet Cells', image:'images/Hitology/5. Goblet Cells.jpg', components:['Specialized epithelial cells (goblet shaped)','Basal nucleus','Cytoplasm filled with mucin granules','Mucins'], locations:['Lining of the colon epithelium','Mucosal lining of colon and intestinal tract','Most abundant in large intestine (colon)','Crypts of Lieberkühn'], functions:['Secretion of mucus','Protection','Hydration and pH balance'] },
+            { id:6, category:'glandular', title:'Sweat Glands', image:'images/Hitology/6. Swaet Glands.jpg', components:['Secretory portion with myoepithelial cells','Duct portion','Lumen','Dense irregular connective tissue, blood vessels, nerve fibers'], locations:['Throughout skin (palms, soles, forehead)','Armpits and groin (apocrine glands)','Embedded in dermis/hypodermis'], functions:['Thermoregulation','Excretion','Hydration of skin','Pheromone release (apocrine glands)'] },
+            { id:7, category:'glandular', title:'Salivary Glands', image:'images/Hitology/7. Salivary Gland.jpg', components:['Serous acini','Mucous acini','Seromucous (mixed) acini','Intercalated ducts','Striated ducts','Excretory ducts','Connective tissue stroma'], locations:['Parotid gland','Submandibular gland','Sublingual gland'], functions:['Secretion of saliva','Digestion of carbohydrates','Lubrication of food and oral mucosa','Antibacterial protection'] },
+            { id:8, category:'glandular', title:'Mammary Glands', image:'images/Hitology/8. Mammary Gland.jpg', components:['Lobules containing alveoli (acini)','Duct system','Myoepithelial cells','Adipose tissue','Fibrous connective tissue (stroma)'], locations:['Found in the breasts of both sexes','Functionally developed in females','Especially during pregnancy and lactation'], functions:['Production and secretion of milk','Nourishment of the newborn','Regulated by estrogen, progesterone, and prolactin'] },
+            { id:9, category:'epithelial', title:'Simple Columnar Epithelium\n(Small intestine)', image:'images/Hitology/9. Simple Columinar Epithelium.jpg', components:['Columnar epithelial cells (tall, oval basal nuclei)','Goblet cells','Brush border (microvilli)','Basement membrane'], locations:['Inner lining (mucosa) of the small intestine','Duodenum','Jejunum','Ileum'], functions:['Absorption of nutrients (via microvilli)','Secretion of digestive enzymes and mucus','Protection of underlying tissue'] },
+            { id:10, category:'epithelial', title:'Pseudostratified Ciliated Columnar Epithelium', image:'images/Hitology/10. Pseudostratified Ciliated Columinar Epithelium.jpg', components:['Columnar cells with nuclei at different levels','Cilia on the apical surface','Goblet cells','Basal cells (stem cells)','Basement membrane'], locations:['Lining of the trachea','Upper respiratory tract','Bronchi'], functions:['Mucus secretion to trap dust and microbes','Ciliary movement to propel mucus upward','Protection and filtration of inhaled air'] },
+            { id:11, category:'epithelial', title:'Buccal Smear (Squamous Epithelium)', image:'images/Hitology/11. Squamous Epithelium.jpg', components:['Flat, scale-like squamous epithelial cells','Central, round or oval nucleus','Thin cytoplasm'], locations:['Lining of the oral cavity (buccal mucosa)','Non-keratinized stratified squamous epithelium'], functions:['Protection against mechanical stress and abrasion','Barrier to pathogens','Maintains moisture in the oral cavity'] },
+            { id:12, category:'epithelial', title:'Oviduct – Simple Ciliated Columnar Epithelium', image:'images/Hitology/12. Simple Ciliated Columnar Epithelium.jpg', components:['Tall columnar cells with oval nuclei','Cilia on the apical surface','Basement membrane','Peg cells (non-ciliated secretory cells)'], locations:['Lining of the oviduct (fallopian tube)','Infundibulum','Ampulla','Isthmus'], functions:['Ciliary movement transports ovum toward uterus','Secretion of nourishing fluid','Protection of the reproductive tract'] },
+            { id:13, category:'epithelial', title:'Non-Keratinized Stratified Squamous Epithelium', image:'images/Hitology/13. Stratified Non Cornified Squamous Epithelium.jpg', components:['Basal layer','Intermediate (polyhedral) cells','Superficial squamous cells with nuclei','Basement membrane','Lamina propria'], locations:['Inner surface of buccal gum (oral mucosa)'], functions:['Protection','Maintains moisture','Acts as a barrier'] },
+            { id:14, category:'epithelial', title:'Keratinized Stratified Squamous Epithelium', image:'images/Hitology/14. Stratified Cornified Squamous Epithelium.jpg', components:['Stratum basale','Stratum spinosum','Stratum granulosum','Stratum lucidum (thick skin only)','Stratum corneum (keratinized)','Basement membrane','Underlying dermis'], locations:['Epidermis of skin','Thickest in palms and soles'], functions:['Protection against friction, pathogens, chemicals','Prevents water loss','Physical barrier'] },
+            { id:15, category:'epithelial', title:'Simple Cuboidal Epithelium', image:'images/Hitology/15. Cuboidal Epithelium.jpg', components:['Cuboidal epithelial cells (cube-shaped, central round nuclei)','Basement membrane','Visible lumen (in ducts or tubules)'], locations:['Lining of collecting ducts in kidney papilla','Renal medulla of rabbit'], functions:['Conduction of urine from nephrons to renal pelvis','Minor absorption and secretion','Protection of duct lining'] },
+            { id:16, category:'connective', title:'Dense Regular Connective Tissue (Tendon)', image:'images/Hitology/16. White Fibrous Tissue Tendon.jpg', components:['Parallel bundles of collagen fibers','Rows of fibroblasts (tenocytes)','Very little ground substance'], locations:['Tendons: connecting muscle to bone'], functions:['Strong tensile strength','Connects muscle to bone','Transmits force from muscle contraction to skeleton'] },
+            { id:17, category:'connective', title:'Yellow Elastic Cartilage', image:'images/Hitology/17. Yellow Elastic Cartilage.jpg', components:['Chondrocytes in lacunae','Dense network of elastic fibers','Some collagen fibers','Perichondrium','Matrix'], locations:['External ear (pinna)','Epiglottis','Eustachian (auditory) tube','Parts of larynx'], functions:['Flexibility with support','Maintains shape of structures','Elastic recoil after bending'] },
+            { id:18, category:'connective', title:'Hyaline Cartilage', image:'images/Hitology/18. Hyaline Cartilage.jpg', components:['Chondrocytes in lacunae','Homogeneous glassy matrix','Collagen type II fibers','Perichondrium'], locations:['Tracheal rings','Nasal septum','Laryngeal cartilages','Articular surfaces of bones','Costal cartilages','Epiphyseal plates'], functions:['Support with flexibility','Smooth surface for joint movement','Structural framework','Growth of long bones'] },
+            { id:19, category:'connective', title:'Spongy (Cancellous) Bone', image:'images/Hitology/19. Spongy (Cancellous) Bone.jpg', components:['Trabeculae (thin bony plates)','Osteocytes in lacunae','Bone marrow spaces','Endosteum lining'], locations:['Epiphyses of long bones','Interior of short, flat, irregular bones','Vertebrae, sternum','Ribs, pelvis, skull'], functions:['Lightweight support','Houses bone marrow for blood cell production','Distributes forces across joints','Calcium storage and release'] },
+            { id:20, category:'connective', title:'White Fibrocartilage', image:'images/Hitology/20. White Fibrocartilage.jpg', components:['Chondrocytes in rows within lacunae','Abundant Type I collagen fibers','Sparse ground substance'], locations:['Intervertebral discs','Pubic symphysis','Menisci of knee joint','Temporomandibular joint (TMJ)'], functions:['Strong tensile strength','Shock absorption','Resistance to compression and stress'] },
         ];
 
-        const filteredSlides = computed(() => {
-            if (activeFilter.value === 'all') return slides;
-            return slides.filter(s => s.category === activeFilter.value);
-        });
+        const filteredSlides = computed(() => activeFilter.value === 'all' ? slides : slides.filter(s => s.category === activeFilter.value));
 
-        const setFilter = (val) => {
-            activeFilter.value = val;
-            nextTick(() => observeCards());
+        const setFilter = val => { activeFilter.value = val; nextTick(observeCards); };
+
+        /* Scroll progress */
+        const updateProgress = () => {
+            const el = document.getElementById('progress-fill');
+            if (!el) return;
+            const pct = (window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            el.style.width = pct + '%';
         };
 
-        const printPage = () => window.print();
-
-        const handleScroll = () => {
-            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            scrollProgress.value = scrolled;
-        };
-
+        /* Intersection observer for card entrance */
         let observer;
         const observeCards = () => {
             if (observer) observer.disconnect();
-            observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-            document.querySelectorAll('.slide-card').forEach(card => observer.observe(card));
+            observer = new IntersectionObserver(entries => {
+                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+            }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+            document.querySelectorAll('.slide-card').forEach(c => observer.observe(c));
         };
 
         onMounted(() => {
-            window.addEventListener('scroll', handleScroll);
-            nextTick(() => observeCards());
+            window.addEventListener('scroll', updateProgress, { passive: true });
+            nextTick(observeCards);
         });
-
         onUnmounted(() => {
-            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('scroll', updateProgress);
             if (observer) observer.disconnect();
         });
 
-        return { scrollProgress, activeFilter, filters, filteredSlides, cardRefs, setFilter, printPage };
+        return { activeFilter, filters, filteredSlides, cardRefs, setFilter, categoryLabel };
     }
 }).mount('#app');
 </script>

@@ -1,154 +1,259 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Plant Anatomy Chapter - بەشی توێکاری ڕووەک</title>
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Vue 3 CDN -->
-  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: 'NotoKufiArabic';
-      src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
-      font-weight: normal;
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green: #22c55e;
+      --green-dark: #16a34a;
+      --navy: #0f172a;
+      --navy2: #1e293b;
+      --slate: #334155;
+      --radius: 20px;
     }
+
+    html { font-size: 16px; }
+
     body {
-      font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 50%, var(--slate) 100%);
+      min-height: 100vh;
+      color: var(--navy2);
     }
-    .card-hover:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(34,197,94,0.2);
+
+    /* ── Progress bar ── */
+    .progress-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 3px; background: rgba(255,255,255,0.1); z-index: 1000;
     }
-    .item-hover:hover { transform: translateX(5px); }
-    .slide-fade-enter-active,
-    .slide-fade-leave-active { transition: opacity 0.35s ease, transform 0.35s ease; }
-    .slide-fade-enter-from,
-    .slide-fade-leave-to  { opacity: 0; transform: translateY(20px); }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), #3b82f6, #a855f7);
+      transition: width 0.2s;
+    }
+
+    /* ── Back button ── */
+    .back-btn {
+      position: fixed; left: 12px; top: 12px; z-index: 2000;
+      text-decoration: none; background: var(--green); color: #fff;
+      padding: 8px 14px; border-radius: 10px; font-weight: 600;
+      font-size: 0.78rem; line-height: 1.3; max-width: 160px;
+      display: inline-block; transition: background 0.2s;
+    }
+    .back-btn:hover { background: var(--green-dark); }
+
+    /* ── Print button ── */
+    .print-btn {
+      position: fixed; bottom: 16px; right: 16px;
+      background: var(--green); color: #fff; border: none;
+      width: 52px; height: 52px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; cursor: pointer; z-index: 100;
+      box-shadow: 0 4px 14px rgba(34,197,94,0.45);
+      transition: transform 0.2s;
+    }
+    .print-btn:hover { transform: scale(1.1); }
+
+    /* ── Page wrapper ── */
+    .page-wrap {
+      padding: 16px;
+      padding-top: 60px;
+    }
+    @media (min-width: 640px) { .page-wrap { padding: 24px 24px 60px; } }
+
+    /* ── Book container ── */
+    .book {
+      max-width: 1200px; margin: 0 auto;
+      background: rgba(255,255,255,0.98);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+
+    .inner { padding: 20px 16px 40px; }
+    @media (min-width: 640px) { .inner { padding: 40px 36px 60px; } }
+
+    /* ── Chapter header ── */
+    .ch-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy2), var(--slate));
+      color: #fff; border-radius: var(--radius);
+      padding: 28px 20px; text-align: center;
+      margin-bottom: 28px; position: relative; overflow: hidden;
+    }
+    .ch-header::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(45deg,rgba(34,197,94,.1),rgba(59,130,246,.1));
+    }
+    .ch-header > * { position: relative; z-index: 2; }
+    .ch-num { font-size: 0.95rem; opacity: 0.75; margin-bottom: 10px; }
+    .ch-title { font-size: clamp(1.4rem, 5vw, 2.4rem); font-weight: 700; margin-bottom: 12px; }
+    .ch-desc { font-size: clamp(0.85rem, 2.5vw, 1.05rem); opacity: 0.88; }
+
+    /* ── Filter ── */
+    .filters {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 8px; margin-bottom: 24px;
+    }
+    .filter-btn {
+      background: #e2e8f0; border: none;
+      padding: 8px 16px; border-radius: 30px;
+      font-weight: 600; cursor: pointer;
+      font-family: inherit; font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover { background: var(--green); color: #fff; }
+
+    /* ── Grid ── */
+    .slide-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 700px) {
+      .slide-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1100px) {
+      .slide-grid { gap: 28px; }
+    }
+
+    /* ── Card ── */
+    .slide-card {
+      background: #fff; border-radius: var(--radius);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    @media (hover: hover) {
+      .slide-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+      }
+    }
+
+    .card-head {
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: #fff; padding: 16px; text-align: center;
+      position: relative;
+    }
+    .card-head::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; background: linear-gradient(90deg, #3b82f6, #a855f7, #ec4899);
+    }
+    .slide-num { font-size: 1.3rem; font-weight: 800; }
+
+    .img-wrap { display: flex; justify-content: center; padding: 16px; background: #f8f9fa; }
+    .slide-img {
+      width: clamp(120px, 40vw, 180px);
+      height: clamp(120px, 40vw, 180px);
+      object-fit: cover; border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 1px solid #e9ecef;
+    }
+
+    .card-body { padding: 20px 18px; }
+    .slide-title {
+      font-weight: 700; color: var(--navy); margin-bottom: 10px;
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      border-bottom: 2px solid var(--green); padding-bottom: 8px;
+      line-height: 1.4;
+    }
+    .slide-desc {
+      color: #64748b; font-size: 0.82rem; line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .section-label {
+      color: var(--navy); font-weight: 700; margin-bottom: 10px;
+      font-size: 0.9rem; display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::before {
+      content: ''; width: 3px; height: 16px;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .tag-list { margin-bottom: 16px; }
+    .tag-structure {
+      background: linear-gradient(135deg,#dcfce7,#bbf7d0);
+      padding: 9px 13px; margin: 6px 0; border-radius: 9px;
+      border-left: 4px solid var(--green);
+      font-size: 0.82rem; line-height: 1.45; color: #1e293b;
+      transition: transform 0.2s;
+    }
+    .tag-structure:hover { transform: translateX(4px); }
+
+    .tag-function {
+      background: linear-gradient(135deg,#fef3c7,#fde68a);
+      padding: 9px 13px; margin: 6px 0; border-radius: 9px;
+      border-left: 4px solid #f59e0b;
+      font-size: 0.82rem; line-height: 1.45; color: #1e293b;
+      transition: transform 0.2s;
+    }
+    .tag-function::before { content: '▶ '; color: #f59e0b; }
+    .tag-function:hover { transform: translateX(4px); }
+
+    @media print {
+      .print-btn, .back-btn, .progress-bar { display: none !important; }
+      .slide-card { break-inside: avoid; box-shadow: none; }
+      body { background: #fff; }
+      .page-wrap { padding: 0; }
+      .book { box-shadow: none; }
+    }
   </style>
 </head>
 <body>
 
 <div id="app">
-
-  <!-- Back button -->
-  <div class="fixed left-5 top-5 z-50">
-    <a href="index.html"
-       style="text-decoration:none;background:#22c55e;color:white;padding:10px 14px;border-radius:10px;font-weight:600;">
-      گەڕانەوە بۆ پەڕەی سەرەکی
-    </a>
+  <div class="progress-bar">
+    <div class="progress-fill" :style="{ width: scroll + '%' }"></div>
   </div>
 
-  <!-- Progress bar -->
-  <div class="fixed top-0 left-0 right-0 h-1 z-50" style="background:rgba(0,0,0,0.1)">
-    <div class="h-full transition-all duration-300"
-         style="background:linear-gradient(90deg,#22c55e,#3b82f6,#a855f7)"
-         :style="{ width: progress + '%' }"></div>
-  </div>
+  <a href="index.html" class="back-btn">← گەڕانەوە بۆ سەرەکی</a>
+  <button class="print-btn" @click="()=>window.print()" title="Print">🖨️</button>
 
-  <!-- Print button -->
-  <button onclick="window.print()"
-          class="fixed bottom-5 right-5 z-50 w-14 h-14 rounded-full bg-green-500 text-white text-2xl flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:scale-110 border-0 cursor-pointer"
-          style="box-shadow:0 5px 15px rgba(34,197,94,0.4)">🖨️</button>
+  <div class="page-wrap">
+    <div class="book">
+      <div class="inner">
 
-  <!-- Page wrapper -->
-  <div class="min-h-screen" style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#334155 100%)">
-    <div class="max-w-6xl mx-auto rounded-3xl overflow-hidden"
-         style="background:rgba(255,255,255,0.98);box-shadow:0 25px 50px rgba(0,0,0,0.2),0 0 0 1px rgba(255,255,255,0.1),inset 0 1px 0 rgba(255,255,255,0.4)">
-
-      <div class="px-8 md:px-12 py-16">
-
-        <!-- Chapter Header -->
-        <div class="rounded-3xl mb-12 text-center text-white relative overflow-hidden px-8 py-10"
-             style="background:linear-gradient(135deg,#0f172a,#1e293b,#334155)">
-          <div class="absolute inset-0" style="background:linear-gradient(45deg,rgba(34,197,94,0.1),rgba(59,130,246,0.1))"></div>
-          <div class="relative" style="z-index:2">
-            <div class="text-xl mb-4" style="opacity:0.8">Chapter 3</div>
-            <h2 class="font-bold mb-5" style="font-family:Georgia,serif;font-size:2.5rem">
-              🌱 Plant Anatomy - Study of Plant Structure
-            </h2>
-            <p class="text-xl" style="opacity:0.9">
-              Microscopic examination of plant tissues, organs and cellular organization
-            </p>
-          </div>
+        <div class="ch-header">
+          <div class="ch-num">Chapter 3</div>
+          <h2 class="ch-title">🌱 Plant Anatomy — Study of Plant Structure</h2>
+          <p class="ch-desc">Microscopic examination of plant tissues, organs and cellular organization</p>
         </div>
 
-        <!-- Filter buttons -->
-        <div class="flex flex-wrap justify-center gap-3 mb-10">
-          <button v-for="f in filters" :key="f.value"
-                  @click="activeFilter = f.value"
-                  class="px-5 py-2 rounded-full font-semibold border-0 cursor-pointer transition-all duration-300"
-                  :style="activeFilter === f.value
-                    ? 'background:#22c55e;color:white'
-                    : 'background:#e2e8f0;color:#334155'">
-            {{ f.label }}
-          </button>
+        <div class="filters">
+          <button v-for="f in filters" :key="f.v"
+            class="filter-btn" :class="{ active: active===f.v }"
+            @click="active=f.v">{{ f.l }}</button>
         </div>
 
-        <!-- Slide grid -->
-        <div class="grid gap-8 my-10"
-             style="grid-template-columns:repeat(auto-fit,minmax(420px,1fr))">
-          <transition-group name="slide-fade">
-            <div v-for="slide in filteredSlides" :key="slide.number"
-                 class="bg-white rounded-3xl overflow-hidden card-hover transition-all duration-300"
-                 style="box-shadow:0 20px 40px rgba(0,0,0,0.1),0 0 0 1px rgba(0,0,0,0.05)">
+        <div class="slide-grid">
+          <div v-for="s in shown" :key="s.n" class="slide-card">
+            <div class="card-head"><div class="slide-num">Slide {{ s.n }}</div></div>
+            <div class="img-wrap">
+              <img :src="'images/Plant-anatomy/' + s.n + '.jpg'" :alt="s.title" class="slide-img" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="slide-title">{{ s.title }}</div>
+              <p class="slide-desc">{{ s.desc }}</p>
 
-              <!-- Header -->
-              <div class="text-white text-center px-6 py-6 relative"
-                   style="background:linear-gradient(135deg,#22c55e,#16a34a)">
-                <div class="absolute bottom-0 left-0 right-0 h-0.5"
-                     style="background:linear-gradient(90deg,#3b82f6,#a855f7,#ec4899)"></div>
-                <div class="text-2xl font-extrabold">Slide {{ slide.number }}</div>
+              <div class="tag-list">
+                <div class="section-label">{{ s.structLabel }}</div>
+                <div v-for="c in s.structures" :key="c" class="tag-structure">{{ c }}</div>
               </div>
 
-              <!-- Image -->
-              <div class="flex justify-center p-5 bg-gray-50">
-                <img :src="'images/Plant-anatomy/' + slide.number + '.jpg'"
-                     :alt="slide.title"
-                     class="w-48 h-48 object-cover rounded-xl border border-gray-200"
-                     style="box-shadow:0 5px 15px rgba(0,0,0,0.1)" />
-              </div>
-
-              <!-- Content -->
-              <div class="px-7 py-6">
-                <div class="text-xl font-bold text-slate-900 mb-4 pb-2 border-b-2 border-green-500">
-                  {{ slide.title }}
-                </div>
-                <p class="text-slate-500 leading-7 text-sm mb-5">{{ slide.description }}</p>
-
-                <!-- Structures -->
-                <div class="mb-5">
-                  <div class="font-bold text-slate-800 mb-3 text-sm">{{ slide.structuresLabel }}</div>
-                  <div v-for="(item, i) in slide.structures" :key="i"
-                       class="item-hover px-4 py-2.5 my-1.5 rounded-xl border-l-4 border-green-500 transition-all duration-300 text-slate-700 text-sm"
-                       style="background:linear-gradient(135deg,#dcfce7,#bbf7d0)">
-                    {{ item }}
-                  </div>
-                </div>
-
-                <!-- Functions -->
-                <div>
-                  <div class="font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <span class="inline-block w-1 h-5 rounded-sm"
-                          style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)"></span>
-                    ⚙️ Functions:
-                  </div>
-                  <ul class="list-none p-0 m-0">
-                    <li v-for="(fn, i) in slide.functions" :key="i"
-                        class="item-hover px-4 py-2.5 my-1.5 rounded-xl border-l-4 border-amber-400 transition-all duration-300 text-slate-700 text-sm"
-                        style="background:linear-gradient(135deg,#fef3c7,#fde68a)">
-                      <span class="text-amber-500 mr-2">▶</span>{{ fn }}
-                    </li>
-                  </ul>
-                </div>
-
+              <div class="tag-list">
+                <div class="section-label">⚙️ Functions:</div>
+                <div v-for="fn in s.functions" :key="fn" class="tag-function">{{ fn }}</div>
               </div>
             </div>
-          </transition-group>
+          </div>
         </div>
 
       </div>
@@ -157,322 +262,113 @@
 </div>
 
 <script>
-const { createApp, ref, computed, onMounted, onUnmounted } = Vue
-
+const { createApp, ref, computed, onMounted, onUnmounted } = Vue;
 createApp({
   setup() {
-    const progress = ref(0)
-    const activeFilter = ref('all')
-
+    const scroll = ref(0);
+    const active = ref('all');
     const filters = [
-      { value: 'all',    label: 'All Slides' },
-      { value: 'root',   label: 'Root Structures' },
-      { value: 'stem',   label: 'Stem Tissues' },
-      { value: 'leaf',   label: 'Leaf Anatomy' },
-      { value: 'flower', label: 'Flower & Reproduction' },
-      { value: 'tissue', label: 'Plant Tissues' },
-    ]
-
+      { l:'All Slides', v:'all' },
+      { l:'Root Structures', v:'root' },
+      { l:'Stem Tissues', v:'stem' },
+      { l:'Leaf Anatomy', v:'leaf' },
+      { l:'Flower & Reproduction', v:'flower' },
+      { l:'Plant Tissues', v:'tissue' },
+    ];
     const slides = [
-      {
-        number: 1, category: 'root',
-        title: 'Dicot Root Cross Section',
-        description: 'A dicot root is the underground part of a dicot plant, typically with xylem arranged in a star shape and phloem between the arms. It functions mainly in anchorage, water and mineral absorption, and food storage.',
-        structuresLabel: 'Structures:',
-        structures: [
-          'Epidermis - Outer single layer absorbing water and minerals',
-          'Cortex - Storage and water movement to vascular tissue',
-          'Endodermis - Regulates entry into vascular tissue',
-          'Pericycle - Initiates lateral root growth',
-          'Xylem - Star-shaped arrangement for water transport',
-          'Phloem - Between xylem arms for nutrient transport',
-        ],
-        functions: ['Anchorage and support','Water and mineral absorption','Food storage','Transport of materials'],
-      },
-      {
-        number: 2, category: 'root',
-        title: 'Monocot Root Cross Section',
-        description: 'A monocot root is characterized by a ring of vascular bundles surrounding a large central pith. It mainly functions in anchorage, water and mineral absorption, and food storage.',
-        structuresLabel: 'Structures:',
-        structures: [
-          'Epidermis - Single outer protective layer',
-          'Cortex - Food storage and water transport',
-          'Endodermis - Regulates water and mineral movement',
-          'Pericycle - Gives rise to lateral roots',
-          'Xylem - Ring arrangement for water conduction',
-          'Phloem - Between xylem vessels',
-          'Pith - Large central nutrient storage region',
-        ],
-        functions: ['Anchorage in soil','Water and mineral absorption','Nutrient storage in pith','Structural maintenance'],
-      },
-      {
-        number: 3, category: 'leaf',
-        title: 'Dicot Leaf Cross Section',
-        description: 'A dicot leaf is specialized for efficient photosynthesis, gas exchange, and transport of nutrients and water, with distinct upper and lower surfaces and branching veins.',
-        structuresLabel: 'Structures:',
-        structures: [
-          'Upper Epidermis - Protection and reduces water loss',
-          'Palisade Mesophyll - Main site of photosynthesis',
-          'Spongy Mesophyll - Gas exchange and photosynthesis',
-          'Vascular Bundle - Transport of water, minerals, and food',
-          'Lower Epidermis - Contains stomata for gas exchange',
-          'Guard Cells - Control stomatal opening and closing',
-        ],
-        functions: ['Photosynthesis','Gas exchange','Transpiration','Transport of nutrients'],
-      },
-      {
-        number: 4, category: 'flower',
-        title: 'Mnium (Moss) Antheridia',
-        description: 'Mnium antheridia are the male reproductive organs of mosses, producing motile sperm within a protective jacket. They release sperm into water for fertilization.',
-        structuresLabel: 'Structures:',
-        structures: [
-          'Stalk - Anchors the antheridium to the plant',
-          'Sterile Jacket - Protects developing sperm cells',
-          'Spermatogenous cells - Sperm precursor cells',
-          'Antheridium Wall - Maintains structure',
-          'Sperm Cells - Motile male gametes',
-        ],
-        functions: ['Production of male gametes','Protection of developing sperm','Release of sperm for fertilization','Sexual reproduction in mosses'],
-      },
-      {
-        number: 5, category: 'flower',
-        title: 'Lilium Flower Bud Cross Section',
-        description: 'A Lilium flower bud is the immature stage of the lily flower, containing developing reproductive organs that will mature and open during blooming.',
-        structuresLabel: 'Structures:',
-        structures: [
-          'Ovary Wall - Protects developing ovules',
-          'Locules - Chambers containing ovules',
-          'Ovules - Develop into seeds after fertilization',
-          'Placenta - Supplies nutrients to ovules',
-          'Style Region - Connects stigma to ovary',
-          'Floral Tissues - Protective layers before blooming',
-        ],
-        functions: ['Protection of reproductive organs','Development of ovules','Preparation for flowering','Sexual reproduction'],
-      },
-      {
-        number: 6, category: 'root',
-        title: 'Onion Root Tip Longitudinal Section',
-        description: 'The onion root tip is a region of active cell division (mitosis) found at the growing end of an onion root, commonly used to study cell cycle stages.',
-        structuresLabel: 'Regions:',
-        structures: [
-          'Root Cap - Protects root as it pushes through soil',
-          'Meristematic Zone - Active cell division (mitosis)',
-          'Elongation Zone - Cells increase in size',
-          'Maturation Zone - Cell specialization and differentiation',
-        ],
-        functions: ['Root growth and elongation','Cell division and multiplication','Protection during soil penetration','Cell differentiation and specialization'],
-      },
-      {
-        number: 7, category: 'flower',
-        title: 'Tomato Flower Bud Cross Section',
-        description: 'The tomato flower bud is an early developmental stage containing reproductive organs that undergo cell differentiation to form stamens, pistils, petals, and sepals.',
-        structuresLabel: 'Structures:',
-        structures: [
-          'Anthers (Pollen Sacs) - Contain developing pollen grains',
-          'Filaments - Support stalks for anthers',
-          'Ovary - Contains ovules, becomes fruit after fertilization',
-          'Ovules - Develop into seeds after fertilization',
-          'Petals and Sepals - Protective and attractive floral parts',
-          'Receptacle/Base - Supports flower parts',
-        ],
-        functions: ['Development of reproductive structures','Pollen production and storage','Protection of developing gametes','Preparation for sexual reproduction'],
-      },
-      {
-        number: 8, category: 'leaf',
-        title: 'Sycamore Leaf Bud Transverse Section',
-        description: 'A sycamore leaf bud is the undeveloped embryonic shoot containing immature leaves and protective scales, which will grow into a new shoot during the growing season.',
-        structuresLabel: 'Structures:',
-        structures: [
-          'Protective Bud Scales - Shield developing tissues from cold and pests',
-          'Cortical Cells - Store nutrients and provide support',
-          'Vascular Tissue - Transport water, minerals, and food',
-          'Leaf Primordia - Immature leaves that will develop',
-        ],
-        functions: ['Protection during dormancy','Nutrient storage','Preparation for new growth','Development of new leaves and shoots'],
-      },
-      {
-        number: 9, category: 'stem',
-        title: 'Dicot Stem Cross Section',
-        description: 'A dicot stem shows vascular bundles arranged in a ring, with distinct epidermis, cortex, vascular tissues, cambium, and central pith. It exhibits secondary growth due to vascular cambium.',
-        structuresLabel: 'Structures:',
-        structures: [
-          'Epidermis - Protective outer covering with cuticle',
-          'Cortex - Support and food storage (collenchyma and parenchyma)',
-          'Endodermis - Regulates flow into vascular bundles',
-          'Vascular Bundles - Arranged in ring with xylem and phloem',
-          'Cambium - Meristematic tissue for secondary growth',
-          'Pith (Medulla) - Central nutrient storage',
-        ],
-        functions: ['Support and structural integrity','Transport of water and nutrients','Food storage','Secondary growth and thickness increase'],
-      },
-      {
-        number: 10, category: 'stem',
-        title: 'Monocot Stem Cross Section',
-        description: 'A monocot stem is characterized by scattered vascular bundles within uniform ground tissue and no secondary growth. It lacks distinct cortex and pith regions.',
-        structuresLabel: 'Structures:',
-        structures: [
-          'Epidermis - Single-layered protective covering',
-          'Hypodermis - Sclerenchyma providing mechanical strength',
-          'Ground Tissue - Undifferentiated storage and support tissue',
-          'Vascular Bundles - Scattered, closed bundles with xylem and phloem',
-          'Bundle Sheath - Sclerenchymatous protection around bundles',
-        ],
-        functions: ['Structural support','Transport of water and nutrients','Storage of materials','Mechanical strength through scattered bundles'],
-      },
-      {
-        number: 11, category: 'tissue',
-        title: 'Starch Grains in Stem Cross Section',
-        description: 'Starch grains are storage forms of carbohydrates found in plant cells. They appear as dense, rounded bodies and serve as the main energy reserve for the plant.',
-        structuresLabel: 'Features:',
-        structures: [
-          'Shape - Oval to rounded bodies',
-          'Color - Blue-black with iodine staining (color varies with different stains)',
-          'Location - Inside parenchyma cells in ground tissue',
-          'Arrangement - Present in clusters within cells',
-        ],
-        functions: ['Energy storage (carbohydrates)','Reserve food supply','Metabolic support during growth','Source of glucose when needed'],
-      },
-      {
-        number: 12, category: 'leaf',
-        title: 'Elodea Leaf Cells (Chloroplasts)',
-        description: 'Elodea leaf cells contain chloroplasts with chlorophyll - a green pigment that captures light energy for photosynthesis, consisting of a porphyrin ring with central magnesium.',
-        structuresLabel: 'Features:',
-        structures: [
-          'Cell Shape - Rectangular, brick-like pattern',
-          'Cell Wall - Thick and distinct, defining each cell',
-          'Chloroplasts - Numerous green dots containing chlorophyll',
-          'Chloroplast Movement - May show cytoplasmic streaming',
-        ],
-        functions: ['Photosynthesis (light absorption)','Conversion of light energy to chemical energy','Production of glucose and oxygen','Gas exchange regulation'],
-      },
-      {
-        number: 13, category: 'tissue',
-        title: 'Pinus Wood Longitudinal Section (Bordered Pits)',
-        description: 'Bordered pits are microscopic openings in tracheid cell walls of gymnosperms like Pinus, allowing water transport between cells while preventing air embolisms.',
-        structuresLabel: 'Features:',
-        structures: [
-          'Structure - Circular bordered pits on tracheid walls',
-          'Arrangement - Vertical rows between adjacent tracheids',
-          'Torus-margo structure - Regulates water flow and prevents cavitation',
-          'Cell Type - Tracheids for support and conduction',
-          'Tissue Type - Secondary xylem (wood tissue)',
-        ],
-        functions: ['Lateral water movement between tracheids','Prevention of air embolisms','Structural support','Efficient water conduction in gymnosperms'],
-      },
-      {
-        number: 14, category: 'tissue',
-        title: 'Epidermal Tissue with Glandular Trichome',
-        description: 'Glandular trichomes are hair-like outgrowths from plant epidermis that secrete or store secondary metabolites such as essential oils, resins, or enzymes for protection.',
-        structuresLabel: 'Structures:',
-        structures: [
-          'Trichome Head - Enlarged, rounded glandular head for secretion',
-          'Stalk Cell - Long, thin supporting connection to epidermis',
-          'Non-glandular Trichome - Simple hair-like structures',
-          'Epidermal Tissue - Underlying protective tissue layer',
-        ],
-        functions: ['Secretion of protective compounds','Defense against herbivores and pathogens','UV radiation protection','Storage of essential oils and resins'],
-      },
-      {
-        number: 15, category: 'tissue',
-        title: 'Parenchyma Tissue Transverse Section',
-        description: 'Parenchyma tissue is a simple permanent plant tissue made of living, thin-walled cells that are loosely packed, involved in storage, photosynthesis, and tissue repair.',
-        structuresLabel: 'Features:',
-        structures: [
-          'Cell Shape - Isodiametric (round/oval/polyhedral) and thin-walled',
-          'Cell Arrangement - Loosely packed with intercellular spaces',
-          'Cell Content - Large central vacuoles and active cytoplasm',
-          'Staining - Cell walls stained blue/violet',
-        ],
-        functions: ['Storage of nutrients and water','Photosynthesis (in chlorenchyma)','Gas exchange through intercellular spaces','Wound healing and tissue repair','Support in young organs'],
-      },
-      {
-        number: 16, category: 'leaf',
-        title: 'Plantain Lily Leaf Lower Epidermis (Stomata)',
-        description: 'Stomata are small pores found mainly on leaf epidermis, flanked by two guard cells, which control gas exchange and transpiration in plants.',
-        structuresLabel: 'Features:',
-        structures: [
-          'Plant - Plantain Lily (Hosta)',
-          'Stomatal Type - Dicot-type with kidney-shaped guard cells',
-          'Guard Cells - Two per stoma, contain chloroplasts',
-          'Cell Shape - Irregular-shaped epidermal cells around stomata',
-          'Pore Visibility - Clearly visible stomatal apertures',
-        ],
-        functions: ['Gas exchange (CO₂ in, O₂ out)','Water vapor loss (transpiration)','Regulation of internal gas concentrations','Control of water balance'],
-      },
-      {
-        number: 17, category: 'tissue',
-        title: 'Raphides (Calcium Oxalate Crystals)',
-        description: 'Raphides are needle-shaped crystals of calcium oxalate found in plant cells. They act as a defense mechanism against herbivores due to their irritating nature.',
-        structuresLabel: 'Features:',
-        structures: [
-          'Material Composition - Calcium oxalate crystals',
-          'Shape - Thin, elongated, and pointed (needle-like)',
-          'Arrangement - Often clustered or scattered within cells',
-          'Location - Found in leaves, stems, or tubers',
-        ],
-        functions: ['Plant defense against herbivores','Causes irritation when ingested','Calcium regulation in plant tissues','Deterrent to insects and animals'],
-      },
-      {
-        number: 18, category: 'tissue',
-        title: 'Collenchyma Tissue Cross Section',
-        description: 'Collenchyma is a living plant tissue that provides mechanical support and flexibility, especially in young stems and leaves. It has unevenly thickened cell walls rich in pectin and cellulose.',
-        structuresLabel: 'Features:',
-        structures: [
-          'Cell Characteristics - Living, elongated, unevenly thickened corners',
-          'Wall Composition - Cellulose and pectin-rich primary walls',
-          'Appearance - Compactly arranged, thickened at corners',
-          'Location - Below epidermis in young stems and leaf veins',
-        ],
-        functions: ['Mechanical support for growing parts','Flexibility during plant movement','Structural integrity in young organs','Support without restricting growth'],
-      },
-      {
-        number: 19, category: 'tissue',
-        title: 'Sclereids in Pyrus (Pear Fruit)',
-        description: "Sclerenchyma tissue composed of thick-walled, usually dead cells that provide structural support. Sclereids (stone cells) in pear contribute to the fruit's gritty texture.",
-        structuresLabel: 'Features:',
-        structures: [
-          'Cell Type - Sclereids (stone cells)',
-          'Plant Source - Pyrus (Pear) fruit',
-          'Staining Color - Sclereids red/purple, parenchyma green',
-          'Appearance - Small, irregular, tightly packed',
-          'Surrounding Tissue - Larger, loosely arranged parenchyma',
-        ],
-        functions: ['Structural support and hardness','Protection of fruit tissues','Contributes to gritty texture in pear','Mechanical strength'],
-      },
-      {
-        number: 20, category: 'flower',
-        title: 'Pollen Grains in Anther (Transverse Section)',
-        description: 'Pollen grains are the microscopic male gametophytes of seed plants, responsible for carrying male reproductive cells to the female part of the flower for fertilization.',
-        structuresLabel: 'Features:',
-        structures: [
-          'Structure Type - Male reproductive part of flower (Anther)',
-          'Cell Type - Pollen grains (male gametophytes)',
-          'Staining Color - Pollen grains blue to purple',
-          'Appearance - Round to oval, spiky or textured surface',
-          'Surrounding Tissue - Anther wall layers including tapetum',
-        ],
-        functions: ['Production and storage of male gametes','Release of pollen for fertilization','Sexual reproduction in flowering plants','Transfer of genetic material'],
-      },
-    ]
-
-    const filteredSlides = computed(() =>
-      activeFilter.value === 'all'
-        ? slides
-        : slides.filter(s => s.category === activeFilter.value)
-    )
-
-    function onScroll() {
-      const max = document.documentElement.scrollHeight - window.innerHeight
-      progress.value = max > 0 ? (window.scrollY / max) * 100 : 0
-    }
-
-    onMounted(() => window.addEventListener('scroll', onScroll))
-    onUnmounted(() => window.removeEventListener('scroll', onScroll))
-
-    return { progress, activeFilter, filters, filteredSlides }
+      { n:1, cat:'root', title:'Dicot Root Cross Section',
+        desc:'A dicot root is the underground part of a dicot plant, typically with xylem arranged in a star shape and phloem between the arms.',
+        structLabel:'Structures:', structures:['Epidermis - Outer single layer absorbing water and minerals','Cortex - Storage and water movement to vascular tissue','Endodermis - Regulates entry into vascular tissue','Pericycle - Initiates lateral root growth','Xylem - Star-shaped arrangement for water transport','Phloem - Between xylem arms for nutrient transport'],
+        functions:['Anchorage and support','Water and mineral absorption','Food storage','Transport of materials'] },
+      { n:2, cat:'root', title:'Monocot Root Cross Section',
+        desc:'A monocot root is characterized by a ring of vascular bundles surrounding a large central pith.',
+        structLabel:'Structures:', structures:['Epidermis - Single outer protective layer','Cortex - Food storage and water transport','Endodermis - Regulates water and mineral movement','Pericycle - Gives rise to lateral roots','Xylem - Ring arrangement for water conduction','Phloem - Between xylem vessels','Pith - Large central nutrient storage region'],
+        functions:['Anchorage in soil','Water and mineral absorption','Nutrient storage in pith','Structural maintenance'] },
+      { n:3, cat:'leaf', title:'Dicot Leaf Cross Section',
+        desc:'A dicot leaf is specialized for efficient photosynthesis, gas exchange, and transport of nutrients and water, with distinct upper and lower surfaces and branching veins.',
+        structLabel:'Structures:', structures:['Upper Epidermis - Protection and reduces water loss','Palisade Mesophyll - Main site of photosynthesis','Spongy Mesophyll - Gas exchange and photosynthesis','Vascular Bundle - Transport of water, minerals, and food','Lower Epidermis - Contains stomata for gas exchange','Guard Cells - Control stomatal opening and closing'],
+        functions:['Photosynthesis','Gas exchange','Transpiration','Transport of nutrients'] },
+      { n:4, cat:'flower', title:'Mnium (Moss) Antheridia',
+        desc:'Mnium antheridia are the male reproductive organs of mosses, producing motile sperm within a protective jacket. They release sperm into water for fertilization.',
+        structLabel:'Structures:', structures:['Stalk - Anchors the antheridium to the plant','Sterile Jacket - Protects developing sperm cells','Spermatogenous cells - Sperm precursor cells','Antheridium Wall - Maintains structure','Sperm Cells - Motile male gametes'],
+        functions:['Production of male gametes','Protection of developing sperm','Release of sperm for fertilization','Sexual reproduction in mosses'] },
+      { n:5, cat:'flower', title:'Lilium Flower Bud Cross Section',
+        desc:'A Lilium flower bud is the immature stage of the lily flower, containing developing reproductive organs that will mature and open during blooming.',
+        structLabel:'Structures:', structures:['Ovary Wall - Protects developing ovules','Locules - Chambers containing ovules','Ovules - Develop into seeds after fertilization','Placenta - Supplies nutrients to ovules','Style Region - Connects stigma to ovary','Floral Tissues - Protective layers before blooming'],
+        functions:['Protection of reproductive organs','Development of ovules','Preparation for flowering','Sexual reproduction'] },
+      { n:6, cat:'root', title:'Onion Root Tip Longitudinal Section',
+        desc:'The onion root tip is a region of active cell division (mitosis) found at the growing end of an onion root, commonly used to study cell cycle stages.',
+        structLabel:'Regions:', structures:['Root Cap - Protects root as it pushes through soil','Meristematic Zone - Active cell division (mitosis)','Elongation Zone - Cells increase in size','Maturation Zone - Cell specialization and differentiation'],
+        functions:['Root growth and elongation','Cell division and multiplication','Protection during soil penetration','Cell differentiation and specialization'] },
+      { n:7, cat:'flower', title:'Tomato Flower Bud Cross Section',
+        desc:'The tomato flower bud contains reproductive organs that undergo cell differentiation to form stamens, pistils, petals, and sepals.',
+        structLabel:'Structures:', structures:['Anthers (Pollen Sacs) - Contain developing pollen grains','Filaments - Support stalks for anthers','Ovary - Contains ovules, becomes fruit after fertilization','Ovules - Develop into seeds after fertilization','Petals and Sepals - Protective and attractive floral parts','Receptacle/Base - Supports flower parts'],
+        functions:['Development of reproductive structures','Pollen production and storage','Protection of developing gametes','Preparation for sexual reproduction'] },
+      { n:8, cat:'leaf', title:'Sycamore Leaf Bud Transverse Section',
+        desc:'A sycamore leaf bud is the undeveloped embryonic shoot containing immature leaves and protective scales, which will grow into a new shoot during the growing season.',
+        structLabel:'Structures:', structures:['Protective Bud Scales - Shield developing tissues from cold and pests','Cortical Cells - Store nutrients and provide support','Vascular Tissue - Transport water, minerals, and food','Leaf Primordia - Immature leaves that will develop'],
+        functions:['Protection during dormancy','Nutrient storage','Preparation for new growth','Development of new leaves and shoots'] },
+      { n:9, cat:'stem', title:'Dicot Stem Cross Section',
+        desc:'A dicot stem shows vascular bundles arranged in a ring, with distinct epidermis, cortex, vascular tissues, cambium, and central pith.',
+        structLabel:'Structures:', structures:['Epidermis - Protective outer covering with cuticle','Cortex - Support and food storage (collenchyma and parenchyma)','Endodermis - Regulates flow into vascular bundles','Vascular Bundles - Arranged in ring with xylem and phloem','Cambium - Meristematic tissue for secondary growth','Pith (Medulla) - Central nutrient storage'],
+        functions:['Support and structural integrity','Transport of water and nutrients','Food storage','Secondary growth and thickness increase'] },
+      { n:10, cat:'stem', title:'Monocot Stem Cross Section',
+        desc:'A monocot stem is characterized by scattered vascular bundles within uniform ground tissue and no secondary growth.',
+        structLabel:'Structures:', structures:['Epidermis - Single-layered protective covering','Hypodermis - Sclerenchyma providing mechanical strength','Ground Tissue - Undifferentiated storage and support tissue','Vascular Bundles - Scattered, closed bundles with xylem and phloem','Bundle Sheath - Sclerenchymatous protection around bundles'],
+        functions:['Structural support','Transport of water and nutrients','Storage of materials','Mechanical strength through scattered bundles'] },
+      { n:11, cat:'tissue', title:'Starch Grains in Stem Cross Section',
+        desc:'Starch grains are storage forms of carbohydrates found in plant cells. They appear as dense, rounded bodies and serve as the main energy reserve.',
+        structLabel:'Features:', structures:['Shape - Oval to rounded bodies','Color - Blue-black with iodine staining','Location - Inside parenchyma cells in ground tissue','Arrangement - Present in clusters within cells'],
+        functions:['Energy storage (carbohydrates)','Reserve food supply','Metabolic support during growth','Source of glucose when needed'] },
+      { n:12, cat:'leaf', title:'Elodea Leaf Cells (Chloroplasts)',
+        desc:'Elodea leaf cells contain chloroplasts with chlorophyll — a green pigment that captures light energy for photosynthesis.',
+        structLabel:'Features:', structures:['Cell Shape - Rectangular, brick-like pattern','Cell Wall - Thick and distinct, defining each cell','Chloroplasts - Numerous green dots containing chlorophyll','Chloroplast Movement - May show cytoplasmic streaming'],
+        functions:['Photosynthesis (light absorption)','Conversion of light energy to chemical energy','Production of glucose and oxygen','Gas exchange regulation'] },
+      { n:13, cat:'tissue', title:'Pinus Wood Longitudinal Section (Bordered Pits)',
+        desc:'Bordered pits are microscopic openings in tracheid cell walls of gymnosperms like Pinus, allowing water transport between cells while preventing air embolisms.',
+        structLabel:'Features:', structures:['Structure - Circular bordered pits on tracheid walls','Arrangement - Vertical rows between adjacent tracheids','Torus-margo structure - Regulates water flow and prevents cavitation','Cell Type - Tracheids for support and conduction','Tissue Type - Secondary xylem (wood tissue)'],
+        functions:['Lateral water movement between tracheids','Prevention of air embolisms','Structural support','Efficient water conduction in gymnosperms'] },
+      { n:14, cat:'tissue', title:'Epidermal Tissue with Glandular Trichome',
+        desc:'Glandular trichomes are hair-like outgrowths from plant epidermis that secrete or store secondary metabolites such as essential oils, resins, or enzymes for protection.',
+        structLabel:'Structures:', structures:['Trichome Head - Enlarged, rounded glandular head for secretion','Stalk Cell - Long, thin supporting connection to epidermis','Non-glandular Trichome - Simple hair-like structures','Epidermal Tissue - Underlying protective tissue layer'],
+        functions:['Secretion of protective compounds','Defense against herbivores and pathogens','UV radiation protection','Storage of essential oils and resins'] },
+      { n:15, cat:'tissue', title:'Parenchyma Tissue Transverse Section',
+        desc:'Parenchyma tissue is a simple permanent plant tissue made of living, thin-walled cells that are loosely packed, involved in storage, photosynthesis, and tissue repair.',
+        structLabel:'Features:', structures:['Cell Shape - Isodiametric (round/oval/polyhedral) and thin-walled','Cell Arrangement - Loosely packed with intercellular spaces','Cell Content - Large central vacuoles and active cytoplasm','Staining - Cell walls stained blue/violet'],
+        functions:['Storage of nutrients and water','Photosynthesis (in chlorenchyma)','Gas exchange through intercellular spaces','Wound healing and tissue repair','Support in young organs'] },
+      { n:16, cat:'leaf', title:'Plantain Lily Leaf Lower Epidermis (Stomata)',
+        desc:'Stomata are small pores found mainly on leaf epidermis, flanked by two guard cells, which control gas exchange and transpiration in plants.',
+        structLabel:'Features:', structures:['Plant - Plantain Lily (Hosta)','Stomatal Type - Dicot-type with kidney-shaped guard cells','Guard Cells - Two per stoma, contain chloroplasts','Cell Shape - Irregular-shaped epidermal cells around stomata','Pore Visibility - Clearly visible stomatal apertures'],
+        functions:['Gas exchange (CO₂ in, O₂ out)','Water vapor loss (transpiration)','Regulation of internal gas concentrations','Control of water balance'] },
+      { n:17, cat:'tissue', title:'Raphides (Calcium Oxalate Crystals)',
+        desc:'Raphides are needle-shaped crystals of calcium oxalate found in plant cells. They act as a defense mechanism against herbivores due to their irritating nature.',
+        structLabel:'Features:', structures:['Material Composition - Calcium oxalate crystals','Shape - Thin, elongated, and pointed (needle-like)','Arrangement - Often clustered or scattered within cells','Location - Found in leaves, stems, or tubers'],
+        functions:['Plant defense against herbivores','Causes irritation when ingested','Calcium regulation in plant tissues','Deterrent to insects and animals'] },
+      { n:18, cat:'tissue', title:'Collenchyma Tissue Cross Section',
+        desc:'Collenchyma is a living plant tissue that provides mechanical support and flexibility, especially in young stems and leaves. It has unevenly thickened cell walls rich in pectin and cellulose.',
+        structLabel:'Features:', structures:['Cell Characteristics - Living, elongated, unevenly thickened corners','Wall Composition - Cellulose and pectin-rich primary walls','Appearance - Compactly arranged, thickened at corners','Location - Below epidermis in young stems and leaf veins'],
+        functions:['Mechanical support for growing parts','Flexibility during plant movement','Structural integrity in young organs','Support without restricting growth'] },
+      { n:19, cat:'tissue', title:'Sclereids in Pyrus (Pear Fruit)',
+        desc:"Sclerenchyma tissue composed of thick-walled, usually dead cells that provide structural support. Sclereids (stone cells) in pear contribute to the fruit's gritty texture.",
+        structLabel:'Features:', structures:['Cell Type - Sclereids (stone cells)','Plant Source - Pyrus (Pear) fruit','Staining Color - Sclereids red/purple, parenchyma green','Appearance - Small, irregular, tightly packed','Surrounding Tissue - Larger, loosely arranged parenchyma'],
+        functions:['Structural support and hardness','Protection of fruit tissues','Contributes to gritty texture in pear','Mechanical strength'] },
+      { n:20, cat:'flower', title:'Pollen Grains in Anther (Transverse Section)',
+        desc:'Pollen grains are the microscopic male gametophytes of seed plants, responsible for carrying male reproductive cells to the female part of the flower for fertilization.',
+        structLabel:'Features:', structures:['Structure Type - Male reproductive part of flower (Anther)','Cell Type - Pollen grains (male gametophytes)','Staining Color - Pollen grains blue to purple','Appearance - Round to oval, spiky or textured surface','Surrounding Tissue - Anther wall layers including tapetum'],
+        functions:['Production and storage of male gametes','Release of pollen for fertilization','Sexual reproduction in flowering plants','Transfer of genetic material'] },
+    ];
+    const shown = computed(() =>
+      active.value === 'all' ? slides : slides.filter(s => s.cat === active.value)
+    );
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      scroll.value = max > 0 ? (window.scrollY / max) * 100 : 0;
+    };
+    onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }));
+    onUnmounted(() => window.removeEventListener('scroll', onScroll));
+    return { scroll, active, filters, shown };
   }
-}).mount('#app')
+}).mount('#app');
 </script>
-
 </body>
 </html>

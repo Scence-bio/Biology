@@ -222,7 +222,7 @@
         <a href="index.html" class="back-btn">← گەڕانەوە</a>
         <span class="top-title">🔬 Histology – Chapter 1</span>
         <span class="spacer"></span>
-        <button class="print-btn-top" @click="window.print()">🖨 Print</button>
+        <button class="print-btn-top" @click="printPage">🖨 Print</button>
     </div>
 
     <div class="page">
@@ -364,7 +364,9 @@ createApp({
             if (observer) observer.disconnect();
         });
 
-        return { activeFilter, filters, filteredSlides, cardRefs, setFilter, categoryLabel };
+        const printPage = () => window.print();
+
+        return { activeFilter, filters, slides, filteredSlides, cardRefs, setFilter, categoryLabel, printPage };
     }
 }).mount('#app');
 </script>

@@ -423,7 +423,7 @@ document.getElementById('year-ku').textContent = yr.replace(/[0-9]/g, d => kd[d]
 /* ══ SVG BACKGROUNDS — Inline SVG illustrations, no external requests ══ */
 const SLIDE_SVGS = [
   /* 0 — BioGuide / DNA double helix */
-  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
+  `<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="1280" height="520" fill="#030d1e"/>
     <rect width="1280" height="520" fill="url(#rg0)"/>
     <defs>
@@ -490,7 +490,7 @@ const SLIDE_SVGS = [
   </svg>`,
 
   /* 1 — Histology: H&E stained tissue look */
-  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
+  `<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="1280" height="520" fill="#1a0a20"/>
     <defs>
       <radialGradient id="rg1" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#2d1040"/><stop offset="100%" stop-color="#0a0415"/></radialGradient>
@@ -571,7 +571,7 @@ const SLIDE_SVGS = [
   </svg>`,
 
   /* 2 — Embryology: cell division stages */
-  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
+  `<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="1280" height="520" fill="#050f1a"/>
     <defs>
       <radialGradient id="rg2" cx="50%" cy="50%" r="80%"><stop offset="0%" stop-color="#0c2540"/><stop offset="100%" stop-color="#020810"/></radialGradient>
@@ -665,7 +665,7 @@ const SLIDE_SVGS = [
   </svg>`,
 
   /* 3 — Plant Anatomy: detailed cross-section */
-  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
+  `<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="1280" height="520" fill="#030f06"/>
     <defs>
       <radialGradient id="rg3" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#062010"/><stop offset="100%" stop-color="#010802"/></radialGradient>
@@ -772,7 +772,7 @@ const SLIDE_SVGS = [
   </svg>`,
 
   /* 4 — Parasitology: Plasmodium life cycle */
-  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
+  `<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="1280" height="520" fill="#0a0005"/>
     <defs>
       <radialGradient id="rg4" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#200018"/><stop offset="100%" stop-color="#060004"/></radialGradient>
@@ -851,7 +851,7 @@ const SLIDE_SVGS = [
   </svg>`,
 
   /* 5 — Hematology: blood smear detail */
-  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
+  `<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="1280" height="520" fill="#0e0404"/>
     <defs>
       <radialGradient id="rg5" cx="50%" cy="50%" r="80%"><stop offset="0%" stop-color="#2a0808"/><stop offset="100%" stop-color="#070202"/></radialGradient>
@@ -934,7 +934,7 @@ const SLIDE_SVGS = [
   </svg>`,
 
   /* 6 — Microbiology: bacteria + virus detail */
-  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
+  `<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="1280" height="520" fill="#020c04"/>
     <defs>
       <radialGradient id="rg6" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#061a09"/><stop offset="100%" stop-color="#010602"/></radialGradient>
@@ -1018,7 +1018,7 @@ const SLIDE_SVGS = [
   </svg>`,
 
   /* 7 — Entomology: detailed bee anatomy */
-  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
+  `<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="1280" height="520" fill="#100800"/>
     <defs>
       <radialGradient id="rg7" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#231200"/><stop offset="100%" stop-color="#080400"/></radialGradient>
@@ -1148,7 +1148,7 @@ const SLIDE_SVGS = [
   </svg>`,
 
   /* 8 — Algae: diatoms + spiral + filamentous */
-  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
+  `<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="1280" height="520" fill="#020c14"/>
     <defs>
       <radialGradient id="rg8" cx="50%" cy="50%" r="80%"><stop offset="0%" stop-color="#06222e"/><stop offset="100%" stop-color="#010910"/></radialGradient>
@@ -1269,7 +1269,7 @@ const SLIDE_SVGS = [
   </svg>`,
 
   /* 9 — Mycology: Aspergillus + mushroom gills */
-  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
+  `<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="1280" height="520" fill="#0c0600"/>
     <defs>
       <radialGradient id="rg9" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#1c1000"/><stop offset="100%" stop-color="#060300"/></radialGradient>
@@ -1397,7 +1397,7 @@ const SLIDE_SVGS = [
   </svg>`,
 
   /* 10 — Immunology: T-cell, antibodies, virus */
-  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
+  `<svg viewBox="0 0 1280 520" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg" style="position:absolute;inset:0;width:100%;height:100%">
     <rect width="1280" height="520" fill="#07001a"/>
     <defs>
       <radialGradient id="rg10" cx="50%" cy="50%" r="75%"><stop offset="0%" stop-color="#12003a"/><stop offset="100%" stop-color="#040010"/></radialGradient>

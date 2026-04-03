@@ -1,511 +1,307 @@
 <!DOCTYPE html>
 <html lang="ku" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ناوەڕۆک و سەرچاوەکان - BioGuide</title>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            light: '#3b82f6',
-                            DEFAULT: '#0f4c75',
-                            dark: '#3b82f6',
-                        },
-                        secondary: {
-                            light: '#60a5fa',
-                            DEFAULT: '#3282b8',
-                        },
-                        accent: {
-                            light: '#93c5fd',
-                            DEFAULT: '#1e6091',
-                        },
-                        cyan: {
-                            bio: '#0891b2',
-                        },
-                        gold: '#f59e0b',
-                        success: '#22c55e',
-                    },
-                    fontFamily: {
-                        kufi: ['NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', 'Tahoma', 'sans-serif'],
-                        inter: ['Inter', 'sans-serif'],
-                    },
-                    animation: {
-                        'rotate-slow': 'rotateSlow 10s linear infinite',
-                        'fade-in-up': 'fadeInUp 0.6s ease forwards',
-                    },
-                    keyframes: {
-                        rotateSlow: { to: { transform: 'rotate(360deg)' } },
-                        fadeInUp: {
-                            from: { opacity: '0', transform: 'translateY(30px)' },
-                            to:   { opacity: '1', transform: 'translateY(0)' },
-                        },
-                    },
-                },
-            },
-        }
-    </script>
-    <style>
-        @font-face {
-            font-family: 'NotoKufiArabic';
-            src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
-            font-weight: normal;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ناوەڕۆک و سەرچاوەکان - BioGuide</title>
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: { fontFamily: { kufi:['NotoKufiArabic','IBM Plex Sans Arabic','Segoe UI','Tahoma','sans-serif'] } } }
+}
+</script>
+<style>
+@font-face { font-family:'NotoKufiArabic'; src:url('./NotoKufiArabic-Regular.ttf') format('truetype'); font-weight:normal; }
+body { font-family:'NotoKufiArabic','IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif; }
 
-        body { font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif; }
+.grad-text { background:linear-gradient(135deg,#0f4c75,#3282b8); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.dark .grad-text { background:linear-gradient(135deg,#3b82f6,#60a5fa); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
 
-        .grad-text {
-            background: linear-gradient(135deg, #0f4c75, #3282b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .dark .grad-text {
-            background: linear-gradient(135deg, #3b82f6, #60a5fa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+.spin-layer { position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:conic-gradient(from 0deg,transparent,#0f4c75,transparent); animation:rotateSlow 10s linear infinite; opacity:0.08; pointer-events:none; }
+.dark .spin-layer { background:conic-gradient(from 0deg,transparent,#3b82f6,transparent); }
+@keyframes rotateSlow { to { transform:rotate(360deg); } }
 
-        .spin-layer {
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: conic-gradient(from 0deg, transparent, #0f4c75, transparent);
-            animation: rotateSlow 10s linear infinite;
-            opacity: 0.08;
-            pointer-events: none;
-        }
-        .dark .spin-layer {
-            background: conic-gradient(from 0deg, transparent, #3b82f6, transparent);
-        }
+#progressBar { position:fixed; top:0; left:0; height:3px; z-index:1001; background:linear-gradient(90deg,#0f4c75,#3282b8); transition:width .1s ease; }
+.dark #progressBar { background:linear-gradient(90deg,#3b82f6,#60a5fa); }
 
-        #progressBar {
-            position: fixed; top: 0; left: 0; height: 3px; z-index: 1001;
-            background: linear-gradient(90deg, #0f4c75, #3282b8);
-            transition: width .1s ease;
-        }
-        .dark #progressBar { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+.toc-item { transition:transform .25s ease,box-shadow .25s ease; }
+.toc-item:hover { transform:translateX(-5px); }
 
-        .toc-item { transition: transform .25s ease, box-shadow .25s ease; }
-        .toc-item:hover { transform: translateX(-5px); }
+.ref-item { position:relative; padding-right:1.25rem; }
+.ref-item::before { content:"•"; position:absolute; right:0; color:#0f4c75; font-weight:700; font-size:1.2em; }
+.dark .ref-item::before { color:#3b82f6; }
 
-        .ref-item { position: relative; padding-right: 1.25rem; }
-        .ref-item::before { content: "•"; position: absolute; right: 0; color: #0f4c75; font-weight: 700; font-size: 1.2em; }
-        .dark .ref-item::before { color: #3b82f6; }
+.member-card  { transition:transform .3s ease,box-shadow .3s ease; } .member-card:hover  { transform:translateY(-5px); }
+.content-block{ transition:transform .3s ease,box-shadow .3s ease; } .content-block:hover{ transform:translateY(-2px); }
+.obj-card     { transition:transform .3s ease,box-shadow .3s ease; } .obj-card:hover     { transform:translateY(-2px); }
 
-        .member-card { transition: transform .3s ease, box-shadow .3s ease; }
-        .member-card:hover { transform: translateY(-5px); }
+.aos { opacity:0; transform:translateY(30px); transition:opacity .6s ease,transform .6s ease; }
+.aos.visible { opacity:1; transform:translateY(0); }
 
-        .content-block { transition: transform .3s ease, box-shadow .3s ease; }
-        .content-block:hover { transform: translateY(-2px); }
+#backToTop { display:none; } #backToTop.show { display:flex; }
+.justify-ku { text-align:justify; text-justify:inter-word; word-spacing:.1em; }
+.search-box:focus { outline:none; box-shadow:0 0 0 3px rgba(15,76,117,.15); }
 
-        .obj-card { transition: transform .3s ease, box-shadow .3s ease; }
-        .obj-card:hover { transform: translateY(-2px); }
+/* theme btn */
+#themeBtn { position:fixed; top:1.25rem; left:1.25rem; z-index:50; width:3rem; height:3rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.25rem; color:#fff; background:linear-gradient(135deg,#0f4c75,#3282b8); box-shadow:0 4px 12px rgba(0,0,0,.25); border:none; cursor:pointer; transition:transform .3s ease; }
+#themeBtn:hover { transform:scale(1.1); }
 
-        .aos { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
-        .aos.visible { opacity: 1; transform: translateY(0); }
+/* footer */
+footer.bio-footer { position:relative; overflow:hidden; background:#0d2137; min-height:280px; }
+footer.bio-footer canvas#footerCanvas { position:absolute; top:0; left:0; width:100%; height:100%; display:block; pointer-events:none; z-index:0; }
+footer.bio-footer .footer-overlay { position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(135deg,rgba(15,76,117,.92),rgba(50,130,184,.85)); pointer-events:none; z-index:1; }
+footer.bio-footer .footer-inner { position:relative; z-index:2; padding:3rem 2rem 2rem; text-align:center; color:#fff; }
+footer.bio-footer .footer-title { font-size:clamp(1.5rem,3vw,2rem); font-weight:700; margin-bottom:.5rem; }
+footer.bio-footer .footer-sub  { opacity:.9; margin:.2rem 0; font-size:1rem; }
+footer.bio-footer .footer-copy { opacity:.7; font-size:.85rem; margin:.2rem 0; }
+footer.bio-footer .social-row { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin-top:1.5rem; padding-top:1.2rem; border-top:1px solid rgba(255,255,255,.2); }
+footer.bio-footer .social-link { display:flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); transition:background .25s,transform .25s; text-decoration:none; }
+footer.bio-footer .social-link:hover { background:rgba(255,255,255,.22); transform:translateY(-3px); }
+footer.bio-footer .social-link svg { width:22px; height:22px; }
 
-        #backToTop { display: none; }
-        #backToTop.show { display: flex; }
-
-        .justify-ku { text-align: justify; text-justify: inter-word; word-spacing: .1em; }
-
-        .search-box:focus { outline: none; box-shadow: 0 0 0 3px rgba(15,76,117,.15); }
-
-        /* ══ FOOTER ══ */
-        footer.bio-footer {
-            position: relative;
-            overflow: hidden;
-            background: #0d2137;
-            min-height: 280px;
-        }
-        footer.bio-footer canvas#footerCanvas {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-            pointer-events: none;
-            z-index: 0;
-        }
-        footer.bio-footer .footer-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(15,76,117,0.92) 0%, rgba(50,130,184,0.85) 100%);
-            pointer-events: none;
-            z-index: 1;
-        }
-        footer.bio-footer .footer-inner {
-            position: relative;
-            z-index: 2;
-            padding: 3rem 2rem 2rem;
-            text-align: center;
-            color: #fff;
-        }
-        footer.bio-footer .footer-title {
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        footer.bio-footer .footer-sub {
-            opacity: 0.9;
-            margin: 0.2rem 0;
-            font-size: 1rem;
-        }
-        footer.bio-footer .footer-copy {
-            opacity: 0.7;
-            font-size: 0.85rem;
-            margin: 0.2rem 0;
-        }
-        footer.bio-footer .social-row {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-top: 1.5rem;
-            padding-top: 1.2rem;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-        footer.bio-footer .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: background 0.25s, transform 0.25s;
-            text-decoration: none;
-        }
-        footer.bio-footer .social-link:hover {
-            background: rgba(255,255,255,0.22);
-            transform: translateY(-3px);
-        }
-        footer.bio-footer .social-link svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        @media print {
-            #progressBar, .dark-mode-toggle, .btn-home, #backToTop, .search-wrap { display: none !important; }
-        }
-    </style>
+@media print { #progressBar,#themeBtn,.btn-home,#backToTop,.search-wrap { display:none !important; } }
+</style>
 </head>
 <body class="min-h-screen transition-colors duration-300 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 text-slate-800 dark:text-slate-100">
-
 <div id="app">
-    <!-- Progress Bar -->
-    <div id="progressBar" :style="{ width: scrollPercent + '%' }"></div>
 
-    <!-- Dark Mode Toggle -->
-    <button
-        @click="toggleDark"
-        class="fixed top-5 left-5 z-50 w-12 h-12 rounded-full flex items-center justify-center text-xl text-white shadow-lg transition-transform duration-300 hover:scale-110"
-        style="background: linear-gradient(135deg, #0f4c75, #3282b8);"
-        :title="dark ? 'Switch to Light Mode / گۆڕین بۆ دۆخی ڕووناک' : 'Switch to Dark Mode / گۆڕین بۆ دۆخی تاریک'"
-        aria-label="Toggle Dark Mode"
-    >{{ dark ? '☀️' : '🌙' }}</button>
+<div id="progressBar" :style="{ width: scrollPercent + '%' }"></div>
 
-    <!-- Home Button -->
-    <a href="index.html"
-       class="btn-home fixed top-5 right-5 z-50 inline-flex items-center gap-2 px-5 py-3 rounded-full text-white font-semibold text-sm shadow-md border-2 border-white/20 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:scale-105"
-       style="background: linear-gradient(135deg, #1e6091, #0891b2);">
-        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        <span>گەڕانەوە بۆ سەرەکی</span>
-    </a>
+<!-- 3-mode theme toggle: auto(🌓) → dark(🌙) → light(☀️) -->
+<button id="themeBtn" @click="cycleTheme" :title="themeTitle" aria-label="Toggle theme">{{ themeIcon }}</button>
 
-    <!-- Back to Top -->
-    <button id="backToTop" :class="{ show: showTop }"
-        @click="scrollTop"
-        class="fixed bottom-7 left-7 z-50 w-12 h-12 rounded-full items-center justify-center text-white text-2xl shadow-lg transition-transform duration-300 hover:scale-110"
-        style="background: linear-gradient(135deg, #0f4c75, #3282b8);"
-        aria-label="Back to Top">↑</button>
+<a href="index.html" class="btn-home fixed top-5 right-5 z-50 inline-flex items-center gap-2 px-5 py-3 rounded-full text-white font-semibold text-sm shadow-md border-2 border-white/20 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:scale-105" style="background:linear-gradient(135deg,#1e6091,#0891b2);">
+    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span>گەڕانەوە بۆ سەرەکی</span>
+</a>
 
-    <div class="max-w-6xl mx-auto px-5 py-5">
+<button id="backToTop" :class="{ show: showTop }" @click="scrollTop" class="fixed bottom-7 left-7 z-50 w-12 h-12 rounded-full items-center justify-center text-white text-2xl shadow-lg transition-transform duration-300 hover:scale-110" style="background:linear-gradient(135deg,#0f4c75,#3282b8);" aria-label="Back to Top">↑</button>
 
-        <!-- ═══════════════ HEADER ═══════════════ -->
-        <header class="aos text-center mb-10 rounded-2xl p-10 border backdrop-blur-sm shadow-xl relative overflow-hidden
-                       bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
-            <div class="spin-layer"></div>
-            <h1 class="grad-text relative z-10 font-extrabold mb-3" style="font-size: clamp(2.5rem,5vw,4rem);">🧬 BioGuide</h1>
-            <p class="relative z-10 text-lg font-semibold mb-4 text-blue-700 dark:text-blue-300" style="font-size:clamp(1.2rem,3vw,1.8rem);">ناوەڕۆک و پێکهاتەکان</p>
-            <p class="relative z-10 text-slate-500 dark:text-slate-300 max-w-3xl mx-auto mb-2 leading-7" style="font-size:clamp(1rem,2vw,1.2rem);">
-                ماڵپەڕێکی بایۆلۆجی و پزیشکییە کە لە تەواوی پێکهاتە وردبینەکان دەکۆڵێتەوە.
-            </p>
-            <div dir="ltr" class="text-left mt-2 relative z-10">
-                <p class="text-slate-500 dark:text-slate-300 max-w-3xl mx-auto leading-7" style="font-size:clamp(1rem,2vw,1.2rem);">
-                    A comprehensive biological and medical website that explores all microscopic components.
-                </p>
-            </div>
+<div class="max-w-6xl mx-auto px-5 py-5">
 
-            <!-- Search -->
-            <div class="search-wrap max-w-xl mx-auto mt-6 relative z-10">
-                <input
-                    v-model="searchTerm"
-                    @input="doSearch"
-                    @keyup.enter="doSearch"
-                    @keyup.escape="clearSearch"
-                    type="text"
-                    placeholder="گەڕان لە ناوەڕۆک... Search content..."
-                    class="search-box w-full py-3 pr-12 pl-5 rounded-full border-2 text-sm transition-all duration-300
-                           bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100
-                           border-blue-200 dark:border-blue-500/40 focus:border-blue-600 dark:focus:border-blue-400"
-                />
-                <button @click="doSearch"
-                    class="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full text-white text-sm flex items-center justify-center transition-all hover:scale-110"
-                    style="background:#0f4c75;">🔍</button>
-            </div>
-        </header>
+<!-- HEADER -->
+<header class="aos text-center mb-10 rounded-2xl p-10 border backdrop-blur-sm shadow-xl relative overflow-hidden bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
+    <div class="spin-layer"></div>
+    <h1 class="grad-text relative z-10 font-extrabold mb-3" style="font-size:clamp(2.5rem,5vw,4rem);">🧬 BioGuide</h1>
+    <p class="relative z-10 font-semibold mb-4 text-blue-700 dark:text-blue-300" style="font-size:clamp(1.2rem,3vw,1.8rem);">ناوەڕۆک و پێکهاتەکان</p>
+    <p class="relative z-10 text-slate-500 dark:text-slate-300 max-w-3xl mx-auto mb-2 leading-7" style="font-size:clamp(1rem,2vw,1.2rem);">ماڵپەڕێکی بایۆلۆجی و پزیشکییە کە لە تەواوی پێکهاتە وردبینەکان دەکۆڵێتەوە.</p>
+    <div dir="ltr" class="text-left mt-2 relative z-10">
+        <p class="text-slate-500 dark:text-slate-300 max-w-3xl mx-auto leading-7" style="font-size:clamp(1rem,2vw,1.2rem);">A comprehensive biological and medical website that explores all microscopic components.</p>
+    </div>
+    <div class="search-wrap max-w-xl mx-auto mt-6 relative z-10">
+        <input v-model="searchTerm" @input="doSearch" @keyup.enter="doSearch" @keyup.escape="clearSearch" type="text" placeholder="گەڕان لە ناوەڕۆک... Search content..." class="search-box w-full py-3 pr-12 pl-5 rounded-full border-2 text-sm transition-all duration-300 bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-blue-200 dark:border-blue-500/40 focus:border-blue-600 dark:focus:border-blue-400"/>
+        <button @click="doSearch" class="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full text-white text-sm flex items-center justify-center transition-all hover:scale-110" style="background:#0f4c75;">🔍</button>
+    </div>
+</header>
 
-        <!-- ═══════════════ TABLE OF CONTENTS ═══════════════ -->
-        <nav class="aos rounded-2xl p-8 my-8 border shadow-lg bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
-            <h3 class="grad-text font-bold text-center text-2xl mb-6">📋 Table of Contents - لیستی پێکهاتەکان</h3>
-            <ul class="space-y-3 p-0 list-none">
-                <li v-for="item in toc" :key="item.id"
-                    @click="scrollTo(item.id)"
-                    class="toc-item cursor-pointer rounded-xl px-5 py-4 border-r-4 border-blue-600 dark:border-blue-400 font-semibold text-base
-                           bg-slate-50 dark:bg-slate-700/60 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 hover:shadow-md
-                           text-slate-800 dark:text-slate-100 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">
-                    {{ item.label }}
-                </li>
-            </ul>
-        </nav>
+<!-- TOC -->
+<nav class="aos rounded-2xl p-8 my-8 border shadow-lg bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
+    <h3 class="grad-text font-bold text-center text-2xl mb-6">📋 Table of Contents - لیستی پێکهاتەکان</h3>
+    <ul class="space-y-3 p-0 list-none">
+        <li v-for="item in toc" :key="item.id" @click="scrollTo(item.id)" class="toc-item cursor-pointer rounded-xl px-5 py-4 border-r-4 border-blue-600 dark:border-blue-400 font-semibold text-base bg-slate-50 dark:bg-slate-700/60 hover:bg-blue-50/60 dark:hover:bg-blue-900/30 hover:shadow-md text-slate-800 dark:text-slate-100 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">{{ item.label }}</li>
+    </ul>
+</nav>
 
-        <!-- ═══════════════ INTRODUCTION ═══════════════ -->
-        <section id="introduction" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg
-                  bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
-            <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">🔬 پێشەکی - Introduction</h2>
+<!-- INTRODUCTION -->
+<section id="introduction" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
+    <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">🔬 پێشەکی - Introduction</h2>
+    <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">بەناوی خودای بەخشندە و میهرەبان</p>
+    <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">بەخێربێن بۆ ڕێبەری بایۆلۆجی، لەو شوێنەی کە زانست لەگەڵ ڕوونی کۆدەبێتەوە.</p>
+    <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">ڕێبەری بایۆلۆجی هاوڕێی دیجیتاڵی تۆیە لە جیهانی خوێندندا، ناوەندێکی کۆکراوەی سلایدەکان، نمونەکان و سەرسوڕهێنەرە وردبینەکان کە دیزاین کراوە بۆ ئەوەی فێربوون و دۆزینەوە بێ ماندووبوون بێت. جا تۆ خوێندکار بیت، توێژەر بیت، یان مامۆستا بیت، ڕێبەری بایۆلۆجی ڕێنمایی دەکات بە هەموو وردەکارییەکاندا بە وێنەی ڕوون، ڕوونکردنەوەی سادە و سەرچاوەی متمانەپێکراو.</p>
+    <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">مەبەستمان گۆڕینی سلایدەکانی تاقیگەیە بۆ گەشتێکی سەرنجڕاکێش بۆ هەمووان. لە ناسینەوەی خانە و شانەکانەوە تا گەڕان بە پێکهاتە شاراوەکانی ژیان، ڕێبەری بایۆلۆجی یارمەتیت دەدات کە چی زۆر گرنگە بیبینیت و تێبگەیت و لەبیرت بێت. چونکە فێربوونی زانست نابێت تەنها زانیاری بێت، دەبێت ئیلهامبەخش بێت.</p>
+    <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-6">ئەم ماڵپەرە لە ئێستادا لە هەنگاوی سەرەتادایە لە داهاتوودا کاری زیاتری لەسەر دەکرێت و پەرەی زیاتری پێدەدرێت لە لایەن تیمەکەمان.</p>
+    <div dir="ltr" class="text-left mt-5 space-y-4">
+        <p class="leading-7 text-slate-500 dark:text-slate-300">In the name of God, the most gracious, the most merciful</p>
+        <p class="leading-7 text-slate-500 dark:text-slate-300"><strong>Welcome to BioGuide</strong> - Where knowledge meets clarity.</p>
+        <p class="leading-7 text-slate-500 dark:text-slate-300">BioGuide is your digital companion in the world of education, a curated hub of slides, samples and insightful wonders designed to make learning and discovery effortless. Whether you are a student, researcher, or teacher, BioGuide guides you through every detail with vivid photos, clear explanations and reliable references.</p>
+        <p class="leading-7 text-slate-500 dark:text-slate-300">Our intention is to turn lab slides into an engaging journey for everyone. From identifying cells and tissues to exploring the hidden structures of life, BioGuide helps you see, understand and remember what's most important. Because learning science must not only be informative, it must be inspiring.</p>
+        <p class="leading-7 text-slate-500 dark:text-slate-300">This website is currently in the initial step in the future more work will be done and further develop by our team.</p>
+    </div>
+</section>
 
-            <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4"> بەناوی خودای بەخشندە و میهرەبان</p>
-            <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">بەخێربێن بۆ ڕێبەری بایۆلۆجی، لەو شوێنەی کە زانست لەگەڵ ڕوونی کۆدەبێتەوە.</p>
-            <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">ڕێبەری بایۆلۆجی هاوڕێی دیجیتاڵی تۆیە لە جیهانی خوێندندا، ناوەندێکی کۆکراوەی سلایدەکان، نمونەکان و سەرسوڕهێنەرە وردبینەکان کە دیزاین کراوە بۆ ئەوەی فێربوون و دۆزینەوە بێ ماندووبوون بێت. جا تۆ خوێندکار بیت، توێژەر بیت، یان مامۆستا بیت، ڕێبەری بایۆلۆجی ڕێنمایی دەکات بە هەموو وردەکارییەکاندا بە وێنەی ڕوون، ڕوونکردنەوەی سادە و سەرچاوەی متمانەپێکراو.</p>
-            <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">مەبەستمان گۆڕینی سلایدەکانی تاقیگەیە بۆ گەشتێکی سەرنجڕاکێش بۆ هەمووان. لە ناسینەوەی خانە و شانەکانەوە تا گەڕان بە پێکهاتە شاراوەکانی ژیان، ڕێبەری بایۆلۆجی یارمەتیت دەدات کە چی زۆر گرنگە بیبینیت و تێبگەیت و لەبیرت بێت. چونکە فێربوونی زانست نابێت تەنها زانیاری بێت، دەبێت ئیلهامبەخش بێت.</p>
-            <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-6">ئەم ماڵپەرە لە ئێستادا لە هەنگاوی سەرەتادایە لە داهاتوودا کاری زیاتری لەسەر دەکرێت و پەرەی زیاتری پێدەدرێت لە لایەن تیمەکەمان.</p>
+<!-- CONTENT OVERVIEW -->
+<section id="content" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
+    <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">📖 ناوەڕۆک - Content Overview</h2>
+    <p class="justify-ku leading-7 text-slate-500 dark:text-slate-300 mb-5">ئەم پەڕەیە دە بەشی سەرەکی لەخۆ دەگرێت:</p>
+    <ul class="space-y-4 list-none p-0">
+        <li v-for="item in contentItems" :key="item.bold" class="ref-item leading-7 text-slate-500 dark:text-slate-300 justify-ku transition-all duration-300 hover:text-slate-700 dark:hover:text-slate-100 hover:-translate-x-1">
+            <strong class="text-slate-700 dark:text-slate-200">{{ item.bold }}</strong>{{ item.text }}
+        </li>
+    </ul>
+</section>
 
-            <div dir="ltr" class="text-left mt-5 space-y-4">
-                <p class="leading-7 text-slate-500 dark:text-slate-300">In the name of God, the most gracious, the most merciful</p>
-                <p class="leading-7 text-slate-500 dark:text-slate-300"><strong>Welcome to BioGuide</strong> - Where knowledge meets clarity.</p>
-                <p class="leading-7 text-slate-500 dark:text-slate-300">BioGuide is your digital companion in the world of education, a curated hub of slides, samples and insightful wonders designed to make learning and discovery effortless. Whether you are a student, researcher, or teacher, BioGuide guides you through every detail with vivid photos, clear explanations and reliable references.</p>
-                <p class="leading-7 text-slate-500 dark:text-slate-300">Our intention is to turn lab slides into an engaging journey for everyone. From identifying cells and tissues to exploring the hidden structures of life, BioGuide helps you see, understand and remember what's most important. Because learning science must not only be informative, it must be inspiring.</p>
-                <p class="leading-7 text-slate-500 dark:text-slate-300">This website is currently in the initial step in the future more work will be done and further develop by our team.</p>
-            </div>
-        </section>
-
-        <!-- ═══════════════ CONTENT OVERVIEW ═══════════════ -->
-        <section id="content" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg
-                  bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
-            <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">📖 ناوەڕۆک - Content Overview</h2>
-            <p class="justify-ku leading-7 text-slate-500 dark:text-slate-300 mb-5">ئەم پەڕەیە دە بەشی سەرەکی لەخۆ دەگرێت:</p>
-            <ul class="space-y-4 list-none p-0">
-                <li v-for="item in contentItems" :key="item.text"
-                    class="ref-item leading-7 text-slate-500 dark:text-slate-300 justify-ku transition-all duration-300 hover:text-slate-700 dark:hover:text-slate-100 hover:-translate-x-1">
-                    <strong class="text-slate-700 dark:text-slate-200">{{ item.bold }}</strong>{{ item.text }}
-                </li>
-            </ul>
-        </section>
-
-        <!-- ═══════════════ OBJECTIVES ═══════════════ -->
-        <section id="objectives" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg
-                  bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
-            <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">🎯 ئامانج - Objectives</h2>
-            <p class="justify-ku leading-7 text-slate-500 dark:text-slate-300 mb-5">ئامانجەکانی سەرەکی ئەم پرۆژەیە:</p>
-            <div class="space-y-4">
-                <div v-for="obj in objectives" :key="obj.title"
-                    class="obj-card rounded-xl p-5 border-r-4 border-amber-400"
-                    style="background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.04));">
-                    <h4 class="font-semibold text-lg mb-3 text-blue-800 dark:text-blue-300">{{ obj.title }}</h4>
-                    <p v-for="line in obj.lines" :key="line" class="justify-ku leading-7 text-slate-500 dark:text-slate-300">{{ line }}</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════ REFERENCES ═══════════════ -->
-        <section id="references" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg
-                  bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
-            <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">📑 سەرچاوەکان - References</h2>
-            <p class="justify-ku leading-7 text-slate-500 dark:text-slate-300 mb-5">ئەم سەرچاوە گشتییانە بەکارهێنراون بۆ دروستکردنی ناوەڕۆکی ئەم پەڕەیە:</p>
-            <h3 class="text-blue-700 dark:text-blue-400 text-xl font-semibold mb-4">📚 کتێبە سەرەکییەکان</h3>
-            <div dir="ltr" class="text-left">
-                <ol class="space-y-4 list-none p-0">
-                    <li v-for="(ref, i) in references" :key="i"
-                        class="ref-item leading-7 text-slate-500 dark:text-slate-300 text-sm transition-all duration-300 hover:text-slate-700 dark:hover:text-slate-100 hover:-translate-x-1">
-                        {{ ref }}
-                    </li>
-                </ol>
-            </div>
-        </section>
-
-        <!-- ═══════════════ SPECIAL THANKS ═══════════════ -->
-        <section id="thanks" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg
-                  bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
-            <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">💝 سوپاسی تایبەت بۆ د. ئەسما - Special Thanks to Dr. Asmaa</h2>
-            <div class="rounded-xl p-6 border-r-4 border-green-400" style="background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(34,197,94,.03));">
-                <h3 class="text-blue-700 dark:text-blue-400 text-xl font-semibold mb-4">🙏 سوپاسی بێ سنوور</h3>
-                <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">
-                    سوپاسی تایبەت و بێ سنوورمان بۆ <strong class="text-slate-700 dark:text-slate-200">دکتۆرە ئەسما سید احمد</strong> کە بە ڕێنمایی و پاڵپشتیەکەی ئەم پرۆژەیەی کردووەتە ڕاستی. بێ یارمەتی و هانەدانەکانی ئەو، ئەم سەرچاوە گرنگە نەدەهاتە ئاراوە.
-                </p>
-                <div dir="ltr" class="text-left mt-4">
-                    <p class="leading-7 text-slate-500 dark:text-slate-300">
-                        We extend our heartfelt gratitude to <strong>Dr. Asmaa Sayd Ahmed</strong> for her invaluable guidance and support in making this project a reality. Her expertise and encouragement have been instrumental in creating this comprehensive resource.
-                    </p>
-                </div>
-                <div class="text-center italic mt-6 p-5 rounded-xl" style="color:#0f4c75; background:rgba(15,76,117,.08);">
-                    <p class="text-lg mb-2 text-blue-800 dark:text-blue-300">"زانست هاوبەشە مرۆڤایەتییەکەیە، بەبێ سنوور و نەتەوە"</p>
-                    <div dir="ltr" class="text-center">
-                        <p class="text-base mb-2 text-blue-800 dark:text-blue-300">"Science is humanity's shared heritage, without borders or nationality"</p>
-                    </div>
-                    <small class="text-sm opacity-80 text-slate-500 dark:text-slate-400">
-                        د. ئەسما سید احمد<br>
-                        سەرۆکی بەشی بایۆلۆجی زانکۆی ڕاپەڕین<br>
-                        <span dir="ltr">Dr. Asmaa Sayd Ahmed - Head of Biology Department, University of Raparin</span>
-                    </small>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════ ABOUT US ═══════════════ -->
-        <section id="about" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg
-                  bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
-            <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">👥 دەربارەی ئێمە - About Us</h2>
-            <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">ئێمە وەکو تیمی <strong class="text-slate-700 dark:text-slate-200">BioNova</strong> کە خوێندکاری بەشی زانستی بایۆلۆجین کە یەک خەونی گەورەمان هەیە بریتییە لەوەی کە جیهانی وردبینی بۆ هەمووان زیندوو بکەینەوە. ئێمە ڕێبەری بایۆلۆجی مان وەک سەرچاوەیەک دروستکرد کە تێیدا سلایدەکانی تاقیگە و نمونەکان ڕوون و ڕێکخراو و ئاسان بن بۆ تێگەیشتن. هەروەها بەیەکەوە هەوڵمانداوە و ئامانجمان زیاترە لەوەی کە تەنها ماڵپەڕێک دروست بکەین، ئێمە پردێک لە نێوان تەکنەلۆجیا و خوێندن و ئەزموونەکانی تاقیگەیی ژیانی ڕاستەقینەدا دروست دەکەین.</p>
-            <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">دیدگاکەمان بریتییە لەوەی جوانییە ئاڵۆزەکانی بایۆلۆجی بکەینە ڕێبەرێک کە ئیلهامبەخش بێت بۆ فێربوون، یارمەتی خوێندکاران و مامۆستایان و توێژەران بدات لە هەموو شوێنێک.</p>
-            <div dir="ltr" class="text-left mt-5 space-y-4">
-                <p class="leading-7 text-slate-500 dark:text-slate-300">We are <strong>BioNova Team</strong>, biological science students who share one big dream: to make the world of microscopy alive for everyone. We created BioGuide as a resource where lab slides and specimens are clear, organized, and easy to understand. Together we have strived for more than just creating a website - we are building a bridge between technology, education and real-life laboratory experiences.</p>
-                <p class="leading-7 text-slate-500 dark:text-slate-300">Our vision is to turn the complex beauty of biology into an inspiring guide for learning, helping students, teachers and researchers everywhere.</p>
-            </div>
-            <div class="text-center italic mt-6 p-5 rounded-xl" style="background:rgba(15,76,117,.08);">
-                <div dir="rtl" class="text-center">
-                    <p class="text-lg mb-2 text-blue-800 dark:text-blue-300">｛ وَقُلْ رَبِّ زِدْنِي عِلْمًا ｝</p>
-                </div>
-                <div dir="rtl" class="text-center">
-                    <p class="text-base mb-3 text-blue-800 dark:text-blue-300">"لە کۆتاییدا هیچ درووستکراوێک بێ هەڵە نییە"</p>
-                </div>
-                <small class="text-sm opacity-80 text-slate-500 dark:text-slate-400">
-                    لە هەبوونی هەر هەڵە و پێشنیارێک ئەتوانن پەیوەندیمان پێوە بکەن لە ڕێگەی: <br>
-                    <strong>mahmodfaqe2@gmail.com</strong><br>
-                    <span dir="ltr"> You can contact us in any mistakes and suggestions through: <strong>mahmodfaqe2@gmail.com</strong></span>
-                </small>
-            </div>
-        </section>
-
-        <!-- ═══════════════ TEAM ═══════════════ -->
-        <section id="team" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg
-                  bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
-            <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-8" style="font-size:clamp(1.5rem,3vw,2rem);">👨‍👩‍👧‍👦 تیمەکەمان - Our Team</h2>
-            <div class="grid gap-5" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));">
-                <div v-for="m in team" :key="m.enName"
-                    class="member-card rounded-2xl p-6 border shadow-md bg-white dark:bg-slate-700/80 border-blue-100 dark:border-blue-500/20">
-                    <div dir="ltr" class="font-bold text-lg mb-1 text-blue-700 dark:text-blue-300 text-left">{{ m.enName }}</div>
-                    <div class="text-base font-semibold mb-4 text-slate-800 dark:text-slate-100">{{ m.kuName }}</div>
-                    <div dir="ltr" class="text-sm italic text-slate-500 dark:text-slate-400 mb-1 text-left">{{ m.enRole }}</div>
-                    <div class="text-sm italic text-slate-500 dark:text-slate-400">{{ m.kuRole }}</div>
-                </div>
-            </div>
-        </section>
-
-    </div><!-- /container -->
-
-    <!-- ═══════════════ FOOTER (new) ═══════════════ -->
-    <footer class="bio-footer aos mt-12 rounded-t-2xl">
-        <canvas id="footerCanvas"></canvas>
-        <div class="footer-overlay"></div>
-        <div class="footer-inner">
-            <h3 class="footer-title">ڕێبەری بایۆلۆجی — 🧬 BioGuide</h3>
-            <p class="footer-sub"><strong>It is a biological, scientific and medical website</strong></p>
-            <p class="footer-sub"><strong>ماڵپەرێکی بایۆلۆجی و زانستی و پزیشکییە</strong></p>
-            <p class="footer-copy">&copy; <span id="year-en"></span> created by scientists to serve science</p>
-            <p class="footer-copy" dir="rtl">درووستکراوە لە لایەن زانستخوازانەوە بۆ خزمەتی زانست &copy; <span id="year-ku"></span></p>
-            <div class="social-row">
-                <a href="https://t.me/mahmod_faqe" target="_blank" rel="noopener" title="Telegram" class="social-link">
-                    <svg viewBox="0 0 24 24" fill="#0088cc"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.26l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.299z"/></svg>
-                </a>
-                <a href="https://www.facebook.com/Mahmod.Faqe" target="_blank" rel="noopener" title="Facebook" class="social-link">
-                    <svg viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
-                </a>
-                <a href="https://wa.me/9647704692000" target="_blank" rel="noopener" title="WhatsApp" class="social-link">
-                    <svg viewBox="0 0 24 24" fill="#25D366"><path d="M12.004 0C5.374 0 .006 5.367.006 11.997c0 2.117.554 4.103 1.522 5.83L0 24l6.335-1.507a11.964 11.964 0 0 0 5.669 1.43h.005C18.634 23.923 24 18.557 24 11.928 24 5.368 18.634 0 12.004 0zm0 21.887a9.916 9.916 0 0 1-5.058-1.383l-.362-.215-3.757.984 1.003-3.651-.236-.374a9.884 9.884 0 0 1-1.517-5.251c0-5.455 4.439-9.893 9.894-9.893 5.455 0 9.893 4.438 9.893 9.893 0 5.456-4.438 9.89-9.86 9.89zm5.422-7.403c-.297-.149-1.758-.867-2.031-.967-.272-.099-.47-.148-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.457.13-.605.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51a12.1 12.1 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
-                </a>
-                <a href="tel:+9647507087901" title="Phone" class="social-link">
-                    <svg viewBox="0 0 24 24" fill="#4CAF50"><path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.21 2.2z"/></svg>
-                </a>
-                <a href="https://snapchat.com/add/mahmod.faqe" target="_blank" rel="noopener" title="Snapchat" class="social-link">
-                    <svg viewBox="0 0 496 512" fill="#FFFC00"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm169.5 338.9c-3.5 8.1-18.1 14-44.8 18.2-1.4 1.9-2.5 9.8-4.3 15.9-1.1 3.7-3.7 5.9-8.1 5.9h-.2c-6.2 0-12.8-2.9-25.8-2.9-17.6 0-23.7 4-37.4 13.7-14.5 10.3-28.4 19.1-49.2 18.2-21 1.6-38.6-11.2-48.5-18.2-13.8-9.7-19.8-13.7-37.4-13.7-12.5 0-20.4 3.1-25.8 3.1-5.4 0-7.5-3.3-8.3-6-1.8-6.1-2.9-14.1-4.3-16-13.8-2.1-44.8-7.5-45.5-21.4-.2-3.6 2.3-6.8 5.9-7.4 46.3-7.6 67.1-55.1 68-57.1 0-.1.1-.2.2-.3 2.5-5 3-9.2 1.6-12.5-3.4-7.9-17.9-10.7-24-13.2-15.8-6.2-18-13.4-17-18.3 1.6-8.5 14.4-13.8 21.9-10.3 5.9 2.8 11.2 4.2 15.7 4.2 3.3 0 5.5-.8 6.6-1.4-1.4-23.9-4.7-58 3.8-77.1C183.1 100 230.7 96 244.7 96c.6 0 6.1-.1 6.7-.1 34.7 0 68 17.8 84.3 54.3 8.5 19.1 5.2 53.1 3.8 77.1 1.1.6 2.9 1.3 5.7 1.4 4.3-.2 9.2-1.6 14.7-4.2 4-1.9 9.6-1.6 13.6 0 6.3 2.3 10.3 6.8 10.4 11.9.1 6.5-5.7 12.1-17.2 16.6-1.4.6-3.1 1.1-4.9 1.7-6.5 2.1-16.4 5.2-19 11.5-1.4 3.3-.8 7.5 1.6 12.5.1.1.1.2.2.3.9 2 21.7 49.5 68 57.1 4 1 7.1 5.5 4.9 10.8z"/></svg>
-                </a>
-                <a href="https://www.tiktok.com/@mahmod.faqe" target="_blank" rel="noopener" title="TikTok" class="social-link">
-                    <svg viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
-                </a>
-            </div>
+<!-- OBJECTIVES -->
+<section id="objectives" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
+    <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">🎯 ئامانج - Objectives</h2>
+    <p class="justify-ku leading-7 text-slate-500 dark:text-slate-300 mb-5">ئامانجەکانی سەرەکی ئەم پرۆژەیە:</p>
+    <div class="space-y-4">
+        <div v-for="obj in objectives" :key="obj.title" class="obj-card rounded-xl p-5 border-r-4 border-amber-400" style="background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(245,158,11,.04));">
+            <h4 class="font-semibold text-lg mb-3 text-blue-800 dark:text-blue-300">{{ obj.title }}</h4>
+            <p v-for="line in obj.lines" :key="line" class="justify-ku leading-7 text-slate-500 dark:text-slate-300">{{ line }}</p>
         </div>
-    </footer>
+    </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="references" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
+    <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">📑 سەرچاوەکان - References</h2>
+    <p class="justify-ku leading-7 text-slate-500 dark:text-slate-300 mb-5">ئەم سەرچاوە گشتییانە بەکارهێنراون بۆ دروستکردنی ناوەڕۆکی ئەم پەڕەیە:</p>
+    <h3 class="text-blue-700 dark:text-blue-400 text-xl font-semibold mb-4">📚 کتێبە سەرەکییەکان</h3>
+    <div dir="ltr" class="text-left">
+        <ol class="space-y-4 list-none p-0">
+            <li v-for="(ref,i) in references" :key="i" class="ref-item leading-7 text-slate-500 dark:text-slate-300 text-sm transition-all duration-300 hover:text-slate-700 dark:hover:text-slate-100 hover:-translate-x-1">{{ ref }}</li>
+        </ol>
+    </div>
+</section>
+
+<!-- SPECIAL THANKS -->
+<section id="thanks" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
+    <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">💝 سوپاسی تایبەت بۆ د. ئەسما - Special Thanks to Dr. Asmaa</h2>
+    <div class="rounded-xl p-6 border-r-4 border-green-400" style="background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(34,197,94,.03));">
+        <h3 class="text-blue-700 dark:text-blue-400 text-xl font-semibold mb-4">🙏 سوپاسی بێ سنوور</h3>
+        <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">سوپاسی تایبەت و بێ سنوورمان بۆ <strong class="text-slate-700 dark:text-slate-200">دکتۆرە ئەسما سید احمد</strong> کە بە ڕێنمایی و پاڵپشتیەکەی ئەم پرۆژەیەی کردووەتە ڕاستی. بێ یارمەتی و هانەدانەکانی ئەو، ئەم سەرچاوە گرنگە نەدەهاتە ئاراوە.</p>
+        <div dir="ltr" class="text-left mt-4">
+            <p class="leading-7 text-slate-500 dark:text-slate-300">We extend our heartfelt gratitude to <strong>Dr. Asmaa Sayd Ahmed</strong> for her invaluable guidance and support in making this project a reality. Her expertise and encouragement have been instrumental in creating this comprehensive resource.</p>
+        </div>
+        <div class="text-center italic mt-6 p-5 rounded-xl" style="color:#0f4c75;background:rgba(15,76,117,.08);">
+            <p class="text-lg mb-2 text-blue-800 dark:text-blue-300">"زانست هاوبەشە مرۆڤایەتییەکەیە، بەبێ سنوور و نەتەوە"</p>
+            <div dir="ltr" class="text-center"><p class="text-base mb-2 text-blue-800 dark:text-blue-300">"Science is humanity's shared heritage, without borders or nationality"</p></div>
+            <small class="text-sm opacity-80 text-slate-500 dark:text-slate-400">
+                د. ئەسما سید احمد<br>سەرۆکی بەشی بایۆلۆجی زانکۆی ڕاپەڕین<br>
+                <span dir="ltr">Dr. Asmaa Sayd Ahmed - Head of Biology Department, University of Raparin</span>
+            </small>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT US -->
+<section id="about" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
+    <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-6" style="font-size:clamp(1.5rem,3vw,2rem);">👥 دەربارەی ئێمە - About Us</h2>
+    <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">ئێمە وەکو تیمی <strong class="text-slate-700 dark:text-slate-200">BioNova</strong> کە خوێندکاری بەشی زانستی بایۆلۆجین کە یەک خەونی گەورەمان هەیە بریتییە لەوەی کە جیهانی وردبینی بۆ هەمووان زیندوو بکەینەوە. ئێمە ڕێبەری بایۆلۆجی مان وەک سەرچاوەیەک دروستکرد کە تێیدا سلایدەکانی تاقیگە و نمونەکان ڕوون و ڕێکخراو و ئاسان بن بۆ تێگەیشتن.</p>
+    <p class="justify-ku leading-8 text-slate-500 dark:text-slate-300 mb-4">دیدگاکەمان بریتییە لەوەی جوانییە ئاڵۆزەکانی بایۆلۆجی بکەینە ڕێبەرێک کە ئیلهامبەخش بێت بۆ فێربوون، یارمەتی خوێندکاران و مامۆستایان و توێژەران بدات لە هەموو شوێنێک.</p>
+    <div dir="ltr" class="text-left mt-5 space-y-4">
+        <p class="leading-7 text-slate-500 dark:text-slate-300">We are <strong>BioNova Team</strong>, biological science students who share one big dream: to make the world of microscopy alive for everyone. We created BioGuide as a resource where lab slides and specimens are clear, organized, and easy to understand.</p>
+        <p class="leading-7 text-slate-500 dark:text-slate-300">Our vision is to turn the complex beauty of biology into an inspiring guide for learning, helping students, teachers and researchers everywhere.</p>
+    </div>
+    <div class="text-center italic mt-6 p-5 rounded-xl" style="background:rgba(15,76,117,.08);">
+        <div dir="rtl" class="text-center"><p class="text-lg mb-2 text-blue-800 dark:text-blue-300">&#x7B; وَقُلْ رَبِّ زِدْنِي عِلْمًا &#x7D;</p></div>
+        <div dir="rtl" class="text-center"><p class="text-base mb-3 text-blue-800 dark:text-blue-300">"لە کۆتاییدا هیچ درووستکراوێک بێ هەڵە نییە"</p></div>
+        <small class="text-sm opacity-80 text-slate-500 dark:text-slate-400">
+            لە هەبوونی هەر هەڵە و پێشنیارێک ئەتوانن پەیوەندیمان پێوە بکەن لە ڕێگەی:<br>
+            <strong>mahmodfaqe2@gmail.com</strong><br>
+            <span dir="ltr">You can contact us in any mistakes and suggestions through: <strong>mahmodfaqe2@gmail.com</strong></span>
+        </small>
+    </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="content-block aos rounded-2xl p-8 mb-8 border shadow-lg bg-white/98 dark:bg-slate-800/95 border-blue-200/40 dark:border-blue-500/30">
+    <h2 class="grad-text font-bold border-b-4 border-blue-400 inline-block pb-2 mb-8" style="font-size:clamp(1.5rem,3vw,2rem);">&#x1F468;&#x200D;&#x1F469;&#x200D;&#x1F467;&#x200D;&#x1F466; تیمەکەمان - Our Team</h2>
+    <div class="grid gap-5" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+        <div v-for="m in team" :key="m.enName" class="member-card rounded-2xl p-6 border shadow-md bg-white dark:bg-slate-700/80 border-blue-100 dark:border-blue-500/20">
+            <div dir="ltr" class="font-bold text-lg mb-1 text-blue-700 dark:text-blue-300 text-left">{{ m.enName }}</div>
+            <div class="text-base font-semibold mb-4 text-slate-800 dark:text-slate-100">{{ m.kuName }}</div>
+            <div dir="ltr" class="text-sm italic text-slate-500 dark:text-slate-400 mb-1 text-left">{{ m.enRole }}</div>
+            <div class="text-sm italic text-slate-500 dark:text-slate-400">{{ m.kuRole }}</div>
+        </div>
+    </div>
+</section>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<footer class="bio-footer aos mt-12 rounded-t-2xl">
+    <canvas id="footerCanvas"></canvas>
+    <div class="footer-overlay"></div>
+    <div class="footer-inner">
+        <h3 class="footer-title">ڕێبەری بایۆلۆجی &mdash; 🧬 BioGuide</h3>
+        <p class="footer-sub"><strong>It is a biological, scientific and medical website</strong></p>
+        <p class="footer-sub"><strong>ماڵپەرێکی بایۆلۆجی و زانستی و پزیشکییە</strong></p>
+        <p class="footer-copy">&copy; <span id="year-en"></span> created by scientists to serve science</p>
+        <p class="footer-copy" dir="rtl">درووستکراوە لە لایەن زانستخوازانەوە بۆ خزمەتی زانست &copy; <span id="year-ku"></span></p>
+        <div class="social-row">
+            <a href="https://t.me/mahmod_faqe" target="_blank" rel="noopener" title="Telegram" class="social-link">
+                <svg viewBox="0 0 24 24" fill="#0088cc"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.26l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.299z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/Mahmod.Faqe" target="_blank" rel="noopener" title="Facebook" class="social-link">
+                <svg viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+            </a>
+            <a href="https://wa.me/9647704692000" target="_blank" rel="noopener" title="WhatsApp" class="social-link">
+                <svg viewBox="0 0 24 24" fill="#25D366"><path d="M12.004 0C5.374 0 .006 5.367.006 11.997c0 2.117.554 4.103 1.522 5.83L0 24l6.335-1.507a11.964 11.964 0 0 0 5.669 1.43h.005C18.634 23.923 24 18.557 24 11.928 24 5.368 18.634 0 12.004 0zm0 21.887a9.916 9.916 0 0 1-5.058-1.383l-.362-.215-3.757.984 1.003-3.651-.236-.374a9.884 9.884 0 0 1-1.517-5.251c0-5.455 4.439-9.893 9.894-9.893 5.455 0 9.893 4.438 9.893 9.893 0 5.456-4.438 9.89-9.86 9.89zm5.422-7.403c-.297-.149-1.758-.867-2.031-.967-.272-.099-.47-.148-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.457.13-.605.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51a12.1 12.1 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+            </a>
+            <a href="tel:+9647507087901" title="Phone" class="social-link">
+                <svg viewBox="0 0 24 24" fill="#4CAF50"><path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.21 2.2z"/></svg>
+            </a>
+            <a href="https://snapchat.com/add/mahmod.faqe" target="_blank" rel="noopener" title="Snapchat" class="social-link">
+                <svg viewBox="0 0 496 512" fill="#FFFC00"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm169.5 338.9c-3.5 8.1-18.1 14-44.8 18.2-1.4 1.9-2.5 9.8-4.3 15.9-1.1 3.7-3.7 5.9-8.1 5.9h-.2c-6.2 0-12.8-2.9-25.8-2.9-17.6 0-23.7 4-37.4 13.7-14.5 10.3-28.4 19.1-49.2 18.2-21 1.6-38.6-11.2-48.5-18.2-13.8-9.7-19.8-13.7-37.4-13.7-12.5 0-20.4 3.1-25.8 3.1-5.4 0-7.5-3.3-8.3-6-1.8-6.1-2.9-14.1-4.3-16-13.8-2.1-44.8-7.5-45.5-21.4-.2-3.6 2.3-6.8 5.9-7.4 46.3-7.6 67.1-55.1 68-57.1 0-.1.1-.2.2-.3 2.5-5 3-9.2 1.6-12.5-3.4-7.9-17.9-10.7-24-13.2-15.8-6.2-18-13.4-17-18.3 1.6-8.5 14.4-13.8 21.9-10.3 5.9 2.8 11.2 4.2 15.7 4.2 3.3 0 5.5-.8 6.6-1.4-1.4-23.9-4.7-58 3.8-77.1C183.1 100 230.7 96 244.7 96c.6 0 6.1-.1 6.7-.1 34.7 0 68 17.8 84.3 54.3 8.5 19.1 5.2 53.1 3.8 77.1 1.1.6 2.9 1.3 5.7 1.4 4.3-.2 9.2-1.6 14.7-4.2 4-1.9 9.6-1.6 13.6 0 6.3 2.3 10.3 6.8 10.4 11.9.1 6.5-5.7 12.1-17.2 16.6-1.4.6-3.1 1.1-4.9 1.7-6.5 2.1-16.4 5.2-19 11.5-1.4 3.3-.8 7.5 1.6 12.5.1.1.1.2.2.3.9 2 21.7 49.5 68 57.1 4 1 7.1 5.5 4.9 10.8z"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@mahmod.faqe" target="_blank" rel="noopener" title="TikTok" class="social-link">
+                <svg viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+            </a>
+        </div>
+    </div>
+</footer>
 
 </div><!-- /#app -->
-
 <script>
-const { createApp, ref, onMounted, onUnmounted } = Vue;
+const { createApp, ref, computed, onMounted, onUnmounted } = Vue;
+
+const MODES  = ['auto','dark','light'];
+const ICONS  = { auto:'🌓', dark:'🌙', light:'☀️' };
+const TITLES = { auto:'ئۆتۆماتیک / Auto', dark:'تاریک / Dark', light:'ڕووناک / Light' };
+
+function applyMode(mode) {
+    const isDark = mode === 'dark' || (mode === 'auto' && window.matchMedia('(prefers-color-scheme:dark)').matches);
+    document.documentElement.classList.toggle('dark', isDark);
+}
 
 createApp({
     setup() {
-        const dark = ref(false);
-        const searchTerm = ref('');
+        const themeMode    = ref(localStorage.getItem('themeMode') || 'auto');
+        const searchTerm   = ref('');
         const scrollPercent = ref(0);
-        const showTop = ref(false);
+        const showTop      = ref(false);
+
+        const themeIcon  = computed(() => ICONS[themeMode.value]);
+        const themeTitle = computed(() => TITLES[themeMode.value]);
+
+        function cycleTheme() {
+            const next = MODES[(MODES.indexOf(themeMode.value) + 1) % MODES.length];
+            themeMode.value = next;
+            localStorage.setItem('themeMode', next);
+            applyMode(next);
+        }
 
         const toc = [
-            { id: 'introduction', label: '🔬 پێشەکی - Introduction' },
-            { id: 'content',      label: '📖 ناوەڕۆک - Content Overview' },
-            { id: 'objectives',   label: '🎯 ئامانج - Objectives' },
-            { id: 'references',   label: '📑 سەرچاوەکان - References' },
-            { id: 'thanks',       label: '💝 سوپاسی تایبەت - Special Thanks' },
-            { id: 'about',        label: '👥 دەربارەی ئێمە - About Us' },
-            { id: 'team',         label: '👨‍👩‍👧‍👦 تیمەکەمان - Our Team' },
+            { id:'introduction', label:'🔬 پێشەکی - Introduction' },
+            { id:'content',      label:'📖 ناوەڕۆک - Content Overview' },
+            { id:'objectives',   label:'🎯 ئامانج - Objectives' },
+            { id:'references',   label:'📑 سەرچاوەکان - References' },
+            { id:'thanks',       label:'💝 سوپاسی تایبەت - Special Thanks' },
+            { id:'about',        label:'👥 دەربارەی ئێمە - About Us' },
+            { id:'team',         label:'👨‍👩‍👧‍👦 تیمەکەمان - Our Team' },
         ];
 
         const contentItems = [
-            { bold: '🔬 شانەزانی (Histology):', text: ' خوێندنەوەی پێکهاتە وردبینییەکانی جەستە' },
-            { bold: '🧬 کۆرپەلەزانی (Embryology):', text: ' پرۆسەی گەشەکردنی زیندەوەران' },
-            { bold: '🌱 توێکاری ڕووەک (Plant Anatomy):', text: ' پێکهاتەی ناوەکی ڕووەکەکان' },
-            { bold: '🦠 مشەخۆرزانی (Parasitology):', text: ' زانستی مشەخۆرەکان' },
-            { bold: '🩸 خوێنزانی (Hematology):', text: ' زانستی خوێن و پێکهاتەکانی' },
-            { bold: '🔬 وردەزیندەزانی (Microbiology):', text: ' زانستی وردە زیندەوەران' },
-            { bold: '🐛 مێروولەزانی (Entomology):', text: ' زانستی مێرووەکان' },
-            { bold: '🌊 قەوزە (Algae Study):', text: ' زانستی قەوزەکان' },
-            { bold: '🍄 کەڕووزانی (Mycology):', text: ' زانستی کەڕووەکان' },
-            { bold: '🛡️ بەرگریزانی (Immunology):', text: ' زانستی سیستمی بەرگری و بەرهەڵستکاری جەستە' },
+            { bold:'🔬 شانەزانی (Histology):',          text:' خوێندنەوەی پێکهاتە وردبینییەکانی جەستە' },
+            { bold:'🧬 کۆرپەلەزانی (Embryology):',      text:' پرۆسەی گەشەکردنی زیندەوەران' },
+            { bold:'🌱 توێکاری ڕووەک (Plant Anatomy):',  text:' پێکهاتەی ناوەکی ڕووەکەکان' },
+            { bold:'🦠 مشەخۆرزانی (Parasitology):',     text:' زانستی مشەخۆرەکان' },
+            { bold:'🩸 خوێنزانی (Hematology):',         text:' زانستی خوێن و پێکهاتەکانی' },
+            { bold:'🔬 وردەزیندەزانی (Microbiology):',  text:' زانستی وردە زیندەوەران' },
+            { bold:'🐛 مێروولەزانی (Entomology):',      text:' زانستی مێرووەکان' },
+            { bold:'🌊 قەوزە (Algae Study):',           text:' زانستی قەوزەکان' },
+            { bold:'🍄 کەڕووزانی (Mycology):',          text:' زانستی کەڕووەکان' },
+            { bold:'🛡️ بەرگریزانی (Immunology):',       text:' زانستی سیستمی بەرگری و بەرهەڵستکاری جەستە' },
         ];
 
         const objectives = [
-            {
-                title: '🔬 تاقیگەیی',
-                lines: [
-                    'سادەکردنی سلایدەکانی تاقیگە بۆ تێگەیشتنی ئاسان',
-                    'ڕوونکردنەوەی گرنگی و مانای هەر سلایدێک',
-                    'بەستنەوەی تیۆری لەگەڵ کاری پراکتیکی',
-                ],
-            },
-            {
-                title: '🎓 پەروەردەیی',
-                lines: [
-                    'دابینکردنی سەرچاوەیەکی متمانەپێکراو',
-                    'دروستکردنی ژینگەیەکی فێربوونی ئۆنلاینی دۆستانە',
-                    'گۆڕینی زانیاری ئاڵۆز بۆ شێوەیەکی ئاسان و سەرنجڕاکێش',
-                ],
-            },
-            {
-                title: '💪 پراکتیکی',
-                lines: [
-                    'باشترکردنی توانای تاقیگەیی خوێندکاران',
-                    'بەکارهێنانی تەکنەلۆژیای سەردەم (QR Code)',
-                    'پەیوەندیکردنی فێربوون لەگەڵ کارپێکردن',
-                ],
-            },
+            { title:'🔬 تاقیگەیی', lines:['سادەکردنی سلایدەکانی تاقیگە بۆ تێگەیشتنی ئاسان','ڕوونکردنەوەی گرنگی و مانای هەر سلایدێک','بەستنەوەی تیۆری لەگەڵ کاری پراکتیکی'] },
+            { title:'🎓 پەروەردەیی', lines:['دابینکردنی سەرچاوەیەکی متمانەپێکراو','دروستکردنی ژینگەیەکی فێربوونی ئۆنلاینی دۆستانە','گۆڕینی زانیاری ئاڵۆز بۆ شێوەیەکی ئاسان و سەرنجڕاکێش'] },
+            { title:'💪 پراکتیکی', lines:['باشترکردنی توانای تاقیگەیی خوێندکاران','بەکارهێنانی تەکنەلۆژیای سەردەم (QR Code)','پەیوەندیکردنی فێربوون لەگەڵ کارپێکردن'] },
         ];
 
         const references = [
@@ -524,68 +320,39 @@ createApp({
             "Parija, S.C. & Rudramurthy, S.M. (2024) Textbook of Fungal Zoonoses and Sapronoses. Singapore: Springer.",
             "Trivedi, P.C., Pandey, S. & Bhadauria, S. (2010) Text Book of Microbiology. Jaipur: Aavishkar Publishers, Distributors.",
             "Uttarakhand Open University, Department of Botany (n.d.) Algae and Bryophytes MSCBOT-502. Haldwani: Uttarakhand Open University.",
-            "Wainwright, M. & Lederberg, J. (1992) 'History of Microbiology', in Encyclopedia of Microbiology, Volume 2. San Diego: Academic Press, Inc.",
+            "Wainwright, M. & Lederberg, J. (1992) History of Microbiology, in Encyclopedia of Microbiology, Volume 2. San Diego: Academic Press.",
             "Abbas, A. K., Lichtman, A. H., & Pillai, S. (2023). Cellular and Molecular Immunology (10th ed.). Elsevier.",
             "Firestein, G. S., Budd, R. C., Gabriel, S. E., McInnes, I. B., & O'Dell, J. R. (2017). Kelley and Firestein's Textbook of Rheumatology (10th ed.). Elsevier.",
         ];
 
         const team = [
-            { enName: 'ZHYAW YUSF HUSEN',          kuName: 'ژیاو یوسف حسێن',          enRole: 'Biology Student',                    kuRole: 'خوێندکاری بایۆلۆجی' },
-            { enName: 'NYAR QADR RASUL',             kuName: 'نیار قادر ڕەسوڵ',           enRole: 'Biology Student',                    kuRole: 'خوێندکاری بایۆلۆجی' },
-            { enName: 'BAHRA ABBAS IBRAHIM',         kuName: 'بەهرە عەباس ئیبراهیم',      enRole: 'Biology Graduate',                   kuRole: 'دەرچووی بایۆلۆجی' },
-            { enName: 'MAHMOOD KHDIR FAQE RASUL',   kuName: 'محمود خدر فقێ ڕەسوڵ',      enRole: 'Biology Student - Website Developer', kuRole: 'خوێندکاری بایۆلۆجی - گەشەپێدەری وێب سایت' },
+            { enName:'ZHYAW YUSF HUSEN',        kuName:'ژیاو یوسف حسێن',       enRole:'Biology Student',                     kuRole:'خوێندکاری بایۆلۆجی' },
+            { enName:'NYAR QADR RASUL',          kuName:'نیار قادر ڕەسوڵ',      enRole:'Biology Student',                     kuRole:'خوێندکاری بایۆلۆجی' },
+            { enName:'BAHRA ABBAS IBRAHIM',      kuName:'بەهرە عەباس ئیبراهیم', enRole:'Biology Graduate',                    kuRole:'دەرچووی بایۆلۆجی' },
+            { enName:'MAHMOOD KHDIR FAQE RASUL', kuName:'محمود خدر فقێ ڕەسوڵ', enRole:'Biology Student - Website Developer', kuRole:'خوێندکاری بایۆلۆجی - گەشەپێدەری وێب سایت' },
         ];
 
-        function toggleDark() {
-            dark.value = !dark.value;
-            document.documentElement.classList.toggle('dark', dark.value);
-            localStorage.setItem('darkMode', dark.value);
-        }
-
-        function scrollTo(id) {
-            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function scrollTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        function scrollTo(id) { document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' }); }
+        function scrollTop()   { window.scrollTo({ top:0, behavior:'smooth' }); }
 
         function doSearch() {
-            const term = searchTerm.value.toLowerCase().trim();
-            document.querySelectorAll('section[id]').forEach(sec => {
-                if (!term || sec.textContent.toLowerCase().includes(term)) {
-                    sec.style.display = '';
-                    sec.style.opacity = '1';
-                } else {
-                    sec.style.display = 'none';
-                }
-            });
+            const t = searchTerm.value.toLowerCase().trim();
+            document.querySelectorAll('section[id]').forEach(s => { s.style.display = (!t || s.textContent.toLowerCase().includes(t)) ? '' : 'none'; });
         }
-
-        function clearSearch() {
-            searchTerm.value = '';
-            doSearch();
-        }
+        function clearSearch() { searchTerm.value=''; doSearch(); }
 
         function onScroll() {
-            const scrollTop = window.pageYOffset;
-            const docH = document.documentElement.scrollHeight - window.innerHeight;
-            scrollPercent.value = docH > 0 ? (scrollTop / docH) * 100 : 0;
-            showTop.value = scrollTop > 300;
+            const st=window.pageYOffset, dh=document.documentElement.scrollHeight-window.innerHeight;
+            scrollPercent.value = dh>0 ? (st/dh)*100 : 0;
+            showTop.value = st>300;
         }
-
         function onKeydown(e) {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                document.querySelector('.search-box')?.focus();
-            }
-            if (e.key === 'Escape') clearSearch();
+            if ((e.ctrlKey||e.metaKey)&&e.key==='k') { e.preventDefault(); document.querySelector('.search-box')?.focus(); }
+            if (e.key==='Escape') clearSearch();
         }
 
         function initAOS() {
-            const obs = new IntersectionObserver((entries) => {
-                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold:.1, rootMargin:'0px 0px -50px 0px' });
             document.querySelectorAll('.aos').forEach(el => obs.observe(el));
         }
 
@@ -594,100 +361,54 @@ createApp({
             if (!canvas) return;
             const footer = canvas.closest('footer');
             const ctx = canvas.getContext('2d');
-            let W, H, particles = [], animId;
+            let W, H, pts=[], aid;
 
-            function resize() {
-                W = canvas.width  = footer.offsetWidth  || window.innerWidth;
-                H = canvas.height = footer.offsetHeight || 280;
-            }
-
-            function mkParticle() {
-                return {
-                    x: Math.random() * W,
-                    y: Math.random() * H,
-                    r: Math.random() * 2 + 0.5,
-                    vx: (Math.random() - 0.5) * 0.4,
-                    vy: (Math.random() - 0.5) * 0.4,
-                    a: Math.random(),
-                };
-            }
-
-            function init() {
-                resize();
-                particles = Array.from({ length: 80 }, mkParticle);
-            }
+            function resize() { W=canvas.width=footer.offsetWidth||window.innerWidth; H=canvas.height=footer.offsetHeight||280; }
+            function mkP() { return { x:Math.random()*W, y:Math.random()*H, r:Math.random()*2+.5, vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4, a:Math.random() }; }
 
             function draw() {
-                ctx.clearRect(0, 0, W, H);
-                particles.forEach(p => {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255,255,255,${p.a * 0.6})`;
-                    ctx.fill();
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    if (p.x < 0) p.x = W;
-                    if (p.x > W) p.x = 0;
-                    if (p.y < 0) p.y = H;
-                    if (p.y > H) p.y = 0;
+                ctx.clearRect(0,0,W,H);
+                pts.forEach(p => {
+                    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+                    ctx.fillStyle='rgba(255,255,255,'+(p.a*.6)+')'; ctx.fill();
+                    p.x+=p.vx; p.y+=p.vy;
+                    if(p.x<0)p.x=W; if(p.x>W)p.x=0; if(p.y<0)p.y=H; if(p.y>H)p.y=0;
                 });
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 80) {
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.strokeStyle = `rgba(255,255,255,${0.12 * (1 - dist / 80)})`;
-                            ctx.lineWidth = 0.5;
-                            ctx.stroke();
-                        }
-                    }
+                for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++) {
+                    const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y, d=Math.sqrt(dx*dx+dy*dy);
+                    if(d<80) { ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.strokeStyle='rgba(255,255,255,'+(.12*(1-d/80))+')'; ctx.lineWidth=.5; ctx.stroke(); }
                 }
-                animId = requestAnimationFrame(draw);
+                aid=requestAnimationFrame(draw);
             }
-
-            init();
-            draw();
-            window.addEventListener('resize', () => {
-                cancelAnimationFrame(animId);
-                resize();
-                draw();
-            });
+            resize(); pts=Array.from({length:80},mkP); draw();
+            window.addEventListener('resize',()=>{ cancelAnimationFrame(aid); resize(); draw(); });
         }
 
+        const mq = window.matchMedia('(prefers-color-scheme:dark)');
+        function onSys() { if(themeMode.value==='auto') applyMode('auto'); }
+
         onMounted(() => {
-            const saved = localStorage.getItem('darkMode');
-            if (saved === 'true') {
-                dark.value = true;
-                document.documentElement.classList.add('dark');
-            }
-            window.addEventListener('scroll', onScroll, { passive: true });
+            applyMode(themeMode.value);
+            mq.addEventListener('change', onSys);
+
+            const yr = new Date().getFullYear().toString();
+            const enEl=document.getElementById('year-en'), kuEl=document.getElementById('year-ku');
+            if(enEl) enEl.textContent=yr;
+            if(kuEl) kuEl.textContent=yr.replace(/[0-9]/g, d=>'٠١٢٣٤٥٦٧٨٩'[d]);
+
+            window.addEventListener('scroll', onScroll, { passive:true });
             window.addEventListener('keydown', onKeydown);
             setTimeout(initAOS, 50);
-
-            // year display
-            const yr = new Date().getFullYear().toString();
-            const enEl = document.getElementById('year-en');
-            const kuEl = document.getElementById('year-ku');
-            if (enEl) enEl.textContent = yr;
-            if (kuEl) kuEl.textContent = yr.replace(/[0-9]/g, d => ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'][d]);
-
             setTimeout(initFooterCanvas, 300);
         });
 
         onUnmounted(() => {
             window.removeEventListener('scroll', onScroll);
             window.removeEventListener('keydown', onKeydown);
+            mq.removeEventListener('change', onSys);
         });
 
-        return {
-            dark, searchTerm, scrollPercent, showTop,
-            toc, contentItems, objectives, references, team,
-            toggleDark, scrollTo, scrollTop, doSearch, clearSearch,
-        };
+        return { themeMode, themeIcon, themeTitle, cycleTheme, searchTerm, scrollPercent, showTop, toc, contentItems, objectives, references, team, scrollTo, scrollTop, doSearch, clearSearch };
     }
 }).mount('#app');
 </script>

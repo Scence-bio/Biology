@@ -3,200 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>BioGuide 3D - ڕێبەری بایۆلۆجی</title>
+  <title>BioGuide - ڕێبەری بایۆلۆجی</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-    :root {
-      --ocean-1:#0f4c75; --ocean-2:#3282b8; --ocean-3:#1e6091; --ocean-4:#0891b2;
-      --text-primary:#1e293b; --text-secondary:#475569; --text-muted:#64748b;
-      --bg-card:rgba(255,255,255,0.98); --border-card:rgba(50,130,184,0.25);
-      --shadow-card:0 8px 32px rgba(15,76,117,0.15);
-      --radius-card:20px; --font-arabic:'IBM Plex Sans Arabic',Tahoma,sans-serif;
-      --font-mono:'Space Mono',monospace;
-      --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px);
-      --safe-left:env(safe-area-inset-left,0px);
-      --hero-h: clamp(300px, 60vh, 560px);
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+    :root{
+      --ocean-1:#0f4c75;--ocean-2:#3282b8;--ocean-3:#1e6091;--ocean-4:#0891b2;
+      --text-primary:#1e293b;--text-secondary:#475569;--text-muted:#64748b;
+      --bg-card:rgba(255,255,255,0.98);--border-card:rgba(50,130,184,0.25);
+      --shadow-card:0 8px 32px rgba(15,76,117,0.15);--radius-card:20px;
+      --font-arabic:'IBM Plex Sans Arabic',Tahoma,sans-serif;--font-mono:'Space Mono',monospace;
+      --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);
+      --safe-left:env(safe-area-inset-left,0px);--hero-h:clamp(300px,60vh,560px);
     }
-    html.dark {
-      --text-primary:#f1f5f9; --text-secondary:#cbd5e1; --text-muted:#94a3b8;
-      --bg-card:rgba(20,30,48,0.97); --border-card:rgba(59,130,246,0.3);
-      --shadow-card:0 8px 32px rgba(0,0,0,0.4);
-    }
-    ::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-thumb{background:rgba(50,130,184,.4);border-radius:3px}
-    body {
-      font-family:var(--font-arabic); direction:rtl; overflow-x:hidden; line-height:1.6;
-      background:linear-gradient(145deg,#0a2f50 0%,#1e6091 30%,#0f3460 60%,#3282b8 100%);
-      background-attachment:fixed; min-height:100vh; color:var(--text-primary);
-    }
-    html.dark body { background:linear-gradient(145deg,#020b18 0%,#0f1e2e 40%,#07111e 70%,#0d1f33 100%); }
-
-    #themeBtn {
-      position:fixed; top:calc(12px + var(--safe-top)); left:calc(12px + var(--safe-left));
-      z-index:200; width:44px; height:44px; border-radius:50%;
-      background:linear-gradient(135deg,var(--ocean-1),var(--ocean-2));
-      border:none; color:#fff; font-size:1.3rem; cursor:pointer;
-      display:flex; align-items:center; justify-content:center;
-      box-shadow:0 4px 20px rgba(15,76,117,.5);
-      transition:transform .3s,box-shadow .3s; -webkit-tap-highlight-color:transparent;
-    }
-    #themeBtn:hover{transform:scale(1.1)} #themeBtn:active{transform:scale(0.93)}
-
-    .container { max-width:1280px; margin:0 auto; padding:0 clamp(10px,3vw,20px) 20px; }
-
-    /* ══ HERO ══ */
-    .hero-carousel {
-      width:100%; height:var(--hero-h);
-      position:relative; overflow:hidden; background:#020b18;
-      user-select:none; margin-bottom:16px; touch-action:pan-y;
-    }
-    #threeCanvas {
-      position:absolute; inset:0; width:100%; height:100%; display:block; z-index:0;
-    }
-    .hero-slide {
-      position:absolute; inset:0; opacity:0; transition:opacity .85s ease;
-      pointer-events:none; z-index:1; background:transparent;
-    }
-    .hero-slide.active { opacity:1; pointer-events:all; }
-    .hero-overlay {
-      position:absolute; inset:0;
-      background:linear-gradient(120deg,rgba(3,10,22,.72) 35%,rgba(3,10,22,.18) 100%);
-    }
-    .hero-content {
-      position:absolute; inset:0;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      text-align:center; padding:clamp(12px,3vh,24px) clamp(14px,4vw,60px) clamp(52px,8vh,72px);
-      gap:clamp(5px,1.2vh,10px);
-    }
-    .hero-badge {
-      display:inline-block; background:rgba(50,130,184,.22);
-      border:1px solid rgba(50,130,184,.4); color:#7ec8f4;
-      font-size:clamp(8px,1.8vw,11px); letter-spacing:clamp(1px,.4vw,2.5px);
-      padding:3px 12px; border-radius:20px; direction:ltr; font-family:var(--font-mono);
-    }
-    .hero-title-en {
-      font-size:clamp(1.4rem,5.5vw,2.8rem); font-weight:900; color:#fff;
-      line-height:1.1; direction:ltr; text-shadow:0 2px 14px rgba(0,0,0,.7);
-    }
-    .hero-title-ku {
-      font-size:clamp(.95rem,3.8vw,1.7rem); font-weight:700;
-      color:#5faede; direction:rtl; text-shadow:0 2px 8px rgba(0,0,0,.6);
-    }
-    .hero-desc {
-      font-size:clamp(.76rem,2vw,.92rem); color:rgba(200,225,245,.92);
-      line-height:1.75; max-width:min(500px,90%); direction:rtl;
-      text-shadow:0 1px 6px rgba(0,0,0,.6);
-    }
-    .hero-pills { display:flex; gap:5px; justify-content:center; flex-wrap:wrap; }
-    .hero-pill {
-      background:rgba(50,130,184,.18); border:1px solid rgba(50,130,184,.32);
-      color:#93c5fd; font-size:clamp(9px,1.8vw,11px); padding:3px 10px; border-radius:20px;
-    }
-    .hero-nav-btn {
-      position:absolute; top:50%; transform:translateY(-50%); z-index:20;
-      width:44px; height:44px; border-radius:50%; background:rgba(10,40,80,.55);
-      border:1px solid rgba(80,160,220,.4); color:#fff; font-size:22px; cursor:pointer;
-      display:flex; align-items:center; justify-content:center; transition:background .25s;
-      -webkit-tap-highlight-color:transparent;
-    }
-    .hero-nav-btn:hover{background:rgba(50,130,184,.6)}
-    .hero-nav-btn:active{background:rgba(50,130,184,.8);transform:translateY(-50%) scale(.9)}
-    .hero-prev{right:10px} .hero-next{left:10px}
-    .hero-dots {
-      position:absolute; bottom:12px; left:50%; transform:translateX(-50%);
-      z-index:20; display:flex; gap:6px; align-items:center;
-    }
-    .hero-dot {
-      width:8px; height:8px; border-radius:50%;
-      background:rgba(94,180,255,.3); border:1px solid rgba(94,180,255,.45);
-      cursor:pointer; transition:all .3s; -webkit-tap-highlight-color:transparent; position:relative;
-    }
+    html.dark{--text-primary:#f1f5f9;--text-secondary:#cbd5e1;--text-muted:#94a3b8;--bg-card:rgba(20,30,48,0.97);--border-card:rgba(59,130,246,0.3);--shadow-card:0 8px 32px rgba(0,0,0,0.4)}
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:rgba(50,130,184,.4);border-radius:3px}
+    body{font-family:var(--font-arabic);direction:rtl;overflow-x:hidden;line-height:1.6;background:linear-gradient(145deg,#0a2f50 0%,#1e6091 30%,#0f3460 60%,#3282b8 100%);background-attachment:fixed;min-height:100vh;color:var(--text-primary)}
+    html.dark body{background:linear-gradient(145deg,#020b18 0%,#0f1e2e 40%,#07111e 70%,#0d1f33 100%)}
+    #themeBtn{position:fixed;top:calc(12px + var(--safe-top));left:calc(12px + var(--safe-left));z-index:200;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--ocean-1),var(--ocean-2));border:none;color:#fff;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(15,76,117,.5);transition:transform .3s;-webkit-tap-highlight-color:transparent}
+    #themeBtn:hover{transform:scale(1.1)}#themeBtn:active{transform:scale(0.93)}
+    .container{max-width:1280px;margin:0 auto;padding:0 clamp(10px,3vw,20px) 20px}
+    .hero-carousel{width:100%;height:var(--hero-h);position:relative;overflow:hidden;background:#020b18;user-select:none;margin-bottom:16px;touch-action:pan-y}
+    #threeCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
+    .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .85s ease;pointer-events:none;z-index:1;background:transparent}
+    .hero-slide.active{opacity:1;pointer-events:all}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(120deg,rgba(3,10,22,.72) 35%,rgba(3,10,22,.18) 100%)}
+    .hero-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(12px,3vh,24px) clamp(14px,4vw,60px) clamp(52px,8vh,72px);gap:clamp(5px,1.2vh,10px)}
+    .hero-badge{display:inline-block;background:rgba(50,130,184,.22);border:1px solid rgba(50,130,184,.4);color:#7ec8f4;font-size:clamp(8px,1.8vw,11px);letter-spacing:clamp(1px,.4vw,2.5px);padding:3px 12px;border-radius:20px;direction:ltr;font-family:var(--font-mono)}
+    .hero-title-en{font-size:clamp(1.4rem,5.5vw,2.8rem);font-weight:900;color:#fff;line-height:1.1;direction:ltr;text-shadow:0 2px 14px rgba(0,0,0,.7)}
+    .hero-title-ku{font-size:clamp(.95rem,3.8vw,1.7rem);font-weight:700;color:#5faede;direction:rtl;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+    .hero-desc{font-size:clamp(.76rem,2vw,.92rem);color:rgba(200,225,245,.92);line-height:1.75;max-width:min(500px,90%);direction:rtl;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+    .hero-pills{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}
+    .hero-pill{background:rgba(50,130,184,.18);border:1px solid rgba(50,130,184,.32);color:#93c5fd;font-size:clamp(9px,1.8vw,11px);padding:3px 10px;border-radius:20px}
+    .hero-nav-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:44px;height:44px;border-radius:50%;background:rgba(10,40,80,.55);border:1px solid rgba(80,160,220,.4);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s;-webkit-tap-highlight-color:transparent}
+    .hero-nav-btn:hover{background:rgba(50,130,184,.6)}.hero-nav-btn:active{background:rgba(50,130,184,.8);transform:translateY(-50%) scale(.9)}
+    .hero-prev{right:10px}.hero-next{left:10px}
+    .hero-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:20;display:flex;gap:6px;align-items:center}
+    .hero-dot{width:8px;height:8px;border-radius:50%;background:rgba(94,180,255,.3);border:1px solid rgba(94,180,255,.45);cursor:pointer;transition:all .3s;-webkit-tap-highlight-color:transparent;position:relative}
     .hero-dot::after{content:'';position:absolute;inset:-8px;border-radius:50%}
     .hero-dot.active{background:#5faede;width:22px;border-radius:4px}
-    .hero-counter{
-      position:absolute;bottom:14px;right:14px;z-index:20;
-      color:rgba(150,200,230,.55);font-size:10px;direction:ltr;font-family:var(--font-mono);
-    }
-    .hero-prog {
-      position:absolute;bottom:0;left:0;height:3px;
-      background:linear-gradient(90deg,var(--ocean-1),var(--ocean-2),var(--ocean-4));
-      z-index:25;transition:width .1s linear;border-radius:0 2px 0 0;
-    }
-    /* 3D label badge */
-    .badge-3d {
-      position:absolute; top:14px; right:14px; z-index:20;
-      background:rgba(124,58,237,.35); border:1px solid rgba(167,139,250,.5);
-      color:#c4b5fd; font-size:9px; letter-spacing:1.5px; padding:3px 9px;
-      border-radius:12px; font-family:var(--font-mono); direction:ltr;
-    }
-    @media (orientation:landscape) and (max-height:500px) {
-      :root{--hero-h:100svh}
-      .hero-content{padding:10px 70px 48px;gap:4px}
-      .hero-desc{display:none}
-    }
-    @media (max-width:380px){
-      .hero-dots{display:none}
-      .hero-title-en{font-size:1.35rem}
-      .hero-title-ku{font-size:.9rem}
-    }
-
-    /* ══ CARDS ══ */
-    .content-card {
-      background:var(--bg-card); border:2px solid var(--border-card);
-      box-shadow:var(--shadow-card); border-radius:var(--radius-card);
-      padding:clamp(16px,4vw,40px); margin-bottom:16px;
-    }
-    .grad-text {
-      background:linear-gradient(135deg,var(--ocean-1),var(--ocean-2),var(--ocean-3),var(--ocean-4));
-      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
-      display:inline-block;
-    }
+    .hero-counter{position:absolute;bottom:14px;right:14px;z-index:20;color:rgba(150,200,230,.55);font-size:10px;direction:ltr;font-family:var(--font-mono)}
+    .hero-prog{position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--ocean-1),var(--ocean-2),var(--ocean-4));z-index:25;transition:width .1s linear;border-radius:0 2px 0 0}
+    .badge-3d{position:absolute;top:14px;right:14px;z-index:20;background:rgba(124,58,237,.35);border:1px solid rgba(167,139,250,.5);color:#c4b5fd;font-size:9px;letter-spacing:1.5px;padding:3px 9px;border-radius:12px;font-family:var(--font-mono);direction:ltr}
+    @media(orientation:landscape) and (max-height:500px){:root{--hero-h:100svh}.hero-content{padding:10px 70px 48px;gap:4px}.hero-desc{display:none}}
+    @media(max-width:380px){.hero-dots{display:none}.hero-title-en{font-size:1.35rem}.hero-title-ku{font-size:.9rem}}
+    .content-card{background:var(--bg-card);border:2px solid var(--border-card);box-shadow:var(--shadow-card);border-radius:var(--radius-card);padding:clamp(16px,4vw,40px);margin-bottom:16px}
+    .grad-text{background:linear-gradient(135deg,var(--ocean-1),var(--ocean-2),var(--ocean-3),var(--ocean-4));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
     html.dark .grad-text{background:linear-gradient(135deg,#93c5fd,#60a5fa,#06b6d4);-webkit-background-clip:text;background-clip:text}
     .section-title{font-size:clamp(1.2rem,3.5vw,2.2rem);font-weight:800;padding-bottom:10px;margin-bottom:14px;border-bottom:3px solid var(--ocean-2)}
-    .text-block{color:var(--text-secondary);font-size:clamp(.88rem,2vw,1.05rem);line-height:1.75}
-    .text-block+.text-block{margin-top:10px}
-    .btn-primary {
-      display:inline-block; background:linear-gradient(135deg,var(--ocean-1),var(--ocean-2));
-      color:#fff !important; font-weight:700; text-decoration:none; border-radius:14px;
-      padding:clamp(11px,2.5vw,16px) clamp(16px,4vw,32px); font-size:clamp(.86rem,2.2vw,1.05rem);
-      box-shadow:0 6px 20px rgba(15,76,117,.35); transition:all .3s;
-      position:relative; overflow:hidden; -webkit-tap-highlight-color:transparent;
-      border:none; cursor:pointer; text-align:center; min-height:44px;
-    }
+    .text-block{color:var(--text-secondary);font-size:clamp(.88rem,2vw,1.05rem);line-height:1.75}.text-block+.text-block{margin-top:10px}
+    .btn-primary{display:inline-block;background:linear-gradient(135deg,var(--ocean-1),var(--ocean-2));color:#fff !important;font-weight:700;text-decoration:none;border-radius:14px;padding:clamp(11px,2.5vw,16px) clamp(16px,4vw,32px);font-size:clamp(.86rem,2.2vw,1.05rem);box-shadow:0 6px 20px rgba(15,76,117,.35);transition:all .3s;position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent;border:none;cursor:pointer;text-align:center;min-height:44px}
     .btn-primary::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .4s}
-    .btn-primary:hover::before{left:100%}
-    .btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(15,76,117,.5)}
-    .btn-primary:active{transform:scale(.97)}
-    .sections-title {
-      background:linear-gradient(135deg,var(--ocean-1),var(--ocean-2));
-      color:#fff; text-align:center; border-radius:14px;
-      padding:clamp(12px,3vw,24px) clamp(14px,3vw,20px); margin-bottom:16px;
-      font-size:clamp(1.2rem,4vw,2.4rem); font-weight:800;
-      box-shadow:0 8px 28px rgba(15,76,117,.35); text-shadow:1px 2px 6px rgba(0,0,0,.3);
-    }
-    #chaptersGrid {
-      display:grid; gap:clamp(10px,2vw,20px);
-      grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));
-      margin-bottom:24px;
-    }
+    .btn-primary:hover::before{left:100%}.btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(15,76,117,.5)}.btn-primary:active{transform:scale(.97)}
+    .sections-title{background:linear-gradient(135deg,var(--ocean-1),var(--ocean-2));color:#fff;text-align:center;border-radius:14px;padding:clamp(12px,3vw,24px) clamp(14px,3vw,20px);margin-bottom:16px;font-size:clamp(1.2rem,4vw,2.4rem);font-weight:800;box-shadow:0 8px 28px rgba(15,76,117,.35);text-shadow:1px 2px 6px rgba(0,0,0,.3)}
+    #chaptersGrid{display:grid;gap:clamp(10px,2vw,20px);grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));margin-bottom:24px}
     @media(max-width:360px){#chaptersGrid{grid-template-columns:1fr}}
     @media(min-width:640px) and (max-width:1024px){#chaptersGrid{grid-template-columns:repeat(2,1fr)}}
     @media(min-width:1200px){#chaptersGrid{grid-template-columns:repeat(3,1fr)}}
-    .chapter-card {
-      background:var(--bg-card); border:2px solid var(--border-card);
-      box-shadow:var(--shadow-card); border-radius:var(--radius-card);
-      padding:clamp(14px,3vw,28px); position:relative; overflow:hidden;
-      transition:transform .35s cubic-bezier(.4,0,.2,1),box-shadow .35s,border-color .35s;
-      opacity:0; transform:translateY(40px);
-    }
+    .chapter-card{background:var(--bg-card);border:2px solid var(--border-card);box-shadow:var(--shadow-card);border-radius:var(--radius-card);padding:clamp(14px,3vw,28px);position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.4,0,.2,1),box-shadow .35s,border-color .35s;opacity:0;transform:translateY(40px)}
     .chapter-card.visible{opacity:1;transform:translateY(0)}
     .chapter-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--ocean-1),var(--ocean-2),var(--ocean-4));transform:scaleX(0);transform-origin:right;transition:transform .4s}
-    .chapter-card:hover{transform:translateY(-8px);box-shadow:0 20px 48px rgba(15,76,117,.28);border-color:var(--ocean-2)}
-    .chapter-card:hover::before{transform:scaleX(1)}
+    .chapter-card:hover{transform:translateY(-8px);box-shadow:0 20px 48px rgba(15,76,117,.28);border-color:var(--ocean-2)}.chapter-card:hover::before{transform:scaleX(1)}
     @media(hover:none){.chapter-card:hover{transform:none}.chapter-card:active{transform:scale(.98)}}
     .chapter-orb{width:clamp(44px,8vw,56px);height:clamp(44px,8vw,56px);border-radius:50%;background:linear-gradient(135deg,var(--ocean-1),var(--ocean-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:clamp(1rem,2.5vw,1.3rem);margin-bottom:14px;box-shadow:0 6px 16px rgba(15,76,117,.3);transition:transform .5s,background .3s;flex-shrink:0}
     .chapter-card:hover .chapter-orb{transform:rotate(360deg) scale(1.1);background:linear-gradient(135deg,var(--ocean-3),var(--ocean-4))}
@@ -204,12 +75,10 @@
     .card-icon{font-size:clamp(1.8rem,4vw,2.5rem);flex-shrink:0;filter:drop-shadow(1px 1px 3px rgba(15,76,117,.3))}
     .card-title-en{font-size:clamp(1rem,2.5vw,1.5rem);font-weight:800;color:var(--ocean-1);line-height:1.2;direction:ltr}
     .card-title-ku{font-size:clamp(.92rem,2vw,1.3rem);font-weight:700;color:var(--ocean-3);direction:rtl;line-height:1.3}
-    html.dark .card-title-en{color:#93c5fd} html.dark .card-title-ku{color:#7dd3fc}
-    .card-desc{color:var(--text-secondary);font-size:clamp(.8rem,1.8vw,.95rem);line-height:1.7;margin-bottom:12px}
-    .card-desc p+p{margin-top:5px}
+    html.dark .card-title-en{color:#93c5fd}html.dark .card-title-ku{color:#7dd3fc}
+    .card-desc{color:var(--text-secondary);font-size:clamp(.8rem,1.8vw,.95rem);line-height:1.7;margin-bottom:12px}.card-desc p+p{margin-top:5px}
     .card-meta{background:rgba(50,130,184,.07);border:1px solid rgba(50,130,184,.15);border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:clamp(.76rem,1.5vw,.88rem);color:var(--text-muted)}
     html.dark .card-meta{background:rgba(15,50,90,.5);border-color:rgba(50,130,184,.25);color:#94a3b8}
-
     footer{position:relative;overflow:hidden;width:100%;background:#050e1a;margin-top:8px;padding-bottom:calc(var(--safe-bottom)+8px);box-shadow:0 -4px 40px rgba(15,76,117,.35);min-height:200px}
     #footerCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     .footer-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(3,10,22,.82) 40%,rgba(3,10,22,.5) 100%);z-index:1}
@@ -219,18 +88,15 @@
     .footer-copy{font-size:clamp(.76rem,1.6vw,.88rem);color:rgba(150,200,230,.6);margin-top:8px}
     .social-row{display:flex;gap:clamp(8px,2vw,14px);justify-content:center;flex-wrap:wrap;margin-top:18px}
     .social-link{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.25);transition:transform .2s,background .2s;text-decoration:none;-webkit-tap-highlight-color:transparent}
-    .social-link:hover{transform:scale(1.15);background:rgba(255,255,255,.28)} .social-link:active{transform:scale(.9)}
-    .social-link svg{width:18px;height:18px}
-    .dir-ltr{direction:ltr;text-align:left} .dir-rtl{direction:rtl;text-align:right}
-    .reveal{opacity:0;transform:translateY(30px);transition:opacity .5s,transform .5s}
-    .reveal.visible{opacity:1;transform:none}
+    .social-link:hover{transform:scale(1.15);background:rgba(255,255,255,.28)}.social-link:active{transform:scale(.9)}.social-link svg{width:18px;height:18px}
+    .dir-ltr{direction:ltr;text-align:left}.dir-rtl{direction:rtl;text-align:right}
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .5s,transform .5s}.reveal.visible{opacity:1;transform:none}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}}
     @media print{#themeBtn{display:none}body{background:#fff !important}}
   </style>
 </head>
 <body>
   <button id="themeBtn" aria-label="Toggle Theme">🌓</button>
-
   <div class="hero-carousel" id="heroCarousel" aria-label="BioGuide 3D Slideshow">
     <canvas id="threeCanvas"></canvas>
     <div id="heroSlides" aria-live="polite"></div>
@@ -239,21 +105,18 @@
     <div class="hero-dots" id="heroDots"></div>
     <div class="hero-counter" id="heroCtr">1 / 11</div>
     <div class="hero-prog" id="hProg" style="width:0%"></div>
+    <div class="badge-3d">3D LIVE</div>
   </div>
-
   <div class="container">
     <section class="content-card reveal">
       <h2 class="grad-text section-title">📋 Additional Content — ناوەڕۆک و زانیاریی تر</h2>
       <p class="text-block dir-ltr"><strong>English:</strong> In this section you will learn more about the website, what it looks like, what it is for, how to use it, and information about the content of the website, its authors, and the sources used for the information.</p>
       <p class="text-block dir-rtl" style="margin-top:10px"><strong>کوردی:</strong> لەم بەشەدا زانیاری تەواو دەربارەی ماڵپەرەکە وەردەگریت، ئامانجی درووستکردنی و چۆنیەتی بەکارهێنانی و زانیاری دەربارەی ناوەڕۆکی ماڵپەرەکە و ئامادەکارانی و سەرچاوەکان کە بۆ زانیارییەکان بەکارهاتوون بەدەست دەهێنیت.</p>
-      <div style="margin-top:18px">
-        <a href="content.html" class="btn-primary">View Content &amp; Information — بینینی ناوەڕۆک و زانیاریەکان</a>
-      </div>
+      <div style="margin-top:18px"><a href="content.html" class="btn-primary">View Content &amp; Information — بینینی ناوەڕۆک و زانیاریەکان</a></div>
     </section>
     <div class="sections-title reveal">📚 Chapters — بەشەکان</div>
     <div id="chaptersGrid"></div>
   </div>
-
   <footer>
     <canvas id="footerCanvas"></canvas>
     <div class="footer-overlay"></div>
@@ -264,781 +127,107 @@
       <p class="footer-copy">&copy; <span id="year-en"></span> created by scientists to serve science</p>
       <p class="footer-copy" dir="rtl">درووستکراوە لە لایەن زانستخوازانەوە بۆ خزمەتی زانست &copy; <span id="year-ku"></span></p>
       <div class="social-row">
-        <a href="https://t.me/mahmod_faqe" target="_blank" rel="noopener" title="Telegram" class="social-link">
-          <svg viewBox="0 0 24 24" fill="#0088cc"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.26l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.299z"/></svg>
-        </a>
-        <a href="https://www.facebook.com/Mahmod.Faqe" target="_blank" rel="noopener" title="Facebook" class="social-link">
-          <svg viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
-        </a>
-        <a href="https://wa.me/9647704692000" target="_blank" rel="noopener" title="WhatsApp" class="social-link">
-          <svg viewBox="0 0 24 24" fill="#25D366"><path d="M12.004 0C5.374 0 .006 5.367.006 11.997c0 2.117.554 4.103 1.522 5.83L0 24l6.335-1.507a11.964 11.964 0 0 0 5.669 1.43h.005C18.634 23.923 24 18.557 24 11.928 24 5.368 18.634 0 12.004 0zm0 21.887a9.916 9.916 0 0 1-5.058-1.383l-.362-.215-3.757.984 1.003-3.651-.236-.374a9.884 9.884 0 0 1-1.517-5.251c0-5.455 4.439-9.893 9.894-9.893 5.455 0 9.893 4.438 9.893 9.893 0 5.456-4.438 9.89-9.86 9.89zm5.422-7.403c-.297-.149-1.758-.867-2.031-.967-.272-.099-.47-.148-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.457.13-.605.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51a12.1 12.1 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
-        </a>
-        <a href="tel:+9647507087901" title="Phone" class="social-link">
-          <svg viewBox="0 0 24 24" fill="#4CAF50"><path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.21 2.2z"/></svg>
-        </a>
-        <a href="https://snapchat.com/add/mahmod.faqe" target="_blank" rel="noopener" title="Snapchat" class="social-link">
-          <svg viewBox="0 0 496 512" fill="#FFFC00"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm169.5 338.9c-3.5 8.1-18.1 14-44.8 18.2-1.4 1.9-2.5 9.8-4.3 15.9-1.1 3.7-3.7 5.9-8.1 5.9h-.2c-6.2 0-12.8-2.9-25.8-2.9-17.6 0-23.7 4-37.4 13.7-14.5 10.3-28.4 19.1-49.2 18.2-21 1.6-38.6-11.2-48.5-18.2-13.8-9.7-19.8-13.7-37.4-13.7-12.5 0-20.4 3.1-25.8 3.1-5.4 0-7.5-3.3-8.3-6-1.8-6.1-2.9-14.1-4.3-16-13.8-2.1-44.8-7.5-45.5-21.4-.2-3.6 2.3-6.8 5.9-7.4 46.3-7.6 67.1-55.1 68-57.1 0-.1.1-.2.2-.3 2.5-5 3-9.2 1.6-12.5-3.4-7.9-17.9-10.7-24-13.2-15.8-6.2-18-13.4-17-18.3 1.6-8.5 14.4-13.8 21.9-10.3 5.9 2.8 11.2 4.2 15.7 4.2 3.3 0 5.5-.8 6.6-1.4-1.4-23.9-4.7-58 3.8-77.1C183.1 100 230.7 96 244.7 96c.6 0 6.1-.1 6.7-.1 34.7 0 68 17.8 84.3 54.3 8.5 19.1 5.2 53.1 3.8 77.1 1.1.6 2.9 1.3 5.7 1.4 4.3-.2 9.2-1.6 14.7-4.2 4-1.9 9.6-1.6 13.6 0 6.3 2.3 10.3 6.8 10.4 11.9.1 6.5-5.7 12.1-17.2 16.6-1.4.6-3.1 1.1-4.9 1.7-6.5 2.1-16.4 5.2-19 11.5-1.4 3.3-.8 7.5 1.6 12.5.1.1.1.2.2.3.9 2 21.7 49.5 68 57.1 4 1 7.1 5.5 4.9 10.8z"/></svg>
-        </a>
-        <a href="https://www.tiktok.com/@mahmod.faqe" target="_blank" rel="noopener" title="TikTok" class="social-link">
-          <svg viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
-        </a>
+        <a href="https://t.me/mahmod_faqe" target="_blank" rel="noopener" title="Telegram" class="social-link"><svg viewBox="0 0 24 24" fill="#0088cc"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L8.32 14.26l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.828.299z"/></svg></a>
+        <a href="https://www.facebook.com/Mahmod.Faqe" target="_blank" rel="noopener" title="Facebook" class="social-link"><svg viewBox="0 0 24 24" fill="#1877f2"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg></a>
+        <a href="https://wa.me/9647704692000" target="_blank" rel="noopener" title="WhatsApp" class="social-link"><svg viewBox="0 0 24 24" fill="#25D366"><path d="M12.004 0C5.374 0 .006 5.367.006 11.997c0 2.117.554 4.103 1.522 5.83L0 24l6.335-1.507a11.964 11.964 0 0 0 5.669 1.43h.005C18.634 23.923 24 18.557 24 11.928 24 5.368 18.634 0 12.004 0zm0 21.887a9.916 9.916 0 0 1-5.058-1.383l-.362-.215-3.757.984 1.003-3.651-.236-.374a9.884 9.884 0 0 1-1.517-5.251c0-5.455 4.439-9.893 9.894-9.893 5.455 0 9.893 4.438 9.893 9.893 0 5.456-4.438 9.89-9.86 9.89zm5.422-7.403c-.297-.149-1.758-.867-2.031-.967-.272-.099-.47-.148-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.457.13-.605.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51a12.1 12.1 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg></a>
+        <a href="tel:+9647507087901" title="Phone" class="social-link"><svg viewBox="0 0 24 24" fill="#4CAF50"><path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.24 1.02l-2.21 2.2z"/></svg></a>
+        <a href="https://snapchat.com/add/mahmod.faqe" target="_blank" rel="noopener" title="Snapchat" class="social-link"><svg viewBox="0 0 496 512" fill="#FFFC00"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm169.5 338.9c-3.5 8.1-18.1 14-44.8 18.2-1.4 1.9-2.5 9.8-4.3 15.9-1.1 3.7-3.7 5.9-8.1 5.9h-.2c-6.2 0-12.8-2.9-25.8-2.9-17.6 0-23.7 4-37.4 13.7-14.5 10.3-28.4 19.1-49.2 18.2-21 1.6-38.6-11.2-48.5-18.2-13.8-9.7-19.8-13.7-37.4-13.7-12.5 0-20.4 3.1-25.8 3.1-5.4 0-7.5-3.3-8.3-6-1.8-6.1-2.9-14.1-4.3-16-13.8-2.1-44.8-7.5-45.5-21.4-.2-3.6 2.3-6.8 5.9-7.4 46.3-7.6 67.1-55.1 68-57.1 0-.1.1-.2.2-.3 2.5-5 3-9.2 1.6-12.5-3.4-7.9-17.9-10.7-24-13.2-15.8-6.2-18-13.4-17-18.3 1.6-8.5 14.4-13.8 21.9-10.3 5.9 2.8 11.2 4.2 15.7 4.2 3.3 0 5.5-.8 6.6-1.4-1.4-23.9-4.7-58 3.8-77.1C183.1 100 230.7 96 244.7 96c.6 0 6.1-.1 6.7-.1 34.7 0 68 17.8 84.3 54.3 8.5 19.1 5.2 53.1 3.8 77.1 1.1.6 2.9 1.3 5.7 1.4 4.3-.2 9.2-1.6 14.7-4.2 4-1.9 9.6-1.6 13.6 0 6.3 2.3 10.3 6.8 10.4 11.9.1 6.5-5.7 12.1-17.2 16.6-1.4.6-3.1 1.1-4.9 1.7-6.5 2.1-16.4 5.2-19 11.5-1.4 3.3-.8 7.5 1.6 12.5.1.1.1.2.2.3.9 2 21.7 49.5 68 57.1 4 1 7.1 5.5 4.9 10.8z"/></svg></a>
+        <a href="https://www.tiktok.com/@mahmod.faqe" target="_blank" rel="noopener" title="TikTok" class="social-link"><svg viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg></a>
       </div>
     </div>
   </footer>
-
 <script>
-/* ══ THEME ══ */
-const ICONS={auto:'🌓',dark:'🌙',light:'☀️'}, CYCLE=['auto','dark','light'];
-function applyTheme(m){
-  const dark=m==='dark'||(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches);
-  document.documentElement.classList.toggle('dark',dark);
-  document.getElementById('themeBtn').textContent=ICONS[m];
-}
-(()=>{const s=localStorage.getItem('themeMode')||'auto'; applyTheme(s);
-  window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{if((localStorage.getItem('themeMode')||'auto')==='auto')applyTheme('auto');});
-})();
-document.getElementById('themeBtn').addEventListener('click',()=>{
-  const c=localStorage.getItem('themeMode')||'auto';
-  const n=CYCLE[(CYCLE.indexOf(c)+1)%CYCLE.length];
-  localStorage.setItem('themeMode',n); applyTheme(n);
-});
-
-/* ══ YEAR ══ */
+const ICONS={auto:'🌓',dark:'🌙',light:'☀️'},CYCLE=['auto','dark','light'];
+function applyTheme(m){const dark=m==='dark'||(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.classList.toggle('dark',dark);document.getElementById('themeBtn').textContent=ICONS[m];}
+(()=>{const s=localStorage.getItem('themeMode')||'auto';applyTheme(s);window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',()=>{if((localStorage.getItem('themeMode')||'auto')==='auto')applyTheme('auto');});})();
+document.getElementById('themeBtn').addEventListener('click',()=>{const c=localStorage.getItem('themeMode')||'auto';const n=CYCLE[(CYCLE.indexOf(c)+1)%CYCLE.length];localStorage.setItem('themeMode',n);applyTheme(n);});
 const yr=new Date().getFullYear().toString();
 document.getElementById('year-en').textContent=yr;
 document.getElementById('year-ku').textContent=yr.replace(/[0-9]/g,d=>['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'][d]);
 
-/* ══════════════════════════════════════════
-   THREE.JS — SINGLE RENDERER, SWAP SCENES
-══════════════════════════════════════════ */
-const threeCanvas = document.getElementById('threeCanvas');
-const renderer = new THREE.WebGLRenderer({ canvas: threeCanvas, antialias: true, alpha: false });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.shadowMap.enabled = false;
+/* THREE.JS */
+const threeCanvas=document.getElementById('threeCanvas');
+const renderer=new THREE.WebGLRenderer({canvas:threeCanvas,antialias:true,alpha:false});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+const camera=new THREE.PerspectiveCamera(55,1,0.1,200);
+camera.position.set(0,0,9);
+let activeSceneObj=null,animId=null;
+function resizeRenderer(){const w=threeCanvas.clientWidth,h=threeCanvas.clientHeight||1;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+window.addEventListener('resize',resizeRenderer);resizeRenderer();
+function makeStars(n,spread){const geo=new THREE.BufferGeometry();const pos=new Float32Array(n*3);for(let i=0;i<n;i++){pos[i*3]=(Math.random()-.5)*spread;pos[i*3+1]=(Math.random()-.5)*spread;pos[i*3+2]=(Math.random()-.5)*spread*.5-spread*.15;}geo.setAttribute('position',new THREE.BufferAttribute(pos,3));return new THREE.Points(geo,new THREE.PointsMaterial({color:0xffffff,size:0.04,transparent:true,opacity:.55}));}
+function makeLights(scene,ac,ai,dc,di){scene.add(new THREE.AmbientLight(ac,ai));const d=new THREE.DirectionalLight(dc,di);d.position.set(5,8,5);scene.add(d);const r=new THREE.PointLight(0x4488ff,.6,30);r.position.set(-6,-3,-4);scene.add(r);}
 
-const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 200);
-camera.position.set(0, 0, 9);
+function buildDNA(){const scene=new THREE.Scene();scene.background=new THREE.Color(0x020b18);makeLights(scene,0x0a1a33,.8,0x5bc8ff,1.2);scene.add(makeStars(200,40));const group=new THREE.Group();const N=80,s1=[],s2=[];for(let i=0;i<N;i++){const t=(i/(N-1))*Math.PI*7,y=(i/(N-1))*16-8;s1.push(new THREE.Vector3(Math.cos(t)*2.8,y,Math.sin(t)*2.8));s2.push(new THREE.Vector3(Math.cos(t+Math.PI)*2.8,y,Math.sin(t+Math.PI)*2.8));}const c1=new THREE.CatmullRomCurve3(s1),c2=new THREE.CatmullRomCurve3(s2);group.add(new THREE.Mesh(new THREE.TubeGeometry(c1,240,.11,8,false),new THREE.MeshPhongMaterial({color:0x00d4ff,emissive:0x002244,shininess:100})));group.add(new THREE.Mesh(new THREE.TubeGeometry(c2,240,.11,8,false),new THREE.MeshPhongMaterial({color:0x7c3aed,emissive:0x1a0055,shininess:100})));const rM=new THREE.MeshPhongMaterial({color:0x4af0ff,transparent:true,opacity:.6}),aG=new THREE.SphereGeometry(.2,10,10),aM1=new THREE.MeshPhongMaterial({color:0x00ffcc,emissive:0x003322,shininess:120}),aM2=new THREE.MeshPhongMaterial({color:0xcc44ff,emissive:0x220033,shininess:120}),up=new THREE.Vector3(0,1,0);for(let i=0;i<18;i++){const f=i/17,p1=c1.getPoint(f),p2=c2.getPoint(f),mid=p1.clone().add(p2).multiplyScalar(.5),dist=p1.distanceTo(p2),dir=p2.clone().sub(p1).normalize();const rm=new THREE.Mesh(new THREE.CylinderGeometry(.045,.045,dist,6),rM);rm.position.copy(mid);rm.quaternion.setFromUnitVectors(up,dir);group.add(rm);const a1=new THREE.Mesh(aG,aM1);a1.position.copy(p1);group.add(a1);const a2=new THREE.Mesh(aG,aM2);a2.position.copy(p2);group.add(a2);}scene.add(group);return{scene,animate:(t)=>{group.rotation.y=t*.28;group.rotation.x=Math.sin(t*.12)*.06;}};}
 
-let activeScene = null, animId = null, clock = new THREE.Clock();
+function buildHistology(){const scene=new THREE.Scene();scene.background=new THREE.Color(0x0a0318);makeLights(scene,0x1a0033,.7,0xff99cc,1.1);scene.add(makeStars(150,35));const group=new THREE.Group();const cM=new THREE.MeshPhongMaterial({color:0xfce7f3,transparent:true,opacity:.2,shininess:30}),wM=new THREE.MeshPhongMaterial({color:0xf472b6,wireframe:true,transparent:true,opacity:.35}),nM=new THREE.MeshPhongMaterial({color:0xdb2777,emissive:0x500010,shininess:120}),hG=new THREE.CylinderGeometry(.52,.52,.18,6),nG=new THREE.SphereGeometry(.17,10,10);for(let row=0;row<7;row++)for(let col=0;col<8;col++){const ox=(row%2)*.52*.87,x=col*.52*1.74-8*.52*.85+ox,z=row*.52*1.52-7*.52*.75;const c=new THREE.Mesh(hG,cM);c.position.set(x,0,z);c.rotation.y=Math.PI/6;group.add(c);const w=new THREE.Mesh(new THREE.CylinderGeometry(.53,.53,.2,6),wM);w.position.set(x,0,z);w.rotation.y=Math.PI/6;group.add(w);const n=new THREE.Mesh(nG,nM);n.position.set(x,.04,z);group.add(n);}scene.add(group);return{scene,animate:(t)=>{group.rotation.y=t*.12;group.position.y=Math.sin(t*.4)*.25;}};}
 
-function resizeRenderer() {
-  const w = threeCanvas.clientWidth, h = threeCanvas.clientHeight || 1;
-  renderer.setSize(w, h, false);
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
-}
-window.addEventListener('resize', resizeRenderer);
-resizeRenderer();
+function buildEmbryology(){const scene=new THREE.Scene();scene.background=new THREE.Color(0x0f0308);makeLights(scene,0x1a0a00,.6,0xffd080,1.2);scene.add(makeStars(120,30));const group=new THREE.Group();group.add(new THREE.Mesh(new THREE.SphereGeometry(3.8,32,32),new THREE.MeshPhongMaterial({color:0xfbbf24,transparent:true,opacity:.07,shininess:200,side:THREE.DoubleSide})));group.add(new THREE.Mesh(new THREE.SphereGeometry(3.8,20,20),new THREE.MeshPhongMaterial({color:0xfcd34d,wireframe:true,transparent:true,opacity:.18})));const bM=new THREE.MeshPhongMaterial({color:0xfde68a,emissive:0x3d1500,shininess:70,transparent:true,opacity:.9});for(let i=0;i<28;i++){const phi=Math.acos(-1+(2*i)/28),theta=Math.sqrt(28*Math.PI)*phi,r=3.3;const b=new THREE.Mesh(new THREE.SphereGeometry(.58,12,12),bM);b.position.set(r*Math.sin(phi)*Math.cos(theta),r*Math.cos(phi),r*Math.sin(phi)*Math.sin(theta));group.add(b);}const iM=new THREE.MeshPhongMaterial({color:0xf472b6,emissive:0x3d0025,shininess:90});for(let i=0;i<10;i++){const a=(i/10)*Math.PI*2;const ic=new THREE.Mesh(new THREE.SphereGeometry(.28,8,8),iM);ic.position.set(Math.cos(a)*.9,Math.sin(a*.7)*.5,Math.sin(a)*.9);group.add(ic);}scene.add(group);return{scene,animate:(t)=>{group.rotation.y=t*.18;group.rotation.x=Math.sin(t*.09)*.12;}};}
 
-/* ── Shared helpers ── */
-function makeStars(n, spread) {
-  const geo = new THREE.BufferGeometry();
-  const pos = new Float32Array(n * 3);
-  for (let i = 0; i < n; i++) {
-    pos[i*3]   = (Math.random()-.5)*spread;
-    pos[i*3+1] = (Math.random()-.5)*spread;
-    pos[i*3+2] = (Math.random()-.5)*spread*.5 - spread*.15;
-  }
-  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  return new THREE.Points(geo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.04, transparent: true, opacity: .55 }));
-}
+function buildPlant(){const scene=new THREE.Scene();scene.background=new THREE.Color(0x010e03);makeLights(scene,0x001a06,.6,0x88ff88,1.1);scene.add(makeStars(100,30));const group=new THREE.Group();const sM=new THREE.MeshPhongMaterial({color:0x22c55e,emissive:0x0a2d10,shininess:60}),lM=new THREE.MeshPhongMaterial({color:0x86efac,transparent:true,opacity:.7,side:THREE.DoubleSide,shininess:30}),cM=new THREE.MeshPhongMaterial({color:0x16a34a,emissive:0x052210,shininess:80});function branch(sp,dir,len,radius,depth){if(depth<0||len<.2)return;const ep=sp.clone().add(dir.clone().multiplyScalar(len)),mid=sp.clone().add(ep).multiplyScalar(.5);const cy=new THREE.Mesh(new THREE.CylinderGeometry(radius*.7,radius,len,8),sM);cy.position.copy(mid);cy.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir.clone().normalize());group.add(cy);if(depth<=1){const lf=new THREE.Mesh(new THREE.PlaneGeometry(.8+Math.random()*.4,.4+Math.random()*.3),lM);lf.position.copy(ep);lf.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,Math.random()*Math.PI);group.add(lf);for(let i=0;i<3;i++){const ch=new THREE.Mesh(new THREE.SphereGeometry(.04,6,6),cM);ch.position.set(ep.x+(Math.random()-.5)*.3,ep.y+(Math.random()-.5)*.3,ep.z+(Math.random()-.5)*.3);group.add(ch);}}if(depth>0){const sp2=.6+depth*.1;for(let b=0;b<2;b++){const nd=dir.clone().applyEuler(new THREE.Euler((Math.random()-.5)*sp2,(Math.random()-.5)*sp2,(Math.random()-.5)*sp2*.5));branch(ep,nd,len*.72,radius*.68,depth-1);}}}branch(new THREE.Vector3(0,-5,0),new THREE.Vector3(0,1,.05),3.5,.22,3);scene.add(group);return{scene,animate:(t)=>{group.rotation.y=t*.15;group.rotation.z=Math.sin(t*.25)*.04;}};}
 
-function makeLights(scene, ambCol, ambInt, dirCol, dirInt) {
-  scene.add(new THREE.AmbientLight(ambCol, ambInt));
-  const d = new THREE.DirectionalLight(dirCol, dirInt);
-  d.position.set(5, 8, 5);
-  scene.add(d);
-  const r = new THREE.PointLight(0x4488ff, .6, 30);
-  r.position.set(-6, -3, -4);
-  scene.add(r);
-}
+function buildParasitology(){const scene=new THREE.Scene();scene.background=new THREE.Color(0x080600);makeLights(scene,0x1a1400,.6,0xffee88,1.0);scene.add(makeStars(120,30));const group=new THREE.Group();const sM=new THREE.MeshPhongMaterial({color:0xfef08a,emissive:0x2d2200,shininess:60}),hM=new THREE.MeshPhongMaterial({color:0xfacc15,emissive:0x3d2800,shininess:100}),kM=new THREE.MeshPhongMaterial({color:0x65a30d,emissive:0x0a1400,shininess:80});for(let i=0;i<36;i++){const f=i/35,t=f*Math.PI*5,y=f*14-7,r=2.2+Math.sin(f*Math.PI)*1.2,sz=i===0?1.4:.7+Math.sin(i*.8)*.15;const seg=new THREE.Mesh(new THREE.SphereGeometry(sz*.42,12,12),i===0?hM:sM);seg.position.set(Math.cos(t)*r,y,Math.sin(t)*r);seg.scale.set(1,.7,1);group.add(seg);if(i===0)for(let h=0;h<6;h++){const ha=(h/6)*Math.PI*2;const hook=new THREE.Mesh(new THREE.ConeGeometry(.07,.3,4),kM);hook.position.set(seg.position.x+Math.cos(ha)*.5,seg.position.y,seg.position.z+Math.sin(ha)*.5);group.add(hook);}}scene.add(group);return{scene,animate:(t)=>{group.rotation.y=t*.2;group.rotation.x=Math.sin(t*.18)*.1;}};}
 
-/* ─────────────────────────────────
-   0. DNA Double Helix
-───────────────────────────────── */
-function buildDNA() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x020b18);
-  makeLights(scene, 0x0a1a33, .8, 0x5bc8ff, 1.2);
-  scene.add(makeStars(200, 40));
+function buildHematology(){const scene=new THREE.Scene();scene.background=new THREE.Color(0x0f0203);makeLights(scene,0x1a0000,.5,0xff6666,1.2);scene.add(makeStars(100,30));const group=new THREE.Group();const rM=new THREE.MeshPhongMaterial({color:0xdc2626,emissive:0x3d0000,shininess:80}),wM=new THREE.MeshPhongMaterial({color:0xf1f5f9,emissive:0x111111,transparent:true,opacity:.85,shininess:60}),pM=new THREE.MeshPhongMaterial({color:0xfca5a5,emissive:0x1a0000,shininess:40});for(let i=0;i<22;i++){const rbc=new THREE.Mesh(new THREE.SphereGeometry(.75,16,12),rM);rbc.scale.set(1,.22,1);rbc.position.set((Math.random()-.5)*14,(Math.random()-.5)*8,(Math.random()-.5)*5);rbc.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,Math.random()*Math.PI);rbc.userData={oy:(Math.random()-.5)*8,off:Math.random()*Math.PI*2,sp:.2+Math.random()*.2};group.add(rbc);}const wbc=new THREE.Mesh(new THREE.SphereGeometry(1.4,24,24),wM);const spkM=new THREE.MeshPhongMaterial({color:0xe2e8f0,shininess:40});for(let s=0;s<16;s++){const phi=Math.acos(-1+(2*s)/16),th=Math.sqrt(16*Math.PI)*phi;const sp=new THREE.Mesh(new THREE.ConeGeometry(.07,.4,4),spkM);const dir=new THREE.Vector3(Math.sin(phi)*Math.cos(th),Math.cos(phi),Math.sin(phi)*Math.sin(th));sp.position.copy(dir.clone().multiplyScalar(1.5));sp.lookAt(dir.clone().multiplyScalar(4));wbc.add(sp);}wbc.position.set(1,1,0);group.add(wbc);for(let p=0;p<8;p++){const pl=new THREE.Mesh(new THREE.SphereGeometry(.25,8,8),pM);pl.scale.set(1,.35,1);pl.position.set((Math.random()-.5)*10,(Math.random()-.5)*7,(Math.random()-.5)*4);group.add(pl);}scene.add(group);return{scene,animate:(t)=>{group.rotation.y=t*.1;wbc.rotation.y=t*.3;wbc.rotation.x=t*.15;group.children.forEach(c=>{if(c.userData.oy!==undefined)c.position.y=c.userData.oy+Math.sin(t*c.userData.sp+c.userData.off)*.4;});}};}
 
-  const group = new THREE.Group();
-  const N = 80;
-  const s1pts = [], s2pts = [];
-  for (let i = 0; i < N; i++) {
-    const t = (i/(N-1)) * Math.PI * 7;
-    const y = (i/(N-1)) * 16 - 8;
-    s1pts.push(new THREE.Vector3(Math.cos(t)*2.8, y, Math.sin(t)*2.8));
-    s2pts.push(new THREE.Vector3(Math.cos(t+Math.PI)*2.8, y, Math.sin(t+Math.PI)*2.8));
-  }
-  const c1 = new THREE.CatmullRomCurve3(s1pts);
-  const c2 = new THREE.CatmullRomCurve3(s2pts);
-  const m1 = new THREE.MeshPhongMaterial({ color:0x00d4ff, emissive:0x002244, shininess:100 });
-  const m2 = new THREE.MeshPhongMaterial({ color:0x7c3aed, emissive:0x1a0055, shininess:100 });
-  group.add(new THREE.Mesh(new THREE.TubeGeometry(c1,240,.11,8,false), m1));
-  group.add(new THREE.Mesh(new THREE.TubeGeometry(c2,240,.11,8,false), m2));
+function buildMicrobiology(){const scene=new THREE.Scene();scene.background=new THREE.Color(0x020f0c);makeLights(scene,0x001a15,.6,0x55ffdd,1.1);scene.add(makeStars(150,35));const group=new THREE.Group();const bM=new THREE.MeshPhongMaterial({color:0x14b8a6,emissive:0x003322,shininess:70}),vM=new THREE.MeshPhongMaterial({color:0xef4444,emissive:0x440000,shininess:90}),skM=new THREE.MeshPhongMaterial({color:0xfca5a5,emissive:0x2a0000,shininess:60}),fM=new THREE.LineBasicMaterial({color:0x5eead4});[[-4,.5,1],[-3,-2,-1],[-5.5,-1,-2],[2.5,2.5,.5],[1,-3,0],[-2.5,2,-1],[3.5,.5,-1],[-1,3.5,1]].forEach(([x,y,z],idx)=>{const b=new THREE.Mesh(new THREE.SphereGeometry(.38,10,10),bM);b.scale.set(1,2.2,1);b.position.set(x,y,z);b.rotation.set(Math.random()*.8,Math.random()*Math.PI,Math.random()*.5);b.userData={orig:[x,y,z],off:idx*.7};group.add(b);const pts=[];for(let f=0;f<12;f++)pts.push(new THREE.Vector3(f*.28,Math.sin(f*.9)*.22,0));const fl=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),fM);fl.position.set(x,y-.8,z);fl.rotation.copy(b.rotation);group.add(fl);});const virus=new THREE.Group();virus.add(new THREE.Mesh(new THREE.SphereGeometry(1.6,20,20),vM));for(let i=0;i<24;i++){const phi=Math.acos(-1+(2*i)/24),th=Math.sqrt(24*Math.PI)*phi;const dir=new THREE.Vector3(Math.sin(phi)*Math.cos(th),Math.cos(phi),Math.sin(phi)*Math.sin(th));const sp=new THREE.Mesh(new THREE.ConeGeometry(.09,.5,4),skM);sp.position.copy(dir.clone().multiplyScalar(1.7));sp.lookAt(dir.clone().multiplyScalar(4));virus.add(sp);}virus.position.set(0,0,0);group.add(virus);scene.add(group);return{scene,animate:(t)=>{group.rotation.y=t*.12;virus.rotation.y=t*.35;virus.rotation.x=t*.18;group.children.forEach(c=>{if(c.userData.off!==undefined)c.position.y=c.userData.orig[1]+Math.sin(t*.4+c.userData.off)*.3;});}};}
 
-  const rungMat = new THREE.MeshPhongMaterial({ color:0x4af0ff, transparent:true, opacity:.6, shininess:60 });
-  const atomM1  = new THREE.MeshPhongMaterial({ color:0x00ffcc, emissive:0x003322, shininess:120 });
-  const atomM2  = new THREE.MeshPhongMaterial({ color:0xcc44ff, emissive:0x220033, shininess:120 });
-  const atomGeo = new THREE.SphereGeometry(.2, 10, 10);
-  const RUNGS = 18;
-  const upAxis = new THREE.Vector3(0,1,0);
-  for (let i = 0; i < RUNGS; i++) {
-    const f = i/(RUNGS-1);
-    const p1 = c1.getPoint(f), p2 = c2.getPoint(f);
-    const mid = p1.clone().add(p2).multiplyScalar(.5);
-    const dist = p1.distanceTo(p2);
-    const dir = p2.clone().sub(p1).normalize();
-    const rg = new THREE.CylinderGeometry(.045,.045,dist,6);
-    const rm = new THREE.Mesh(rg, rungMat);
-    rm.position.copy(mid);
-    rm.quaternion.setFromUnitVectors(upAxis, dir);
-    group.add(rm);
-    const a1 = new THREE.Mesh(atomGeo, atomM1); a1.position.copy(p1); group.add(a1);
-    const a2 = new THREE.Mesh(atomGeo, atomM2); a2.position.copy(p2); group.add(a2);
-  }
-  scene.add(group);
-  return { scene, animate: (t) => { group.rotation.y = t * .28; group.rotation.x = Math.sin(t*.12)*.06; } };
-}
+function buildEntomology(){const scene=new THREE.Scene();scene.background=new THREE.Color(0x0c0800);makeLights(scene,0x1a1000,.6,0xffcc44,1.1);scene.add(makeStars(100,30));const group=new THREE.Group();const hM=new THREE.MeshPhongMaterial({color:0xf59e0b,transparent:true,opacity:.35,shininess:30}),hwM=new THREE.MeshPhongMaterial({color:0xfbbf24,wireframe:true,transparent:true,opacity:.6}),bM=new THREE.MeshPhongMaterial({color:0x78350f,emissive:0x1a0800,shininess:80}),wgM=new THREE.MeshPhongMaterial({color:0xfef3c7,transparent:true,opacity:.35,side:THREE.DoubleSide}),eM=new THREE.MeshPhongMaterial({color:0x1c1917,emissive:0x0a0806,shininess:200});for(let row=-3;row<=3;row++)for(let col=-4;col<=4;col++){const ox=(row%2)*.87*1.04,x=col*1.75+ox,z=row*1.52;const hx=new THREE.Mesh(new THREE.CylinderGeometry(.5,.5,.15,6),hM);hx.position.set(x,0,z);hx.rotation.y=Math.PI/6;group.add(hx);const hw=new THREE.Mesh(new THREE.CylinderGeometry(.51,.51,.17,6),hwM);hw.position.set(x,0,z);hw.rotation.y=Math.PI/6;group.add(hw);}[[0,1.5,0],[3,1.5,2],[-3,1.5,-2]].forEach(([x,y,z])=>{const body=new THREE.Mesh(new THREE.SphereGeometry(.35,12,12),bM);body.scale.set(1,1.8,1);body.position.set(x,y,z);const head=new THREE.Mesh(new THREE.SphereGeometry(.22,10,10),bM);head.position.set(x,y+.65,z);const e1=new THREE.Mesh(new THREE.SphereGeometry(.08,6,6),eM);e1.position.set(x+.12,y+.7,z+.18);const e2=new THREE.Mesh(new THREE.SphereGeometry(.08,6,6),eM);e2.position.set(x-.12,y+.7,z+.18);const wg1=new THREE.Mesh(new THREE.PlaneGeometry(.8,.4),wgM);wg1.position.set(x+.6,y+.2,z);wg1.rotation.z=.3;const wg2=new THREE.Mesh(new THREE.PlaneGeometry(.8,.4),wgM);wg2.position.set(x-.6,y+.2,z);wg2.rotation.z=-.3;group.add(body,head,e1,e2,wg1,wg2);});scene.add(group);return{scene,animate:(t)=>{group.rotation.y=t*.14;group.position.y=Math.sin(t*.3)*.2;}};}
 
-/* ─────────────────────────────────
-   1. Histology — Hexagonal cell tissue
-───────────────────────────────── */
-function buildHistology() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0a0318);
-  makeLights(scene, 0x1a0033, .7, 0xff99cc, 1.1);
-  scene.add(makeStars(150, 35));
+function buildAlgae(){const scene=new THREE.Scene();scene.background=new THREE.Color(0x010f08);makeLights(scene,0x001a10,.6,0x44ffaa,1.1);scene.add(makeStars(130,32));const group=new THREE.Group();const colors=[0x10b981,0x06b6d4,0x34d399,0x22d3ee,0x6ee7b7];for(let s=0;s<5;s++){const pts=[],off=(s/5)*Math.PI*2,r=1.5+s*.85;for(let i=0;i<60;i++){const t=(i/59)*Math.PI*8+off;pts.push(new THREE.Vector3(Math.cos(t)*r,(i/59)*14-7,Math.sin(t)*r));}const mat=new THREE.MeshPhongMaterial({color:colors[s],emissive:0x001a0a,shininess:70,transparent:true,opacity:.85});group.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),200,.09,6,false),mat));for(let i=0;i<8;i++){const p=pts[Math.floor(i/8*59)];const ch=new THREE.Mesh(new THREE.SphereGeometry(.12,6,6),new THREE.MeshPhongMaterial({color:0x065f46,emissive:0x021a0e}));ch.position.copy(p);group.add(ch);}}scene.add(group);return{scene,animate:(t)=>{group.rotation.y=t*.16;group.rotation.x=Math.sin(t*.11)*.07;}};}
 
-  const group = new THREE.Group();
-  const cellMat = new THREE.MeshPhongMaterial({ color:0xfce7f3, transparent:true, opacity:.2, shininess:30 });
-  const wireMat = new THREE.MeshPhongMaterial({ color:0xf472b6, wireframe:true, transparent:true, opacity:.35 });
-  const nucMat  = new THREE.MeshPhongMaterial({ color:0xdb2777, emissive:0x500010, shininess:120 });
-  const hexGeo  = new THREE.CylinderGeometry(.52,.52,.18,6);
-  const nucGeo  = new THREE.SphereGeometry(.17,10,10);
-  const rows=7, cols=8, r=.52;
-  for (let row=0; row<rows; row++) {
-    for (let col=0; col<cols; col++) {
-      const ox=(row%2)*r*.87;
-      const x = col*r*1.74 - cols*r*.85 + ox;
-      const z = row*r*1.52 - rows*r*.75;
-      const cell = new THREE.Mesh(hexGeo, cellMat);
-      cell.position.set(x,0,z); cell.rotation.y=Math.PI/6;
-      const wire = new THREE.Mesh(new THREE.CylinderGeometry(.53,.53,.2,6), wireMat);
-      wire.position.set(x,0,z); wire.rotation.y=Math.PI/6;
-      const nuc = new THREE.Mesh(nucGeo, nucMat); nuc.position.set(x,.04,z);
-      group.add(cell, wire, nuc);
-    }
-  }
-  scene.add(group);
-  return { scene, animate: (t) => { group.rotation.y=t*.12; group.position.y=Math.sin(t*.4)*.25; } };
-}
+function buildMycology(){const scene=new THREE.Scene();scene.background=new THREE.Color(0x0c0401);makeLights(scene,0x1a0800,.6,0xff8844,1.1);scene.add(makeStars(100,30));const group=new THREE.Group();const cM1=new THREE.MeshPhongMaterial({color:0xf97316,emissive:0x2d0e00,shininess:70}),cM2=new THREE.MeshPhongMaterial({color:0xfb923c,emissive:0x1a0800,shininess:50}),stM=new THREE.MeshPhongMaterial({color:0xfef9c3,emissive:0x1a1800,shininess:40}),spM=new THREE.MeshPhongMaterial({color:0xfde68a,emissive:0x1a1000,shininess:60}),dotM=new THREE.MeshPhongMaterial({color:0xfff7ed,emissive:0x111111,shininess:30});function addMushroom(cx,cz,sc,mat){const stem=new THREE.Mesh(new THREE.CylinderGeometry(.1*sc,.16*sc,1.4*sc,10),stM);stem.position.set(cx,-1.5+.7*sc,cz);const cap=new THREE.Mesh(new THREE.SphereGeometry(.75*sc,20,10,0,Math.PI*2,0,Math.PI*.6),mat);cap.position.set(cx,-1.5+1.4*sc,cz);cap.rotation.x=Math.PI;for(let i=0;i<5;i++){const a=(i/5)*Math.PI*2,r=.3*sc;const sp=new THREE.Mesh(new THREE.SphereGeometry(.07*sc,6,6),dotM);sp.position.set(cx+Math.cos(a)*r,-1.5+1.6*sc+Math.sin(a)*r*.3,cz+Math.sin(a)*r);group.add(sp);}group.add(stem,cap);}addMushroom(0,0,2.2,cM1);addMushroom(-3.2,1.5,1.4,cM2);addMushroom(3,-1,1.6,cM1);addMushroom(-1.5,-2.5,1.0,cM2);addMushroom(2.5,2.5,.9,cM1);for(let i=0;i<30;i++){const sp=new THREE.Mesh(new THREE.SphereGeometry(.06+Math.random()*.06,6,6),spM);sp.position.set((Math.random()-.5)*12,(Math.random()-.5)*8,(Math.random()-.5)*4);sp.userData={off:Math.random()*Math.PI*2,speed:.15+Math.random()*.2};group.add(sp);}scene.add(group);return{scene,animate:(t)=>{group.rotation.y=t*.13;group.children.forEach(c=>{if(c.userData.speed){c.position.y+=Math.sin(t*c.userData.speed+c.userData.off)*.006;c.position.x+=Math.cos(t*c.userData.speed*.7+c.userData.off)*.004;}});}};}
 
-/* ─────────────────────────────────
-   2. Embryology — Blastocyst
-───────────────────────────────── */
-function buildEmbryology() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0f0308);
-  makeLights(scene, 0x1a0a00, .6, 0xffd080, 1.2);
-  scene.add(makeStars(120, 30));
+function buildImmunology(){const scene=new THREE.Scene();scene.background=new THREE.Color(0x050210);makeLights(scene,0x0a0020,.6,0x9966ff,1.2);scene.add(makeStars(160,36));const group=new THREE.Group();const abM=new THREE.MeshPhongMaterial({color:0x7c3aed,emissive:0x1a0044,shininess:100}),bcM=new THREE.MeshPhongMaterial({color:0x3b82f6,emissive:0x001133,shininess:80,transparent:true,opacity:.9}),bcW=new THREE.MeshPhongMaterial({color:0x60a5fa,wireframe:true,transparent:true,opacity:.3}),antM=new THREE.MeshPhongMaterial({color:0xc4b5fd,emissive:0x0a0020,shininess:60}),tcM=new THREE.MeshPhongMaterial({color:0x06b6d4,emissive:0x001a20,shininess:70,transparent:true,opacity:.85});function addAb(px,py,pz,ry){const ab=new THREE.Group();const fc=new THREE.Mesh(new THREE.CylinderGeometry(.08,.1,1.8,8),abM);fc.position.y=-.9;ab.add(fc);[[.4,1.1,0,Math.PI/4],[-.4,1.1,0,-Math.PI/4]].forEach(([fx,fy,,rz])=>{const fab=new THREE.Mesh(new THREE.CylinderGeometry(.06,.08,1.3,8),abM);fab.position.set(fx,fy,0);fab.rotation.z=rz;ab.add(fab);const tip=new THREE.Mesh(new THREE.SphereGeometry(.14,8,8),antM);tip.position.set(fx+(fx>0?.35:-.35),fy+.3,0);ab.add(tip);});ab.position.set(px,py,pz);ab.rotation.y=ry;group.add(ab);return ab;}group.add(new THREE.Mesh(new THREE.SphereGeometry(1.7,28,28),bcM));group.add(new THREE.Mesh(new THREE.SphereGeometry(1.72,18,18),bcW));group.add(new THREE.Mesh(new THREE.SphereGeometry(.8,16,16),new THREE.MeshPhongMaterial({color:0x1e40af,emissive:0x000a1a,shininess:60,transparent:true,opacity:.8})));const abs=[];for(let i=0;i<6;i++){const a=(i/6)*Math.PI*2,r=4.0;const ab=addAb(Math.cos(a)*r,(Math.random()-.5)*2,Math.sin(a)*r,a+Math.PI/2);ab.userData={orbitAngle:a,orbitR:r,orbitSpeed:.18+Math.random()*.08};abs.push(ab);}for(let i=0;i<3;i++){const a=(i/3)*Math.PI*2+Math.PI/6;const tc=new THREE.Mesh(new THREE.SphereGeometry(.6,14,14),tcM);tc.position.set(Math.cos(a)*6.5,(Math.random()-.5)*2,Math.sin(a)*6.5);tc.userData={orbitAngle:a,orbitR:6.5,orbitSpeed:.09};group.add(tc);abs.push(tc);}scene.add(group);return{scene,animate:(t)=>{group.children[0].rotation.y=t*.12;abs.forEach(ab=>{if(ab.userData.orbitAngle!==undefined){const a=ab.userData.orbitAngle+t*ab.userData.orbitSpeed;ab.position.x=Math.cos(a)*ab.userData.orbitR;ab.position.z=Math.sin(a)*ab.userData.orbitR;ab.rotation.y=a+Math.PI/2;}});}};}
 
-  const group = new THREE.Group();
-  // Zona pellucida
-  group.add(new THREE.Mesh(new THREE.SphereGeometry(3.8,32,32),
-    new THREE.MeshPhongMaterial({ color:0xfbbf24, transparent:true, opacity:.07, shininess:200, side:THREE.DoubleSide })));
-  group.add(new THREE.Mesh(new THREE.SphereGeometry(3.8,20,20),
-    new THREE.MeshPhongMaterial({ color:0xfcd34d, wireframe:true, transparent:true, opacity:.18 })));
-
-  // Blastomeres (surface cells)
-  const bMat = new THREE.MeshPhongMaterial({ color:0xfde68a, emissive:0x3d1500, shininess:70, transparent:true, opacity:.9 });
-  const bGeo = new THREE.SphereGeometry(.58,12,12);
-  for (let i=0; i<28; i++) {
-    const phi=Math.acos(-1+(2*i)/28), theta=Math.sqrt(28*Math.PI)*phi;
-    const r=3.3;
-    const b = new THREE.Mesh(bGeo, bMat);
-    b.position.set(r*Math.sin(phi)*Math.cos(theta), r*Math.cos(phi), r*Math.sin(phi)*Math.sin(theta));
-    group.add(b);
-  }
-  // ICM
-  const icmMat = new THREE.MeshPhongMaterial({ color:0xf472b6, emissive:0x3d0025, shininess:90 });
-  for (let i=0; i<10; i++) {
-    const ang=(i/10)*Math.PI*2;
-    const icm=new THREE.Mesh(new THREE.SphereGeometry(.28,8,8), icmMat);
-    icm.position.set(Math.cos(ang)*.9, Math.sin(ang*.7)*.5, Math.sin(ang)*.9);
-    group.add(icm);
-  }
-  scene.add(group);
-  return { scene, animate: (t) => { group.rotation.y=t*.18; group.rotation.x=Math.sin(t*.09)*.12; } };
-}
-
-/* ─────────────────────────────────
-   3. Plant Anatomy — Branching vascular
-───────────────────────────────── */
-function buildPlant() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x010e03);
-  makeLights(scene, 0x001a06, .6, 0x88ff88, 1.1);
-  scene.add(makeStars(100, 30));
-
-  const group = new THREE.Group();
-  const stemMat = new THREE.MeshPhongMaterial({ color:0x22c55e, emissive:0x0a2d10, shininess:60 });
-  const leafMat = new THREE.MeshPhongMaterial({ color:0x86efac, transparent:true, opacity:.7, side:THREE.DoubleSide, shininess:30 });
-  const chlMat  = new THREE.MeshPhongMaterial({ color:0x16a34a, emissive:0x052210, shininess:80 });
-
-  function branch(startPt, dir, len, radius, depth) {
-    if (depth < 0 || len < .2) return;
-    const endPt = startPt.clone().add(dir.clone().multiplyScalar(len));
-    const mid = startPt.clone().add(endPt).multiplyScalar(.5);
-    const cyl = new THREE.Mesh(new THREE.CylinderGeometry(radius*.7,radius,len,8), stemMat);
-    cyl.position.copy(mid);
-    cyl.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), dir.clone().normalize());
-    group.add(cyl);
-    // Leaf plane at branch end
-    if (depth <= 1) {
-      const leaf = new THREE.Mesh(new THREE.PlaneGeometry(.8+Math.random()*.4, .4+Math.random()*.3), leafMat);
-      leaf.position.copy(endPt);
-      leaf.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
-      group.add(leaf);
-      // Chloroplasts
-      for (let i=0; i<3; i++) {
-        const ch = new THREE.Mesh(new THREE.SphereGeometry(.04,6,6), chlMat);
-        ch.position.set(endPt.x+(Math.random()-.5)*.3, endPt.y+(Math.random()-.5)*.3, endPt.z+(Math.random()-.5)*.3);
-        group.add(ch);
-      }
-    }
-    if (depth > 0) {
-      const spread = .6 + depth*.1;
-      for (let b=0; b<2; b++) {
-        const newDir = dir.clone().applyEuler(new THREE.Euler(
-          (Math.random()-.5)*spread, (Math.random()-.5)*spread, (Math.random()-.5)*spread*.5));
-        branch(endPt, newDir, len*.72, radius*.68, depth-1);
-      }
-    }
-  }
-  branch(new THREE.Vector3(0,-5,0), new THREE.Vector3(0,1,.05), 3.5, .22, 3);
-  scene.add(group);
-  return { scene, animate: (t) => { group.rotation.y=t*.15; group.rotation.z=Math.sin(t*.25)*.04; } };
-}
-
-/* ─────────────────────────────────
-   4. Parasitology — Segmented worm
-───────────────────────────────── */
-function buildParasitology() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x080600);
-  makeLights(scene, 0x1a1400, .6, 0xffee88, 1.0);
-  scene.add(makeStars(120, 30));
-
-  const group = new THREE.Group();
-  const segMat  = new THREE.MeshPhongMaterial({ color:0xfef08a, emissive:0x2d2200, shininess:60 });
-  const headMat = new THREE.MeshPhongMaterial({ color:0xfacc15, emissive:0x3d2800, shininess:100 });
-  const hookMat = new THREE.MeshPhongMaterial({ color:0x65a30d, emissive:0x0a1400, shininess:80 });
-  const N=36;
-  for (let i=0; i<N; i++) {
-    const f=i/(N-1);
-    const t=f*Math.PI*5;
-    const y=f*14-7;
-    const r=2.2+Math.sin(f*Math.PI)*1.2;
-    const sz = i===0 ? 1.4 : .7+Math.sin(i*.8)*.15;
-    const seg=new THREE.Mesh(new THREE.SphereGeometry(sz*.42,12,12), i===0?headMat:segMat);
-    seg.position.set(Math.cos(t)*r, y, Math.sin(t)*r);
-    seg.scale.set(1,.7,1);
-    group.add(seg);
-    // Hooks on head
-    if (i===0) {
-      for (let h=0; h<6; h++) {
-        const ha=(h/6)*Math.PI*2;
-        const hook=new THREE.Mesh(new THREE.ConeGeometry(.07,.3,4), hookMat);
-        hook.position.set(seg.position.x+Math.cos(ha)*.5, seg.position.y, seg.position.z+Math.sin(ha)*.5);
-        group.add(hook);
-      }
-    }
-  }
-  scene.add(group);
-  return { scene, animate: (t) => { group.rotation.y=t*.2; group.rotation.x=Math.sin(t*.18)*.1; } };
-}
-
-/* ─────────────────────────────────
-   5. Hematology — Blood cells
-───────────────────────────────── */
-function buildHematology() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0f0203);
-  makeLights(scene, 0x1a0000, .5, 0xff6666, 1.2);
-  scene.add(makeStars(100, 30));
-
-  const group = new THREE.Group();
-  const rbcMat = new THREE.MeshPhongMaterial({ color:0xdc2626, emissive:0x3d0000, shininess:80 });
-  const wbcMat = new THREE.MeshPhongMaterial({ color:0xf1f5f9, emissive:0x111111, transparent:true, opacity:.85, shininess:60 });
-  const platMat= new THREE.MeshPhongMaterial({ color:0xfca5a5, emissive:0x1a0000, shininess:40 });
-
-  // RBCs (biconcave: squished sphere)
-  for (let i=0; i<22; i++) {
-    const rbc=new THREE.Mesh(new THREE.SphereGeometry(.75,16,12), rbcMat);
-    rbc.scale.set(1,.22,1);
-    rbc.position.set((Math.random()-.5)*14, (Math.random()-.5)*8, (Math.random()-.5)*5);
-    rbc.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,Math.random()*Math.PI);
-    rbc.userData={ox:(Math.random()-.5)*14,oy:(Math.random()-.5)*8,oz:(Math.random()-.5)*5,off:Math.random()*Math.PI*2,sp:.2+Math.random()*.2};
-    group.add(rbc);
-  }
-  // WBC (white, larger, spiky)
-  const wbc=new THREE.Mesh(new THREE.SphereGeometry(1.4,24,24), wbcMat);
-  const spkMat=new THREE.MeshPhongMaterial({color:0xe2e8f0,shininess:40});
-  for (let s=0; s<16; s++) {
-    const phi=Math.acos(-1+(2*s)/16), th=Math.sqrt(16*Math.PI)*phi;
-    const sp=new THREE.Mesh(new THREE.ConeGeometry(.07,.4,4), spkMat);
-    const dir=new THREE.Vector3(Math.sin(phi)*Math.cos(th),Math.cos(phi),Math.sin(phi)*Math.sin(th));
-    sp.position.copy(dir.clone().multiplyScalar(1.5));
-    sp.lookAt(dir.clone().multiplyScalar(4));
-    wbc.add(sp);
-  }
-  wbc.position.set(1,1,0); group.add(wbc);
-  // Platelets
-  for (let p=0; p<8; p++) {
-    const pl=new THREE.Mesh(new THREE.SphereGeometry(.25,8,8), platMat);
-    pl.scale.set(1,.35,1);
-    pl.position.set((Math.random()-.5)*10,(Math.random()-.5)*7,(Math.random()-.5)*4);
-    group.add(pl);
-  }
-  scene.add(group);
-  return { scene, animate: (t) => {
-    group.rotation.y=t*.1;
-    wbc.rotation.y=t*.3; wbc.rotation.x=t*.15;
-    group.children.forEach(c=>{ if(c.userData.ox!==undefined){ c.position.y=c.userData.oy+Math.sin(t*c.userData.sp+c.userData.off)*.4; }});
-  }};
-}
-
-/* ─────────────────────────────────
-   6. Microbiology — Bacteria + Virus
-───────────────────────────────── */
-function buildMicrobiology() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x020f0c);
-  makeLights(scene, 0x001a15, .6, 0x55ffdd, 1.1);
-  scene.add(makeStars(150, 35));
-
-  const group = new THREE.Group();
-  const bactMat = new THREE.MeshPhongMaterial({ color:0x14b8a6, emissive:0x003322, shininess:70 });
-  const virMat  = new THREE.MeshPhongMaterial({ color:0xef4444, emissive:0x440000, shininess:90 });
-  const spkMat  = new THREE.MeshPhongMaterial({ color:0xfca5a5, emissive:0x2a0000, shininess:60 });
-  const flgMat  = new THREE.LineBasicMaterial({ color:0x5eead4 });
-
-  // Bacteria (elongated capsules)
-  const bactPositions=[
-    [-4,.5,1],[-3,-2,-1],[-5.5,-1,-2],[2.5,2.5,.5],[1,-3,0],[-2.5,2,-1],[3.5,.5,-1],[-1,3.5,1]
-  ];
-  bactPositions.forEach(([x,y,z], idx)=>{
-    const bact=new THREE.Mesh(new THREE.SphereGeometry(.38,10,10), bactMat);
-    bact.scale.set(1,2.2,1);
-    bact.position.set(x,y,z);
-    bact.rotation.set(Math.random()*.8,Math.random()*Math.PI,Math.random()*.5);
-    bact.userData={orig:[x,y,z], off:idx*.7};
-    group.add(bact);
-    // Flagella
-    const pts=[];
-    for (let f=0;f<12;f++) pts.push(new THREE.Vector3(f*.28, Math.sin(f*.9)*.22,0));
-    const fl=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), flgMat);
-    fl.position.set(x,y-.8,z); fl.rotation.copy(bact.rotation);
-    group.add(fl);
-  });
-
-  // Virus (sphere + spikes)
-  const virus=new THREE.Group();
-  virus.add(new THREE.Mesh(new THREE.SphereGeometry(1.6,20,20), virMat));
-  for (let i=0;i<24;i++) {
-    const phi=Math.acos(-1+(2*i)/24), th=Math.sqrt(24*Math.PI)*phi;
-    const dir=new THREE.Vector3(Math.sin(phi)*Math.cos(th),Math.cos(phi),Math.sin(phi)*Math.sin(th));
-    const sp=new THREE.Mesh(new THREE.ConeGeometry(.09,.5,4), spkMat);
-    sp.position.copy(dir.clone().multiplyScalar(1.7));
-    sp.lookAt(dir.clone().multiplyScalar(4));
-    virus.add(sp);
-  }
-  virus.position.set(0,0,0);
-  group.add(virus);
-  scene.add(group);
-  return { scene, animate: (t) => {
-    group.rotation.y=t*.12;
-    virus.rotation.y=t*.35; virus.rotation.x=t*.18;
-    group.children.forEach(c=>{ if(c.userData.off!==undefined){ c.position.y=c.userData.orig[1]+Math.sin(t*.4+c.userData.off)*.3; }});
-  }};
-}
-
-/* ─────────────────────────────────
-   7. Entomology — Honeycomb + insects
-───────────────────────────────── */
-function buildEntomology() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0c0800);
-  makeLights(scene, 0x1a1000, .6, 0xffcc44, 1.1);
-  scene.add(makeStars(100, 30));
-
-  const group = new THREE.Group();
-  const hexMat   = new THREE.MeshPhongMaterial({ color:0xf59e0b, transparent:true, opacity:.35, shininess:30 });
-  const hexWire  = new THREE.MeshPhongMaterial({ color:0xfbbf24, wireframe:true, transparent:true, opacity:.6 });
-  const bodyMat  = new THREE.MeshPhongMaterial({ color:0x78350f, emissive:0x1a0800, shininess:80 });
-  const wingMat  = new THREE.MeshPhongMaterial({ color:0xfef3c7, transparent:true, opacity:.35, side:THREE.DoubleSide });
-  const eyeMat   = new THREE.MeshPhongMaterial({ color:0x1c1917, emissive:0x0a0806, shininess:200 });
-
-  // Honeycomb grid
-  for (let row=-3;row<=3;row++) {
-    for (let col=-4;col<=4;col++) {
-      const ox=(row%2)*.87*1.04;
-      const x=col*1.75+ox, z=row*1.52;
-      const hx=new THREE.Mesh(new THREE.CylinderGeometry(.5,.5,.15,6), hexMat);
-      hx.position.set(x,0,z); hx.rotation.y=Math.PI/6;
-      const hw=new THREE.Mesh(new THREE.CylinderGeometry(.51,.51,.17,6), hexWire);
-      hw.position.set(x,0,z); hw.rotation.y=Math.PI/6;
-      group.add(hx,hw);
-    }
-  }
-  // 3 Insects
-  [[0,1.5,0],[3,1.5,2],[-3,1.5,-2]].forEach(([x,y,z])=>{
-    const body=new THREE.Mesh(new THREE.SphereGeometry(.35,12,12), bodyMat);
-    body.scale.set(1,1.8,1); body.position.set(x,y,z);
-    const head=new THREE.Mesh(new THREE.SphereGeometry(.22,10,10), bodyMat);
-    head.position.set(x,y+.65,z);
-    const eye1=new THREE.Mesh(new THREE.SphereGeometry(.08,6,6), eyeMat);
-    eye1.position.set(x+.12,y+.7,z+.18);
-    const eye2=new THREE.Mesh(new THREE.SphereGeometry(.08,6,6), eyeMat);
-    eye2.position.set(x-.12,y+.7,z+.18);
-    // Wings
-    const wg1=new THREE.Mesh(new THREE.PlaneGeometry(.8,.4), wingMat);
-    wg1.position.set(x+.6,y+.2,z); wg1.rotation.z=.3;
-    const wg2=new THREE.Mesh(new THREE.PlaneGeometry(.8,.4), wingMat);
-    wg2.position.set(x-.6,y+.2,z); wg2.rotation.z=-.3;
-    group.add(body,head,eye1,eye2,wg1,wg2);
-  });
-  scene.add(group);
-  return { scene, animate: (t) => { group.rotation.y=t*.14; group.position.y=Math.sin(t*.3)*.2; } };
-}
-
-/* ─────────────────────────────────
-   8. Algae — Spiral filaments
-───────────────────────────────── */
-function buildAlgae() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x010f08);
-  makeLights(scene, 0x001a10, .6, 0x44ffaa, 1.1);
-  scene.add(makeStars(130, 32));
-
-  const group = new THREE.Group();
-  const colors=[0x10b981,0x06b6d4,0x34d399,0x22d3ee,0x6ee7b7];
-  for (let s=0;s<5;s++) {
-    const pts=[], off=(s/5)*Math.PI*2, r=1.5+s*.85;
-    for (let i=0;i<60;i++) {
-      const t=(i/59)*Math.PI*8+off;
-      pts.push(new THREE.Vector3(Math.cos(t)*r, (i/59)*14-7, Math.sin(t)*r));
-    }
-    const mat=new THREE.MeshPhongMaterial({ color:colors[s], emissive:0x001a0a, shininess:70, transparent:true, opacity:.85 });
-    const tube=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),200,.09,6,false), mat);
-    group.add(tube);
-    // Chloroplasts along filament
-    for (let i=0;i<8;i++) {
-      const p=pts[Math.floor(i/8*59)];
-      const ch=new THREE.Mesh(new THREE.SphereGeometry(.12,6,6), new THREE.MeshPhongMaterial({color:0x065f46,emissive:0x021a0e}));
-      ch.position.copy(p); group.add(ch);
-    }
-  }
-  scene.add(group);
-  return { scene, animate: (t) => { group.rotation.y=t*.16; group.rotation.x=Math.sin(t*.11)*.07; } };
-}
-
-/* ─────────────────────────────────
-   9. Mycology — Mushroom cluster
-───────────────────────────────── */
-function buildMycology() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0c0401);
-  makeLights(scene, 0x1a0800, .6, 0xff8844, 1.1);
-  scene.add(makeStars(100, 30));
-
-  const group = new THREE.Group();
-  const capMat   = new THREE.MeshPhongMaterial({ color:0xf97316, emissive:0x2d0e00, shininess:70 });
-  const capMat2  = new THREE.MeshPhongMaterial({ color:0xfb923c, emissive:0x1a0800, shininess:50 });
-  const stemMat  = new THREE.MeshPhongMaterial({ color:0xfef9c3, emissive:0x1a1800, shininess:40 });
-  const sporeMat = new THREE.MeshPhongMaterial({ color:0xfde68a, emissive:0x1a1000, shininess:60 });
-  const spotMat  = new THREE.MeshPhongMaterial({ color:0xfff7ed, emissive:0x111111, shininess:30 });
-
-  function addMushroom(cx,cz,sc,mat) {
-    const stem=new THREE.Mesh(new THREE.CylinderGeometry(.1*sc,.16*sc,1.4*sc,10), stemMat);
-    stem.position.set(cx,-1.5+.7*sc,cz);
-    const cap=new THREE.Mesh(new THREE.SphereGeometry(.75*sc,20,10,0,Math.PI*2,0,Math.PI*.6), mat);
-    cap.position.set(cx,-1.5+1.4*sc,cz); cap.rotation.x=Math.PI;
-    // Cap spots
-    for (let i=0;i<5;i++) {
-      const a=(i/5)*Math.PI*2, r=.3*sc;
-      const sp=new THREE.Mesh(new THREE.SphereGeometry(.07*sc,6,6), spotMat);
-      sp.position.set(cx+Math.cos(a)*r, -1.5+1.6*sc+Math.sin(a)*r*.3, cz+Math.sin(a)*r);
-      group.add(sp);
-    }
-    group.add(stem,cap);
-  }
-  addMushroom(0,0,2.2,capMat);
-  addMushroom(-3.2,1.5,1.4,capMat2);
-  addMushroom(3,-1,1.6,capMat);
-  addMushroom(-1.5,-2.5,1.0,capMat2);
-  addMushroom(2.5,2.5,.9,capMat);
-
-  // Floating spores
-  for (let i=0;i<30;i++) {
-    const sp=new THREE.Mesh(new THREE.SphereGeometry(.06+Math.random()*.06,6,6), sporeMat);
-    sp.position.set((Math.random()-.5)*12,(Math.random()-.5)*8,(Math.random()-.5)*4);
-    sp.userData={off:Math.random()*Math.PI*2, speed:.15+Math.random()*.2};
-    group.add(sp);
-  }
-  scene.add(group);
-  return { scene, animate: (t) => {
-    group.rotation.y=t*.13;
-    group.children.forEach(c=>{ if(c.userData.speed){ c.position.y+=Math.sin(t*c.userData.speed+c.userData.off)*.006; c.position.x+=Math.cos(t*c.userData.speed*.7+c.userData.off)*.004; }});
-  }};
-}
-
-/* ─────────────────────────────────
-   10. Immunology — Antibodies + B-cell
-───────────────────────────────── */
-function buildImmunology() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x050210);
-  makeLights(scene, 0x0a0020, .6, 0x9966ff, 1.2);
-  scene.add(makeStars(160, 36));
-
-  const group = new THREE.Group();
-  const abMat  = new THREE.MeshPhongMaterial({ color:0x7c3aed, emissive:0x1a0044, shininess:100 });
-  const bcMat  = new THREE.MeshPhongMaterial({ color:0x3b82f6, emissive:0x001133, shininess:80, transparent:true, opacity:.9 });
-  const bcWire = new THREE.MeshPhongMaterial({ color:0x60a5fa, wireframe:true, transparent:true, opacity:.3 });
-  const antMat = new THREE.MeshPhongMaterial({ color:0xc4b5fd, emissive:0x0a0020, shininess:60 });
-  const upV    = new THREE.Vector3(0,1,0);
-
-  function addAntibody(px,py,pz,ry) {
-    const ab=new THREE.Group();
-    // Fc region (stem)
-    const fc=new THREE.Mesh(new THREE.CylinderGeometry(.08,.1,1.8,8), abMat);
-    fc.position.y=-.9;
-    ab.add(fc);
-    // 2 Fab arms
-    [[.4,1.1,.55,Math.PI/4],[-.4,1.1,-.55,-Math.PI/4]].forEach(([fx,fy,fz,rz])=>{
-      const fab=new THREE.Mesh(new THREE.CylinderGeometry(.06,.08,1.3,8), abMat);
-      fab.position.set(fx,fy,0); fab.rotation.z=rz;
-      ab.add(fab);
-      // Antigen binding site (tip sphere)
-      const tip=new THREE.Mesh(new THREE.SphereGeometry(.14,8,8), antMat);
-      tip.position.set(fx+(fx>0?.35:-.35),fy+.3,0);
-      ab.add(tip);
-    });
-    ab.position.set(px,py,pz); ab.rotation.y=ry;
-    group.add(ab);
-    return ab;
-  }
-
-  // B-cell (central)
-  group.add(new THREE.Mesh(new THREE.SphereGeometry(1.7,28,28), bcMat));
-  group.add(new THREE.Mesh(new THREE.SphereGeometry(1.72,18,18), bcWire));
-  // Nucleus inside
-  group.add(new THREE.Mesh(new THREE.SphereGeometry(.8,16,16),
-    new THREE.MeshPhongMaterial({color:0x1e40af,emissive:0x000a1a,shininess:60,transparent:true,opacity:.8})));
-
-  // Antibodies orbiting
-  const abs=[];
-  for (let i=0;i<6;i++) {
-    const a=(i/6)*Math.PI*2;
-    const r=4.0;
-    const ab=addAntibody(Math.cos(a)*r, (Math.random()-.5)*2, Math.sin(a)*r, a+Math.PI/2);
-    ab.userData={orbitAngle:a, orbitR:r, orbitSpeed:.18+Math.random()*.08};
-    abs.push(ab);
-  }
-  // T-cells (smaller, greenish)
-  const tcMat=new THREE.MeshPhongMaterial({color:0x06b6d4,emissive:0x001a20,shininess:70,transparent:true,opacity:.85});
-  for (let i=0;i<3;i++) {
-    const a=(i/3)*Math.PI*2+Math.PI/6;
-    const tc=new THREE.Mesh(new THREE.SphereGeometry(.6,14,14), tcMat);
-    tc.position.set(Math.cos(a)*6.5,(Math.random()-.5)*2,Math.sin(a)*6.5);
-    tc.userData={orbitAngle:a, orbitR:6.5, orbitSpeed:.09};
-    group.add(tc);
-    abs.push(tc);
-  }
-  scene.add(group);
-  return { scene, animate: (t) => {
-    group.children[0].rotation.y=t*.12; // B-cell rotates
-    abs.forEach(ab=>{
-      if(ab.userData.orbitAngle!==undefined){
-        const a=ab.userData.orbitAngle+t*ab.userData.orbitSpeed;
-        ab.position.x=Math.cos(a)*ab.userData.orbitR;
-        ab.position.z=Math.sin(a)*ab.userData.orbitR;
-        ab.rotation.y=a+Math.PI/2;
-      }
-    });
-  }};
-}
-
-/* ══ SCENE MANAGER ══ */
 const BUILDERS=[buildDNA,buildHistology,buildEmbryology,buildPlant,buildParasitology,buildHematology,buildMicrobiology,buildEntomology,buildAlgae,buildMycology,buildImmunology];
-
-let currentSceneObj = null;
-
-function switchScene(idx) {
-  cancelAnimationFrame(animId);
-  currentSceneObj = BUILDERS[idx]();
-  resizeRenderer();
-  const elapsed = { t: 0 };
-  const last = { time: performance.now() };
-  function loop(now) {
-    elapsed.t += (now - last.time) * .001;
-    last.time = now;
-    currentSceneObj.animate(elapsed.t);
-    renderer.render(currentSceneObj.scene, camera);
-    animId = requestAnimationFrame(loop);
-  }
-  animId = requestAnimationFrame(loop);
-}
+function switchScene(idx){cancelAnimationFrame(animId);activeSceneObj=BUILDERS[idx]();resizeRenderer();const el={t:0},last={time:performance.now()};function loop(now){el.t+=(now-last.time)*.001;last.time=now;activeSceneObj.animate(el.t);renderer.render(activeSceneObj.scene,camera);animId=requestAnimationFrame(loop);}animId=requestAnimationFrame(loop);}
 switchScene(0);
 
-/* ══ SLIDE DATA ══ */
 const SLIDES=[
-  {badge:'BIOGUIDE',   titleEn:'BioGuide',       titleKu:'ڕێبەری بایۆلۆجی',   desc:'پۆرتاڵی زانستی بایۆلۆجی بۆ خوێندکارانی زانکۆ — ١٠ بەش، ٢٠٠ سلاید', pills:['Biology','Science','Medical']},
-  {badge:'CHAPTER 1',  titleEn:'Histology',       titleKu:'شانەزانی',            desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە', pills:['Cells','Tissues','Organs']},
-  {badge:'CHAPTER 2',  titleEn:'Embryology',      titleKu:'کۆرپەلەزانی',         desc:'لێکۆڵینەوە دەکات دەربارەی چۆنیەتی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون', pills:['Development','Fetus','Birth']},
-  {badge:'CHAPTER 3',  titleEn:'Plant Anatomy',   titleKu:'توێکاری ڕووەک',       desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک', pills:['Roots','Stems','Leaves']},
-  {badge:'CHAPTER 4',  titleEn:'Parasitology',    titleKu:'مشەخۆرزانی',          desc:'لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان', pills:['Parasites','Life Cycle','Host']},
-  {badge:'CHAPTER 5',  titleEn:'Hematology',      titleKu:'خوێنزانی',            desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی', pills:['Blood','Cells','Function']},
-  {badge:'CHAPTER 6',  titleEn:'Microbiology',    titleKu:'وردەزیندەزانی',       desc:'لێکۆڵینەوە دەکات دەربارەی وردە زیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان', pills:['Bacteria','Viruses','Fungi']},
-  {badge:'CHAPTER 7',  titleEn:'Entomology',      titleKu:'مێرولەزانی',          desc:'لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان', pills:['Insects','Structure','Ecology']},
-  {badge:'CHAPTER 8',  titleEn:'Algae Studies',   titleKu:'قەوزە',               desc:'لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان', pills:['Algae','Aquatic','Classification']},
-  {badge:'CHAPTER 9',  titleEn:'Mycology',        titleKu:'کەڕووزانی',           desc:'لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان', pills:['Fungi','Morphology','Ecology']},
-  {badge:'CHAPTER 10', titleEn:'Immunology',      titleKu:'بەرگریزانی',          desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش و وەڵامدانەوەکانی', pills:['Immune System','Antibodies','Defense']},
+  {badge:'BIOGUIDE',titleEn:'BioGuide',titleKu:'ڕێبەری بایۆلۆجی',desc:'پۆرتاڵی زانستی بایۆلۆجی بۆ خوێندکارانی زانکۆ — ١٠ بەش، ٢٠٠ سلاید',pills:['Biology','Science','Medical']},
+  {badge:'CHAPTER 1',titleEn:'Histology',titleKu:'شانەزانی',desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە',pills:['Cells','Tissues','Organs']},
+  {badge:'CHAPTER 2',titleEn:'Embryology',titleKu:'کۆرپەلەزانی',desc:'لێکۆڵینەوە دەکات دەربارەی چۆنیەتی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون',pills:['Development','Fetus','Birth']},
+  {badge:'CHAPTER 3',titleEn:'Plant Anatomy',titleKu:'توێکاری ڕووەک',desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک',pills:['Roots','Stems','Leaves']},
+  {badge:'CHAPTER 4',titleEn:'Parasitology',titleKu:'مشەخۆرزانی',desc:'لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان',pills:['Parasites','Life Cycle','Host']},
+  {badge:'CHAPTER 5',titleEn:'Hematology',titleKu:'خوێنزانی',desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی',pills:['Blood','Cells','Function']},
+  {badge:'CHAPTER 6',titleEn:'Microbiology',titleKu:'وردەزیندەزانی',desc:'لێکۆڵینەوە دەکات دەربارەی وردە زیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان',pills:['Bacteria','Viruses','Fungi']},
+  {badge:'CHAPTER 7',titleEn:'Entomology',titleKu:'مێرولەزانی',desc:'لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان',pills:['Insects','Structure','Ecology']},
+  {badge:'CHAPTER 8',titleEn:'Algae Studies',titleKu:'قەوزە',desc:'لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان',pills:['Algae','Aquatic','Classification']},
+  {badge:'CHAPTER 9',titleEn:'Mycology',titleKu:'کەڕووزانی',desc:'لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان',pills:['Fungi','Morphology','Ecology']},
+  {badge:'CHAPTER 10',titleEn:'Immunology',titleKu:'بەرگریزانی',desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش و وەڵامدانەوەکانی',pills:['Immune System','Antibodies','Defense']},
 ];
-const TOTAL=SLIDES.length;
-let current=0, autoTimer=null, progInterval=null, progStart=null;
-const AUTO_DUR=6000;
-
-const slidesWrap=document.getElementById('heroSlides');
-const dotsWrap=document.getElementById('heroDots');
-const ctrEl=document.getElementById('heroCtr');
-const progEl=document.getElementById('hProg');
-
-SLIDES.forEach((s,i)=>{
-  const slide=document.createElement('div');
-  slide.className='hero-slide'+(i===0?' active':'');
-  slide.setAttribute('role','tabpanel');
-  slide.setAttribute('aria-label',s.titleEn);
-  slide.innerHTML=`
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <span class="hero-badge">${s.badge}</span>
-      <div class="hero-title-en">${s.titleEn}</div>
-      <div class="hero-title-ku">${s.titleKu}</div>
-      <div class="hero-desc">${s.desc}</div>
-      <div class="hero-pills">${s.pills.map(p=>`<span class="hero-pill">${p}</span>`).join('')}</div>
-    </div>`;
-  slidesWrap.appendChild(slide);
-
-  const dot=document.createElement('div');
-  dot.className='hero-dot'+(i===0?' active':'');
-  dot.setAttribute('role','button'); dot.setAttribute('aria-label',`Slide ${i+1}`);
-  dot.addEventListener('click',()=>goTo(i));
-  dotsWrap.appendChild(dot);
-});
-
-function updateUI(){
-  document.querySelectorAll('.hero-slide').forEach((el,i)=>el.classList.toggle('active',i===current));
-  document.querySelectorAll('.hero-dot').forEach((el,i)=>el.classList.toggle('active',i===current));
-  ctrEl.textContent=(current+1)+' / '+TOTAL;
-}
-function startProgress(){
-  clearInterval(progInterval); progStart=Date.now();
-  progEl.style.transition='none'; progEl.style.width='0%';
-  progInterval=setInterval(()=>{
-    const pct=Math.min(100,(Date.now()-progStart)/AUTO_DUR*100);
-    progEl.style.width=pct+'%';
-    if(pct>=100)clearInterval(progInterval);
-  },50);
-}
-function goTo(idx){
-  current=(idx+TOTAL)%TOTAL;
-  updateUI(); clearTimeout(autoTimer); startProgress();
-  switchScene(current);
-  autoTimer=setTimeout(()=>goTo(current+1),AUTO_DUR);
-}
+const TOTAL=SLIDES.length;let current=0,autoTimer=null,progInterval=null,progStart=null;
+const AUTO_DUR=6000,slidesWrap=document.getElementById('heroSlides'),dotsWrap=document.getElementById('heroDots'),ctrEl=document.getElementById('heroCtr'),progEl=document.getElementById('hProg');
+SLIDES.forEach((s,i)=>{const slide=document.createElement('div');slide.className='hero-slide'+(i===0?' active':'');slide.setAttribute('role','tabpanel');slide.setAttribute('aria-label',s.titleEn);slide.innerHTML=`<div class="hero-overlay"></div><div class="hero-content"><span class="hero-badge">${s.badge}</span><div class="hero-title-en">${s.titleEn}</div><div class="hero-title-ku">${s.titleKu}</div><div class="hero-desc">${s.desc}</div><div class="hero-pills">${s.pills.map(p=>`<span class="hero-pill">${p}</span>`).join('')}</div></div>`;slidesWrap.appendChild(slide);const dot=document.createElement('div');dot.className='hero-dot'+(i===0?' active':'');dot.setAttribute('role','button');dot.setAttribute('aria-label',`Slide ${i+1}`);dot.addEventListener('click',()=>goTo(i));dotsWrap.appendChild(dot);});
+function updateUI(){document.querySelectorAll('.hero-slide').forEach((el,i)=>el.classList.toggle('active',i===current));document.querySelectorAll('.hero-dot').forEach((el,i)=>el.classList.toggle('active',i===current));ctrEl.textContent=(current+1)+' / '+TOTAL;}
+function startProgress(){clearInterval(progInterval);progStart=Date.now();progEl.style.transition='none';progEl.style.width='0%';progInterval=setInterval(()=>{const pct=Math.min(100,(Date.now()-progStart)/AUTO_DUR*100);progEl.style.width=pct+'%';if(pct>=100)clearInterval(progInterval);},50);}
+function goTo(idx){current=(idx+TOTAL)%TOTAL;updateUI();clearTimeout(autoTimer);startProgress();switchScene(current);autoTimer=setTimeout(()=>goTo(current+1),AUTO_DUR);}
 document.getElementById('hPrev').addEventListener('click',()=>goTo(current-1));
 document.getElementById('hNext').addEventListener('click',()=>goTo(current+1));
-
-let touchStartX=0;
-const carousel=document.getElementById('heroCarousel');
+let touchStartX=0;const carousel=document.getElementById('heroCarousel');
 carousel.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX;},{passive:true});
-carousel.addEventListener('touchend',e=>{
-  const diff=touchStartX-e.changedTouches[0].clientX;
-  if(Math.abs(diff)>40) goTo(diff>0?current+1:current-1);
-},{passive:true});
-document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowLeft') goTo(current+1);
-  if(e.key==='ArrowRight') goTo(current-1);
-});
-updateUI(); startProgress();
-autoTimer=setTimeout(()=>goTo(1),AUTO_DUR);
+carousel.addEventListener('touchend',e=>{const diff=touchStartX-e.changedTouches[0].clientX;if(Math.abs(diff)>40)goTo(diff>0?current+1:current-1);},{passive:true});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')goTo(current+1);if(e.key==='ArrowRight')goTo(current-1);});
+updateUI();startProgress();autoTimer=setTimeout(()=>goTo(1),AUTO_DUR);
 
-/* ══ CHAPTERS ══ */
 const chapters=[
-  {id:1,icon:'🔬',en:'Histology',    ku:'شانەزانی',      href:'histology.html',     descEn:'It studies the structure, location, and function of cells, tissues, and organs',descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە'},
-  {id:2,icon:'🤰🏻',en:'Embryology',   ku:'کۆرپەلەزانی',  href:'embryology.html',    descEn:'Studies how the fetus develops from fertilization to birth',descKu:'لێکۆڵینەوە دەکات دەربارەی چۆنیەتی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون'},
-  {id:3,icon:'🌱',en:'Plant Anatomy', ku:'توێکاری ڕووەک',href:'plant-anatomy.html', descEn:'Studies the structure and functions of different plant parts',descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک'},
-  {id:4,icon:'🪱',en:'Parasitology',  ku:'مشەخۆرزانی',   href:'parasitology.html',  descEn:'Study of parasites, life cycles, host-parasite relationships',descKu:'لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان'},
-  {id:5,icon:'🩸',en:'Hematology',    ku:'خوێنزانی',      href:'hematology.html',    descEn:'Researches the structure, function and properties of blood',descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی'},
-  {id:6,icon:'🦠',en:'Microbiology',  ku:'وردەزیندەزانی', href:'microbiology.html',  descEn:'Studies microorganisms, their characteristics and pathogenicity',descKu:'لێکۆڵینەوە دەکات دەربارەی وردە زیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان'},
-  {id:7,icon:'🐛',en:'Entomology',    ku:'مێرولەزانی',    href:'entomology.html',    descEn:'Studies insects in terms of structure, shape, function and importance',descKu:'لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان'},
-  {id:8,icon:'🧪',en:'Algae Studies', ku:'قەوزە',          href:'algae-studies.html', descEn:'Study of algae, diversity, classification, and ecological significance',descKu:'لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان'},
-  {id:9,icon:'🍄',en:'Mycology',      ku:'کەڕووزانی',     href:'fungi.html',          descEn:'Study of fungi, morphology, reproduction, and ecological importance',descKu:'لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان'},
-  {id:10,icon:'🛡️',en:'Immunology',   ku:'بەرگریزانی',    href:'immunology.html',    descEn:'Studies the structure and function of the immune system',descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش'},
+  {id:1,icon:'🔬',en:'Histology',ku:'شانەزانی',href:'histology.html',descEn:'It studies the structure, location, and function of cells, tissues, and organs',descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە'},
+  {id:2,icon:'🤰🏻',en:'Embryology',ku:'کۆرپەلەزانی',href:'embryology.html',descEn:'Studies how the fetus develops from fertilization to birth',descKu:'لێکۆڵینەوە دەکات دەربارەی چۆنیەتی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون'},
+  {id:3,icon:'🌱',en:'Plant Anatomy',ku:'توێکاری ڕووەک',href:'plant-anatomy.html',descEn:'Studies the structure and functions of different plant parts',descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک'},
+  {id:4,icon:'🪱',en:'Parasitology',ku:'مشەخۆرزانی',href:'parasitology.html',descEn:'Study of parasites, life cycles, host-parasite relationships',descKu:'لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان'},
+  {id:5,icon:'🩸',en:'Hematology',ku:'خوێنزانی',href:'hematology.html',descEn:'Researches the structure, function and properties of blood',descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی'},
+  {id:6,icon:'🦠',en:'Microbiology',ku:'وردەزیندەزانی',href:'microbiology.html',descEn:'Studies microorganisms, their characteristics and pathogenicity',descKu:'لێکۆڵینەوە دەکات دەربارەی وردە زیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان'},
+  {id:7,icon:'🐛',en:'Entomology',ku:'مێرولەزانی',href:'entomology.html',descEn:'Studies insects in terms of structure, shape, function and importance',descKu:'لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان'},
+  {id:8,icon:'🧪',en:'Algae Studies',ku:'قەوزە',href:'algae-studies.html',descEn:'Study of algae, diversity, classification, and ecological significance',descKu:'لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان'},
+  {id:9,icon:'🍄',en:'Mycology',ku:'کەڕووزانی',href:'fungi.html',descEn:'Study of fungi, morphology, reproduction, and ecological importance',descKu:'لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان'},
+  {id:10,icon:'🛡️',en:'Immunology',ku:'بەرگریزانی',href:'immunology.html',descEn:'Studies the structure and function of the immune system',descKu:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش'},
 ];
 const grid=document.getElementById('chaptersGrid');
-chapters.forEach((ch,i)=>{
-  const card=document.createElement('article');
-  card.className='chapter-card'; card.style.transitionDelay=(i*80)+'ms';
-  card.innerHTML=`
-    <div class="chapter-orb">${ch.id}</div>
-    <div class="card-header">
-      <span class="card-icon">${ch.icon}</span>
-      <div><div class="card-title-en dir-ltr">${ch.en}</div><div class="card-title-ku dir-rtl">${ch.ku}</div></div>
-    </div>
-    <div class="card-desc"><p class="dir-ltr">${ch.descEn}</p><p class="dir-rtl">${ch.descKu}</p></div>
-    <div class="card-meta"><span>📊 20 Slides — سلاید</span></div>
-    <a href="${ch.href}" class="btn-primary" style="display:block;width:100%">Start Learning — دەستپێکردن</a>`;
-  grid.appendChild(card);
-});
+chapters.forEach((ch,i)=>{const card=document.createElement('article');card.className='chapter-card';card.style.transitionDelay=(i*80)+'ms';card.innerHTML=`<div class="chapter-orb">${ch.id}</div><div class="card-header"><span class="card-icon">${ch.icon}</span><div><div class="card-title-en dir-ltr">${ch.en}</div><div class="card-title-ku dir-rtl">${ch.ku}</div></div></div><div class="card-desc"><p class="dir-ltr">${ch.descEn}</p><p class="dir-rtl">${ch.descKu}</p></div><div class="card-meta"><span>📊 20 Slides — سلاید</span></div><a href="${ch.href}" class="btn-primary" style="display:block;width:100%">Start Learning — دەستپێکردن</a>`;grid.appendChild(card);});
 
-/* ══ FOOTER CANVAS ══ */
-(function(){
-  const cvs=document.getElementById('footerCanvas');
-  if(!cvs)return;
-  const ctx=cvs.getContext('2d');
-  let W,H,pts=[];
-  function resize(){W=cvs.width=cvs.offsetWidth||800;H=cvs.height=cvs.offsetHeight||220;}
-  function makeP(){pts=Array.from({length:60},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+.5,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,a:Math.random()*Math.PI*2}));}
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    const gr=ctx.createLinearGradient(0,0,W,H);
-    gr.addColorStop(0,'#0f4c75');gr.addColorStop(1,'#1e6091');
-    ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
-    pts.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;p.a+=.005;
-      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle=`rgba(160,210,255,${.12+.18*Math.abs(Math.sin(p.a))})`;ctx.fill();
-    });
-    for(let a=0;a<pts.length;a++)for(let b=a+1;b<pts.length;b++){
-      const dx=pts[a].x-pts[b].x,dy=pts[a].y-pts[b].y,d=Math.hypot(dx,dy);
-      if(d<80){ctx.beginPath();ctx.moveTo(pts[a].x,pts[a].y);ctx.lineTo(pts[b].x,pts[b].y);ctx.strokeStyle=`rgba(100,180,255,${.07*(1-d/80)})`;ctx.lineWidth=.7;ctx.stroke();}
-    }
-    requestAnimationFrame(draw);
-  }
-  resize();makeP();draw();
-  window.addEventListener('resize',()=>{resize();makeP();});
-})();
+(function(){const cvs=document.getElementById('footerCanvas');if(!cvs)return;const ctx=cvs.getContext('2d');let W,H,pts=[];function resize(){W=cvs.width=cvs.offsetWidth||800;H=cvs.height=cvs.offsetHeight||220;}function makeP(){pts=Array.from({length:60},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+.5,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,a:Math.random()*Math.PI*2}));}function draw(){ctx.clearRect(0,0,W,H);const gr=ctx.createLinearGradient(0,0,W,H);gr.addColorStop(0,'#0f4c75');gr.addColorStop(1,'#1e6091');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=.005;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(160,210,255,${.12+.18*Math.abs(Math.sin(p.a))})`;ctx.fill();});for(let a=0;a<pts.length;a++)for(let b=a+1;b<pts.length;b++){const dx=pts[a].x-pts[b].x,dy=pts[a].y-pts[b].y,d=Math.hypot(dx,dy);if(d<80){ctx.beginPath();ctx.moveTo(pts[a].x,pts[a].y);ctx.lineTo(pts[b].x,pts[b].y);ctx.strokeStyle=`rgba(100,180,255,${.07*(1-d/80)})`;ctx.lineWidth=.7;ctx.stroke();}}requestAnimationFrame(draw);}resize();makeP();draw();window.addEventListener('resize',()=>{resize();makeP();});})();
 
-/* ══ REVEAL ══ */
-const revealObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});
-},{threshold:.07,rootMargin:'0px 0px -30px 0px'});
+const revealObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObs.unobserve(e.target);}});},{threshold:.07,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.chapter-card,.reveal').forEach(el=>revealObs.observe(el));
 </script>
 </body>

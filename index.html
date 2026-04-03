@@ -87,20 +87,7 @@
     #themeBtn:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(15,76,117,0.6); }
     #themeBtn:active { transform: scale(0.95); }
 
-    #themeLbl {
-      position: fixed;
-      top: calc(68px + var(--safe-top));
-      left: calc(4px + var(--safe-left));
-      width: 56px;
-      text-align: center;
-      font-size: 8px;
-      font-weight: 700;
-      letter-spacing: .8px;
-      color: rgba(255,255,255,0.8);
-      text-shadow: 0 1px 4px rgba(0,0,0,.7);
-      pointer-events: none;
-      z-index: 200;
-    }
+
 
     /* ── WRAPPER ── */
     .container {
@@ -491,7 +478,6 @@
     /* ── SAFE AREA for fixed button on notch phones ── */
     @supports (padding-top: env(safe-area-inset-top)) {
       #themeBtn { top: calc(14px + env(safe-area-inset-top)); left: calc(14px + env(safe-area-inset-left)); }
-      #themeLbl { top: calc(68px + env(safe-area-inset-top)); left: calc(4px + env(safe-area-inset-left)); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -508,7 +494,7 @@
 <body>
   <!-- Theme toggle -->
   <button id="themeBtn" aria-label="Toggle Theme">🌓</button>
-  <div id="themeLbl">AUTO</div>
+
 
   <div class="container">
 
@@ -583,7 +569,6 @@
 <script>
 /* ══ THEME ══ */
 const ICONS  = { auto:'🌓', dark:'🌙', light:'☀️' };
-const LABELS = { auto:'AUTO', dark:'DARK', light:'LIGHT' };
 const CYCLE  = ['auto','dark','light'];
 
 function applyTheme(mode) {
@@ -591,7 +576,6 @@ function applyTheme(mode) {
   const dark = mode === 'dark' || (mode === 'auto' && prefersDark);
   document.documentElement.classList.toggle('dark', dark);
   document.getElementById('themeBtn').textContent = ICONS[mode];
-  document.getElementById('themeLbl').textContent = LABELS[mode];
 }
 (function() {
   const saved = localStorage.getItem('themeMode') || 'auto';

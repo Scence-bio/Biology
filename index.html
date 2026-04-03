@@ -325,11 +325,7 @@
           style="font-size:1.6rem; flex-direction:column; gap:0; line-height:1">
     <!-- icon replaced by JS -->
   </button>
-  <!-- small label under the button -->
-  <div id="themeLbl"
-       style="position:fixed;top:76px;left:5px;width:56px;text-align:center;
-              font-size:9px;font-weight:700;letter-spacing:.8px;
-              color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7);pointer-events:none;z-index:50;">
+  
   </div>
 
   <div class="max-w-screen-xl mx-auto px-4 py-4">
@@ -447,7 +443,6 @@
     Icons: auto = 🌓  dark = 🌙  light = ☀️                        */
 
 const ICONS  = { auto:'🌓', dark:'🌙', light:'☀️' };
-const LABELS = { auto:'AUTO', dark:'DARK', light:'LIGHT' };
 const CYCLE  = ['auto', 'dark', 'light'];
 
 function applyTheme(mode) {

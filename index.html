@@ -97,15 +97,14 @@
     }
     .hero-slide.active { opacity: 1; pointer-events: all; }
 
-    /* Real photo */
-    .hero-slide-img {
+    /* SVG illustration background */
+    .hero-slide-svg {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
-      object-fit: cover; object-position: center;
       display: block;
     }
 
-    /* Subtle particle canvas blended over photo */
+    /* Particle canvas */
     .hero-slide canvas {
       position: absolute; inset: 0;
       width: 100%; height: 100%; display: block;
@@ -114,7 +113,7 @@
 
     .hero-overlay {
       position: absolute; inset: 0; z-index: 2;
-      background: linear-gradient(120deg, rgba(3,10,22,.80) 35%, rgba(3,10,22,.30) 100%);
+      background: linear-gradient(120deg, rgba(3,10,22,.75) 35%, rgba(3,10,22,.25) 100%);
     }
     .hero-content {
       position: absolute; inset: 0; z-index: 5;
@@ -151,11 +150,6 @@
       background: rgba(50,130,184,.18);
       border: 1px solid rgba(50,130,184,.32);
       color: #93c5fd; font-size: 10px; padding: 3px 10px; border-radius: 20px;
-    }
-    .hero-credit {
-      position: absolute; bottom: 36px; left: 10px; z-index: 20;
-      color: rgba(150,200,230,.38); font-size: 9px;
-      direction: ltr; font-family: var(--font-mono);
     }
     .hero-nav-btn {
       position: absolute; top: 50%; transform: translateY(-50%); z-index: 20;
@@ -330,9 +324,6 @@
     .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease, transform 0.5s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
-    @supports (padding-top: env(safe-area-inset-top)) {
-      #themeBtn { top: calc(14px + env(safe-area-inset-top)); left: calc(14px + env(safe-area-inset-left)); }
-    }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
@@ -429,117 +420,637 @@ document.getElementById('year-en').textContent = yr;
 const kd = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
 document.getElementById('year-ku').textContent = yr.replace(/[0-9]/g, d => kd[d]);
 
-/* ══ SLIDES DATA — Real scientific images from Wikimedia Commons (CC-licensed) ══ */
+/* ══ SVG BACKGROUNDS — Inline SVG illustrations, no external requests ══ */
+const SLIDE_SVGS = [
+  /* 0 — BioGuide / DNA */
+  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg">
+    <defs>
+      <radialGradient id="bg0" cx="50%" cy="50%" r="70%">
+        <stop offset="0%" stop-color="#0d3a6e"/>
+        <stop offset="100%" stop-color="#030a16"/>
+      </radialGradient>
+    </defs>
+    <rect width="1280" height="520" fill="url(#bg0)"/>
+    <!-- DNA double helix strands -->
+    <g opacity="0.7">
+      <!-- Strand 1 -->
+      <path d="M200,60 C300,140 400,60 500,140 C600,220 700,140 800,220 C900,300 1000,220 1100,300" stroke="#3282b8" stroke-width="3" fill="none"/>
+      <path d="M200,160 C300,80 400,160 500,80 C600,0 700,80 800,0 C900,-80 1000,0 1100,-80" stroke="#0891b2" stroke-width="3" fill="none" opacity="0.4"/>
+      <!-- Strand 2 -->
+      <path d="M200,260 C300,340 400,260 500,340 C600,420 700,340 800,420 C900,500 1000,420 1100,500" stroke="#3282b8" stroke-width="3" fill="none"/>
+      <path d="M200,360 C300,280 400,360 500,280 C600,200 700,280 800,200 C900,120 1000,200 1100,120" stroke="#0891b2" stroke-width="3" fill="none" opacity="0.4"/>
+      <!-- Rungs -->
+      <line x1="260" y1="95" x2="260" y2="125" stroke="#60a5fa" stroke-width="2.5" opacity="0.8"/>
+      <line x1="340" y1="100" x2="340" y2="120" stroke="#60a5fa" stroke-width="2.5" opacity="0.8"/>
+      <line x1="420" y1="95" x2="420" y2="125" stroke="#60a5fa" stroke-width="2.5" opacity="0.8"/>
+      <line x1="500" y1="100" x2="500" y2="140" stroke="#93c5fd" stroke-width="2.5" opacity="0.8"/>
+      <line x1="580" y1="155" x2="580" y2="185" stroke="#60a5fa" stroke-width="2.5" opacity="0.8"/>
+      <line x1="660" y1="155" x2="660" y2="175" stroke="#60a5fa" stroke-width="2.5" opacity="0.8"/>
+      <line x1="740" y1="165" x2="740" y2="195" stroke="#93c5fd" stroke-width="2.5" opacity="0.8"/>
+      <line x1="820" y1="195" x2="820" y2="225" stroke="#60a5fa" stroke-width="2.5" opacity="0.8"/>
+      <line x1="900" y1="240" x2="900" y2="270" stroke="#60a5fa" stroke-width="2.5" opacity="0.8"/>
+      <line x1="980" y1="245" x2="980" y2="265" stroke="#93c5fd" stroke-width="2.5" opacity="0.8"/>
+    </g>
+    <!-- Floating circles -->
+    <circle cx="150" cy="80" r="18" fill="none" stroke="#3282b8" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="1130" cy="400" r="24" fill="none" stroke="#0891b2" stroke-width="1.5" opacity="0.5"/>
+    <circle cx="640" cy="460" r="12" fill="#3282b8" opacity="0.3"/>
+    <circle cx="900" cy="100" r="8" fill="#0891b2" opacity="0.4"/>
+    <circle cx="300" cy="450" r="16" fill="none" stroke="#60a5fa" stroke-width="1" opacity="0.4"/>
+    <!-- Hexagons -->
+    <polygon points="1050,80 1070,92 1070,116 1050,128 1030,116 1030,92" fill="none" stroke="#3282b8" stroke-width="1.5" opacity="0.45"/>
+    <polygon points="180,380 200,392 200,416 180,428 160,416 160,392" fill="none" stroke="#0891b2" stroke-width="1.5" opacity="0.45"/>
+  </svg>`,
+
+  /* 1 — Histology / cells */
+  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg">
+    <defs>
+      <radialGradient id="bg1" cx="40%" cy="50%" r="70%">
+        <stop offset="0%" stop-color="#1a3a5c"/>
+        <stop offset="100%" stop-color="#030a16"/>
+      </radialGradient>
+    </defs>
+    <rect width="1280" height="520" fill="url(#bg1)"/>
+    <!-- Tissue cells pattern -->
+    <g opacity="0.6">
+      <ellipse cx="200" cy="150" rx="75" ry="55" fill="none" stroke="#3282b8" stroke-width="2"/>
+      <ellipse cx="200" cy="150" rx="22" ry="18" fill="#1e6091" opacity="0.7"/>
+      <ellipse cx="370" cy="120" rx="65" ry="50" fill="none" stroke="#0891b2" stroke-width="2"/>
+      <ellipse cx="370" cy="120" rx="20" ry="16" fill="#1e6091" opacity="0.7"/>
+      <ellipse cx="290" cy="260" rx="80" ry="58" fill="none" stroke="#3282b8" stroke-width="2"/>
+      <ellipse cx="290" cy="260" rx="24" ry="20" fill="#1e6091" opacity="0.7"/>
+      <ellipse cx="500" cy="200" rx="70" ry="52" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+      <ellipse cx="500" cy="200" rx="21" ry="17" fill="#164e73" opacity="0.7"/>
+      <ellipse cx="160" cy="340" rx="68" ry="50" fill="none" stroke="#0891b2" stroke-width="2"/>
+      <ellipse cx="160" cy="340" rx="22" ry="18" fill="#1e6091" opacity="0.6"/>
+      <ellipse cx="430" cy="360" rx="72" ry="54" fill="none" stroke="#3282b8" stroke-width="1.5"/>
+      <ellipse cx="430" cy="360" rx="22" ry="17" fill="#1e6091" opacity="0.7"/>
+      <ellipse cx="600" cy="320" rx="66" ry="48" fill="none" stroke="#93c5fd" stroke-width="1.5" opacity="0.5"/>
+      <ellipse cx="600" cy="320" rx="20" ry="15" fill="#164e73" opacity="0.6"/>
+      <!-- Right side more cells -->
+      <ellipse cx="900" cy="160" rx="78" ry="56" fill="none" stroke="#3282b8" stroke-width="2" opacity="0.7"/>
+      <ellipse cx="900" cy="160" rx="24" ry="20" fill="#1e6091" opacity="0.6"/>
+      <ellipse cx="1080" cy="200" rx="70" ry="52" fill="none" stroke="#0891b2" stroke-width="2" opacity="0.6"/>
+      <ellipse cx="1080" cy="200" rx="22" ry="17" fill="#1e6091" opacity="0.6"/>
+      <ellipse cx="1000" cy="350" rx="74" ry="54" fill="none" stroke="#60a5fa" stroke-width="1.5" opacity="0.5"/>
+      <ellipse cx="1000" cy="350" rx="22" ry="18" fill="#164e73" opacity="0.5"/>
+    </g>
+    <!-- Grid lines mimicking microscope -->
+    <line x1="640" y1="0" x2="640" y2="520" stroke="#3282b8" stroke-width="0.5" opacity="0.2"/>
+    <line x1="0" y1="260" x2="1280" y2="260" stroke="#3282b8" stroke-width="0.5" opacity="0.2"/>
+    <circle cx="640" cy="260" r="180" fill="none" stroke="#3282b8" stroke-width="0.8" opacity="0.25"/>
+    <circle cx="640" cy="260" r="240" fill="none" stroke="#3282b8" stroke-width="0.5" opacity="0.15"/>
+  </svg>`,
+
+  /* 2 — Embryology */
+  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg">
+    <defs>
+      <radialGradient id="bg2" cx="50%" cy="55%" r="65%">
+        <stop offset="0%" stop-color="#1c3a55"/>
+        <stop offset="100%" stop-color="#040c1a"/>
+      </radialGradient>
+      <radialGradient id="em" cx="50%" cy="45%" r="50%">
+        <stop offset="0%" stop-color="#2a6496" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#0a2f50" stop-opacity="0.1"/>
+      </radialGradient>
+    </defs>
+    <rect width="1280" height="520" fill="url(#bg2)"/>
+    <!-- Large embryo silhouette (abstract) -->
+    <ellipse cx="640" cy="280" rx="160" ry="200" fill="url(#em)" stroke="#3282b8" stroke-width="1.5" opacity="0.6"/>
+    <ellipse cx="640" cy="200" rx="90" ry="100" fill="none" stroke="#0891b2" stroke-width="1.5" opacity="0.5"/>
+    <!-- Cell division stages -->
+    <g opacity="0.7">
+      <!-- 1 cell -->
+      <circle cx="150" cy="200" r="45" fill="none" stroke="#3282b8" stroke-width="2"/>
+      <circle cx="150" cy="200" r="15" fill="#1e6091" opacity="0.8"/>
+      <!-- 2 cell -->
+      <circle cx="320" cy="180" r="35" fill="none" stroke="#3282b8" stroke-width="2"/>
+      <circle cx="390" cy="200" r="35" fill="none" stroke="#3282b8" stroke-width="2"/>
+      <circle cx="320" cy="180" r="11" fill="#1e6091" opacity="0.7"/>
+      <circle cx="390" cy="200" r="11" fill="#1e6091" opacity="0.7"/>
+      <!-- 4 cell -->
+      <circle cx="550" cy="140" r="28" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+      <circle cx="610" cy="140" r="28" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+      <circle cx="550" cy="196" r="28" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+      <circle cx="610" cy="196" r="28" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+    </g>
+    <!-- Arrows between stages -->
+    <path d="M205,200 L275,192" stroke="#93c5fd" stroke-width="1.5" marker-end="url(#arr)" opacity="0.6"/>
+    <path d="M432,190 L510,168" stroke="#93c5fd" stroke-width="1.5" opacity="0.6"/>
+    <!-- Blastocyst outer ring -->
+    <circle cx="640" cy="420" r="60" fill="none" stroke="#3282b8" stroke-width="2" opacity="0.5"/>
+    <circle cx="640" cy="420" r="45" fill="none" stroke="#0891b2" stroke-width="1.5" opacity="0.4"/>
+    <g opacity="0.6">
+      <circle cx="620" cy="405" r="7" fill="#1e6091"/>
+      <circle cx="640" cy="400" r="7" fill="#1e6091"/>
+      <circle cx="660" cy="405" r="7" fill="#1e6091"/>
+      <circle cx="615" cy="422" r="7" fill="#1e6091"/>
+      <circle cx="635" cy="422" r="7" fill="#1e6091"/>
+      <circle cx="655" cy="422" r="7" fill="#1e6091"/>
+    </g>
+    <!-- Background cells scattered -->
+    <circle cx="1100" cy="120" r="30" fill="none" stroke="#3282b8" stroke-width="1.5" opacity="0.35"/>
+    <circle cx="1000" cy="420" r="40" fill="none" stroke="#0891b2" stroke-width="1.5" opacity="0.3"/>
+    <circle cx="1180" cy="380" r="22" fill="none" stroke="#60a5fa" stroke-width="1" opacity="0.3"/>
+  </svg>`,
+
+  /* 3 — Plant Anatomy */
+  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg">
+    <defs>
+      <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0a2f20"/>
+        <stop offset="50%" stop-color="#0d3a2a"/>
+        <stop offset="100%" stop-color="#030d08"/>
+      </linearGradient>
+    </defs>
+    <rect width="1280" height="520" fill="url(#bg3)"/>
+    <!-- Stem cross section -->
+    <circle cx="640" cy="260" r="160" fill="none" stroke="#2d7a4a" stroke-width="3" opacity="0.7"/>
+    <circle cx="640" cy="260" r="130" fill="none" stroke="#2d7a4a" stroke-width="2" opacity="0.5"/>
+    <circle cx="640" cy="260" r="100" fill="none" stroke="#3a9d5c" stroke-width="2" opacity="0.5"/>
+    <circle cx="640" cy="260" r="60" fill="none" stroke="#4ade80" stroke-width="2" opacity="0.5"/>
+    <circle cx="640" cy="260" r="25" fill="#1a4d2e" opacity="0.8" stroke="#4ade80" stroke-width="1.5"/>
+    <!-- Vascular bundles around ring -->
+    <g opacity="0.8">
+      <ellipse cx="640" cy="115" rx="16" ry="22" fill="#1e7a3e" stroke="#4ade80" stroke-width="1.5"/>
+      <ellipse cx="753" cy="147" rx="16" ry="22" fill="#1e7a3e" stroke="#4ade80" stroke-width="1.5" transform="rotate(60,753,147)"/>
+      <ellipse cx="753" cy="373" rx="16" ry="22" fill="#1e7a3e" stroke="#4ade80" stroke-width="1.5" transform="rotate(120,753,373)"/>
+      <ellipse cx="640" cy="405" rx="16" ry="22" fill="#1e7a3e" stroke="#4ade80" stroke-width="1.5"/>
+      <ellipse cx="527" cy="373" rx="16" ry="22" fill="#1e7a3e" stroke="#4ade80" stroke-width="1.5" transform="rotate(240,527,373)"/>
+      <ellipse cx="527" cy="147" rx="16" ry="22" fill="#1e7a3e" stroke="#4ade80" stroke-width="1.5" transform="rotate(300,527,147)"/>
+    </g>
+    <!-- Leaf veins top-right -->
+    <g opacity="0.4" stroke="#4ade80" stroke-width="1.5" fill="none">
+      <path d="M900,50 C950,120 1000,100 1050,160"/>
+      <path d="M950,85 C960,110 970,120 975,155"/>
+      <path d="M1000,100 C1010,125 1015,135 1018,165"/>
+    </g>
+    <!-- Root system bottom-left -->
+    <g opacity="0.35" stroke="#2d7a4a" stroke-width="1.5" fill="none">
+      <path d="M200,400 C200,440 190,460 180,490"/>
+      <path d="M200,420 C230,450 240,470 245,500"/>
+      <path d="M200,440 C170,460 165,475 160,500"/>
+      <path d="M200,400 C160,430 155,450 150,475"/>
+    </g>
+    <!-- Cell walls pattern left -->
+    <g opacity="0.25" stroke="#4ade80" stroke-width="1" fill="none">
+      <rect x="50" y="150" width="40" height="40"/>
+      <rect x="90" y="150" width="40" height="40"/>
+      <rect x="50" y="190" width="40" height="40"/>
+      <rect x="90" y="190" width="40" height="40"/>
+      <rect x="50" y="230" width="40" height="40"/>
+      <rect x="90" y="230" width="40" height="40"/>
+    </g>
+  </svg>`,
+
+  /* 4 — Parasitology */
+  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg">
+    <defs>
+      <radialGradient id="bg4" cx="50%" cy="50%" r="70%">
+        <stop offset="0%" stop-color="#1a1a2e"/>
+        <stop offset="100%" stop-color="#040408"/>
+      </radialGradient>
+    </defs>
+    <rect width="1280" height="520" fill="url(#bg4)"/>
+    <!-- Red blood cells -->
+    <g opacity="0.65">
+      <ellipse cx="200" cy="150" rx="40" ry="28" fill="none" stroke="#c0392b" stroke-width="2"/>
+      <ellipse cx="200" cy="150" rx="20" ry="14" fill="none" stroke="#e74c3c" stroke-width="1"/>
+      <ellipse cx="350" cy="200" rx="40" ry="28" fill="none" stroke="#c0392b" stroke-width="2"/>
+      <ellipse cx="350" cy="200" rx="20" ry="14" fill="none" stroke="#e74c3c" stroke-width="1"/>
+      <ellipse cx="500" cy="140" rx="40" ry="28" fill="none" stroke="#c0392b" stroke-width="2"/>
+      <ellipse cx="500" cy="140" rx="20" ry="14" fill="none" stroke="#e74c3c" stroke-width="1"/>
+      <ellipse cx="150" cy="320" rx="40" ry="28" fill="none" stroke="#922b21" stroke-width="2"/>
+      <ellipse cx="300" cy="380" rx="40" ry="28" fill="none" stroke="#c0392b" stroke-width="2"/>
+      <ellipse cx="300" cy="380" rx="20" ry="14" fill="none" stroke="#e74c3c" stroke-width="1"/>
+      <!-- Infected cell (Plasmodium) -->
+      <ellipse cx="420" cy="310" rx="40" ry="28" fill="#4a1a1a" stroke="#e74c3c" stroke-width="2.5"/>
+      <circle cx="408" cy="305" r="7" fill="#e74c3c" opacity="0.9"/>
+      <circle cx="425" cy="318" r="5" fill="#c0392b" opacity="0.9"/>
+      <circle cx="435" cy="304" r="4" fill="#e74c3c" opacity="0.8"/>
+      <!-- More RBCs right side -->
+      <ellipse cx="900" cy="180" rx="40" ry="28" fill="none" stroke="#c0392b" stroke-width="2" opacity="0.7"/>
+      <ellipse cx="900" cy="180" rx="20" ry="14" fill="none" stroke="#e74c3c" stroke-width="1" opacity="0.7"/>
+      <ellipse cx="1050" cy="240" rx="40" ry="28" fill="none" stroke="#922b21" stroke-width="2" opacity="0.6"/>
+      <ellipse cx="1100" cy="380" rx="40" ry="28" fill="none" stroke="#c0392b" stroke-width="2" opacity="0.65"/>
+      <ellipse cx="1100" cy="380" rx="20" ry="14" fill="none" stroke="#e74c3c" stroke-width="1" opacity="0.65"/>
+    </g>
+    <!-- Life cycle arrows -->
+    <path d="M640,260 m-120,0 a120,120 0 1,0 240,0 a120,120 0 1,0 -240,0" fill="none" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.4"/>
+    <!-- Mosquito outline (abstract) center-right -->
+    <g opacity="0.3" stroke="#93c5fd" stroke-width="1.5" fill="none">
+      <ellipse cx="950" cy="350" rx="30" ry="12"/>
+      <line x1="920" y1="350" x2="860" y2="310"/>
+      <line x1="980" y1="350" x2="1040" y2="310"/>
+      <line x1="935" y1="342" x2="900" y2="300"/>
+      <line x1="965" y1="342" x2="1000" y2="300"/>
+      <line x1="950" y1="362" x2="940" y2="420"/>
+      <line x1="950" y1="362" x2="960" y2="420"/>
+    </g>
+  </svg>`,
+
+  /* 5 — Hematology / Blood */
+  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg">
+    <defs>
+      <radialGradient id="bg5" cx="50%" cy="50%" r="70%">
+        <stop offset="0%" stop-color="#2a0a0a"/>
+        <stop offset="100%" stop-color="#080202"/>
+      </radialGradient>
+    </defs>
+    <rect width="1280" height="520" fill="url(#bg5)"/>
+    <!-- Red blood cells (biconcave) -->
+    <g opacity="0.8">
+      <ellipse cx="180" cy="160" rx="45" ry="32" fill="#8b0000" stroke="#dc2626" stroke-width="1.5"/>
+      <ellipse cx="180" cy="160" rx="22" ry="16" fill="#6b0000" stroke="#ef4444" stroke-width="1"/>
+      <ellipse cx="320" cy="120" rx="45" ry="32" fill="#8b0000" stroke="#dc2626" stroke-width="1.5"/>
+      <ellipse cx="320" cy="120" rx="22" ry="16" fill="#6b0000" stroke="#ef4444" stroke-width="1"/>
+      <ellipse cx="460" cy="180" rx="45" ry="32" fill="#8b0000" stroke="#dc2626" stroke-width="1.5"/>
+      <ellipse cx="460" cy="180" rx="22" ry="16" fill="#6b0000" stroke="#ef4444" stroke-width="1"/>
+      <ellipse cx="240" cy="300" rx="45" ry="32" fill="#8b0000" stroke="#dc2626" stroke-width="1.5"/>
+      <ellipse cx="240" cy="300" rx="22" ry="16" fill="#6b0000"/>
+      <ellipse cx="380" cy="360" rx="45" ry="32" fill="#8b0000" stroke="#dc2626" stroke-width="1.5"/>
+      <ellipse cx="380" cy="360" rx="22" ry="16" fill="#6b0000"/>
+      <ellipse cx="130" cy="400" rx="45" ry="32" fill="#8b0000" stroke="#dc2626" stroke-width="1.5" opacity="0.7"/>
+      <!-- Right side -->
+      <ellipse cx="900" cy="150" rx="45" ry="32" fill="#8b0000" stroke="#dc2626" stroke-width="1.5" opacity="0.8"/>
+      <ellipse cx="900" cy="150" rx="22" ry="16" fill="#6b0000"/>
+      <ellipse cx="1050" cy="200" rx="45" ry="32" fill="#8b0000" stroke="#dc2626" stroke-width="1.5" opacity="0.75"/>
+      <ellipse cx="1050" cy="200" rx="22" ry="16" fill="#6b0000"/>
+      <ellipse cx="1000" cy="380" rx="45" ry="32" fill="#8b0000" stroke="#dc2626" stroke-width="1.5" opacity="0.7"/>
+      <ellipse cx="1000" cy="380" rx="22" ry="16" fill="#6b0000"/>
+      <ellipse cx="1150" cy="320" rx="45" ry="32" fill="#8b0000" stroke="#dc2626" stroke-width="1.5" opacity="0.7"/>
+    </g>
+    <!-- White blood cell (large, lobular nucleus) -->
+    <circle cx="640" cy="260" r="55" fill="#1a1a3e" stroke="#6366f1" stroke-width="2.5" opacity="0.9"/>
+    <ellipse cx="625" cy="250" rx="20" ry="16" fill="#4338ca" opacity="0.8"/>
+    <ellipse cx="655" cy="255" rx="18" ry="14" fill="#4338ca" opacity="0.8"/>
+    <ellipse cx="640" cy="272" rx="16" ry="13" fill="#3730a3" opacity="0.7"/>
+    <!-- Platelet fragments -->
+    <g opacity="0.6">
+      <ellipse cx="560" cy="200" rx="12" ry="8" fill="#f97316" stroke="#fb923c" stroke-width="1"/>
+      <ellipse cx="720" cy="310" rx="12" ry="8" fill="#f97316" stroke="#fb923c" stroke-width="1"/>
+      <ellipse cx="700" cy="180" rx="10" ry="7" fill="#f97316" opacity="0.7"/>
+      <ellipse cx="590" cy="340" rx="11" ry="7" fill="#f97316" opacity="0.7"/>
+    </g>
+    <!-- Fibrin threads -->
+    <g stroke="#fbbf24" stroke-width="1" opacity="0.25" fill="none">
+      <path d="M400,400 C500,380 600,420 700,390 C800,360 900,400 1000,370"/>
+      <path d="M350,440 C450,415 550,450 650,425 C750,400 850,440 950,410"/>
+    </g>
+  </svg>`,
+
+  /* 6 — Microbiology */
+  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg">
+    <defs>
+      <radialGradient id="bg6" cx="50%" cy="50%" r="70%">
+        <stop offset="0%" stop-color="#0a1a0a"/>
+        <stop offset="100%" stop-color="#02050a"/>
+      </radialGradient>
+    </defs>
+    <rect width="1280" height="520" fill="url(#bg6)"/>
+    <!-- E. coli bacteria (rod-shaped) -->
+    <g opacity="0.75">
+      <rect x="140" y="140" width="80" height="30" rx="15" fill="#1a3a0a" stroke="#4ade80" stroke-width="1.5"/>
+      <!-- Flagella -->
+      <path d="M140,155 C100,145 80,165 60,150" stroke="#4ade80" stroke-width="1" fill="none" opacity="0.7"/>
+      <path d="M220,155 C260,145 280,165 300,150" stroke="#4ade80" stroke-width="1" fill="none" opacity="0.7"/>
+      <rect x="300" y="220" width="80" height="30" rx="15" fill="#1a3a0a" stroke="#22c55e" stroke-width="1.5" transform="rotate(-30,340,235)"/>
+      <path d="M300,235 C260,225 240,245 220,230" stroke="#22c55e" stroke-width="1" fill="none" opacity="0.7" transform="rotate(-30,340,235)"/>
+      <rect x="180" y="340" width="80" height="30" rx="15" fill="#1a3a0a" stroke="#4ade80" stroke-width="1.5" transform="rotate(20,220,355)"/>
+      <rect x="450" y="150" width="80" height="30" rx="15" fill="#1a3a0a" stroke="#16a34a" stroke-width="1.5" transform="rotate(-15,490,165)"/>
+      <rect x="400" y="380" width="80" height="30" rx="15" fill="#1a3a0a" stroke="#4ade80" stroke-width="1.5"/>
+      <path d="M400,395 C360,385 340,405 320,390" stroke="#4ade80" stroke-width="1" fill="none" opacity="0.6"/>
+      <!-- Right side bacteria -->
+      <rect x="900" y="160" width="80" height="30" rx="15" fill="#1a3a0a" stroke="#22c55e" stroke-width="1.5" transform="rotate(40,940,175)"/>
+      <rect x="1050" y="250" width="80" height="30" rx="15" fill="#1a3a0a" stroke="#4ade80" stroke-width="1.5" transform="rotate(-20,1090,265)"/>
+      <rect x="950" y="370" width="80" height="30" rx="15" fill="#1a3a0a" stroke="#16a34a" stroke-width="1.5"/>
+      <rect x="1100" y="400" width="80" height="30" rx="15" fill="#1a3a0a" stroke="#4ade80" stroke-width="1.5" transform="rotate(30,1140,415)"/>
+    </g>
+    <!-- Virus particles (icosahedral) -->
+    <g opacity="0.5">
+      <polygon points="640,180 665,220 615,220" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+      <polygon points="640,180 665,220 640,240 615,220" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+      <polygon points="780,300 805,340 755,340" fill="none" stroke="#93c5fd" stroke-width="1.5"/>
+      <polygon points="500,300 525,340 475,340" fill="none" stroke="#60a5fa" stroke-width="1.5"/>
+    </g>
+    <!-- Petri dish rings -->
+    <circle cx="640" cy="260" r="200" fill="none" stroke="#16a34a" stroke-width="1" stroke-dasharray="6,6" opacity="0.2"/>
+    <circle cx="640" cy="260" r="240" fill="none" stroke="#4ade80" stroke-width="0.8" stroke-dasharray="4,8" opacity="0.15"/>
+  </svg>`,
+
+  /* 7 — Entomology */
+  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg">
+    <defs>
+      <radialGradient id="bg7" cx="50%" cy="50%" r="70%">
+        <stop offset="0%" stop-color="#1a1200"/>
+        <stop offset="100%" stop-color="#050300"/>
+      </radialGradient>
+    </defs>
+    <rect width="1280" height="520" fill="url(#bg7)"/>
+    <!-- Honeybee (simplified anatomical) -->
+    <g transform="translate(540,160)" opacity="0.85">
+      <!-- Abdomen (striped) -->
+      <ellipse cx="100" cy="140" rx="55" ry="80" fill="#b45309" stroke="#fbbf24" stroke-width="1.5"/>
+      <line x1="52" y1="110" x2="148" y2="110" stroke="#1a0a00" stroke-width="8" opacity="0.6"/>
+      <line x1="48" y1="130" x2="152" y2="130" stroke="#1a0a00" stroke-width="8" opacity="0.6"/>
+      <line x1="52" y1="150" x2="148" y2="150" stroke="#1a0a00" stroke-width="8" opacity="0.6"/>
+      <line x1="58" y1="170" x2="142" y2="170" stroke="#1a0a00" stroke-width="6" opacity="0.5"/>
+      <!-- Thorax -->
+      <ellipse cx="100" cy="60" rx="45" ry="42" fill="#92400e" stroke="#fbbf24" stroke-width="1.5"/>
+      <!-- Head -->
+      <ellipse cx="100" cy="15" rx="32" ry="28" fill="#78350f" stroke="#fbbf24" stroke-width="1.5"/>
+      <!-- Eyes -->
+      <ellipse cx="82" cy="10" rx="12" ry="14" fill="#1a0a00" stroke="#fbbf24" stroke-width="1"/>
+      <ellipse cx="118" cy="10" rx="12" ry="14" fill="#1a0a00" stroke="#fbbf24" stroke-width="1"/>
+      <!-- Antennae -->
+      <path d="M88,0 C75,-20 60,-35 50,-50" stroke="#fbbf24" stroke-width="1.5" fill="none"/>
+      <circle cx="50" cy="-50" r="4" fill="#fbbf24"/>
+      <path d="M112,0 C125,-20 140,-35 150,-50" stroke="#fbbf24" stroke-width="1.5" fill="none"/>
+      <circle cx="150" cy="-50" r="4" fill="#fbbf24"/>
+      <!-- Wings -->
+      <ellipse cx="48" cy="50" rx="60" ry="22" fill="rgba(147,197,253,0.2)" stroke="#93c5fd" stroke-width="1.5" transform="rotate(-20,48,50)"/>
+      <ellipse cx="152" cy="50" rx="60" ry="22" fill="rgba(147,197,253,0.2)" stroke="#93c5fd" stroke-width="1.5" transform="rotate(20,152,50)"/>
+      <ellipse cx="45" cy="70" rx="45" ry="16" fill="rgba(147,197,253,0.15)" stroke="#93c5fd" stroke-width="1" transform="rotate(-25,45,70)"/>
+      <ellipse cx="155" cy="70" rx="45" ry="16" fill="rgba(147,197,253,0.15)" stroke="#93c5fd" stroke-width="1" transform="rotate(25,155,70)"/>
+      <!-- Legs -->
+      <line x1="65" y1="58" x2="20" y2="90" stroke="#92400e" stroke-width="2"/>
+      <line x1="20" y1="90" x2="-10" y2="110" stroke="#92400e" stroke-width="1.5"/>
+      <line x1="65" y1="68" x2="15" y2="110" stroke="#92400e" stroke-width="2"/>
+      <line x1="15" y1="110" x2="-15" y2="135" stroke="#92400e" stroke-width="1.5"/>
+      <line x1="135" y1="58" x2="180" y2="90" stroke="#92400e" stroke-width="2"/>
+      <line x1="180" y1="90" x2="210" y2="110" stroke="#92400e" stroke-width="1.5"/>
+      <line x1="135" y1="68" x2="185" y2="110" stroke="#92400e" stroke-width="2"/>
+      <line x1="185" y1="110" x2="215" y2="135" stroke="#92400e" stroke-width="1.5"/>
+    </g>
+    <!-- Honeycomb background right -->
+    <g opacity="0.2" stroke="#fbbf24" stroke-width="1" fill="none">
+      <polygon points="980,80 1010,97 1010,131 980,148 950,131 950,97"/>
+      <polygon points="1010,131 1040,148 1040,182 1010,199 980,182 980,148"/>
+      <polygon points="950,131 980,148 980,182 950,199 920,182 920,148"/>
+      <polygon points="1040,80 1070,97 1070,131 1040,148 1010,131 1010,97"/>
+      <polygon points="980,199 1010,216 1010,250 980,267 950,250 950,216"/>
+      <polygon points="1040,199 1070,216 1070,250 1040,267 1010,250 1010,216"/>
+    </g>
+    <!-- Small insect left -->
+    <g opacity="0.3" stroke="#fbbf24" stroke-width="1" fill="none" transform="translate(100,350) scale(0.6)">
+      <ellipse cx="50" cy="60" rx="25" ry="40"/>
+      <ellipse cx="50" cy="20" rx="20" ry="18"/>
+      <ellipse cx="30" cy="10" rx="8" ry="10"/>
+      <ellipse cx="70" cy="10" rx="8" ry="10"/>
+    </g>
+  </svg>`,
+
+  /* 8 — Algae */
+  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg">
+    <defs>
+      <radialGradient id="bg8" cx="50%" cy="60%" r="70%">
+        <stop offset="0%" stop-color="#022c38"/>
+        <stop offset="100%" stop-color="#010810"/>
+      </radialGradient>
+    </defs>
+    <rect width="1280" height="520" fill="url(#bg8)"/>
+    <!-- Diatoms (intricate silica shells) -->
+    <g opacity="0.75">
+      <!-- Circular diatom 1 -->
+      <circle cx="250" cy="200" r="70" fill="none" stroke="#0e9dbf" stroke-width="2"/>
+      <circle cx="250" cy="200" r="55" fill="none" stroke="#0891b2" stroke-width="1.5"/>
+      <circle cx="250" cy="200" r="38" fill="none" stroke="#06b6d4" stroke-width="1"/>
+      <!-- Radial lines -->
+      <g stroke="#22d3ee" stroke-width="1" opacity="0.7">
+        <line x1="250" y1="130" x2="250" y2="270"/>
+        <line x1="180" y1="200" x2="320" y2="200"/>
+        <line x1="200" y1="150" x2="300" y2="250"/>
+        <line x1="300" y1="150" x2="200" y2="250"/>
+        <line x1="183" y1="165" x2="317" y2="235"/>
+        <line x1="317" y1="165" x2="183" y2="235"/>
+      </g>
+      <!-- Diatom 2 (elongated) -->
+      <ellipse cx="550" cy="150" rx="100" ry="35" fill="none" stroke="#0e9dbf" stroke-width="2"/>
+      <ellipse cx="550" cy="150" rx="85" ry="24" fill="none" stroke="#06b6d4" stroke-width="1.5"/>
+      <ellipse cx="550" cy="150" rx="70" ry="14" fill="none" stroke="#22d3ee" stroke-width="1"/>
+      <g stroke="#22d3ee" stroke-width="1" opacity="0.6">
+        <line x1="460" y1="150" x2="640" y2="150"/>
+        <line x1="480" y1="130" x2="480" y2="170"/>
+        <line x1="510" y1="125" x2="510" y2="175"/>
+        <line x1="550" y1="115" x2="550" y2="185"/>
+        <line x1="590" y1="125" x2="590" y2="175"/>
+        <line x1="620" y1="130" x2="620" y2="170"/>
+      </g>
+      <!-- Diatom 3 circular smaller -->
+      <circle cx="400" cy="360" r="50" fill="none" stroke="#0891b2" stroke-width="2"/>
+      <circle cx="400" cy="360" r="38" fill="none" stroke="#06b6d4" stroke-width="1.5"/>
+      <g stroke="#22d3ee" stroke-width="1" opacity="0.6">
+        <line x1="400" y1="310" x2="400" y2="410"/>
+        <line x1="350" y1="360" x2="450" y2="360"/>
+        <line x1="365" y1="325" x2="435" y2="395"/>
+        <line x1="435" y1="325" x2="365" y2="395"/>
+      </g>
+      <!-- Spiral alga -->
+      <path d="M800,100 C830,140 870,100 900,140 C930,180 870,220 840,260 C810,300 850,340 880,380" stroke="#0e9dbf" stroke-width="2" fill="none" opacity="0.8"/>
+      <path d="M820,100 C850,140 890,100 920,140 C950,180 890,220 860,260 C830,300 870,340 900,380" stroke="#22d3ee" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <!-- Filamentous alga -->
+      <g opacity="0.5" stroke="#0e9dbf" stroke-width="2" fill="none">
+        <path d="M1000,80 C1020,120 1010,160 1030,200 C1050,240 1040,280 1060,320 C1080,360 1070,400 1090,440"/>
+        <ellipse cx="1000" cy="80" rx="15" ry="12"/>
+        <ellipse cx="1020" cy="120" rx="15" ry="12"/>
+        <ellipse cx="1010" cy="160" rx="15" ry="12"/>
+        <ellipse cx="1030" cy="200" rx="15" ry="12"/>
+        <ellipse cx="1050" cy="240" rx="15" ry="12"/>
+        <ellipse cx="1040" cy="280" rx="15" ry="12"/>
+        <ellipse cx="1060" cy="320" rx="15" ry="12"/>
+      </g>
+    </g>
+    <!-- Water ripples -->
+    <ellipse cx="640" cy="480" rx="500" ry="30" fill="none" stroke="#0891b2" stroke-width="1" opacity="0.2"/>
+    <ellipse cx="640" cy="490" rx="600" ry="20" fill="none" stroke="#06b6d4" stroke-width="0.8" opacity="0.15"/>
+  </svg>`,
+
+  /* 9 — Mycology / Fungi */
+  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg">
+    <defs>
+      <radialGradient id="bg9" cx="50%" cy="50%" r="70%">
+        <stop offset="0%" stop-color="#1a0d00"/>
+        <stop offset="100%" stop-color="#050200"/>
+      </radialGradient>
+    </defs>
+    <rect width="1280" height="520" fill="url(#bg9)"/>
+    <!-- Aspergillus conidiophore -->
+    <g transform="translate(300,400)" opacity="0.8">
+      <!-- Stipe (stalk) -->
+      <line x1="0" y1="0" x2="0" y2="-220" stroke="#d97706" stroke-width="5"/>
+      <!-- Vesicle -->
+      <circle cx="0" cy="-220" r="35" fill="#92400e" stroke="#fbbf24" stroke-width="2"/>
+      <!-- Phialides radiating -->
+      <g stroke="#fbbf24" stroke-width="1.5">
+        <line x1="0" y1="-255" x2="0" y2="-290"/>
+        <line x1="18" y1="-252" x2="28" y2="-285"/>
+        <line x1="32" y1="-242" x2="50" y2="-270"/>
+        <line x1="35" y1="-220" x2="58" y2="-240"/>
+        <line x1="35" y1="-200" x2="55" y2="-185"/>
+        <line x1="25" y1="-188" x2="38" y2="-170"/>
+        <line x1="-18" y1="-252" x2="-28" y2="-285"/>
+        <line x1="-32" y1="-242" x2="-50" y2="-270"/>
+        <line x1="-35" y1="-220" x2="-58" y2="-240"/>
+        <line x1="-35" y1="-200" x2="-55" y2="-185"/>
+        <line x1="-25" y1="-188" x2="-38" y2="-170"/>
+      </g>
+      <!-- Conidia (spore chains) -->
+      <g fill="#d97706" stroke="#fbbf24" stroke-width="0.8" opacity="0.9">
+        <circle cx="0" cy="-300" r="5"/>
+        <circle cx="0" cy="-314" r="5"/>
+        <circle cx="0" cy="-328" r="5"/>
+        <circle cx="32" cy="-296" r="5"/>
+        <circle cx="42" cy="-308" r="5"/>
+        <circle cx="60" cy="-285" r="5"/>
+        <circle cx="72" cy="-293" r="5"/>
+        <circle cx="64" cy="-252" r="5"/>
+        <circle cx="78" cy="-248" r="5"/>
+        <circle cx="-32" cy="-296" r="5"/>
+        <circle cx="-42" cy="-308" r="5"/>
+        <circle cx="-60" cy="-285" r="5"/>
+        <circle cx="-64" cy="-252" r="5"/>
+        <circle cx="-78" cy="-248" r="5"/>
+      </g>
+    </g>
+    <!-- Second Aspergillus (right) -->
+    <g transform="translate(900,420) scale(0.75)" opacity="0.6">
+      <line x1="0" y1="0" x2="0" y2="-200" stroke="#d97706" stroke-width="5"/>
+      <circle cx="0" cy="-200" r="32" fill="#92400e" stroke="#fbbf24" stroke-width="2"/>
+      <g stroke="#fbbf24" stroke-width="1.5">
+        <line x1="0" y1="-232" x2="0" y2="-265"/>
+        <line x1="18" y1="-229" x2="28" y2="-260"/>
+        <line x1="30" y1="-218" x2="48" y2="-244"/>
+        <line x1="32" y1="-200" x2="52" y2="-218"/>
+        <line x1="-18" y1="-229" x2="-28" y2="-260"/>
+        <line x1="-30" y1="-218" x2="-48" y2="-244"/>
+        <line x1="-32" y1="-200" x2="-52" y2="-218"/>
+      </g>
+      <g fill="#d97706" stroke="#fbbf24" stroke-width="0.8">
+        <circle cx="0" cy="-275" r="4"/>
+        <circle cx="0" cy="-287" r="4"/>
+        <circle cx="33" cy="-270" r="4"/>
+        <circle cx="43" cy="-280" r="4"/>
+        <circle cx="-33" cy="-270" r="4"/>
+        <circle cx="-43" cy="-280" r="4"/>
+      </g>
+    </g>
+    <!-- Mycelium network -->
+    <g opacity="0.25" stroke="#d97706" stroke-width="1" fill="none">
+      <path d="M50,480 C150,460 200,440 280,420 C340,405 380,415 450,400"/>
+      <path d="M100,490 C200,470 250,450 320,430"/>
+      <path d="M600,480 C700,460 750,440 830,420 C890,405 940,415 1000,400"/>
+      <path d="M650,490 C750,470 800,450 870,430"/>
+    </g>
+    <!-- Spores floating -->
+    <g opacity="0.4" fill="#fbbf24">
+      <circle cx="150" cy="180" r="4"/>
+      <circle cx="200" cy="120" r="3"/>
+      <circle cx="100" cy="250" r="5"/>
+      <circle cx="1100" cy="150" r="4"/>
+      <circle cx="1150" cy="220" r="3"/>
+      <circle cx="1050" cy="300" r="4"/>
+    </g>
+  </svg>`,
+
+  /* 10 — Immunology */
+  `<svg viewBox="0 0 1280 520" xmlns="http://www.w3.org/2000/svg" class="hero-slide-svg">
+    <defs>
+      <radialGradient id="bg10" cx="50%" cy="50%" r="70%">
+        <stop offset="0%" stop-color="#0e0028"/>
+        <stop offset="100%" stop-color="#03000e"/>
+      </radialGradient>
+    </defs>
+    <rect width="1280" height="520" fill="url(#bg10)"/>
+    <!-- T-lymphocyte (bumpy surface) -->
+    <g transform="translate(640,260)" opacity="0.85">
+      <circle cx="0" cy="0" r="85" fill="#1e003a" stroke="#7c3aed" stroke-width="2.5"/>
+      <!-- Surface microvilli (bumps) -->
+      <g fill="none" stroke="#a855f7" stroke-width="2">
+        <circle cx="0" cy="-85" r="8"/>
+        <circle cx="45" cy="-73" r="7"/>
+        <circle cx="76" cy="-42" r="7"/>
+        <circle cx="85" cy="0" r="7"/>
+        <circle cx="76" cy="42" r="7"/>
+        <circle cx="45" cy="73" r="7"/>
+        <circle cx="0" cy="85" r="8"/>
+        <circle cx="-45" cy="73" r="7"/>
+        <circle cx="-76" cy="42" r="7"/>
+        <circle cx="-85" cy="0" r="7"/>
+        <circle cx="-76" cy="-42" r="7"/>
+        <circle cx="-45" cy="-73" r="7"/>
+      </g>
+      <!-- Nucleus -->
+      <ellipse cx="10" cy="5" rx="35" ry="28" fill="#2d0060" stroke="#a855f7" stroke-width="1.5"/>
+      <ellipse cx="5" cy="0" rx="20" ry="16" fill="#1a0040" stroke="#c084fc" stroke-width="1"/>
+    </g>
+    <!-- Antibody (Y-shape) -->
+    <g transform="translate(200,200)" opacity="0.7">
+      <line x1="0" y1="80" x2="0" y2="20" stroke="#06b6d4" stroke-width="3"/>
+      <line x1="0" y1="20" x2="-40" y2="-30" stroke="#06b6d4" stroke-width="3"/>
+      <line x1="0" y1="20" x2="40" y2="-30" stroke="#06b6d4" stroke-width="3"/>
+      <circle cx="-40" cy="-30" r="8" fill="#0e7490" stroke="#22d3ee" stroke-width="1.5"/>
+      <circle cx="40" cy="-30" r="8" fill="#0e7490" stroke="#22d3ee" stroke-width="1.5"/>
+      <circle cx="0" cy="80" r="8" fill="#0e7490" stroke="#22d3ee" stroke-width="1.5"/>
+    </g>
+    <!-- Antibody 2 -->
+    <g transform="translate(1050,300) rotate(30)" opacity="0.65">
+      <line x1="0" y1="80" x2="0" y2="20" stroke="#06b6d4" stroke-width="3"/>
+      <line x1="0" y1="20" x2="-40" y2="-30" stroke="#06b6d4" stroke-width="3"/>
+      <line x1="0" y1="20" x2="40" y2="-30" stroke="#06b6d4" stroke-width="3"/>
+      <circle cx="-40" cy="-30" r="8" fill="#0e7490" stroke="#22d3ee" stroke-width="1.5"/>
+      <circle cx="40" cy="-30" r="8" fill="#0e7490" stroke="#22d3ee" stroke-width="1.5"/>
+      <circle cx="0" cy="80" r="8" fill="#0e7490" stroke="#22d3ee" stroke-width="1.5"/>
+    </g>
+    <!-- Virus particle being attacked -->
+    <g transform="translate(950,160)" opacity="0.7">
+      <circle cx="0" cy="0" r="32" fill="#3a0020" stroke="#f43f5e" stroke-width="2"/>
+      <g stroke="#f43f5e" stroke-width="1.5">
+        <line x1="0" y1="-32" x2="0" y2="-46"/>
+        <line x1="23" y1="-23" x2="32" y2="-32"/>
+        <line x1="32" y1="0" x2="46" y2="0"/>
+        <line x1="23" y1="23" x2="32" y2="32"/>
+        <line x1="0" y1="32" x2="0" y2="46"/>
+        <line x1="-23" y1="23" x2="-32" y2="32"/>
+        <line x1="-32" y1="0" x2="-46" y2="0"/>
+        <line x1="-23" y1="-23" x2="-32" y2="-32"/>
+      </g>
+      <g fill="#f43f5e">
+        <circle cx="0" cy="-46" r="5"/>
+        <circle cx="32" cy="-32" r="5"/>
+        <circle cx="46" cy="0" r="5"/>
+        <circle cx="32" cy="32" r="5"/>
+        <circle cx="0" cy="46" r="5"/>
+        <circle cx="-32" cy="32" r="5"/>
+        <circle cx="-46" cy="0" r="5"/>
+        <circle cx="-32" cy="-32" r="5"/>
+      </g>
+    </g>
+    <!-- Connection lines (immune signaling) -->
+    <g stroke="#a855f7" stroke-width="1" stroke-dasharray="5,4" opacity="0.2">
+      <line x1="240" y1="200" x2="555" y2="260"/>
+      <line x1="950" y1="160" x2="725" y2="240"/>
+      <line x1="1050" y1="300" x2="725" y2="270"/>
+    </g>
+    <!-- NK cell left -->
+    <g transform="translate(150,380)" opacity="0.55">
+      <circle cx="0" cy="0" r="45" fill="#1a0030" stroke="#7c3aed" stroke-width="1.5"/>
+      <ellipse cx="5" cy="0" rx="18" ry="14" fill="#2d0060" stroke="#a855f7" stroke-width="1"/>
+    </g>
+  </svg>`,
+];
+
 const SLIDES = [
-  {
-    badge:'BIOGUIDE',
-    titleEn:'BioGuide',
-    titleKu:'ڕێبەری بایۆلۆجی',
-    desc:'پۆرتاڵی زانستی بایۆلۆجی بۆ خوێندکارانی زانکۆ — ١٠ بەش، ٢٠٠ سلاید',
-    pills:['Biology','Science','Medical'],
-    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Microvillus_cell_biology.svg/1280px-Microvillus_cell_biology.svg.png',
-    credit:'Wikimedia Commons — Cell biology'
-  },
-  {
-    badge:'CHAPTER 1',
-    titleEn:'Histology',
-    titleKu:'شانەزانی',
-    desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە',
-    pills:['Cells','Tissues','Organs'],
-    // H&E stained lung tissue section
-    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Emphysema_H_and_E.jpg/1280px-Emphysema_H_and_E.jpg',
-    credit:'Wikimedia Commons — H&E stained tissue (lung)'
-  },
-  {
-    badge:'CHAPTER 2',
-    titleEn:'Embryology',
-    titleKu:'کۆرپەلەزانی',
-    desc:'لێکۆڵینەوە دەکات دەربارەی چۆنیەتی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون',
-    pills:['Development','Fetus','Birth'],
-    // Human embryo ~8 weeks, CC BY-SA 3.0
-    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Embryo_at_approximately_8_weeks_after_fertilization_1.jpg/1280px-Embryo_at_approximately_8_weeks_after_fertilization_1.jpg',
-    credit:'Wikimedia Commons — Human embryo ~8 weeks'
-  },
-  {
-    badge:'CHAPTER 3',
-    titleEn:'Plant Anatomy',
-    titleKu:'توێکاری ڕووەک',
-    desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک',
-    pills:['Roots','Stems','Leaves'],
-    // Plant stem cross-section under microscope
-    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Stem_histology_cross_section.jpg/1280px-Stem_histology_cross_section.jpg',
-    credit:'Wikimedia Commons — Plant stem cross section'
-  },
-  {
-    badge:'CHAPTER 4',
-    titleEn:'Parasitology',
-    titleKu:'مشەخۆرزانی',
-    desc:'لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان',
-    pills:['Parasites','Life Cycle','Host'],
-    // Plasmodium falciparum in blood smear — CDC/Wikimedia
-    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Plasmodium_falciparum_01.png/1280px-Plasmodium_falciparum_01.png',
-    credit:'Wikimedia Commons — Plasmodium falciparum (CDC)'
-  },
-  {
-    badge:'CHAPTER 5',
-    titleEn:'Hematology',
-    titleKu:'خوێنزانی',
-    desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی',
-    pills:['Blood','Cells','Function'],
-    // Red blood cells SEM — Blausen Medical
-    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Blausen_0761_RedBloodCells.png/1280px-Blausen_0761_RedBloodCells.png',
-    credit:'Wikimedia Commons — Red blood cells (Blausen Medical)'
-  },
-  {
-    badge:'CHAPTER 6',
-    titleEn:'Microbiology',
-    titleKu:'وردەزیندەزانی',
-    desc:'لێکۆڵینەوە دەکات دەربارەی وردە زیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان',
-    pills:['Bacteria','Viruses','Fungi'],
-    // E. coli SEM — NIAID/NIH
-    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/EscherichiaColi_NIAID.jpg/1280px-EscherichiaColi_NIAID.jpg',
-    credit:'Wikimedia Commons — E. coli bacteria (NIAID/NIH)'
-  },
-  {
-    badge:'CHAPTER 7',
-    titleEn:'Entomology',
-    titleKu:'مێرولەزانی',
-    desc:'لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان',
-    pills:['Insects','Structure','Ecology'],
-    // Honey bee macro — CC BY-SA
-    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Apis_mellifera_Western_honey_bee.jpg/1280px-Apis_mellifera_Western_honey_bee.jpg',
-    credit:'Wikimedia Commons — Apis mellifera (honeybee)'
-  },
-  {
-    badge:'CHAPTER 8',
-    titleEn:'Algae Studies',
-    titleKu:'قەوزە',
-    desc:'لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان',
-    pills:['Algae','Aquatic','Classification'],
-    // Diatoms under microscope — CC BY-SA
-    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Diatoms_through_the_microscope.jpg/1280px-Diatoms_through_the_microscope.jpg',
-    credit:'Wikimedia Commons — Diatoms under microscope'
-  },
-  {
-    badge:'CHAPTER 9',
-    titleEn:'Mycology',
-    titleKu:'کەڕووزانی',
-    desc:'لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان',
-    pills:['Fungi','Morphology','Ecology'],
-    // Aspergillus fumigatus SEM — CDC/Wikimedia
-    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Aspergillus_fumigatus_Heads.jpg/1280px-Aspergillus_fumigatus_Heads.jpg',
-    credit:'Wikimedia Commons — Aspergillus fumigatus (SEM)'
-  },
-  {
-    badge:'CHAPTER 10',
-    titleEn:'Immunology',
-    titleKu:'بەرگریزانی',
-    desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش و وەڵامدانەوەکانی',
-    pills:['Immune System','Antibodies','Defense'],
-    // T-lymphocyte SEM — NCI/NIH
-    img:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Healthy_Human_T_Cell.jpg/1280px-Healthy_Human_T_Cell.jpg',
-    credit:'Wikimedia Commons — T lymphocyte (NCI/NIH)'
-  },
+  { badge:'BIOGUIDE',       titleEn:'BioGuide',       titleKu:'ڕێبەری بایۆلۆجی',   desc:'پۆرتاڵی زانستی بایۆلۆجی بۆ خوێندکارانی زانکۆ — ١٠ بەش، ٢٠٠ سلاید', pills:['Biology','Science','Medical'] },
+  { badge:'CHAPTER 1',      titleEn:'Histology',      titleKu:'شانەزانی',            desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە', pills:['Cells','Tissues','Organs'] },
+  { badge:'CHAPTER 2',      titleEn:'Embryology',     titleKu:'کۆرپەلەزانی',         desc:'لێکۆڵینەوە دەکات دەربارەی چۆنیەتی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون', pills:['Development','Fetus','Birth'] },
+  { badge:'CHAPTER 3',      titleEn:'Plant Anatomy',  titleKu:'توێکاری ڕووەک',       desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک', pills:['Roots','Stems','Leaves'] },
+  { badge:'CHAPTER 4',      titleEn:'Parasitology',   titleKu:'مشەخۆرزانی',          desc:'لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان', pills:['Parasites','Life Cycle','Host'] },
+  { badge:'CHAPTER 5',      titleEn:'Hematology',     titleKu:'خوێنزانی',            desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی', pills:['Blood','Cells','Function'] },
+  { badge:'CHAPTER 6',      titleEn:'Microbiology',   titleKu:'وردەزیندەزانی',       desc:'لێکۆڵینەوە دەکات دەربارەی وردە زیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان', pills:['Bacteria','Viruses','Fungi'] },
+  { badge:'CHAPTER 7',      titleEn:'Entomology',     titleKu:'مێرولەزانی',          desc:'لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان', pills:['Insects','Structure','Ecology'] },
+  { badge:'CHAPTER 8',      titleEn:'Algae Studies',  titleKu:'قەوزە',               desc:'لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان', pills:['Algae','Aquatic','Classification'] },
+  { badge:'CHAPTER 9',      titleEn:'Mycology',       titleKu:'کەڕووزانی',           desc:'لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان', pills:['Fungi','Morphology','Ecology'] },
+  { badge:'CHAPTER 10',     titleEn:'Immunology',     titleKu:'بەرگریزانی',          desc:'لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش و وەڵامدانەوەکانی', pills:['Immune System','Antibodies','Defense'] },
 ];
 
 const TOTAL = SLIDES.length;
@@ -557,7 +1068,7 @@ SLIDES.forEach((s, i) => {
   slide.setAttribute('role', 'tabpanel');
   slide.setAttribute('aria-label', s.titleEn);
   slide.innerHTML = `
-    <img class="hero-slide-img" src="${s.img}" alt="${s.titleEn}" loading="${i === 0 ? 'eager' : 'lazy'}" onerror="this.style.display='none'">
+    ${SLIDE_SVGS[i]}
     <canvas id="cvs${i}"></canvas>
     <div class="hero-overlay"></div>
     <div class="hero-content">
@@ -566,8 +1077,7 @@ SLIDES.forEach((s, i) => {
       <div class="hero-title-ku">${s.titleKu}</div>
       <div class="hero-desc">${s.desc}</div>
       <div class="hero-pills">${s.pills.map(p=>`<span class="hero-pill">${p}</span>`).join('')}</div>
-    </div>
-    <div class="hero-credit">${s.credit}</div>`;
+    </div>`;
   slidesWrap.appendChild(slide);
 
   const dot = document.createElement('div');
@@ -580,7 +1090,6 @@ SLIDES.forEach((s, i) => {
   initCanvas(i);
 });
 
-/* Subtle floating-particle overlay — lightly blended over real photos */
 function initCanvas(i) {
   const cvs = document.getElementById('cvs' + i);
   if (!cvs) return;

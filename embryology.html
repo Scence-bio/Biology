@@ -1,307 +1,284 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Embryology Chapter - بەشی کۆرپەلەناسی</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: 'NotoKufiArabic';
-      src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
-      font-weight: normal;
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink: #ec4899;
+      --pink-dark: #db2777;
+      --navy: #0f172a;
+      --navy2: #1e293b;
+      --slate: #334155;
+      --radius: 20px;
     }
-    * { box-sizing: border-box; }
+
+    html { font-size: 16px; }
+
     body {
-      font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0; padding: 0;
+      font-family: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 50%, var(--slate) 100%);
+      min-height: 100vh;
+      color: var(--navy2);
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50%       { transform: translateY(-20px); }
+    /* ── Progress bar ── */
+    .progress-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 3px; background: rgba(255,255,255,0.1); z-index: 1000;
     }
-    @keyframes glow {
-      0%   { text-shadow: 0 0 30px rgba(236,72,153,0.5); }
-      100% { text-shadow: 0 0 50px rgba(236,72,153,0.8); }
-    }
-    .anim-float { animation: float 6s ease-in-out infinite; }
-    .anim-glow  { animation: glow 3s ease-in-out infinite alternate; }
-
-    .card-hover {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card-hover:hover {
-      transform: translateY(-6px) scale(1.01);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.15), 0 0 0 1px rgba(236,72,153,0.2);
-    }
-    .item-hover {
-      transition: transform 0.3s ease;
-    }
-    .item-hover:hover { transform: translateX(4px); }
-
-    .slide-fade-enter-active,
-    .slide-fade-leave-active { transition: opacity 0.35s ease, transform 0.35s ease; }
-    .slide-fade-enter-from,
-    .slide-fade-leave-to  { opacity: 0; transform: translateY(20px); }
-
-    /* ── Responsive Grid ── */
-    .slide-grid {
-      display: grid;
-      gap: 1.25rem;
-      grid-template-columns: 1fr;          /* mobile: 1 col */
-    }
-    @media (min-width: 640px) {
-      .slide-grid { grid-template-columns: repeat(2, 1fr); } /* sm: 2 col */
-    }
-    @media (min-width: 1024px) {
-      .slide-grid { grid-template-columns: repeat(3, 1fr); } /* lg: 3 col */
-    }
-
-    /* ── Slide image ── */
-    .slide-img {
-      width: 100%;
-      max-width: 180px;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border-radius: 0.75rem;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    /* ── Filter bar scroll on small screens ── */
-    .filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      justify-content: center;
-      padding: 0 1rem;
-    }
-    @media (max-width: 480px) {
-      .filter-bar {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        justify-content: flex-start;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-      }
-      .filter-bar::-webkit-scrollbar { display: none; }
-      .filter-btn { white-space: nowrap; flex-shrink: 0; }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink), #a855f7, #3b82f6);
+      transition: width 0.2s;
     }
 
     /* ── Back button ── */
     .back-btn {
-      text-decoration: none;
-      background: #ec4899;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.75rem;
-      line-height: 1.4;
-      display: inline-block;
+      position: fixed; left: 12px; top: 12px; z-index: 2000;
+      text-decoration: none; background: var(--pink); color: #fff;
+      padding: 8px 14px; border-radius: 10px; font-weight: 600;
+      font-size: 0.78rem; line-height: 1.3; max-width: 160px;
+      display: inline-block; transition: background 0.2s;
     }
-    @media (min-width: 640px) {
-      .back-btn { padding: 10px 14px; font-size: 0.875rem; }
+    .back-btn:hover { background: var(--pink-dark); }
+
+    /* ── Scroll-top button ── */
+    .top-btn {
+      position: fixed; bottom: 80px; right: 16px; z-index: 100;
+      background: #3b82f6; color: #fff; border: none;
+      width: 44px; height: 44px; border-radius: 50%;
+      font-size: 20px; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+      transition: opacity 0.3s, transform 0.2s;
+    }
+    .top-btn:hover { transform: scale(1.1); }
+
+    /* ── Print button ── */
+    .print-btn {
+      position: fixed; bottom: 16px; right: 16px;
+      background: var(--pink); color: #fff; border: none;
+      width: 52px; height: 52px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; cursor: pointer; z-index: 100;
+      box-shadow: 0 4px 14px rgba(236,72,153,0.45);
+      transition: transform 0.2s;
+    }
+    .print-btn:hover { transform: scale(1.1); }
+
+    /* ── Page wrapper ── */
+    .page-wrap {
+      padding: 16px;
+      padding-top: 60px;
+    }
+    @media (min-width: 640px) { .page-wrap { padding: 24px 24px 60px; } }
+
+    /* ── Book container ── */
+    .book {
+      max-width: 1200px; margin: 0 auto;
+      background: rgba(255,255,255,0.98);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
     }
 
-    /* ── Scroll-to-top & Print ── */
-    .scroll-top-btn {
-      position: fixed;
-      bottom: 90px;
-      right: 16px;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: #3b82f6;
-      color: white;
-      font-size: 1.1rem;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(59,130,246,0.4);
-      transition: opacity 0.3s, transform 0.3s;
+    .inner { padding: 20px 16px 40px; }
+    @media (min-width: 640px) { .inner { padding: 40px 36px 60px; } }
+
+    /* ── Chapter header ── */
+    .ch-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy2), var(--slate));
+      color: #fff; border-radius: var(--radius);
+      padding: 28px 20px; text-align: center;
+      margin-bottom: 28px; position: relative; overflow: hidden;
     }
-    .print-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 16px;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: #ec4899;
-      color: white;
-      font-size: 1.4rem;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(236,72,153,0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.3s;
+    .ch-header::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(45deg,rgba(236,72,153,.1),rgba(168,85,247,.1));
     }
-    .print-btn:hover { transform: translateY(-2px) scale(1.08); }
+    .ch-header > * { position: relative; z-index: 2; }
+    .ch-num { font-size: 0.95rem; opacity: 0.75; margin-bottom: 10px; }
+    .ch-title { font-size: clamp(1.4rem, 5vw, 2.4rem); font-weight: 700; margin-bottom: 12px; }
+    .ch-desc { font-size: clamp(0.85rem, 2.5vw, 1.05rem); opacity: 0.88; }
+
+    /* ── Filter ── */
+    .filters {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 8px; margin-bottom: 24px;
+    }
+    .filter-btn {
+      background: #e2e8f0; border: none;
+      padding: 8px 16px; border-radius: 30px;
+      font-weight: 600; cursor: pointer;
+      font-family: inherit; font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover { background: var(--pink); color: #fff; }
+
+    /* ── Grid ── */
+    .slide-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 700px) {
+      .slide-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1100px) {
+      .slide-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+    }
+
+    /* ── Card ── */
+    .slide-card {
+      background: #fff; border-radius: var(--radius);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    @media (hover: hover) {
+      .slide-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+      }
+    }
+
+    .card-head {
+      background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+      color: #fff; padding: 16px; text-align: center;
+      position: relative;
+    }
+    .card-head::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; background: linear-gradient(90deg, #a855f7, #3b82f6, #22c55e);
+    }
+    .slide-num { font-size: 1.3rem; font-weight: 800; }
+
+    .img-wrap { display: flex; justify-content: center; padding: 16px; background: #f8f9fa; }
+    .slide-img {
+      width: clamp(120px, 40vw, 180px);
+      height: clamp(120px, 40vw, 180px);
+      object-fit: cover; border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 1px solid #e9ecef;
+    }
+
+    .card-body { padding: 20px 18px; }
+    .slide-title {
+      font-weight: 700; color: var(--navy); margin-bottom: 16px;
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      border-bottom: 2px solid var(--pink); padding-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .section-label {
+      color: var(--navy); font-weight: 700; margin-bottom: 10px;
+      font-size: 0.9rem; display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::before {
+      content: ''; width: 3px; height: 16px;
+      background: linear-gradient(135deg, #a855f7, var(--pink)); border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .tag-list { margin-bottom: 16px; }
+    .tag-components {
+      background: linear-gradient(135deg,#fce7f3,#f3e8ff);
+      padding: 9px 13px; margin: 6px 0; border-radius: 9px;
+      border-left: 4px solid var(--pink);
+      font-size: 0.82rem; line-height: 1.45; color: #1e293b;
+      transition: transform 0.2s;
+    }
+    .tag-components:hover { transform: translateX(4px); }
+
+    .tag-location {
+      background: linear-gradient(135deg,#e0f2fe,#b3e5fc);
+      padding: 9px 13px; margin: 6px 0; border-radius: 9px;
+      border-left: 4px solid #0891b2;
+      font-size: 0.82rem; line-height: 1.45; color: #1e293b;
+      transition: transform 0.2s;
+    }
+    .tag-location::before { content: '📍 '; }
+    .tag-location:hover { transform: translateX(4px); }
+
+    .tag-function {
+      background: linear-gradient(135deg,#fef3c7,#fde68a);
+      padding: 9px 13px; margin: 6px 0; border-radius: 9px;
+      border-left: 4px solid #f59e0b;
+      font-size: 0.82rem; line-height: 1.45; color: #1e293b;
+      transition: transform 0.2s;
+    }
+    .tag-function::before { content: '▶ '; color: #f59e0b; }
+    .tag-function:hover { transform: translateX(4px); }
 
     @media print {
-      .no-print { display: none !important; }
+      .print-btn, .top-btn, .back-btn, .progress-bar { display: none !important; }
+      .slide-card { break-inside: avoid; box-shadow: none; }
+      body { background: #fff; }
+      .page-wrap { padding: 0; }
+      .book { box-shadow: none; }
     }
-
-    /* ── Page outer padding ── */
-    .page-pad {
-      padding: 1rem;
-    }
-    @media (min-width: 640px) { .page-pad { padding: 1.5rem; } }
-    @media (min-width: 1024px) { .page-pad { padding: 2rem 3rem; } }
-
-    /* ── Chapter header text ── */
-    .chapter-title { font-size: 1.4rem; }
-    @media (min-width: 640px) { .chapter-title { font-size: 2rem; } }
-    @media (min-width: 1024px) { .chapter-title { font-size: 2.5rem; } }
-
-    .chapter-sub { font-size: 0.9rem; }
-    @media (min-width: 640px) { .chapter-sub { font-size: 1.1rem; } }
   </style>
 </head>
 <body>
 
 <div id="app">
-
-  <!-- Back button -->
-  <div class="fixed left-3 top-3 z-50 no-print" style="max-width:calc(100vw - 6rem)">
-    <a href="https://scence-bio.github.io/Biology/" class="back-btn">
-      ← گەڕانەوە بۆ سەرەکی
-    </a>
+  <div class="progress-bar">
+    <div class="progress-fill" :style="{ width: scroll + '%' }"></div>
   </div>
 
-  <!-- Progress bar -->
-  <div class="fixed top-0 left-0 right-0 h-1 z-50 no-print" style="background:rgba(0,0,0,0.1)">
-    <div class="h-full transition-all duration-300"
-         style="background:linear-gradient(90deg,#ec4899,#a855f7,#3b82f6)"
-         :style="{ width: progress + '%' }"></div>
-  </div>
+  <a href="https://scence-bio.github.io/Biology/" class="back-btn">← گەڕانەوە / Home</a>
 
-  <!-- Scroll to top -->
-  <button @click="scrollTop"
-          class="scroll-top-btn no-print"
+  <button class="top-btn" @click="()=>window.scrollTo({top:0,behavior:'smooth'})"
           :style="{ opacity: showTop ? '1' : '0', pointerEvents: showTop ? 'auto' : 'none' }">↑</button>
+  <button class="print-btn" @click="()=>window.print()" title="Print">🖨️</button>
 
-  <!-- Print button -->
-  <button onclick="window.print()" class="print-btn no-print">🖨️</button>
+  <div class="page-wrap">
+    <div class="book">
+      <div class="inner">
 
-  <!-- Page wrapper -->
-  <div class="min-h-screen" style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#334155 100%)">
-    <div class="max-w-screen-xl mx-auto"
-         style="background:rgba(255,255,255,0.98);min-height:100vh">
-
-      <div class="page-pad">
-
-        <!-- Chapter Header -->
-        <div class="rounded-2xl mb-8 text-center text-white relative overflow-hidden px-4 py-8"
-             style="background:linear-gradient(135deg,#0f172a,#1e293b,#334155)">
-          <div class="absolute inset-0"
-               style="background:linear-gradient(45deg,rgba(236,72,153,0.1),rgba(168,85,247,0.1))"></div>
-          <div class="relative" style="z-index:2">
-            <div class="text-sm mb-2" style="opacity:0.7;letter-spacing:0.1em">CHAPTER 2</div>
-            <h2 class="font-bold mb-3 chapter-title" style="font-family:Georgia,serif;line-height:1.2">
-              🤰🏻 Embryology
-            </h2>
-            <p class="chapter-sub" style="opacity:0.85">
-              Microscopic examination of embryonic development and reproductive structures
-            </p>
-          </div>
+        <div class="ch-header">
+          <div class="ch-num">Chapter 2</div>
+          <h2 class="ch-title">🤰🏻 Embryology — Study of Development</h2>
+          <p class="ch-desc">Microscopic examination of embryonic development and reproductive structures</p>
         </div>
 
-        <!-- Filter buttons -->
-        <div class="filter-bar mb-6">
-          <button v-for="f in filters" :key="f.value"
-                  @click="activeFilter = f.value"
-                  class="filter-btn px-4 py-2 rounded-full font-semibold border-0 cursor-pointer transition-all duration-300 text-sm"
-                  :style="activeFilter === f.value
-                    ? 'background:#ec4899;color:white;box-shadow:0 4px 12px rgba(236,72,153,0.35)'
-                    : 'background:#e2e8f0;color:#334155'">
-            {{ f.label }}
-          </button>
+        <div class="filters">
+          <button v-for="f in filters" :key="f.v"
+            class="filter-btn" :class="{ active: active===f.v }"
+            @click="active=f.v">{{ f.l }}</button>
         </div>
 
-        <!-- Slide grid -->
         <div class="slide-grid">
-          <transition-group name="slide-fade">
-            <div v-for="slide in filteredSlides" :key="slide.number"
-                 class="bg-white rounded-2xl overflow-hidden card-hover"
-                 style="box-shadow:0 8px 24px rgba(0,0,0,0.09),0 0 0 1px rgba(0,0,0,0.05)">
+          <div v-for="s in shown" :key="s.n" class="slide-card">
+            <div class="card-head"><div class="slide-num">Slide {{ s.n }}</div></div>
+            <div class="img-wrap">
+              <img :src="s.img" :alt="s.title" class="slide-img" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="slide-title">{{ s.title }}</div>
 
-              <!-- Card header -->
-              <div class="text-white text-center px-4 py-4 relative"
-                   style="background:linear-gradient(135deg,#ec4899,#db2777)">
-                <div class="absolute bottom-0 left-0 right-0 h-0.5"
-                     style="background:linear-gradient(90deg,#a855f7,#3b82f6,#22c55e)"></div>
-                <div class="text-lg font-extrabold">Slide {{ slide.number }}</div>
+              <div class="tag-list">
+                <div class="section-label">Components:</div>
+                <div v-for="c in s.components" :key="c" class="tag-components">{{ c }}</div>
               </div>
 
-              <!-- Image -->
-              <div class="flex justify-center p-4 bg-gray-50">
-                <img :src="slide.img" :alt="slide.title" class="slide-img" />
+              <div class="tag-list">
+                <div class="section-label">📍 Location:</div>
+                <div v-for="l in s.locations" :key="l" class="tag-location">{{ l }}</div>
               </div>
 
-              <!-- Content -->
-              <div class="px-4 py-4">
-                <div class="font-bold text-slate-900 mb-3 pb-2 border-b-2 text-base leading-snug"
-                     style="border-color:#ec4899">
-                  {{ slide.title }}
-                </div>
-
-                <!-- Components -->
-                <div class="mb-4">
-                  <div class="font-bold text-slate-800 mb-2 text-xs uppercase tracking-wide">Components:</div>
-                  <div v-for="(item, i) in slide.components" :key="i"
-                       class="item-hover px-3 py-2 my-1 rounded-xl border-l-4 text-slate-700 text-xs leading-snug"
-                       style="background:linear-gradient(135deg,#fce7f3,#f3e8ff);border-color:#ec4899">
-                    {{ item }}
-                  </div>
-                </div>
-
-                <!-- Location -->
-                <div class="mb-4">
-                  <div class="font-bold text-slate-900 mb-2 flex items-center gap-1 text-xs uppercase tracking-wide">
-                    <span class="inline-block w-0.5 h-4 rounded-sm"
-                          style="background:linear-gradient(135deg,#a855f7,#ec4899)"></span>
-                    📍 Location:
-                  </div>
-                  <ul class="list-none p-0 m-0">
-                    <li v-for="(loc, i) in slide.locations" :key="i"
-                        class="item-hover px-3 py-2 my-1 rounded-xl border-l-4 text-slate-700 text-xs leading-snug"
-                        style="background:linear-gradient(135deg,#e0f2fe,#b3e5fc);border-color:#0891b2">
-                      <span class="mr-1">📍</span>{{ loc }}
-                    </li>
-                  </ul>
-                </div>
-
-                <!-- Functions -->
-                <div>
-                  <div class="font-bold text-slate-900 mb-2 flex items-center gap-1 text-xs uppercase tracking-wide">
-                    <span class="inline-block w-0.5 h-4 rounded-sm"
-                          style="background:linear-gradient(135deg,#a855f7,#ec4899)"></span>
-                    ⚙️ Functions:
-                  </div>
-                  <ul class="list-none p-0 m-0">
-                    <li v-for="(fn, i) in slide.functions" :key="i"
-                        class="item-hover px-3 py-2 my-1 rounded-xl border-l-4 border-amber-400 text-slate-700 text-xs leading-snug"
-                        style="background:linear-gradient(135deg,#fef3c7,#fde68a)">
-                      <span class="text-amber-500 mr-1">▶</span>{{ fn }}
-                    </li>
-                  </ul>
-                </div>
-
+              <div class="tag-list">
+                <div class="section-label">⚙️ Functions:</div>
+                <div v-for="fn in s.functions" :key="fn" class="tag-function">{{ fn }}</div>
               </div>
             </div>
-          </transition-group>
+          </div>
         </div>
-
-        <!-- Bottom spacer -->
-        <div class="h-16"></div>
 
       </div>
     </div>
@@ -309,582 +286,133 @@
 </div>
 
 <script>
-const { createApp, ref, computed, onMounted, onUnmounted } = Vue
-
+const { createApp, ref, computed, onMounted, onUnmounted } = Vue;
 createApp({
   setup() {
-    const progress  = ref(0)
-    const showTop   = ref(false)
-    const activeFilter = ref('all')
-
+    const scroll = ref(0);
+    const showTop = ref(false);
+    const active = ref('all');
     const filters = [
-      { value: 'all',          label: 'All Slides' },
-      { value: 'reproductive', label: 'Reproductive' },
-      { value: 'development',  label: 'Development' },
-      { value: 'parasitic',    label: 'Parasitic' },
-    ]
-
+      { l:'All Slides', v:'all' },
+      { l:'Reproductive Structures', v:'reproductive' },
+      { l:'Developmental Stages', v:'development' },
+      { l:'Parasitic Forms', v:'parasitic' },
+    ];
     const slides = [
-      {
-        number: 1, category: 'reproductive',
-        img: 'images/Embryology/1. Testis of Rabbit (T.S.) Spermatogenesis.jpg',
-        title: 'Testis of Rabbit (T.S.) Spermatogenesis',
-        components: [
-          'Seminiferous tubules','Spermatogonia','Primary spermatocytes',
-          'Secondary spermatocytes','Spermatids','Spermatozoa',
-          'Sertoli cells','Interstitial (Leydig) cells',
-        ],
-        locations: ['Scrotal sac, outside abdominal cavity'],
-        functions: [
-          'Production of sperm (spermatogenesis)',
-          'Secretion of male sex hormone (Testosterone by Leydig cells)',
-        ],
-      },
-      {
-        number: 2, category: 'reproductive',
-        img: 'images/Embryology/2. Hoden (Testis) T.S..jpg',
-        title: 'Hoden (Testis) T.S. Normal Human',
-        components: [
-          'Seminiferous tubules',
-          'Spermatogenic cells (spermatogonia, spermatocytes, spermatids, spermatozoa)',
-          'Sertoli cells','Interstitial (Leydig) cells',
-          'Basement membrane','Tunica albuginea',
-        ],
-        locations: ['Scrotum (outside the abdominal cavity)'],
-        functions: [
-          'Spermatogenesis (sperm production)',
-          'Secretion of testosterone (by Leydig cells)',
-        ],
-      },
-      {
-        number: 3, category: 'reproductive',
-        img: 'images/Embryology/3. Spermatozoa Human Smear.jpg',
-        title: 'Spermatozoa Human Smear',
-        components: [
-          'Head (with nucleus and acrosome)',
-          'Midpiece (with mitochondria)',
-          'Tail (flagellum)',
-        ],
-        locations: ['Semen (ejaculate), male reproductive tract (e.g., epididymis, vas deferens)'],
-        functions: [
-          'Fertilization of the ovum',
-          'Transmission of paternal genetic material',
-        ],
-      },
-      {
-        number: 4, category: 'reproductive',
-        img: 'images/Embryology/4. Ovary (Ovarium) T.S..jpg',
-        title: 'Ovary (Ovarium) T.S. Normal Human',
-        components: [
-          'Germinal epithelium','Tunica albuginea','Cortex','Medulla',
-          'Primordial follicles','Primary follicles','Secondary (growing) follicles',
-          'Graafian (mature) follicle','Corpus luteum','Corpus albicans',
-          'Blood vessels and connective tissue',
-        ],
-        locations: ['Pelvic cavity, one on each side of the uterus'],
-        functions: [
-          'Oogenesis (egg production)',
-          'Secretion of female sex hormones (estrogen and progesterone)',
-        ],
-      },
-      {
-        number: 5, category: 'parasitic',
-        img: 'images/Embryology/5. Ascaris lumbricoides (Roundworm of Man).jpg',
-        title: 'Ascaris lumbricoides (Roundworm of Man), Ova – W.M. from Faeces',
-        components: [
-          'Thick shell (mammillated albuminous coat)',
-          'Fertilized egg (embryo or zygote inside)',
-          'Unfertilized egg (with amorphous contents)',
-        ],
-        locations: [
-          'Intestine of infected humans (host)',
-          'Eggs passed in feces',
-        ],
-        functions: [
-          'Reproduction and transmission of parasitic infection',
-          'Development into larvae after reaching suitable environment',
-        ],
-      },
-      {
-        number: 6, category: 'reproductive',
-        img: 'images/Embryology/6.jpg',
-        title: 'Frog Spermatozoa, Smear',
-        components: [
-          'Head (with nucleus)',
-          'Midpiece (with mitochondria)',
-          'Tail (flagellum)',
-        ],
-        locations: ['Testes and seminal fluid of male frog'],
-        functions: [
-          'Fertilization of frog egg',
-          'Transfer of genetic material to ovum',
-        ],
-      },
-      {
-        number: 7, category: 'development',
-        img: 'images/Embryology/7.jpg',
-        title: 'Frog Cleavage Section',
-        components: [
-          'Blastomeres','Yolk','Cleavage furrows','Animal pole','Vegetal pole',
-        ],
-        locations: [
-          'Dividing zygote of frog embryo',
-          'Upper region of the egg (Animal pole)',
-          'Lower region of the egg (Vegetal pole)',
-          'Between blastomeres (Cleavage furrows)',
-        ],
-        functions: [
-          'Form the cells of the early embryo',
-          'Provide nutrition for development',
-          'Help separate dividing cells',
-          'Site of rapid cell division (Animal pole)',
-          'Site of slower cell division and nutrient storage (Vegetal pole)',
-        ],
-      },
-      {
-        number: 8, category: 'development',
-        img: 'images/Embryology/8.jpg',
-        title: 'Frog (Rana) Uncleaved Egg T.S.',
-        components: [
-          'Egg membrane','Cytoplasm','Yolk granules',
-          'Nucleus (germinal vesicle)','Animal pole','Vegetal pole',
-        ],
-        locations: [
-          'Outer surface of the egg (Egg membrane)',
-          'Inner content of the egg (Cytoplasm)',
-          'Concentrated in the vegetal pole (Yolk granules)',
-          'Near the animal pole (Nucleus)',
-          'Upper region of the egg (Animal pole)',
-          'Lower region of the egg (Vegetal pole)',
-        ],
-        functions: [
-          'Protects the egg',
-          'Supports cellular activities',
-          'Provides nutrients for the embryo',
-          'Controls genetic functions',
-          'Site of future cleavage',
-          'Stores yolk for nourishment',
-        ],
-      },
-      {
-        number: 9, category: 'development',
-        img: 'images/Embryology/9.jpg',
-        title: 'Frog (Rana) Embryology Early Tail Bud Stage, Sagittal L.S.',
-        components: [
-          'Neural tube','Notochord','Somites','Tail bud','Archenteron','Yolk cells',
-        ],
-        locations: [
-          'Dorsal midline of embryo (Neural tube)',
-          'Below the neural tube (Notochord)',
-          'Lateral sides of notochord (Somites)',
-          'Posterior end of embryo (Tail bud)',
-          'Ventral cavity (Archenteron)',
-          'Lower part of embryo (Yolk cells)',
-        ],
-        functions: [
-          'Develops into the central nervous system',
-          'Provides axial support and signals for development',
-          'Forms muscles and vertebrae',
-          'Initiates tail formation',
-          'Primitive gut cavity',
-          'Provides nutrition to the embryo',
-        ],
-      },
-      {
-        number: 10, category: 'development',
-        img: 'images/Embryology/10.jpg',
-        title: 'Frog (Rana) Holoblastic Cleavage',
-        components: [
-          'Blastomeres','Animal pole','Vegetal pole','Cleavage furrow','Gray crescent',
-        ],
-        locations: [
-          'Entire zygote (Blastomeres)',
-          'Upper hemisphere of egg (Animal pole)',
-          'Lower hemisphere of egg (Vegetal pole)',
-          'Across the egg (Cleavage furrow)',
-          'Opposite sperm entry point (Gray crescent)',
-        ],
-        functions: [
-          'Form embryonic cells',
-          'Undergo rapid division, form micromeres',
-          'Undergo slower division, form macromeres',
-          'Divide the zygote during cleavage',
-          'Establish body axis and initiate gastrulation',
-        ],
-      },
-      {
-        number: 11, category: 'development',
-        img: 'images/Embryology/11.jpg',
-        title: 'Frog (Rana), Egg Four Cells Stage (Second Cleavage), T.S.',
-        components: [
-          'Blastomeres','Cleavage furrow (second)',
-          'Animal pole','Vegetal pole','Vitelline membrane',
-        ],
-        locations: [
-          'Entire egg (four equal or unequal cells)',
-          'Vertical plane, perpendicular to first furrow',
-          'Upper region of egg',
-          'Lower region of egg',
-          'Surrounding the egg cell',
-        ],
-        functions: [
-          'Form early embryonic structure',
-          'Divide the embryo into four blastomeres',
-          'Site of faster cell division',
-          'Site of slower cell division due to yolk',
-          'Protects the egg and maintains shape',
-        ],
-      },
-      {
-        number: 12, category: 'development',
-        img: 'images/Embryology/12.jpg',
-        title: 'Frog (Rana) Embryology Neurula Stage, T.S.',
-        components: [
-          'Neural folds','Neural groove','Neural tube','Notochord','Somites',
-          'Archenteron','Yolk cells','Ectoderm','Mesoderm','Endoderm',
-        ],
-        locations: [
-          'Sides of the dorsal midline',
-          'Between neural folds',
-          'Mid dorsal region (after folds fuse)',
-          'Below the neural tube',
-          'Lateral to notochord',
-          'Ventral cavity',
-          'Lower part of embryo',
-          'Outer layer of embryo',
-          'Middle germ layer',
-          'Inner germ layer',
-        ],
-        functions: [
-          'Elevate and form neural tube',
-          'Initial depression forming neural tube',
-          'Forms brain and spinal cord',
-          'Provides support and signals to surrounding tissues',
-          'Give rise to muscle and vertebrae',
-          'Forms the primitive gut',
-          'Store and supply nutrients',
-          'Forms skin and nervous tissue',
-          'Forms muscles, bones, and circulatory system',
-          'Forms digestive and respiratory linings',
-        ],
-      },
-      {
-        number: 13, category: 'development',
-        img: 'images/Embryology/13.jpg',
-        title: 'Frog (Rana) Embryology Early Gastrula Stage, Sagittal L.S.',
-        components: [
-          'Blastopore','Dorsal lip of blastopore','Archenteron',
-          'Ectoderm','Endoderm','Yolk plug','Mesoderm',
-        ],
-        locations: [
-          'Posterior region of embryo',
-          'Upper margin of the blastopore',
-          'Internal cavity forming behind blastopore',
-          'Outer surface of embryo',
-          'Inner lining of archenteron',
-          'Center of blastopore opening',
-          'Between ectoderm and endoderm',
-        ],
-        functions: [
-          'Opening through which cells migrate inward',
-          'Initiates gastrulation and mesoderm formation',
-          'Forms the primitive gut',
-          'Forms skin and nervous system',
-          'Forms digestive and respiratory tract',
-          'Temporary plug of yolky cells during invagination',
-          'Forms muscles, bones, and circulatory tissues',
-        ],
-      },
-      {
-        number: 14, category: 'development',
-        img: 'images/Embryology/14.jpg',
-        title: 'Frog Blastula T.S.',
-        components: [
-          'Blastocoel','Blastomeres','Animal pole','Vegetal pole','Yolk',
-        ],
-        locations: [
-          'Vegetal pole: Lower hemisphere of blastula',
-          'Animal pole: Upper hemisphere of blastula',
-          'Blastomeres: Surrounding blastocoel',
-          'Blastocoel: Central cavity of blastula',
-          'Yolk: Inside vegetal blastomeres',
-        ],
-        functions: [
-          'Space for cell migration during gastrulation',
-          'Develop into embryonic tissues',
-          'Forms ectoderm',
-          'Forms endoderm and stores yolk',
-          'Provides nutrients to embryo',
-        ],
-      },
-      {
-        number: 15, category: 'development',
-        img: 'images/Embryology/15.jpg',
-        title: 'Frog (Rana) Later Gastrula (Yolk Plug Stage), Sagittal L.S.',
-        components: [
-          'Blastopore','Yolk plug','Archenteron','Ectoderm','Endoderm','Mesoderm',
-        ],
-        locations: [
-          'Blastopore: Opening at posterior side',
-          'Yolk plug: Center of blastopore',
-          'Ectoderm: Outer layer',
-          'Archenteron: Internal cavity above yolk plug',
-          'Endoderm: Inner layer surrounding archenteron',
-          'Mesoderm: Between ectoderm and endoderm',
-        ],
-        functions: [
-          'Entry point for gastrulation cell movement',
-          'Remaining yolk-filled cells being enclosed',
-          'Future digestive tract',
-          'Forms skin and nervous system',
-          'Forms internal organs like gut lining',
-          'Forms muscles, notochord, and circulatory system',
-        ],
-      },
-      {
-        number: 16, category: 'development',
-        img: 'images/Embryology/16.jpg',
-        title: 'Frog (Rana) - Morula Stage with Macro and Micromeres, L.S.',
-        components: [
-          'Micromeres','Macromeres','Cleavage furrows','Blastomeres',
-        ],
-        locations: [
-          'Micromeres: Upper (animal pole) region',
-          'Macromeres: Lower (vegetal pole) region',
-          'Cleavage furrows: Between dividing blastomeres',
-          'Blastomeres: Entire morula mass',
-        ],
-        functions: [
-          'Divide rapidly; contribute to ectoderm',
-          'Store yolk; contribute to endoderm',
-          'Indicate division planes',
-          'Form all embryonic tissues',
-        ],
-      },
-      {
-        number: 17, category: 'development',
-        img: 'images/Embryology/17.jpg',
-        title: 'Frog (Rana) - Blastula Stage L.S. Showing Blastocoel',
-        components: [
-          'Blastocoel','Micromeres','Macromeres','Blastoderm','Blastomeres',
-        ],
-        locations: [
-          'Blastocoel: Central fluid-filled cavity',
-          'Micromeres: Animal pole (upper region)',
-          'Macromeres: Vegetal pole (lower region)',
-          'Blastoderm: Layer of cells surrounding blastocoel',
-          'Blastomeres: Entire cellular mass',
-        ],
-        functions: [
-          'Space for cell movement during gastrulation',
-          'Form ectoderm',
-          'Form endoderm and store yolk',
-          'Develops into embryonic germ layers',
-          'Give rise to all body tissues',
-        ],
-      },
-      {
-        number: 18, category: 'development',
-        img: 'images/Embryology/18.jpg',
-        title: 'Frog (Rana) - Morula Stage L.S.',
-        components: ['Blastomeres','Micromeres','Macromeres'],
-        locations: [
-          'Entire cellular mass',
-          'Animal pole (upper region)',
-          'Vegetal pole (lower region)',
-        ],
-        functions: [
-          'Give rise to all body tissues',
-          'Form ectoderm',
-          'Form endoderm and store yolk',
-        ],
-      },
-      {
-        number: 19, category: 'development',
-        img: 'images/Embryology/19.jpg',
-        title: 'Frog (Rana) - Early Neurula Stage T.S. Showing Neural Plate',
-        components: [
-          'Neural plate','Notochord','Neural folds','Archenteron','Somites',
-        ],
-        locations: [
-          'Dorsal midline (surface ectoderm)',
-          'Just beneath the neural plate (mesoderm)',
-          'Lateral edges of neural plate',
-          'Ventral to notochord (primitive gut cavity)',
-          'On either side of notochord',
-        ],
-        functions: [
-          'Forms central nervous system (brain and spinal cord)',
-          'Induces neural plate formation, forms axial support',
-          'Elevate and fuse to form neural tube',
-          'Develops into digestive tract',
-          'Form muscles, vertebrae, and dermis',
-        ],
-      },
-      {
-        number: 20, category: 'development',
-        img: 'images/Embryology/20.jpg',
-        title: 'Frog (Rana) - Tadpole Stage Whole Mount (W.M.)',
-        components: [
-          'Head','Eyes','External gills (in early tadpole)','Tail',
-          'Notochord','Somites','Brain region','Heart (may be visible)','Intestine',
-        ],
-        locations: [
-          'Anterior region',
-          'On either side of head',
-          'Lateral to head (early stages)',
-          'Posterior elongated part',
-          'Along the midline of body axis',
-          'Segmentally arranged on both sides of notochord',
-          'Front dorsal side of head',
-          'Ventral side, behind the head',
-          'Coiled in mid-body region',
-        ],
-        functions: [
-          'Contains brain and sensory organs',
-          'Vision',
-          'Temporary respiration in water',
-          'Swimming and locomotion',
-          'Structural support',
-          'Develop into muscles and vertebrae',
-          'Controls nervous activity',
-          'Circulates blood',
-          'Digestion and absorption',
-        ],
-      },
-    ]
-
-    const filteredSlides = computed(() =>
-      activeFilter.value === 'all'
-        ? slides
-        : slides.filter(s => s.category === activeFilter.value)
-    )
-
-    function onScroll() {
-      const max = document.documentElement.scrollHeight - window.innerHeight
-      progress.value = max > 0 ? (window.scrollY / max) * 100 : 0
-      showTop.value = window.scrollY > 500
-    }
-
-    function scrollTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-
-    onMounted(() => window.addEventListener('scroll', onScroll))
-    onUnmounted(() => window.removeEventListener('scroll', onScroll))
-
-    return { progress, showTop, scrollTop, activeFilter, filters, filteredSlides }
+      { n:1, cat:'reproductive', img:'images/Embryology/1. Testis of Rabbit (T.S.) Spermatogenesis.jpg',
+        title:'Testis of Rabbit (T.S.) Spermatogenesis',
+        components:['Seminiferous tubules','Spermatogonia','Primary spermatocytes','Secondary spermatocytes','Spermatids','Spermatozoa','Sertoli cells','Interstitial (Leydig) cells'],
+        locations:['Scrotal sac, outside abdominal cavity'],
+        functions:['Production of sperm (spermatogenesis)','Secretion of male sex hormone (Testosterone by Leydig cells)'] },
+      { n:2, cat:'reproductive', img:'images/Embryology/2. Hoden (Testis) T.S..jpg',
+        title:'Hoden (Testis) T.S. Normal Human',
+        components:['Seminiferous tubules','Spermatogenic cells (spermatogonia, spermatocytes, spermatids, spermatozoa)','Sertoli cells','Interstitial (Leydig) cells','Basement membrane','Tunica albuginea'],
+        locations:['Scrotum (outside the abdominal cavity)'],
+        functions:['Spermatogenesis (sperm production)','Secretion of testosterone (by Leydig cells)'] },
+      { n:3, cat:'reproductive', img:'images/Embryology/3. Spermatozoa Human Smear.jpg',
+        title:'Spermatozoa Human Smear',
+        components:['Head (with nucleus and acrosome)','Midpiece (with mitochondria)','Tail (flagellum)'],
+        locations:['Semen (ejaculate), male reproductive tract (e.g., epididymis, vas deferens)'],
+        functions:['Fertilization of the ovum','Transmission of paternal genetic material'] },
+      { n:4, cat:'reproductive', img:'images/Embryology/4. Ovary (Ovarium) T.S..jpg',
+        title:'Ovary (Ovarium) T.S. Normal Human',
+        components:['Germinal epithelium','Tunica albuginea','Cortex','Medulla','Primordial follicles','Primary follicles','Secondary (growing) follicles','Graafian (mature) follicle','Corpus luteum','Corpus albicans','Blood vessels and connective tissue'],
+        locations:['Pelvic cavity, one on each side of the uterus'],
+        functions:['Oogenesis (egg production)','Secretion of female sex hormones (estrogen and progesterone)'] },
+      { n:5, cat:'parasitic', img:'images/Embryology/5. Ascaris lumbricoides (Roundworm of Man).jpg',
+        title:'Ascaris lumbricoides (Roundworm of Man), Ova – W.M. from Faeces',
+        components:['Thick shell (mammillated albuminous coat)','Fertilized egg (embryo or zygote inside)','Unfertilized egg (with amorphous contents)'],
+        locations:['Intestine of infected humans (host)','Eggs passed in feces'],
+        functions:['Reproduction and transmission of parasitic infection','Development into larvae after reaching suitable environment'] },
+      { n:6, cat:'reproductive', img:'images/Embryology/6.jpg',
+        title:'Frog Spermatozoa, Smear',
+        components:['Head (with nucleus)','Midpiece (with mitochondria)','Tail (flagellum)'],
+        locations:['Testes and seminal fluid of male frog'],
+        functions:['Fertilization of frog egg','Transfer of genetic material to ovum'] },
+      { n:7, cat:'development', img:'images/Embryology/7.jpg',
+        title:'Frog Cleavage Section',
+        components:['Blastomeres','Yolk','Cleavage furrows','Animal pole','Vegetal pole'],
+        locations:['Dividing zygote of frog embryo','Upper region (Animal pole)','Lower region (Vegetal pole)','Between blastomeres (Cleavage furrows)'],
+        functions:['Form the cells of the early embryo','Provide nutrition for development','Help separate dividing cells','Site of rapid cell division (Animal pole)','Site of slower cell division and nutrient storage (Vegetal pole)'] },
+      { n:8, cat:'development', img:'images/Embryology/8.jpg',
+        title:'Frog (Rana) Uncleaved Egg T.S.',
+        components:['Egg membrane','Cytoplasm','Yolk granules','Nucleus (germinal vesicle)','Animal pole','Vegetal pole'],
+        locations:['Outer surface of the egg (Egg membrane)','Inner content of the egg (Cytoplasm)','Concentrated in vegetal pole (Yolk granules)','Near animal pole (Nucleus)','Upper region (Animal pole)','Lower region (Vegetal pole)'],
+        functions:['Protects the egg','Supports cellular activities','Provides nutrients for the embryo','Controls genetic functions','Site of future cleavage','Stores yolk for nourishment'] },
+      { n:9, cat:'development', img:'images/Embryology/9.jpg',
+        title:'Frog (Rana) Embryology Early Tail Bud Stage, Sagittal L.S.',
+        components:['Neural tube','Notochord','Somites','Tail bud','Archenteron','Yolk cells'],
+        locations:['Dorsal midline of embryo (Neural tube)','Below the neural tube (Notochord)','Lateral sides of notochord (Somites)','Posterior end of embryo (Tail bud)','Ventral cavity (Archenteron)','Lower part of embryo (Yolk cells)'],
+        functions:['Develops into the central nervous system','Provides axial support and signals for development','Forms muscles and vertebrae','Initiates tail formation','Primitive gut cavity','Provides nutrition to the embryo'] },
+      { n:10, cat:'development', img:'images/Embryology/10.jpg',
+        title:'Frog (Rana) Holoblastic Cleavage',
+        components:['Blastomeres','Animal pole','Vegetal pole','Cleavage furrow','Gray crescent'],
+        locations:['Entire zygote (Blastomeres)','Upper hemisphere of egg (Animal pole)','Lower hemisphere of egg (Vegetal pole)','Across the egg (Cleavage furrow)','Opposite sperm entry point (Gray crescent)'],
+        functions:['Form embryonic cells','Undergo rapid division, form micromeres','Undergo slower division, form macromeres','Divide the zygote during cleavage','Establish body axis and initiate gastrulation'] },
+      { n:11, cat:'development', img:'images/Embryology/11.jpg',
+        title:'Frog (Rana), Egg Four Cells Stage (Second Cleavage), T.S.',
+        components:['Blastomeres','Cleavage furrow (second)','Animal pole','Vegetal pole','Vitelline membrane'],
+        locations:['Entire egg (four cells)','Vertical plane perpendicular to first furrow','Upper region of egg','Lower region of egg','Surrounding the egg cell'],
+        functions:['Form early embryonic structure','Divide embryo into four blastomeres','Site of faster cell division','Site of slower cell division due to yolk','Protects the egg and maintains shape'] },
+      { n:12, cat:'development', img:'images/Embryology/12.jpg',
+        title:'Frog (Rana) Embryology Neurula Stage, T.S.',
+        components:['Neural folds','Neural groove','Neural tube','Notochord','Somites','Archenteron','Yolk cells','Ectoderm','Mesoderm','Endoderm'],
+        locations:['Sides of dorsal midline','Between neural folds','Mid dorsal region (after folds fuse)','Below neural tube','Lateral to notochord','Ventral cavity','Lower part of embryo','Outer layer of embryo','Middle germ layer','Inner germ layer'],
+        functions:['Elevate and form neural tube','Initial depression forming neural tube','Forms brain and spinal cord','Provides support and signals to surrounding tissues','Give rise to muscle and vertebrae','Forms primitive gut','Store and supply nutrients','Forms skin and nervous tissue','Forms muscles, bones, and circulatory system','Forms digestive and respiratory linings'] },
+      { n:13, cat:'development', img:'images/Embryology/13.jpg',
+        title:'Frog (Rana) Embryology Early Gastrula Stage, Sagittal L.S.',
+        components:['Blastopore','Dorsal lip of blastopore','Archenteron','Ectoderm','Endoderm','Yolk plug','Mesoderm'],
+        locations:['Posterior region of embryo','Upper margin of blastopore','Internal cavity behind blastopore','Outer surface of embryo','Inner lining of archenteron','Center of blastopore opening','Between ectoderm and endoderm'],
+        functions:['Opening through which cells migrate inward','Initiates gastrulation and mesoderm formation','Forms the primitive gut','Forms skin and nervous system','Forms digestive and respiratory tract','Temporary plug of yolky cells during invagination','Forms muscles, bones, and circulatory tissues'] },
+      { n:14, cat:'development', img:'images/Embryology/14.jpg',
+        title:'Frog Blastula T.S.',
+        components:['Blastocoel','Blastomeres','Animal pole','Vegetal pole','Yolk'],
+        locations:['Lower hemisphere of blastula (Vegetal pole)','Upper hemisphere of blastula (Animal pole)','Surrounding blastocoel (Blastomeres)','Central cavity of blastula (Blastocoel)','Inside vegetal blastomeres (Yolk)'],
+        functions:['Space for cell migration during gastrulation','Develop into embryonic tissues','Forms ectoderm','Forms endoderm and stores yolk','Provides nutrients to embryo'] },
+      { n:15, cat:'development', img:'images/Embryology/15.jpg',
+        title:'Frog (Rana) Later Gastrula (Yolk Plug Stage), Sagittal L.S.',
+        components:['Blastopore','Yolk plug','Archenteron','Ectoderm','Endoderm','Mesoderm'],
+        locations:['Opening at posterior side (Blastopore)','Center of blastopore (Yolk plug)','Outer layer (Ectoderm)','Internal cavity above yolk plug (Archenteron)','Inner layer surrounding archenteron (Endoderm)','Between ectoderm and endoderm (Mesoderm)'],
+        functions:['Entry point for gastrulation cell movement','Remaining yolk-filled cells being enclosed','Future digestive tract','Forms skin and nervous system','Forms internal organs like gut lining','Forms muscles, notochord, and circulatory system'] },
+      { n:16, cat:'development', img:'images/Embryology/16.jpg',
+        title:'Frog (Rana) - Morula Stage with Macro and Micromeres, L.S.',
+        components:['Micromeres','Macromeres','Cleavage furrows','Blastomeres'],
+        locations:['Upper (animal pole) region (Micromeres)','Lower (vegetal pole) region (Macromeres)','Between dividing blastomeres (Cleavage furrows)','Entire morula mass (Blastomeres)'],
+        functions:['Divide rapidly; contribute to ectoderm','Store yolk; contribute to endoderm','Indicate division planes','Form all embryonic tissues'] },
+      { n:17, cat:'development', img:'images/Embryology/17.jpg',
+        title:'Frog (Rana) - Blastula Stage L.S. Showing Blastocoel',
+        components:['Blastocoel','Micromeres','Macromeres','Blastoderm','Blastomeres'],
+        locations:['Central fluid-filled cavity (Blastocoel)','Animal pole, upper region (Micromeres)','Vegetal pole, lower region (Macromeres)','Layer of cells surrounding blastocoel (Blastoderm)','Entire cellular mass (Blastomeres)'],
+        functions:['Space for cell movement during gastrulation','Form ectoderm','Form endoderm and store yolk','Develops into embryonic germ layers','Give rise to all body tissues'] },
+      { n:18, cat:'development', img:'images/Embryology/18.jpg',
+        title:'Frog (Rana) - Morula Stage L.S.',
+        components:['Blastomeres','Micromeres','Macromeres'],
+        locations:['Entire cellular mass','Animal pole (upper region)','Vegetal pole (lower region)'],
+        functions:['Give rise to all body tissues','Form ectoderm','Form endoderm and store yolk'] },
+      { n:19, cat:'development', img:'images/Embryology/19.jpg',
+        title:'Frog (Rana) - Early Neurula Stage T.S. Showing Neural Plate',
+        components:['Neural plate','Notochord','Neural folds','Archenteron','Somites'],
+        locations:['Dorsal midline, surface ectoderm (Neural plate)','Just beneath neural plate, mesoderm (Notochord)','Lateral edges of neural plate (Neural folds)','Ventral to notochord, primitive gut cavity (Archenteron)','On either side of notochord (Somites)'],
+        functions:['Forms central nervous system (brain and spinal cord)','Induces neural plate formation, forms axial support','Elevate and fuse to form neural tube','Develops into digestive tract','Form muscles, vertebrae, and dermis'] },
+      { n:20, cat:'development', img:'images/Embryology/20.jpg',
+        title:'Frog (Rana) - Tadpole Stage Whole Mount (W.M.)',
+        components:['Head','Eyes','External gills (early tadpole)','Tail','Notochord','Somites','Brain region','Heart (may be visible)','Intestine'],
+        locations:['Anterior region (Head)','On either side of head (Eyes)','Lateral to head, early stages (External gills)','Posterior elongated part (Tail)','Along midline of body axis (Notochord)','Segmentally arranged both sides (Somites)','Front dorsal side of head (Brain)','Ventral side, behind head (Heart)','Coiled in mid-body region (Intestine)'],
+        functions:['Contains brain and sensory organs','Vision','Temporary respiration in water','Swimming and locomotion','Structural support','Develop into muscles and vertebrae','Controls nervous activity','Circulates blood','Digestion and absorption'] },
+    ];
+    const shown = computed(() =>
+      active.value === 'all' ? slides : slides.filter(s => s.cat === active.value)
+    );
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      scroll.value = max > 0 ? (window.scrollY / max) * 100 : 0;
+      showTop.value = window.scrollY > 400;
+    };
+    onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }));
+    onUnmounted(() => window.removeEventListener('scroll', onScroll));
+    return { scroll, showTop, active, filters, shown };
   }
-}).mount('#app')
-
-  function buildEmbryology() {
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0f0308);
-  makeLights(scene, 0x1a0a00, .6, 0xffd080, 1.2);
-  scene.add(makeStars(120, 30));
-
-  const group = new THREE.Group();
-  group.add(new THREE.Mesh(
-    new THREE.SphereGeometry(3.8, 32, 32),
-    new THREE.MeshPhongMaterial({ color: 0xfbbf24, transparent: true, opacity: .07, shininess: 200, side: THREE.DoubleSide })
-  ));
-  group.add(new THREE.Mesh(
-    new THREE.SphereGeometry(3.8, 20, 20),
-    new THREE.MeshPhongMaterial({ color: 0xfcd34d, wireframe: true, transparent: true, opacity: .18 })
-  ));
-
-  const bM = new THREE.MeshPhongMaterial({ color: 0xfde68a, emissive: 0x3d1500, shininess: 70, transparent: true, opacity: .9 });
-  for (let i = 0; i < 28; i++) {
-    const phi = Math.acos(-1 + (2 * i) / 28), theta = Math.sqrt(28 * Math.PI) * phi, r = 3.3;
-    const b = new THREE.Mesh(new THREE.SphereGeometry(.58, 12, 12), bM);
-    b.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta));
-    group.add(b);
-  }
-
-  const iM = new THREE.MeshPhongMaterial({ color: 0xf472b6, emissive: 0x3d0025, shininess: 90 });
-  for (let i = 0; i < 10; i++) {
-    const a = (i / 10) * Math.PI * 2;
-    const ic = new THREE.Mesh(new THREE.SphereGeometry(.28, 8, 8), iM);
-    ic.position.set(Math.cos(a) * .9, Math.sin(a * .7) * .5, Math.sin(a) * .9);
-    group.add(ic);
-  }
-
-  scene.add(group);
-
-  // ── Chapter Title Sprite ──────────────────────────────
-  function makeChapterLabel(line1, line2) {
-    const W = 512, H = 128;
-    const cv = document.createElement('canvas');
-    cv.width = W; cv.height = H;
-    const ctx = cv.getContext('2d');
-
-    // پشتەوە: تاریک بە گواستراوە
-    ctx.clearRect(0, 0, W, H);
-    const grad = ctx.createLinearGradient(0, 0, W, 0);
-    grad.addColorStop(0,   'rgba(15,3,8,0)');
-    grad.addColorStop(0.1, 'rgba(15,3,8,0.82)');
-    grad.addColorStop(0.9, 'rgba(15,3,8,0.82)');
-    grad.addColorStop(1,   'rgba(15,3,8,0)');
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.roundRect(0, 8, W, H - 16, 14);
-    ctx.fill();
-
-    // هێڵی خەمڵێنەر لە سەرەوە
-    const accent = ctx.createLinearGradient(0, 0, W, 0);
-    accent.addColorStop(0,   'rgba(251,191,36,0)');
-    accent.addColorStop(0.3, 'rgba(251,191,36,1)');
-    accent.addColorStop(0.7, 'rgba(244,114,182,1)');
-    accent.addColorStop(1,   'rgba(244,114,182,0)');
-    ctx.fillStyle = accent;
-    ctx.fillRect(60, 10, W - 120, 2);
-
-    // Chapter label
-    ctx.font = 'bold 22px Georgia, serif';
-    ctx.letterSpacing = '4px';
-    ctx.fillStyle = 'rgba(251,191,36,0.75)';
-    ctx.textAlign = 'center';
-    ctx.fillText(line1, W / 2, 46);
-
-    // Main title
-    ctx.font = 'bold 38px Georgia, serif';
-    ctx.letterSpacing = '1px';
-    ctx.fillStyle = '#ffffff';
-    ctx.shadowColor = 'rgba(244,114,182,0.9)';
-    ctx.shadowBlur = 18;
-    ctx.fillText(line2, W / 2, 92);
-    ctx.shadowBlur = 0;
-
-    // هێڵی خەمڵێنەر لە خوارەوە
-    ctx.fillStyle = accent;
-    ctx.fillRect(60, H - 12, W - 120, 2);
-
-    const tex = new THREE.CanvasTexture(cv);
-    const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false });
-    const sprite = new THREE.Sprite(mat);
-    // ئەندازە و شوێن: سەرەوەی گرووپ
-    sprite.scale.set(7, 1.75, 1);
-    sprite.position.set(0, 6.2, 0);
-    return sprite;
-  }
-
-  const titleSprite = makeChapterLabel('CHAPTER 2', '🤰 Embryology');
-  scene.add(titleSprite);
-  // ────────────────────────────────────────────────────
-
-  return {
-    scene,
-    animate: (t) => {
-      group.rotation.y = t * .18;
-      group.rotation.x = Math.sin(t * .09) * .12;
-      // Sprite هەمیشە ڕووی کامێرا دەگرێتەوە (خۆکارە لە THREE.Sprite)
-      // بوونی هەڵەڵاتنی نەرم
-      titleSprite.position.y = 6.2 + Math.sin(t * .4) * 0.12;
-      titleSprite.material.opacity = 0.85 + Math.sin(t * .6) * 0.12;
-    }
-  };
-}
+}).mount('#app');
 </script>
-
 </body>
 </html>

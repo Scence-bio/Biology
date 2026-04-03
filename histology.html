@@ -84,16 +84,30 @@
         /* ─── Page wrapper ─── */
         .page { max-width: 1280px; margin: 0 auto; padding: 20px 16px 60px; }
 
-        /* ─── Chapter header ─── */
+        /* ─── Chapter header with Three.js ─── */
         .chapter-header {
-            background: linear-gradient(135deg, var(--dark), var(--mid));
-            color: #fff; border-radius: 16px;
+            position: relative; overflow: hidden;
+            border-radius: 16px; margin-bottom: 28px;
+            min-height: 220px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            background: #0a0318;
+        }
+        #histo-canvas {
+            position: absolute; inset: 0;
+            width: 100% !important; height: 100% !important;
+            display: block;
+        }
+        .chapter-overlay {
+            position: relative; z-index: 2;
+            color: #fff; pointer-events: none;
             padding: clamp(24px, 5vw, 48px) clamp(20px, 5vw, 48px);
-            text-align: center; margin-bottom: 28px;
+            width: 100%;
         }
         .chapter-label { font-size: 13px; opacity: 0.7; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
-        .chapter-title { font-size: clamp(1.5rem, 4vw, 2.6rem); font-weight: 700; margin-bottom: 10px; }
-        .chapter-desc { font-size: clamp(0.85rem, 2vw, 1rem); opacity: 0.75; }
+        .chapter-title { font-size: clamp(1.5rem, 4vw, 2.6rem); font-weight: 700; margin-bottom: 10px; text-shadow: 0 2px 16px rgba(0,0,0,0.7); }
+        .chapter-desc { font-size: clamp(0.85rem, 2vw, 1rem); opacity: 0.8; }
 
         /* ─── Filter controls ─── */
         .filter-wrap {
@@ -226,11 +240,14 @@
     </div>
 
     <div class="page">
-        <!-- Chapter header -->
-        <div class="chapter-header">
-            <div class="chapter-label">Chapter 1</div>
-            <h1 class="chapter-title">🔬 Histology – Study of Tissues</h1>
-            <p class="chapter-desc">Microscopic examination of tissue structure and function</p>
+        <!-- Chapter header with Three.js background -->
+        <div class="chapter-header" id="chapter-header">
+            <canvas id="histo-canvas"></canvas>
+            <div class="chapter-overlay">
+                <div class="chapter-label">Chapter 1</div>
+                <h1 class="chapter-title">🔬 Histology – Study of Tissues</h1>
+                <p class="chapter-desc">Microscopic examination of tissue structure and function</p>
+            </div>
         </div>
 
         <!-- Filters -->
@@ -369,6 +386,69 @@ createApp({
         return { activeFilter, filters, slides, filteredSlides, cardRefs, setFilter, categoryLabel, printPage };
     }
 }).mount('#app');
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+    function makeLights(scene,ambCol,ambInt,dirCol,dirInt){
+        scene.add(new THREE.AmbientLight(ambCol,ambInt));
+        const d=new THREE.DirectionalLight(dirCol,dirInt);
+        d.position.set(5,8,5);scene.add(d);
+    }
+    function makeStars(count,spread){
+        const g=new THREE.BufferGeometry(),pos=[];
+        for(let i=0;i<count;i++){
+            pos.push((Math.random()-.5)*spread,(Math.random()-.5)*spread,(Math.random()-.5)*spread);
+        }
+        g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(pos),3));
+        return new THREE.Points(g,new THREE.PointsMaterial({color:0xffffff,size:.06}));
+    }
+    function buildHistology(){
+        const scene=new THREE.Scene();
+        scene.background=new THREE.Color(0x0a0318);
+        makeLights(scene,0x1a0033,.7,0xff99cc,1.1);
+        scene.add(makeStars(150,35));
+        const group=new THREE.Group();
+        const cM=new THREE.MeshPhongMaterial({color:0xfce7f3,transparent:true,opacity:.2,shininess:30});
+        const wM=new THREE.MeshPhongMaterial({color:0xf472b6,wireframe:true,transparent:true,opacity:.35});
+        const nM=new THREE.MeshPhongMaterial({color:0xdb2777,emissive:0x500010,shininess:120});
+        const hG=new THREE.CylinderGeometry(.52,.52,.18,6);
+        const nG=new THREE.SphereGeometry(.17,10,10);
+        for(let row=0;row<7;row++)for(let col=0;col<8;col++){
+            const ox=(row%2)*.52*.87,x=col*.52*1.74-8*.52*.85+ox,z=row*.52*1.52-7*.52*.75;
+            const c=new THREE.Mesh(hG,cM);c.position.set(x,0,z);c.rotation.y=Math.PI/6;group.add(c);
+            const w=new THREE.Mesh(new THREE.CylinderGeometry(.53,.53,.2,6),wM);w.position.set(x,0,z);w.rotation.y=Math.PI/6;group.add(w);
+            const n=new THREE.Mesh(nG,nM);n.position.set(x,.04,z);group.add(n);
+        }
+        scene.add(group);
+        return{scene,animate:(t)=>{group.rotation.y=t*.12;group.position.y=Math.sin(t*.4)*.25;}};
+    }
+
+    const canvas=document.getElementById('histo-canvas');
+    if(!canvas)return;
+    const header=document.getElementById('chapter-header');
+    const W=header.clientWidth||800, H=header.clientHeight||220;
+    const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+    renderer.setSize(W,H);
+    const camera=new THREE.PerspectiveCamera(45,W/H,.1,100);
+    camera.position.set(0,5.5,8);camera.lookAt(0,0,0);
+    const {scene,animate}=buildHistology();
+    let raf;
+    function loop(){
+        raf=requestAnimationFrame(loop);
+        animate(performance.now()/1000);
+        renderer.render(scene,camera);
+    }
+    loop();
+    const ro=new ResizeObserver(()=>{
+        const w=header.clientWidth,h=header.clientHeight;
+        camera.aspect=w/h;camera.updateProjectionMatrix();
+        renderer.setSize(w,h);
+    });
+    ro.observe(header);
+})();
 </script>
 </body>
 </html>

@@ -238,27 +238,51 @@
 <script>
 /* ══ WELCOME SCREEN ══ */
 (function(){
-  const pC=document.getElementById('wsParticles');
-  const cols=['rgba(15,76,117,.8)','rgba(50,130,184,.7)','rgba(30,96,145,.6)','rgba(144,200,240,.5)'];
-  for(let i=0;i<22;i++){const p=document.createElement('div');p.className='ws-particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(7+Math.random()*10)+'s';p.style.animationDelay=(Math.random()*12)+'s';const s=2+Math.random()*3;p.style.width=p.style.height=s+'px';p.style.background=cols[Math.floor(Math.random()*cols.length)];pC.appendChild(p);}
-const circ = 2 * Math.PI * 27;
-const ring = document.getElementById('wsRing');
-const numEl = document.getElementById('wsNum');
-let count = 5; 
-ring.style.strokeDasharray = circ;
-ring.style.strokeDashoffset = 0;
+    const circ = 2 * Math.PI * 27; 
+    const ring = document.getElementById('wsRing');
+    const numEl = document.getElementById('wsNum');
+    const ov = document.getElementById('wsOverlay');
+    const ws = document.getElementById('welcomeScreen');
+    const ms = document.getElementById('mainSite');
+    if(ring) {
+        ring.style.strokeDasharray = circ;
+        ring.style.strokeDashoffset = 0;
+    }
 
-function tick() {
-  count--;
-  if (numEl) numEl.textContent = count;
-  if (ring) ring.style.strokeDashoffset = circ * (1 - count / 5);
-  
-  if (count <= 0) {
-    doTrans();
-    return;
-  }
-  timer = setTimeout(tick, 1000);
-}
+    let count = 5;
+    let timer;
+
+    function doTrans(){
+        ov.classList.add('on');
+        setTimeout(() => {
+            ws.style.display = 'none';
+            ms.classList.add('visible');
+            document.body.style.overflow = '';
+            if (typeof initMain === "function") initMain();
+            setTimeout(() => ov.classList.remove('on'), 100);
+        }, 800);
+    }
+
+    function tick() {
+        count--;
+        if (numEl) numEl.textContent = count;
+        if (ring) {
+            ring.style.strokeDashoffset = circ * (1 - count / 5);
+        }
+        if (count <= 0) {
+            doTrans();
+            return;
+        }
+        timer = setTimeout(tick, 1000);
+    }
+    timer = setTimeout(tick, 1000);
+
+    window.wsGoNow = function() {
+        clearTimeout(timer);
+        doTrans();
+    };
+    document.body.style.overflow = 'hidden';
+})();
 
 /* ══ MAIN SITE INIT ══ */
 function initMain(){

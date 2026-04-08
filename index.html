@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BioGuide - ڕێبەری بایۆلۆجی</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            /* Light theme colors */
             --primary-blue: #0f4c75;
             --secondary-blue: #3282b8;
             --accent-blue: #1e6091;
@@ -34,7 +31,6 @@
             --shimmer-bg: rgba(50, 130, 184, 0.05);
         }
 
-        /* Automatic dark mode based on system preference */
         @media (prefers-color-scheme: dark) {
             :root {
                 --primary-blue: #3b82f6;
@@ -59,7 +55,6 @@
             }
         }
 
-        /* Manual dark mode override */
         .dark-mode {
             --primary-blue: #3b82f6 !important;
             --secondary-blue: #60a5fa !important;
@@ -82,7 +77,6 @@
             --shimmer-bg: rgba(59, 130, 246, 0.1) !important;
         }
 
-        /* Manual light mode override */
         .light-mode {
             --primary-blue: #0f4c75 !important;
             --secondary-blue: #3282b8 !important;
@@ -105,15 +99,167 @@
             --shimmer-bg: rgba(50, 130, 184, 0.05) !important;
         }
 
-        @font-face {
-            font-family: 'NotoKufiArabic';
-            src: url('./NotoKufiArabic-Regular.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
+        /* ══════════════════════════════════════
+           WELCOME / SPLASH SCREEN
+        ══════════════════════════════════════ */
+        #welcomeScreen {
+            font-family: 'Noto Kufi Arabic', 'IBM Plex Sans Arabic', sans-serif;
+            background: #0a0f1e;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            overflow: hidden;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .ws-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(15,76,117,0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15,76,117,0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: wsGridMove 25s linear infinite;
+        }
+        @keyframes wsGridMove { from{background-position:0 0} to{background-position:40px 40px} }
+
+        .ws-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(80px); }
+        .ws-orb1 { width:400px; height:400px; background:rgba(15,76,117,0.45); top:-120px; left:-120px; animation:wo1 9s ease-in-out infinite; }
+        .ws-orb2 { width:350px; height:350px; background:rgba(50,130,184,0.25); bottom:-80px; right:-80px; animation:wo2 11s ease-in-out infinite; }
+        .ws-orb3 { width:250px; height:250px; background:rgba(30,96,145,0.2); top:50%; left:50%; transform:translate(-50%,-50%); animation:wo3 7s ease-in-out infinite; }
+        @keyframes wo1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,30px)} }
+        @keyframes wo2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,-40px)} }
+        @keyframes wo3 { 0%,100%{transform:translate(-50%,-50%) scale(1)} 50%{transform:translate(-50%,-50%) scale(1.15)} }
+
+        .ws-particles { position: absolute; inset: 0; pointer-events: none; }
+        .ws-particle { position: absolute; border-radius: 50%; animation: wsFloat linear infinite; }
+        @keyframes wsFloat {
+            0%{transform:translateY(100vh);opacity:0} 10%{opacity:1}
+            90%{opacity:1} 100%{transform:translateY(-80px);opacity:0}
+        }
+
+        .ws-content {
+            position: relative; z-index: 10;
+            display: flex; flex-direction: column; align-items: center;
+            animation: wsFadeUp 0.9s ease both;
+        }
+        @keyframes wsFadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+        .ws-dna {
+            font-size: 64px; margin-bottom: 18px;
+            animation: wsDnaFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(50,130,184,0.6));
+        }
+        @keyframes wsDnaFloat { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-10px) rotate(5deg)} }
+
+        .ws-badge {
+            display: inline-block;
+            background: rgba(50,130,184,0.15);
+            border: 1px solid rgba(50,130,184,0.4);
+            color: #90c8f0;
+            font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+            padding: 6px 18px; border-radius: 100px;
+            margin-bottom: 18px;
+            animation: wsFadeUp 0.9s 0.3s ease both; opacity: 0;
+        }
+
+        .ws-main-title {
+            font-size: clamp(32px, 7vw, 58px);
+            font-weight: 900; line-height: 1.1; margin-bottom: 6px;
+            animation: wsFadeUp 0.9s 0.5s ease both; opacity: 0;
+        }
+        .ws-grad {
+            background: linear-gradient(135deg, #ffffff 0%, #90c8f0 50%, #3282b8 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+
+        .ws-subtitle {
+            font-size: clamp(16px, 3vw, 22px); font-weight: 700; color: #5ba3cc;
+            margin-bottom: 22px; direction: rtl;
+            animation: wsFadeUp 0.9s 0.6s ease both; opacity: 0;
+        }
+
+        .ws-desc {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(50,130,184,0.25);
+            border-radius: 16px; padding: 18px 26px;
+            max-width: 480px; margin-bottom: 28px;
+            backdrop-filter: blur(10px);
+            position: relative; overflow: hidden;
+            animation: wsFadeUp 0.9s 0.8s ease both; opacity: 0;
+        }
+        .ws-desc::before {
+            content:''; position:absolute; top:0; left:-100%; height:1px; right:0;
+            background: linear-gradient(90deg,transparent,rgba(50,130,184,0.8),transparent);
+            animation: wsShimmer 2.5s ease infinite;
+        }
+        @keyframes wsShimmer { 0%{left:-100%} 100%{left:100%} }
+        .ws-desc-en { font-size:13px; color:rgba(255,255,255,0.55); direction:ltr; text-align:left; margin-bottom:10px; line-height:1.7; }
+        .ws-desc-ku { font-size:13px; color:rgba(255,255,255,0.55); direction:rtl; text-align:right; line-height:1.7; }
+
+        .ws-stats {
+            display: flex; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; justify-content: center;
+            animation: wsFadeUp 0.9s 1s ease both; opacity: 0;
+        }
+        .ws-stat {
+            background: rgba(50,130,184,0.12);
+            border: 1px solid rgba(50,130,184,0.3);
+            border-radius: 12px; padding: 14px 20px; text-align: center; min-width: 88px;
+            transition: all 0.3s;
+        }
+        .ws-stat:hover { background: rgba(50,130,184,0.25); transform: translateY(-4px); }
+        .ws-stat-num { font-size: 26px; font-weight: 900; color: #fff; display: block; }
+        .ws-stat-lbl { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 3px; line-height: 1.4; }
+
+        .ws-countdown {
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            margin-bottom: 18px;
+            animation: wsFadeUp 0.9s 1.2s ease both; opacity: 0;
+        }
+        .ws-ring-wrap { position: relative; width: 80px; height: 80px; }
+        .ws-ring-svg { transform: rotate(-90deg); }
+        .ws-ring-bg { fill:none; stroke:rgba(255,255,255,0.08); stroke-width:5; }
+        .ws-ring-fill { fill:none; stroke:#3282b8; stroke-width:5; stroke-linecap:round; stroke-dasharray:220; stroke-dashoffset:0; transition:stroke-dashoffset 1s linear; }
+        .ws-ring-num { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:900; color:#fff; }
+        .ws-cdown-lbl { font-size:12px; color:rgba(255,255,255,0.35); letter-spacing:1px; }
+
+        .ws-enter-btn {
+            background: linear-gradient(135deg, #0f4c75, #3282b8);
+            color: #fff; border: none;
+            padding: 14px 36px; border-radius: 14px;
+            font-size: 15px; font-weight: 700;
+            cursor: pointer; font-family: inherit;
+            box-shadow: 0 8px 30px rgba(50,130,184,0.35);
+            transition: all 0.3s;
+            animation: wsFadeUp 0.9s 1.4s ease both; opacity: 0;
+        }
+        .ws-enter-btn:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(50,130,184,0.5); }
+
+        /* Transition overlay */
+        #wsOverlay {
+            position: fixed; inset: 0; background: #0a0f1e;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.8s ease; z-index: 99999;
+        }
+        #wsOverlay.active { opacity: 1; pointer-events: all; }
+
+        /* ══════════════════════════════════════
+           MAIN SITE
+        ══════════════════════════════════════ */
+        #mainSite {
+            display: none;
+        }
+        #mainSite.visible {
+            display: block;
         }
 
         body {
-            font-family: 'NotoKufiArabic', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Noto Kufi Arabic', 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--background-gradient);
             background-attachment: fixed;
             min-height: 100vh;
@@ -124,166 +270,84 @@
             line-height: 1.6;
         }
 
-        /* Text alignment classes */
-        .text-ku, .kurdish {
-            direction: rtl;
-            text-align: justify;   
-        }
+        .text-ku, .kurdish { direction: rtl; text-align: justify; }
+        .text-en, .english { direction: ltr; text-align: justify; }
 
-        .text-en, .english {
-            direction: ltr;
-            text-align: justify;
-        }
+        .bilingual-content { display: flex; flex-direction: column; gap: 10px; }
+        .bilingual-content .english-part { direction: ltr; text-align: justify; }
+        .bilingual-content .kurdish-part { direction: rtl; text-align: justify; }
 
-        .bilingual-content {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 15px; }
 
-        .bilingual-content .english-part {
-            direction: ltr;
-            text-align: justify;
-        }
-
-        .bilingual-content .kurdish-part {
-            direction: rtl;
-            text-align: justify;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        /* Dark Mode Toggle Button */
         .dark-mode-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
+            position: fixed; top: 20px; left: 20px; z-index: 1000;
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            border: none;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5rem;
+            color: white; border: none;
+            width: 60px; height: 60px; border-radius: 50%;
+            cursor: pointer; font-size: 1.5rem;
             box-shadow: 0 8px 25px var(--shadow-medium);
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: none;
+            align-items: center; justify-content: center;
         }
-
-        .dark-mode-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 30px var(--shadow-medium);
-        }
+        .dark-mode-toggle:hover { transform: scale(1.1); }
+        .dark-mode-toggle.show { display: flex; }
 
         .header {
-            text-align: center;
-            margin-bottom: 40px;
+            text-align: center; margin-bottom: 40px;
             background: linear-gradient(145deg, var(--card-bg) 0%, var(--background-secondary) 100%);
-            padding: 40px 30px;
-            border-radius: 25px;
+            padding: 40px 30px; border-radius: 25px;
             backdrop-filter: blur(20px);
             border: 3px solid var(--border-color);
-            box-shadow: 0 20px 60px var(--shadow-medium), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 20px 60px var(--shadow-medium), inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative; overflow: hidden;
             transition: all 0.3s ease;
         }
-
         .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
             background: linear-gradient(45deg, transparent 30%, var(--shimmer-bg) 50%, transparent 70%);
             animation: shimmer 3s infinite;
         }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
+        @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
 
         .header h1 {
             font-size: clamp(2.5rem, 5vw, 4.5rem);
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue), var(--accent-blue), var(--light-blue));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-            font-weight: 900;
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 15px; font-weight: 900;
             text-shadow: 0 4px 8px var(--shadow-light);
-            position: relative;
-            z-index: 1;
+            position: relative; z-index: 1;
         }
 
         .header .subtitle {
             font-size: clamp(1.4rem, 3vw, 2.2rem);
             background: linear-gradient(90deg, var(--accent-blue), var(--primary-blue));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 20px; font-weight: 700; position: relative; z-index: 1;
         }
 
         .header-description {
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            color: var(--text-secondary);
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.7;
-            position: relative;
-            z-index: 1;
+            font-size: clamp(1rem, 2vw, 1.3rem); color: var(--text-secondary);
+            max-width: 800px; margin: 0 auto; line-height: 1.7; position: relative; z-index: 1;
         }
-                 /* Logo Styles - Responsive Design */
+
         .logo-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
+            display: flex; justify-content: center; align-items: center;
+            margin-bottom: 20px; position: relative; z-index: 1;
         }
 
         .logo-image {
-            max-width: clamp(370px, 30vw, 430px);
-            height: auto;
-            
-            shadow: 0 8px 25px var(--shadow-medium);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            
-    
-            padding: 10px;
+            max-width: clamp(370px, 30vw, 430px); height: auto;
+            padding: 10px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        .logo-image:hover {
-            transform: scale(1.05) rotateY(5deg);
-            shadow: 0 15px 40px var(--shadow-medium);
-            
-        }
-
+        .logo-image:hover { transform: scale(1.05) rotateY(5deg); }
 
         .sections-title {
-            text-align: center;
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            text-align: center; font-size: clamp(1.8rem, 4vw, 2.8rem);
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            margin-bottom: 35px;
-            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
-            padding: 25px;
-            border-radius: 20px;
+            color: white; margin-bottom: 35px;
+            text-shadow: 2px 4px 8px rgba(0,0,0,0.4);
+            padding: 25px; border-radius: 20px;
             backdrop-filter: blur(15px);
             box-shadow: 0 15px 40px var(--shadow-medium);
             font-weight: 800;
@@ -292,156 +356,76 @@
         .sections-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
+            gap: 25px; margin-bottom: 50px;
         }
 
         .chapter-card {
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 30px;
-            box-shadow: 0 15px 40px var(--shadow-light), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background: var(--card-bg); border-radius: 25px; padding: 30px;
+            box-shadow: 0 15px 40px var(--shadow-light), inset 0 1px 0 rgba(255,255,255,0.1);
             border: 2px solid var(--border-color);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
-
         .chapter-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
             background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue), var(--accent-blue), var(--light-blue));
-            transform: translateX(-100%);
-            transition: transform 0.5s ease;
+            transform: translateX(-100%); transition: transform 0.5s ease;
         }
-
-        .chapter-card:hover::before {
-            transform: translateX(0);
-        }
-
+        .chapter-card:hover::before { transform: translateX(0); }
         .chapter-card:hover {
             transform: translateY(-12px) scale(1.03);
-            box-shadow: 0 25px 60px var(--shadow-medium), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 60px var(--shadow-medium), inset 0 1px 0 rgba(255,255,255,0.2);
             border-color: var(--secondary-blue);
         }
 
         .chapter-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 70px;
-            height: 70px;
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 70px; height: 70px;
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            border-radius: 50%;
-            font-size: 2rem;
-            font-weight: 900;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 20px var(--shadow-light);
+            color: white; border-radius: 50%; font-size: 2rem; font-weight: 900;
+            margin-bottom: 25px; box-shadow: 0 8px 20px var(--shadow-light);
             transition: transform 0.5s ease;
         }
 
         .chapter-title {
-            font-size: clamp(1.4rem, 3vw, 1.9rem);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            flex-wrap: wrap;
+            font-size: clamp(1.4rem, 3vw, 1.9rem); margin-bottom: 15px;
+            display: flex; align-items: flex-start; gap: 15px; flex-wrap: wrap;
         }
 
-        .title-en {
-            color: var(--primary-blue);
-            font-weight: 800;
-            line-height: 1.2;
-            direction: ltr;
-            text-align: left;
-            flex: 1;
-        }
-
-        .title-ku {
-            color: var(--accent-blue);
-            font-weight: 700;
-            font-size: clamp(1.2rem, 2.5vw, 1.7rem);
-            line-height: 1.3;
-            direction: rtl;
-            text-align: right;
-            flex: 1;
-        }
+        .title-en { color: var(--primary-blue); font-weight: 800; line-height: 1.2; direction: ltr; text-align: left; flex: 1; }
+        .title-ku { color: var(--accent-blue); font-weight: 700; font-size: clamp(1.2rem, 2.5vw, 1.7rem); line-height: 1.3; direction: rtl; text-align: right; flex: 1; }
 
         .chapter-description {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 25px;
+            color: var(--text-secondary); line-height: 1.8; margin-bottom: 25px;
             font-size: clamp(0.9rem, 2vw, 1.1rem);
-            hyphens: auto;
-            -webkit-hyphens: auto;
-            -moz-hyphens: auto;
         }
-
-        .chapter-description .english-part {
-            direction: ltr;
-            text-align: left;
-            margin-bottom: 10px;
-        }
-
-        .chapter-description .kurdish-part {
-            direction: rtl;
-            text-align: right;
-        }
+        .chapter-description .english-part { direction: ltr; text-align: left; margin-bottom: 10px; }
+        .chapter-description .kurdish-part { direction: rtl; text-align: right; }
 
         .chapter-stats {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 25px;
-            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+            margin-bottom: 25px; font-size: clamp(0.8rem, 1.5vw, 1rem);
             color: var(--text-secondary);
             background: linear-gradient(135deg, var(--shimmer-bg), var(--shimmer-bg));
-            padding: 15px 20px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
+            padding: 15px 20px; border-radius: 15px; backdrop-filter: blur(5px);
         }
 
         .btn {
-            display: block;
-            padding: 18px 35px;
+            display: block; padding: 18px 35px;
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            text-decoration: none;
-            border-radius: 15px;
-            transition: all 0.4s ease;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
+            color: white; text-decoration: none; border-radius: 15px;
+            transition: all 0.4s ease; font-weight: 700; border: none;
+            cursor: pointer; width: 100%; text-align: center;
             font-size: clamp(1rem, 2vw, 1.2rem);
             box-shadow: 0 8px 25px var(--shadow-light);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
-
         .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            content: ''; position: absolute; top:0; left:-100%; width:100%; height:100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
             transition: left 0.5s;
         }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
+        .btn:hover::before { left: 100%; }
         .btn:hover {
             transform: translateY(-4px);
             box-shadow: 0 15px 35px var(--shadow-medium);
@@ -450,824 +434,590 @@
 
         .summary-stats {
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue), var(--accent-blue));
-            color: white;
-            padding: 40px;
-            border-radius: 25px;
-            margin-bottom: 40px;
-            text-align: center;
-            box-shadow: 0 20px 50px var(--shadow-medium);
-            position: relative;
-            overflow: hidden;
+            color: white; padding: 40px; border-radius: 25px; margin-bottom: 40px;
+            text-align: center; box-shadow: 0 20px 50px var(--shadow-medium);
+            position: relative; overflow: hidden;
         }
-
         .summary-stats::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            content: ''; position: absolute; top:-50%; left:-50%; width:200%; height:200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
             animation: rotate 20s linear infinite;
         }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes rotate { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
 
         .summary-stats h2 {
-            margin-bottom: 35px;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.4);
-            position: relative;
-            z-index: 1;
-            font-weight: 900;
+            margin-bottom: 35px; font-size: clamp(2rem, 4vw, 3.2rem);
+            text-shadow: 2px 4px 8px rgba(0,0,0,0.4);
+            position: relative; z-index: 1; font-weight: 900;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
-            gap: 25px;
-            position: relative;
-            z-index: 1;
+            gap: 25px; position: relative; z-index: 1;
         }
 
         .stat-item {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 30px 20px;
-            border-radius: 20px;
-            backdrop-filter: blur(15px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255,255,255,0.2); padding: 30px 20px; border-radius: 20px;
+            backdrop-filter: blur(15px); border: 2px solid rgba(255,255,255,0.3);
             transition: all 0.4s ease;
         }
+        .stat-item:hover { transform: scale(1.08) rotateY(5deg); background: rgba(255,255,255,0.25); }
 
-        .stat-item:hover {
-            transform: scale(1.08) rotateY(5deg);
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .stat-number {
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            font-weight: 900;
-            margin-bottom: 12px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .stat-label {
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            opacity: 0.95;
-            font-weight: 600;
-            line-height: 1.4;
-            text-align: center;
-        }
+        .stat-number { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900; margin-bottom: 12px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .stat-label { font-size: clamp(0.9rem, 2vw, 1.1rem); opacity: 0.95; font-weight: 600; line-height: 1.4; text-align: center; }
 
         .content-section {
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: 0 15px 40px var(--shadow-light);
-            border: 2px solid var(--border-color);
-            transition: all 0.3s ease;
+            background: var(--card-bg); border-radius: 25px; padding: 40px;
+            margin-bottom: 40px; box-shadow: 0 15px 40px var(--shadow-light);
+            border: 2px solid var(--border-color); transition: all 0.3s ease;
         }
 
         .content-section h2 {
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 25px;
-            font-size: clamp(1.6rem, 3vw, 2.4rem);
-            border-bottom: 4px solid var(--secondary-blue);
-            padding-bottom: 15px;
-            display: inline-block;
-            font-weight: 800;
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 25px; font-size: clamp(1.6rem, 3vw, 2.4rem);
+            border-bottom: 4px solid var(--secondary-blue); padding-bottom: 15px;
+            display: inline-block; font-weight: 800;
         }
 
         .content-section .bilingual-content p {
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            line-height: 1.7;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            hyphens: auto;
-            -webkit-hyphens: auto;
-            -moz-hyphens: auto;
+            font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.7;
+            color: var(--text-secondary); margin-bottom: 15px;
         }
 
         .footer {
-            text-align: center;
-            padding: 50px 30px;
+            text-align: center; padding: 50px 30px;
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            border-radius: 25px;
-            backdrop-filter: blur(15px);
-            color: white;
-            margin-top: 60px;
-            box-shadow: 0 15px 40px var(--shadow-medium);
+            border-radius: 25px; backdrop-filter: blur(15px); color: white;
+            margin-top: 60px; box-shadow: 0 15px 40px var(--shadow-medium);
         }
+        .footer h3 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-weight: 800; }
+        .footer p { font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.6; margin-bottom: 10px; }
+        .footer .english-part { direction: ltr; text-align: center; }
+        .footer .kurdish-part { direction: rtl; text-align: center; }
 
-        .footer h3 {
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            font-weight: 800;
-        }
+        .chapter-icon { font-size: clamp(2rem, 4vw, 2.8rem); margin-left: 10px; filter: drop-shadow(2px 2px 4px var(--shadow-light)); }
 
-        .footer p {
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .footer .english-part {
-            direction: ltr;
-            text-align: center;
-        }
-
-        .footer .kurdish-part {
-            direction: rtl;
-            text-align: center;
-        }
-
-        .chapter-icon {
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            margin-left: 10px;
-            filter: drop-shadow(2px 2px 4px var(--shadow-light));
-        }
-
-        /* Enhanced Mobile Responsiveness */
         @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .header {
-                padding: 30px 20px;
-                margin-bottom: 30px;
-            }
-            
-            .sections-grid {
-                gap: 20px;
-                margin-bottom: 40px;
-            }
-            
-            .chapter-card {
-                padding: 25px 20px;
-            }
-            
-            .chapter-title {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-            
-            .chapter-stats {
-                flex-direction: column;
-                text-align: center;
-                gap: 8px;
-            }
-            
-            .summary-stats {
-                padding: 30px 20px;
-                margin-bottom: 30px;
-            }
-            
-            .content-section {
-                padding: 30px 20px;
-            }
-            
-            .footer {
-                padding: 40px 20px;
-                margin-top: 40px;
-            }
-            
-            .dark-mode-toggle {
-                top: 15px;
-                left: 15px;
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
+            .container { padding: 10px; }
+            .header { padding: 30px 20px; margin-bottom: 30px; }
+            .sections-grid { gap: 20px; margin-bottom: 40px; }
+            .chapter-card { padding: 25px 20px; }
+            .chapter-title { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .chapter-stats { flex-direction: column; text-align: center; gap: 8px; }
+            .summary-stats { padding: 30px 20px; margin-bottom: 30px; }
+            .content-section { padding: 30px 20px; }
+            .footer { padding: 40px 20px; margin-top: 40px; }
+            .dark-mode-toggle { top: 15px; left: 15px; width: 50px; height: 50px; font-size: 1.2rem; }
         }
 
         @media (max-width: 480px) {
-            .chapter-number {
-                width: 60px;
-                height: 60px;
-                font-size: 1.6rem;
-            }
-            
-            .chapter-card {
-                padding: 20px 15px;
-            }
-            
-            .btn {
-                padding: 15px 25px;
-            }
-            
-            .stat-item {
-                padding: 25px 15px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
+            .chapter-number { width: 60px; height: 60px; font-size: 1.6rem; }
+            .chapter-card { padding: 20px 15px; }
+            .btn { padding: 15px 25px; }
+            .stat-item { padding: 25px 15px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
         }
 
-        /* Accessibility Improvements */
         @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
+            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
         }
 
-        /* Print Styles */
         @media print {
-            body {
-                background: white !important;
-                color: black !important;
-            }
-            
-            .chapter-card, .header, .content-section {
-                background: white !important;
-                box-shadow: none !important;
-                border: 1px solid #ccc !important;
-            }
-            
-            .btn, .dark-mode-toggle {
-                display: none;
-            }
+            body { background: white !important; color: black !important; }
+            .chapter-card, .header, .content-section { background: white !important; box-shadow: none !important; border: 1px solid #ccc !important; }
+            .btn, .dark-mode-toggle, #welcomeScreen { display: none !important; }
         }
 
-        /* Smooth scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--background-secondary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--medium-gray);
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--background-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--medium-gray); }
     </style>
 </head>
 <body>
-    <!-- Dark Mode Toggle Button -->
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" aria-label="Toggle Dark Mode">
-        🌙
-    </button>
 
-     <div class="container">
-        <div class="header">
-            <div class="logo-container">
-                <img src="logo.png" alt="BioGuide Logo" class="logo-image" onerror="this.style.display='none'">
-            </div>
-            <h1>🧬 Welcome to BioGuide  </h1>
-            <h1>  بەخێربێن بۆ ڕێبەری بایۆلۆجی 🧬</h1>
-            <div class="header-description bilingual-content">
-                <p class="english-part">
-                    It is a biological and medical website that studies all microscopic structures in a scientific way and explains them in a simple and easy way
-                </p>
-                <p class="kurdish-part">
-                    ماڵپەڕێکی بایۆلۆجی و پزیشکییە کە لە تەواوی پێکهاتە وردبینەکان دەکۆڵێتەوە بە شێوازێکی زانستی و بە شێوەیەکی سادە و ئاسان ڕوونکردنەوە ئەدات.
-                </p>
-            </div>
-        </div>
+    <!-- ══════════════════════════════════════
+         WELCOME SPLASH SCREEN
+    ══════════════════════════════════════ -->
+    <div id="welcomeScreen">
+        <div class="ws-grid"></div>
+        <div class="ws-orb ws-orb1"></div>
+        <div class="ws-orb ws-orb2"></div>
+        <div class="ws-orb ws-orb3"></div>
+        <div class="ws-particles" id="wsParticles"></div>
 
-        <div class="summary-stats">
-            <h2>📊 Overview - تێڕوانینی گشتی</h2>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">200</div>
-                    <div class="stat-label">Total Slides<br>کۆی سلایدەکان</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">4</div>
-                    <div class="stat-label">Our Team<br>تیمەکەمان</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">10</div>
-                    <div class="stat-label"> Chapters<br>بەشەکان</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">1</div>
-                    <div class="stat-label">Content <br> ناوەڕۆک</div>
-                </div>
-            </div>
-        </div>
+        <div class="ws-content">
+            <div class="ws-dna">🧬</div>
+            <div class="ws-badge">Biology &amp; Medical Science</div>
 
-        <div class="content-section">
-            <h2>📋 Additional Content - ناوەڕۆک و زانیاریی تر</h2>
-            <div class="bilingual-content">
-                <p class="english-part">
-                    <strong>English:</strong> In this section you will learn more about the website, what it looks like, what it is for, how to use it, and information about the content of the website, its authors, and the sources used for the information
-                </p>
-                <p class="kurdish-part">
-                    <strong>کوردی:</strong> لەم بەشەدا زانیاری تەواو دەربارەی ماڵپەرەکە وەردەگریت، ئامانجی درووستکردنی و چۆنیەتی بەکارهێنانی و زانیاری دەربارەی ناوەڕۆکی ماڵپەرەکە و ئامادەکارانی و سەرچاوەکان کە بۆ زانیارییەکان بەکارهاتوون بەدەست دەهێنیت.
-                </p>
+            <div class="ws-main-title">
+                <span class="ws-grad">BioGuide</span>
             </div>
-            <div style="margin-top: 25px;">
-                <a href="content.html" class="btn" style="width: auto; display: inline-block;">
-                    View Content & Information - بینینی ناوەڕۆک و زانیاریەکان 
-                </a>
-            </div>
-        </div>
+            <div class="ws-subtitle">🧬 ڕێبەری بایۆلۆجی</div>
 
-        <div class="sections-title">
-            📚 Chapters - بەشەکان
-        </div>
-
-        <div class="sections-grid">
-            <div class="chapter-card">
-                <div class="chapter-number">1</div>
-                <h3 class="chapter-title">
-                    <span class="chapter-icon">🔬</span>
-                    <div>
-                        <div class="title-en">Histology</div>
-                        <div class="title-ku">شانەزانی</div>
-                    </div>
-                </h3>
-                <div class="chapter-description bilingual-content">
-                    <p class="english-part">
-                        It studies the structure, location, and function of cells, tissues, and organs in the body
-                    </p>
-                    <p class="kurdish-part">
-لێکۆڵینەوە دەکات دەربارەی  پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە
-                    </p>
-                </div>
-                <div class="chapter-stats">
-                    <span>20 Slides - سلاید</span>
-                </div>
-                <a href="histology.html" class="btn">Start Learning - دەستپێکردن</a>
+            <div class="ws-desc">
+                <p class="ws-desc-en">A biological and medical website that studies all microscopic structures in a scientific and simplified way.</p>
+                <p class="ws-desc-ku">ماڵپەڕێکی بایۆلۆجی و پزیشکییە کە لەتەواوی پێکهاتە وردبینەکان دەکۆڵێتەوە بە شێوازێکی زانستی و ئاسان.</p>
             </div>
 
-            <div class="chapter-card">
-                <div class="chapter-number">2</div>
-                <h3 class="chapter-title">
-                    <span class="chapter-icon">🤰🏻</span>
-                    <div>
-                        <div class="title-en">Embryology</div>
-                        <div class="title-ku">کۆرپەلەزانی</div>
-                    </div>
-                </h3>
-                <div class="chapter-description bilingual-content">
-                    <p class="english-part">
-It studies how and how the fetus develops from fertilization to birth
-                    </p>
-                    <p class="kurdish-part">
-لێکۆڵینەوە دەکات دەربارەی چۆنیەتی و شێوازی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون
-                    </p>
+            <div class="ws-stats">
+                <div class="ws-stat">
+                    <span class="ws-stat-num">200</span>
+                    <div class="ws-stat-lbl">Slides<br>سلاید</div>
                 </div>
-                <div class="chapter-stats">
-                    <span>20 Slides - سلاید</span>
+                <div class="ws-stat">
+                    <span class="ws-stat-num">10</span>
+                    <div class="ws-stat-lbl">Chapters<br>بەش</div>
                 </div>
-                <a href="embryology.html" class="btn">Start Learning - دەستپێکردن</a>
+                <div class="ws-stat">
+                    <span class="ws-stat-num">4</span>
+                    <div class="ws-stat-lbl">Team<br>تیم</div>
+                </div>
             </div>
 
-            <div class="chapter-card">
-                <div class="chapter-number">3</div>
-                <h3 class="chapter-title">
-                    <span class="chapter-icon">🌱</span>
-                    <div>
-                        <div class="title-en">Plant Anatomy</div>
-                        <div class="title-ku">توێکاری ڕووەک</div>
-                    </div>
-                </h3>
-                <div class="chapter-description bilingual-content">
-                    <p class="english-part">
-It studies the structure and functions of different parts of the plant
-                    </p>
-                    <p class="kurdish-part">
-لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک
-                    </p>
+            <div class="ws-countdown">
+                <div class="ws-ring-wrap">
+                    <svg class="ws-ring-svg" width="80" height="80" viewBox="0 0 80 80">
+                        <circle class="ws-ring-bg" cx="40" cy="40" r="35"/>
+                        <circle class="ws-ring-fill" id="wsRingFill" cx="40" cy="40" r="35"/>
+                    </svg>
+                    <div class="ws-ring-num" id="wsCountNum">5</div>
                 </div>
-                <div class="chapter-stats">
-                    <span>20 Slides - سلاید</span>
-                </div>
-                <a href="plant-anatomy.html" class="btn">Start Learning - دەستپێکردن</a>
+                <div class="ws-cdown-lbl">چوون بۆ ناوەڕۆک · Entering in</div>
             </div>
 
-            <div class="chapter-card">
-                <div class="chapter-number">4</div>
-                <h3 class="chapter-title">
-                    <span class="chapter-icon">🪱</span>
-                    <div>
-                        <div class="title-en">Parasitology</div>
-                        <div class="title-ku">مشەخۆرزانی</div>
-                    </div>
-                </h3>
-                <div class="chapter-description bilingual-content">
-                    <p class="english-part">
-                        Study of parasites, their life cycles, host-parasite relationships, and parasitic diseases.
-                    </p>
-                    <p class="kurdish-part">
-                        لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان و نەخۆشییە مشەخۆرەکان.
-                    </p>
-                </div>
-                <div class="chapter-stats">
-                    <span>20 Slides - سلاید</span>
-                </div>
-                <a href="parasitology.html" class="btn">Start Learning - دەستپێکردن</a>
-            </div>
-
-            <div class="chapter-card">
-                <div class="chapter-number">5</div>
-                <h3 class="chapter-title">
-                    <span class="chapter-icon">🩸</span>
-                    <div>
-                        <div class="title-en">Hematology</div>
-                        <div class="title-ku">خوێنزانی</div>
-                    </div>
-                </h3>
-                <div class="chapter-description bilingual-content">
-                    <p class="english-part">
-It researches the structure, function and properties of blood and its components
-                    </p>
-                    <p class="kurdish-part">
-لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی
-                    </p>
-                </div>
-                <div class="chapter-stats">
-                    <span>20 Slides - سلاید</span>
-                </div>
-                <a href="hematology.html" class="btn">Start Learning - دەستپێکردن</a>
-            </div>
-
-            <div class="chapter-card">
-                <div class="chapter-number">6</div>
-                <h3 class="chapter-title">
-                    <span class="chapter-icon">🦠</span>
-                    <div>
-                        <div class="title-en">Microbiology</div>
-                        <div class="title-ku">وردەزیندەزانی</div>
-                    </div>
-                </h3>
-                <div class="chapter-description bilingual-content">
-                    <p class="english-part">
-Studies about microorganisms in terms of their characteristics, pathogenicity, importance and characteristics
-                    </p>
-                    <p class="kurdish-part">
-لێکۆڵینەوە دەکات دەربارەی وردە زیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان و گرنگی و تایبەتمەندیان
-                    </p>
-                </div>
-                <div class="chapter-stats">
-                    <span>20 Slides - سلاید</span>
-                </div>
-                <a href="microbiology.html" class="btn">Start Learning - دەستپێکردن</a>
-            </div>
-
-            <div class="chapter-card">
-                <div class="chapter-number">7</div>
-                <h3 class="chapter-title">
-                    <span class="chapter-icon">🐛</span>
-                    <div>
-                        <div class="title-en">Entomology</div>
-                        <div class="title-ku">مێرولەزانی</div>
-                    </div>
-                </h3>
-                <div class="chapter-description bilingual-content">
-                    <p class="english-part">
-It studies ants in terms of their structure, shape, function and importance
-                    </p>
-                    <p class="kurdish-part">
-لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان
-                    </p>
-                </div>
-                <div class="chapter-stats">
-                    <span>20 Slides - سلاید</span>
-                </div>
-                <a href="entomology.html" class="btn">Start Learning - دەستپێکردن</a>
-            </div>
-
-            <div class="chapter-card">
-                <div class="chapter-number">8</div>
-                <h3 class="chapter-title">
-                    <span class="chapter-icon">🧪</span>
-                    <div>
-                        <div class="title-en">Algae Studies</div>
-                        <div class="title-ku">قەوزە</div>
-                    </div>
-                </h3>
-                <div class="chapter-description bilingual-content">
-                    <p class="english-part">
-                        Study of algae, their diversity, classification, structure, and ecological significance.
-                    </p>
-                    <p class="kurdish-part">
-                        لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان.
-                    </p>
-                </div>
-                <div class="chapter-stats">
-                    <span>20 Slides - سلاید</span>
-                </div>
-                <a href="algae-studies.html" class="btn">Start Learning - دەستپێکردن</a>
-            </div>
-
-            <div class="chapter-card">
-                <div class="chapter-number">9</div>
-                <h3 class="chapter-title">
-                    <span class="chapter-icon">🍄</span>
-                    <div>
-                        <div class="title-en">Mycology</div>
-                        <div class="title-ku">کەڕووزانی</div>
-                    </div>
-                </h3>
-                <div class="chapter-description bilingual-content">
-                    <p class="english-part">
-                        Study of fungi, their morphology, reproduction, classification, and ecological and economic importance.
-                    </p>
-                    <p class="kurdish-part">
-                        لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان، و گرنگی ئیکۆلۆژی و ئابوورییان
-                    </p>
-                </div>
-                <div class="chapter-stats">
-                    <span>20 Slides - سلاید</span>
-                </div>
-                <a href="fungi.html" class="btn">Start Learning - دەستپێکردن</a>
-            </div>
-            
-            <div class="chapter-card">
-                <div class="chapter-number">10</div>
-                <h3 class="chapter-title">
-                    <span class="chapter-icon">🛡️</span>
-                    <div>
-                        <div class="title-en">Immunology</div>
-                        <div class="title-ku">بەرگریزانی</div>
-                    </div>
-                </h3>
-                <div class="chapter-description bilingual-content">
-                    <p class="english-part">
-It studies the structure and function of the immune system and its responses
-                    </p>
-                    <p class="kurdish-part">
-لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش و وەڵامدانەوەکانی
-                    </p>
-                </div>
-                <div class="chapter-stats">
-                    <span>20 Slides - سلاید</span>
-                </div>
-                <a href="immunology.html" class="btn">Start Learning - دەستپێکردن</a>
-            </div>
-        </div>
-
-        <div class="footer">
-            <h3>ڕێبەری بایۆلۆجی - 🧬 BioGuide </h3>
-            <div class="bilingual-content">
-                <p class="english-part"><strong>It is a biological, scientific and medical website</strong></p>
-                <p class="kurdish-part"><strong>ماڵپەرێکی بایۆلۆجی و زانستی و پزیشکییە</strong></p>
-                <p class="english-part" style="margin-top: 15px; opacity: 0.9;">created by scientists to serve science</p>
-                <p class="kurdish-part" style="margin-top: 15px; opacity: 0.9;">درووستکراوە لە لایەن زاستخوازانەوە بۆ خزمەتی زانست</p>
-            </div>
+            <button class="ws-enter-btn" onclick="wsGoNow()">بچە ناوەوە — Enter Now →</button>
         </div>
     </div>
 
+    <!-- Transition overlay -->
+    <div id="wsOverlay"></div>
+
+    <!-- ══════════════════════════════════════
+         MAIN SITE
+    ══════════════════════════════════════ -->
+    <div id="mainSite">
+        <!-- Dark Mode Toggle -->
+        <button class="dark-mode-toggle show" id="darkToggleBtn" onclick="toggleDarkMode()" title="Toggle Dark Mode" aria-label="Toggle Dark Mode">
+            🌙
+        </button>
+
+        <div class="container">
+            <div class="header">
+                <div class="logo-container">
+                    <img src="logo.png" alt="BioGuide Logo" class="logo-image" onerror="this.style.display='none'">
+                </div>
+                <h1>🧬 Welcome to BioGuide</h1>
+                <h1>بەخێربێن بۆ ڕێبەری بایۆلۆجی 🧬</h1>
+                <div class="header-description bilingual-content">
+                    <p class="english-part">
+                        It is a biological and medical website that studies all microscopic structures in a scientific way and explains them in a simple and easy way
+                    </p>
+                    <p class="kurdish-part">
+                        ماڵپەڕێکی بایۆلۆجی و پزیشکییە کە لە تەواوی پێکهاتە وردبینەکان دەکۆڵێتەوە بە شێوازێکی زانستی و بە شێوەیەکی سادە و ئاسان ڕوونکردنەوە ئەدات.
+                    </p>
+                </div>
+            </div>
+
+            <div class="summary-stats">
+                <h2>📊 Overview - تێڕوانینی گشتی</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">200</div>
+                        <div class="stat-label">Total Slides<br>کۆی سلایدەکان</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Our Team<br>تیمەکەمان</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Chapters<br>بەشەکان</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">Content<br>ناوەڕۆک</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>📋 Additional Content - ناوەڕۆک و زانیاریی تر</h2>
+                <div class="bilingual-content">
+                    <p class="english-part">
+                        <strong>English:</strong> In this section you will learn more about the website, what it looks like, what it is for, how to use it, and information about the content of the website, its authors, and the sources used for the information
+                    </p>
+                    <p class="kurdish-part">
+                        <strong>کوردی:</strong> لەم بەشەدا زانیاری تەواو دەربارەی ماڵپەرەکە وەردەگریت، ئامانجی درووستکردنی و چۆنیەتی بەکارهێنانی و زانیاری دەربارەی ناوەڕۆکی ماڵپەرەکە و ئامادەکارانی و سەرچاوەکان کە بۆ زانیارییەکان بەکارهاتوون بەدەست دەهێنیت.
+                    </p>
+                </div>
+                <div style="margin-top: 25px;">
+                    <a href="content.html" class="btn" style="width: auto; display: inline-block;">
+                        View Content &amp; Information - بینینی ناوەڕۆک و زانیاریەکان
+                    </a>
+                </div>
+            </div>
+
+            <div class="sections-title">
+                📚 Chapters - بەشەکان
+            </div>
+
+            <div class="sections-grid">
+
+                <div class="chapter-card">
+                    <div class="chapter-number">1</div>
+                    <h3 class="chapter-title">
+                        <span class="chapter-icon">🔬</span>
+                        <div>
+                            <div class="title-en">Histology</div>
+                            <div class="title-ku">شانەزانی</div>
+                        </div>
+                    </h3>
+                    <div class="chapter-description bilingual-content">
+                        <p class="english-part">It studies the structure, location, and function of cells, tissues, and organs in the body</p>
+                        <p class="kurdish-part">لێکۆڵینەوە دەکات دەربارەی پێکهاتە و شوێن و فرمانەکانی خانە و شانە و ئەندامەکانی جەستە</p>
+                    </div>
+                    <div class="chapter-stats"><span>20 Slides - سلاید</span></div>
+                    <a href="histology.html" class="btn">Start Learning - دەستپێکردن</a>
+                </div>
+
+                <div class="chapter-card">
+                    <div class="chapter-number">2</div>
+                    <h3 class="chapter-title">
+                        <span class="chapter-icon">🤰🏻</span>
+                        <div>
+                            <div class="title-en">Embryology</div>
+                            <div class="title-ku">کۆرپەلەزانی</div>
+                        </div>
+                    </h3>
+                    <div class="chapter-description bilingual-content">
+                        <p class="english-part">It studies how and how the fetus develops from fertilization to birth</p>
+                        <p class="kurdish-part">لێکۆڵینەوە دەکات دەربارەی چۆنیەتی و شێوازی گەشەکردنی کۆرپەلە لە پیتێنەوە تا لە دایکبوون</p>
+                    </div>
+                    <div class="chapter-stats"><span>20 Slides - سلاید</span></div>
+                    <a href="embryology.html" class="btn">Start Learning - دەستپێکردن</a>
+                </div>
+
+                <div class="chapter-card">
+                    <div class="chapter-number">3</div>
+                    <h3 class="chapter-title">
+                        <span class="chapter-icon">🌱</span>
+                        <div>
+                            <div class="title-en">Plant Anatomy</div>
+                            <div class="title-ku">توێکاری ڕووەک</div>
+                        </div>
+                    </h3>
+                    <div class="chapter-description bilingual-content">
+                        <p class="english-part">It studies the structure and functions of different parts of the plant</p>
+                        <p class="kurdish-part">لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی بەشە جیاوازەکانی ناوەوەی ڕووەک</p>
+                    </div>
+                    <div class="chapter-stats"><span>20 Slides - سلاید</span></div>
+                    <a href="plant-anatomy.html" class="btn">Start Learning - دەستپێکردن</a>
+                </div>
+
+                <div class="chapter-card">
+                    <div class="chapter-number">4</div>
+                    <h3 class="chapter-title">
+                        <span class="chapter-icon">🪱</span>
+                        <div>
+                            <div class="title-en">Parasitology</div>
+                            <div class="title-ku">مشەخۆرزانی</div>
+                        </div>
+                    </h3>
+                    <div class="chapter-description bilingual-content">
+                        <p class="english-part">Study of parasites, their life cycles, host-parasite relationships, and parasitic diseases.</p>
+                        <p class="kurdish-part">لێکۆڵینەوە لە مشەخۆرەکان، سووڕی ژیانیان، پەیوەندی خانەخوێ و مشەخۆرەکان و نەخۆشییە مشەخۆرەکان.</p>
+                    </div>
+                    <div class="chapter-stats"><span>20 Slides - سلاید</span></div>
+                    <a href="parasitology.html" class="btn">Start Learning - دەستپێکردن</a>
+                </div>
+
+                <div class="chapter-card">
+                    <div class="chapter-number">5</div>
+                    <h3 class="chapter-title">
+                        <span class="chapter-icon">🩸</span>
+                        <div>
+                            <div class="title-en">Hematology</div>
+                            <div class="title-ku">خوێنزانی</div>
+                        </div>
+                    </h3>
+                    <div class="chapter-description bilingual-content">
+                        <p class="english-part">It researches the structure, function and properties of blood and its components</p>
+                        <p class="kurdish-part">لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمان و تایبەتمەندی خوێن و پێکهاتەکانی</p>
+                    </div>
+                    <div class="chapter-stats"><span>20 Slides - سلاید</span></div>
+                    <a href="hematology.html" class="btn">Start Learning - دەستپێکردن</a>
+                </div>
+
+                <div class="chapter-card">
+                    <div class="chapter-number">6</div>
+                    <h3 class="chapter-title">
+                        <span class="chapter-icon">🦠</span>
+                        <div>
+                            <div class="title-en">Microbiology</div>
+                            <div class="title-ku">وردەزیندەزانی</div>
+                        </div>
+                    </h3>
+                    <div class="chapter-description bilingual-content">
+                        <p class="english-part">Studies about microorganisms in terms of their characteristics, pathogenicity, importance and characteristics</p>
+                        <p class="kurdish-part">لێکۆڵینەوە دەکات دەربارەی وردە زیندەوەران لەڕووی تایبەتمەندی و توانای نەخۆش خستنیان و گرنگی و تایبەتمەندیان</p>
+                    </div>
+                    <div class="chapter-stats"><span>20 Slides - سلاید</span></div>
+                    <a href="microbiology.html" class="btn">Start Learning - دەستپێکردن</a>
+                </div>
+
+                <div class="chapter-card">
+                    <div class="chapter-number">7</div>
+                    <h3 class="chapter-title">
+                        <span class="chapter-icon">🐛</span>
+                        <div>
+                            <div class="title-en">Entomology</div>
+                            <div class="title-ku">مێرولەزانی</div>
+                        </div>
+                    </h3>
+                    <div class="chapter-description bilingual-content">
+                        <p class="english-part">It studies insects in terms of their structure, shape, function and importance</p>
+                        <p class="kurdish-part">لێکۆڵینەوە دەکات دەربارەی مێروولەکان لەڕووی پێکهاتە و شێوە و کارکردن و گرنگیان</p>
+                    </div>
+                    <div class="chapter-stats"><span>20 Slides - سلاید</span></div>
+                    <a href="entomology.html" class="btn">Start Learning - دەستپێکردن</a>
+                </div>
+
+                <div class="chapter-card">
+                    <div class="chapter-number">8</div>
+                    <h3 class="chapter-title">
+                        <span class="chapter-icon">🧪</span>
+                        <div>
+                            <div class="title-en">Algae Studies</div>
+                            <div class="title-ku">قەوزە</div>
+                        </div>
+                    </h3>
+                    <div class="chapter-description bilingual-content">
+                        <p class="english-part">Study of algae, their diversity, classification, structure, and ecological significance.</p>
+                        <p class="kurdish-part">لێکۆڵینەوە لە قەوزە، جۆراوجۆری، پۆلێنکردن، پێکهاتە و گرنگی ئیکۆلۆژییان.</p>
+                    </div>
+                    <div class="chapter-stats"><span>20 Slides - سلاید</span></div>
+                    <a href="algae-studies.html" class="btn">Start Learning - دەستپێکردن</a>
+                </div>
+
+                <div class="chapter-card">
+                    <div class="chapter-number">9</div>
+                    <h3 class="chapter-title">
+                        <span class="chapter-icon">🍄</span>
+                        <div>
+                            <div class="title-en">Mycology</div>
+                            <div class="title-ku">کەڕووزانی</div>
+                        </div>
+                    </h3>
+                    <div class="chapter-description bilingual-content">
+                        <p class="english-part">Study of fungi, their morphology, reproduction, classification, and ecological and economic importance.</p>
+                        <p class="kurdish-part">لێکۆڵینەوە لە قارچکەکان، مۆرفۆلۆژیایان، زاوزێکردنیان، پۆلێنکردنیان، و گرنگی ئیکۆلۆژی و ئابوورییان</p>
+                    </div>
+                    <div class="chapter-stats"><span>20 Slides - سلاید</span></div>
+                    <a href="fungi.html" class="btn">Start Learning - دەستپێکردن</a>
+                </div>
+
+                <div class="chapter-card">
+                    <div class="chapter-number">10</div>
+                    <h3 class="chapter-title">
+                        <span class="chapter-icon">🛡️</span>
+                        <div>
+                            <div class="title-en">Immunology</div>
+                            <div class="title-ku">بەرگریزانی</div>
+                        </div>
+                    </h3>
+                    <div class="chapter-description bilingual-content">
+                        <p class="english-part">It studies the structure and function of the immune system and its responses</p>
+                        <p class="kurdish-part">لێکۆڵینەوە دەکات دەربارەی پێکهاتە و فرمانەکانی سیستمی بەرگری لەش و وەڵامدانەوەکانی</p>
+                    </div>
+                    <div class="chapter-stats"><span>20 Slides - سلاید</span></div>
+                    <a href="immunology.html" class="btn">Start Learning - دەستپێکردن</a>
+                </div>
+
+            </div>
+
+            <div class="footer">
+                <h3>ڕێبەری بایۆلۆجی - 🧬 BioGuide</h3>
+                <div class="bilingual-content">
+                    <p class="english-part"><strong>It is a biological, scientific and medical website</strong></p>
+                    <p class="kurdish-part"><strong>ماڵپەرێکی بایۆلۆجی و زانستی و پزیشکییە</strong></p>
+                    <p class="english-part" style="margin-top:15px;opacity:0.9;">created by scientists to serve science</p>
+                    <p class="kurdish-part" style="margin-top:15px;opacity:0.9;">درووستکراوە لە لایەن زاستخوازانەوە بۆ خزمەتی زانست</p>
+                </div>
+            </div>
+        </div>
+    </div><!-- /#mainSite -->
+
     <script>
-        // Enhanced dark mode functionality with system preference detection
+        /* ── Welcome Screen ── */
+        (function() {
+            const pCont = document.getElementById('wsParticles');
+            const cols = ['rgba(15,76,117,0.8)','rgba(50,130,184,0.7)','rgba(30,96,145,0.6)','rgba(144,200,240,0.5)'];
+            for (let i = 0; i < 22; i++) {
+                const p = document.createElement('div');
+                p.className = 'ws-particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (7 + Math.random() * 10) + 's';
+                p.style.animationDelay = (Math.random() * 12) + 's';
+                const s = 2 + Math.random() * 3;
+                p.style.width = p.style.height = s + 'px';
+                p.style.background = cols[Math.floor(Math.random() * cols.length)];
+                pCont.appendChild(p);
+            }
+
+            const circumference = 2 * Math.PI * 35;
+            const ring = document.getElementById('wsRingFill');
+            const numEl = document.getElementById('wsCountNum');
+            const overlay = document.getElementById('wsOverlay');
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            const mainSite = document.getElementById('mainSite');
+
+            ring.style.strokeDasharray = circumference;
+            ring.style.strokeDashoffset = 0;
+
+            let count = 5;
+            let timer;
+
+            function tick() {
+                count--;
+                numEl.textContent = count;
+                ring.style.strokeDashoffset = circumference * (1 - count / 5);
+                if (count <= 0) { doTransition(); return; }
+                timer = setTimeout(tick, 1000);
+            }
+            timer = setTimeout(tick, 1000);
+
+            function doTransition() {
+                overlay.style.opacity = '1';
+                overlay.style.pointerEvents = 'all';
+                overlay.style.transition = 'opacity 0.8s ease';
+                overlay.style.position = 'fixed';
+                overlay.style.inset = '0';
+                overlay.style.background = '#0a0f1e';
+                overlay.style.zIndex = '99999';
+                setTimeout(() => {
+                    welcomeScreen.style.display = 'none';
+                    mainSite.classList.add('visible');
+                    document.body.style.overflow = '';
+                    setTimeout(() => { overlay.style.opacity = '0'; overlay.style.pointerEvents = 'none'; }, 100);
+                }, 800);
+            }
+
+            window.wsGoNow = function() {
+                clearTimeout(timer);
+                doTransition();
+            };
+
+            document.body.style.overflow = 'hidden';
+        })();
+
+        /* ── Dark Mode ── */
         function getSystemTheme() {
             return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
-
         function getCurrentTheme() {
             const stored = localStorage.getItem('theme');
-            if (stored === 'auto' || !stored) {
-                return getSystemTheme();
-            }
-            return stored;
+            return (stored === 'auto' || !stored) ? getSystemTheme() : stored;
         }
-
-        function getThemePreference() {
-            return localStorage.getItem('theme') || 'auto';
-        }
+        function getThemePreference() { return localStorage.getItem('theme') || 'auto'; }
 
         function setTheme(theme) {
             const body = document.body;
-            const toggleBtn = document.querySelector('.dark-mode-toggle');
-            
-            // Remove existing theme classes
+            const toggleBtn = document.getElementById('darkToggleBtn');
             body.classList.remove('dark-mode', 'light-mode');
-            
-            let actualTheme = theme;
-            if (theme === 'auto') {
-                actualTheme = getSystemTheme();
-            }
-            
-            if (actualTheme === 'dark') {
+            let actual = theme === 'auto' ? getSystemTheme() : theme;
+            if (actual === 'dark') {
                 body.classList.add('dark-mode');
-                toggleBtn.innerHTML = '☀️';
-                toggleBtn.title = 'Switch to Light Mode';
+                if (toggleBtn) { toggleBtn.innerHTML = '☀️'; toggleBtn.title = 'Switch to Light Mode'; }
             } else {
                 body.classList.add('light-mode');
-                toggleBtn.innerHTML = '🌙';
-                toggleBtn.title = 'Switch to Dark Mode';
+                if (toggleBtn) { toggleBtn.innerHTML = '🌙'; toggleBtn.title = 'Switch to Dark Mode'; }
             }
-            
             localStorage.setItem('theme', theme);
         }
 
         function toggleDarkMode() {
-            const currentPref = getThemePreference();
-            const currentTheme = getCurrentTheme();
-            
-            let newTheme;
-            if (currentPref === 'auto') {
-                // If auto, switch to opposite of current system theme
-                newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            } else if (currentPref === 'dark') {
-                newTheme = 'light';
-            } else {
-                newTheme = 'dark';
-            }
-            
-            setTheme(newTheme);
+            const cur = getThemePreference();
+            const actual = getCurrentTheme();
+            let next;
+            if (cur === 'auto') { next = actual === 'dark' ? 'light' : 'dark'; }
+            else if (cur === 'dark') { next = 'light'; }
+            else { next = 'dark'; }
+            setTheme(next);
         }
 
-        // Listen for system theme changes
-        function setupSystemThemeListener() {
-            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-            mediaQuery.addEventListener('change', () => {
-                if (getThemePreference() === 'auto') {
-                    setTheme('auto');
-                }
-            });
-        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (getThemePreference() === 'auto') setTheme('auto');
+        });
 
-        // Enhanced interactive effects with performance optimization
+        /* ── Main Site Init ── */
         document.addEventListener('DOMContentLoaded', function() {
-            // Load theme preference
             setTheme(getThemePreference());
-            setupSystemThemeListener();
-            
-            // Intersection Observer for animations
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
 
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.style.opacity = '1';
+                        e.target.style.transform = 'translateY(0)';
                     }
                 });
-            }, observerOptions);
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-            // Observe all cards for scroll animations
-            const cards = document.querySelectorAll('.chapter-card');
-            cards.forEach((card, index) => {
-                // Initial state for scroll animation
+            document.querySelectorAll('.chapter-card').forEach((card, idx) => {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(50px)';
-                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-                
+                card.style.transition = `opacity 0.6s ease ${idx * 0.08}s, transform 0.6s ease ${idx * 0.08}s`;
                 observer.observe(card);
 
-                // Enhanced click animation
-                card.addEventListener('click', function(e) {
-                    if (!e.target.closest('.btn')) {
-                        this.style.transform = 'scale(0.98)';
-                        setTimeout(() => {
-                            this.style.transform = '';
-                        }, 150);
-                    }
-                });
-
-                // Chapter number rotation effect
-                const chapterNumber = card.querySelector('.chapter-number');
-                let isHovering = false;
-                
+                const num = card.querySelector('.chapter-number');
                 card.addEventListener('mouseenter', () => {
-                    if (!isHovering) {
-                        isHovering = true;
-                        chapterNumber.style.transform = 'rotate(360deg) scale(1.1)';
-                        chapterNumber.style.background = 'linear-gradient(135deg, var(--accent-blue), var(--light-blue))';
-                    }
+                    num.style.transform = 'rotate(360deg) scale(1.1)';
+                    num.style.background = 'linear-gradient(135deg, var(--accent-blue), var(--light-blue))';
                 });
-                
                 card.addEventListener('mouseleave', () => {
-                    isHovering = false;
-                    chapterNumber.style.transform = 'rotate(0deg) scale(1)';
-                    chapterNumber.style.background = 'linear-gradient(135deg, var(--primary-blue), var(--secondary-blue))';
+                    num.style.transform = 'rotate(0deg) scale(1)';
+                    num.style.background = 'linear-gradient(135deg, var(--primary-blue), var(--secondary-blue))';
                 });
             });
 
-            // Optimized floating animation for header
             const header = document.querySelector('.header');
-            let animationId;
-            let floatDirection = 1;
-            let currentY = 0;
-            
-            function animateHeader() {
-                if (currentY >= 6) floatDirection = -1;
-                if (currentY <= -6) floatDirection = 1;
-                
-                currentY += floatDirection * 0.2;
-                header.style.transform = `translateY(${currentY}px)`;
-                
-                animationId = requestAnimationFrame(animateHeader);
+            let animId, dir = 1, curY = 0;
+            function floatHeader() {
+                if (curY >= 6) dir = -1;
+                if (curY <= -6) dir = 1;
+                curY += dir * 0.2;
+                header.style.transform = `translateY(${curY}px)`;
+                animId = requestAnimationFrame(floatHeader);
             }
-            
-            // Start animation only if user prefers motion
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                animateHeader();
-            }
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) floatHeader();
 
-            // Staggered animation for stat items
-            const statItems = document.querySelectorAll('.stat-item');
-            statItems.forEach((item, index) => {
+            document.querySelectorAll('.stat-item').forEach((item, i) => {
                 item.style.opacity = '0';
                 item.style.transform = 'scale(0.8)';
-                item.style.transition = `all 0.5s ease ${index * 0.2}s`;
-                
-                setTimeout(() => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'scale(1)';
-                }, 500 + (index * 200));
+                item.style.transition = `all 0.5s ease ${i * 0.2}s`;
+                setTimeout(() => { item.style.opacity = '1'; item.style.transform = 'scale(1)'; }, 600 + i * 200);
             });
 
-            // Enhanced button hover effects
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(btn => {
-                btn.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-4px) scale(1.02)';
-                });
-                
-                btn.addEventListener('mouseleave', function() {
-                    this.style.transform = '';
-                });
-            });
-
-            // Smooth scroll for internal links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-
-            // Performance optimization: Cleanup on page unload
             window.addEventListener('beforeunload', () => {
-                if (animationId) {
-                    cancelAnimationFrame(animationId);
-                }
+                if (animId) cancelAnimationFrame(animId);
                 observer.disconnect();
             });
         });
 
-        // Touch optimization for mobile devices
+        /* ── Touch ── */
         if ('ontouchstart' in window) {
-            document.addEventListener('touchstart', function() {}, {passive: true});
-            
-            // Optimize hover effects for touch devices
-            const cards = document.querySelectorAll('.chapter-card');
-            cards.forEach(card => {
-                card.addEventListener('touchstart', function() {
-                    this.classList.add('touch-active');
-                }, {passive: true});
-                
-                card.addEventListener('touchend', function() {
-                    setTimeout(() => {
-                        this.classList.remove('touch-active');
-                    }, 300);
-                }, {passive: true});
+            document.addEventListener('touchstart', function(){}, {passive:true});
+            document.querySelectorAll('.chapter-card').forEach(card => {
+                card.addEventListener('touchstart', () => card.classList.add('touch-active'), {passive:true});
+                card.addEventListener('touchend', () => setTimeout(() => card.classList.remove('touch-active'), 300), {passive:true});
             });
         }
 
-        // Add CSS for touch states
-        const touchStyles = document.createElement('style');
-        touchStyles.textContent = `
-            .touch-active {
-                transform: translateY(-8px) scale(1.02) !important;
-                box-shadow: 0 20px 50px var(--shadow-medium) !important;
-            }
-            
-            @media (hover: none) and (pointer: coarse) {
-                .chapter-card:hover {
-                    transform: none;
-                    box-shadow: 0 15px 40px var(--shadow-light);
-                }
-                
-                .stat-item:hover {
-                    transform: none;
-                }
-            }
-        `;
-        document.head.appendChild(touchStyles);
+        const ts = document.createElement('style');
+        ts.textContent = `.touch-active{transform:translateY(-8px) scale(1.02)!important;box-shadow:0 20px 50px var(--shadow-medium)!important;} @media(hover:none)and(pointer:coarse){.chapter-card:hover{transform:none;} .stat-item:hover{transform:none;}}`;
+        document.head.appendChild(ts);
     </script>
 </body>
 </html>

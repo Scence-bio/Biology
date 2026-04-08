@@ -174,15 +174,15 @@
       <div class="ws-stat"><span class="ws-sn">4</span><div class="ws-sl">Team<br>تیم</div></div>
     </div>
     <div class="ws-countdown">
-      <div class="ws-ring-wrap">
-        <svg class="ws-ring-svg" width="80" height="80" viewBox="0 0 80 80">
-          <circle class="ws-rb" cx="30" cy="30" r="27"></circle>
-        <circle class="ws-rf" cx="30" cy="30" r="27"></circle
-        </svg>
-        <div class="ws-rn" id="wsNum">2</div>
-      </div>
-      <div class="ws-lbl">چوون بۆ ناوەڕۆک · Entering in</div>
-    </div>
+  <div class="ws-ring-wrap">
+    <svg class="ws-ring-svg" width="60" height="60" viewBox="0 0 60 60">
+      <circle class="ws-rb" cx="30" cy="30" r="27"></circle>
+      <circle class="ws-rf" id="wsRing" cx="30" cy="30" r="27"></circle>
+    </svg>
+    <div class="ws-rn" id="wsNum">5</div>
+  </div>
+  <div class="ws-lbl">چوون بۆ ناوەڕۆک · Entering in</div>
+</div>
     <button class="ws-btn" onclick="wsGoNow()">بچە ناوەوە — Enter Now →</button>
   </div>
 </div>
@@ -241,15 +241,24 @@
   const pC=document.getElementById('wsParticles');
   const cols=['rgba(15,76,117,.8)','rgba(50,130,184,.7)','rgba(30,96,145,.6)','rgba(144,200,240,.5)'];
   for(let i=0;i<22;i++){const p=document.createElement('div');p.className='ws-particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(7+Math.random()*10)+'s';p.style.animationDelay=(Math.random()*12)+'s';const s=2+Math.random()*3;p.style.width=p.style.height=s+'px';p.style.background=cols[Math.floor(Math.random()*cols.length)];pC.appendChild(p);}
-  const circ=2*Math.PI*35,ring=document.getElementById('wsRing'),numEl=document.getElementById('wsNum'),ov=document.getElementById('wsOverlay'),ws=document.getElementById('welcomeScreen'),ms=document.getElementById('mainSite');
-  ring.style.strokeDasharray=circ;ring.style.strokeDashoffset=0;
-  let count=5,timer;
-  function doTrans(){ov.classList.add('on');setTimeout(()=>{ws.style.display='none';ms.classList.add('visible');document.body.style.overflow='';initMain();setTimeout(()=>ov.classList.remove('on'),100);},800);}
-  function tick(){count--;numEl.textContent=count;ring.style.strokeDashoffset=circ*(1-count/5);if(count<=0){doTrans();return;}timer=setTimeout(tick,1000);}
-  timer=setTimeout(tick,1000);
-  window.wsGoNow=function(){clearTimeout(timer);doTrans();};
-  document.body.style.overflow='hidden';
-})();
+const circ = 2 * Math.PI * 27;
+const ring = document.getElementById('wsRing');
+const numEl = document.getElementById('wsNum');
+let count = 5; 
+ring.style.strokeDasharray = circ;
+ring.style.strokeDashoffset = 0;
+
+function tick() {
+  count--;
+  if (numEl) numEl.textContent = count;
+  if (ring) ring.style.strokeDashoffset = circ * (1 - count / 5);
+  
+  if (count <= 0) {
+    doTrans();
+    return;
+  }
+  timer = setTimeout(tick, 1000);
+}
 
 /* ══ MAIN SITE INIT ══ */
 function initMain(){
